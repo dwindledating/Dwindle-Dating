@@ -23,6 +23,12 @@ class ViewController: UIViewController , FBLoginViewDelegate {
     }
     
     // Facebook Delegate Methods
+    func fbDialogLogin(tokenstr: String! ,  expirationDate: NSDate){
+         println("User: \(tokenstr)")
+    }
+//    - (void)fbDialogLogin:(NSString *)token expirationDate:(NSDate *)expirationDate {
+//        prin
+//    }
     
     func loginViewShowingLoggedInUser(loginView : FBLoginView!) {
         println("User Logged In")
@@ -31,6 +37,8 @@ class ViewController: UIViewController , FBLoginViewDelegate {
     func loginViewFetchedUserInfo(loginView : FBLoginView!, user: FBGraphUser) {
         //fbLoginView.alpha = 0
         
+        var accessToken = FBSession.activeSession().accessTokenData.accessToken
+        println("token: \(accessToken)")
         println("User: \(user)")
         println("User ID: \(user.objectID)")
         println("User Name: \(user.name)")
