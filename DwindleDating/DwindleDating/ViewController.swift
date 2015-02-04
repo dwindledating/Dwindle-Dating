@@ -9,26 +9,100 @@
 import UIKit
 
 
-class ViewController: UIViewController , FBLoginViewDelegate {
-    
+class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewDataource, KDCycleBannerViewDelegate {
+
+    @IBOutlet var scroller : KDCycleBannerView!
     @IBOutlet var fbLoginView : FBLoginView!
+
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if(segue.identifier == "showSignup") {
+            
+            var signupVC = (segue.destinationViewController as SignupController)
+            
+            //Set Profile Image
+            let urlPath: String = "YOUR_URL_HERE"
+            var url: NSURL = NSURL(string: urlPath)!
+            signupVC.userImgUrl = url
+            
+            
+            //Set Welcome Message
+            signupVC.userName = "Julia"
+            
+            
+        }
+    }
+    func pushSignUpController(){
+         performSegueWithIdentifier("showSignup", sender: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.fbLoginView.delegate = self
-        self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
+//        self.fbLoginView.delegate = self
+//        self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
+
+        self.initContentView()
+        var timer = NSTimer.scheduledTimerWithTimeInterval(2.1, target: self, selector: Selector("pushSignUpController"), userInfo: nil, repeats: false)
         
     }
+    
+    
+    // MARK: - Scroller Stuff
+    
+    func initContentView(){
+            scroller.autoPlayTimeInterval = 2;
+            scroller.continuous = false;
+        
+    }
+
+    
+
+    
+    // MARK : KDCycleBannerView DELEGATE
+    func placeHolderImageOfBannerView(bannerView: KDCycleBannerView!, atIndex index: UInt) -> UIImage! {
+        let img = UIImage(named:"image1.png")!
+        return img
+    }
+    
+    func placeHolderImageOfZeroBannerView() -> UIImage! {
+        let img = UIImage(named:"image1.png")!
+        return img
+    }
+    
+    
+    // MARK : KDCycleBannerView DataSource
+    func numberOfKDCycleBannerView(bannerView: KDCycleBannerView!) -> [AnyObject]! {
+        let imagesList   = [UIImage(named:"signup_01")!,
+                            UIImage(named:"signup_02")!,
+                            UIImage(named:"signup_03")!,
+                            UIImage(named:"signup_04")!]
+        
+        return imagesList
+    }
+    
+    
+    func contentModeForImageIndex(index: UInt) -> UIViewContentMode {
+        return UIViewContentMode.ScaleAspectFit;
+    }
+    
+    
+
+    
+    
+    
+    
+    
+    
+    // MARK: - your text goes here
     
     // Facebook Delegate Methods
     func fbDialogLogin(tokenstr: String! ,  expirationDate: NSDate){
          println("User: \(tokenstr)")
     }
-//    - (void)fbDialogLogin:(NSString *)token expirationDate:(NSDate *)expirationDate {
-//        prin
-//    }
+
     
     func loginViewShowingLoggedInUser(loginView : FBLoginView!) {
         println("User Logged In")

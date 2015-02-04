@@ -21,6 +21,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBLoginView.self
         FBProfilePictureView.self
         
+        
+        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        
+        let screenWidth = screenSize.width;
+        let screenHeight = screenSize.height;
+
+        application.setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
+//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
+
+        
+        println(screenWidth,screenHeight)
         return true
     }
 

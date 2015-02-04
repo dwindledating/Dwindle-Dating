@@ -10,5 +10,8 @@
 #define DwindleDating_FacebookBridge_h
 
 #import <FacebookSDK/FacebookSDK.h>
+#import "KDCycleBannerView.h"
+#import "UIImageView+WebCache.h"
+#import "UserSettings.h"
 
 #endif
