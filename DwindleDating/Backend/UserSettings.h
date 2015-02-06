@@ -14,7 +14,8 @@
 @property (nonatomic, strong) NSString* userDistance;
 @property (nonatomic, strong) NSString* userAgeFrom;
 @property (nonatomic, strong) NSString* userAgeTo;
-
+@property (nonatomic, strong) NSString* fbName;
+@property (nonatomic, strong) NSString* fbId;
 
 +(UserSettings *) loadUserSettings;
 

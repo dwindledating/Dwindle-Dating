@@ -94,6 +94,8 @@ static void *kContentImageViewObservationContext = &kContentImageViewObservation
     _pageControl = [[UIPageControl alloc] initWithFrame:pageControlFrame];
     _pageControl.center = CGPointMake(CGRectGetWidth(_scrollView.frame)*0.5, CGRectGetHeight(_scrollView.frame) - 12.);
     _pageControl.userInteractionEnabled = NO;
+    _pageControl.pageIndicatorTintColor = [UIColor colorWithRed:0 green:152/255.0 blue:219/255.0 alpha:1.0];
+    _pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:1.0 green:0 blue:77/255.0 alpha:1.0];
     [self addSubview:_pageControl];
 }
 

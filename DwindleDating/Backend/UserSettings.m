@@ -19,6 +19,8 @@
         self.userDistance   = [decoder decodeObjectForKey:@"userDistance"];
         self.userAgeFrom    = [decoder decodeObjectForKey:@"userAgeFrom"];
         self.userAgeTo      = [decoder decodeObjectForKey:@"userAgeTo"];
+        self.fbName         = [decoder decodeObjectForKey:@"fbName"];
+        self.fbId           = [decoder decodeObjectForKey:@"fbId"];
     }
     
     return self;
@@ -30,7 +32,8 @@
     [encoder encodeObject:self.userDistance forKey:@"userDistance"];
     [encoder encodeObject:self.userAgeFrom  forKey:@"userAgeFrom"];
     [encoder encodeObject:self.userAgeTo    forKey:@"userAgeTo"];
-
+    [encoder encodeObject:self.fbName       forKey:@"fbName"];
+    [encoder encodeObject:self.fbId         forKey:@"fbId"];
     
 }
 
@@ -48,6 +51,9 @@
         settings.userDistance   = @"";
         settings.userAgeFrom    = @"";
         settings.userAgeTo      = @"";
+        settings.fbName         = @"";
+        settings.fbId           = @"";
+        
         return settings;
     }
 }

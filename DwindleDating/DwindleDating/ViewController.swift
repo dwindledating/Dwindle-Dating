@@ -13,6 +13,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
 
     @IBOutlet var scroller : KDCycleBannerView!
     @IBOutlet var fbLoginView : FBLoginView!
+    @IBOutlet var txtViewPrivacy : UITextView!
 
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -22,13 +23,12 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             var signupVC = (segue.destinationViewController as SignupController)
             
             //Set Profile Image
-            let urlPath: String = "YOUR_URL_HERE"
+            let urlPath: String = "http://graph.facebook.com/"  + UserSettings.loadUserSettings().fbId + "/picture?type=large"
             var url: NSURL = NSURL(string: urlPath)!
             signupVC.userImgUrl = url
             
-            
             //Set Welcome Message
-            signupVC.userName = "Julia"
+            signupVC.userName = UserSettings.loadUserSettings().fbName
             
             
         }
@@ -37,15 +37,28 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
          performSegueWithIdentifier("showSignup", sender: nil)
     }
     
+    
+    override func viewDidAppear(animated: Bool) {
+    
+        super.viewDidAppear(animated)
+
+        txtViewPrivacy.editable = true
+        txtViewPrivacy.textColor = UIColor(red: 38/255.0, green: 182/255.0, blue: 218/255.0, alpha: 1.0)
+        txtViewPrivacy.font = UIFont(name: "Helvetica", size: 12.0)
+        txtViewPrivacy.editable = false
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-//        self.fbLoginView.delegate = self
-//        self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
+        self.fbLoginView.delegate = self
+        self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
 
         self.initContentView()
-        var timer = NSTimer.scheduledTimerWithTimeInterval(2.1, target: self, selector: Selector("pushSignUpController"), userInfo: nil, repeats: false)
+        
+//        var timer = NSTimer.scheduledTimerWithTimeInterval(2.1, target: self, selector: Selector("pushSignUpController"), userInfo: nil, repeats: false)
         
     }
     
@@ -56,8 +69,92 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             scroller.autoPlayTimeInterval = 2;
             scroller.continuous = false;
         
+        //Add gesture
+        
+        var tapGesture = UITapGestureRecognizer(target: self, action: "textTapped:")
+        txtViewPrivacy.addGestureRecognizer(tapGesture)
+    
+        let paragraph = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as NSMutableParagraphStyle
+//        paragraph.alignment = NSTextAlignment.Center
+//        paragraph.lineSpacing = 3.0
+        
+        // Create locally formatted strings
+//        let fontColor = [NSForegroundColorAttributeName:UIColor(red: 1.0, green:1.0, blue: 1.0, alpha: 1.0)]
+
+        
+        let myfont: UIFont? = UIFont(name: "Arial", size: 8.0)
+        
+        let textviewAttrString = NSMutableAttributedString()
+        textviewAttrString.appendAttributedString(txtViewPrivacy.attributedText)
+        textviewAttrString.addAttribute(NSFontAttributeName, value:myfont!, range: NSRange(location: 0, length: textviewAttrString.length))
+        var termsDict: Dictionary<String, AnyObject> = [
+            "termsTag": true,
+//            "NSForegroundColorAttributeName": fontColor,
+            "NSUnderline": 1
+        ]
+        let termsString     = NSAttributedString(string: "Terms and Conditions", attributes: termsDict)
+
+        var privacyDict: Dictionary<String, AnyObject> = [
+            "privacyTag": true,
+//            "NSForegroundColorAttributeName": fontColor,
+            "NSUnderline": 1
+        ]
+        let privacyString   = NSAttributedString(string:"Privacy Policy",attributes: privacyDict)
+        
+
+        
+        var range0: NSRange = (textviewAttrString.string as NSString).rangeOfString("{0}")
+        if(range0.location != NSNotFound){
+            textviewAttrString.replaceCharactersInRange(range0, withAttributedString: termsString)
+        }
+
+        var range1: NSRange = (textviewAttrString.string as NSString).rangeOfString("{1}")
+        if(range1.location != NSNotFound){
+            textviewAttrString.replaceCharactersInRange(range1, withAttributedString: privacyString)
+        }
+        
+        txtViewPrivacy!.attributedText = textviewAttrString
+        txtViewPrivacy!.selectable = false
     }
 
+    
+    // MARK: - Privacy & TOC Handler
+    
+    func textTapped(recognizer: UITapGestureRecognizer) {
+     
+        let textView = recognizer.view as? UITextView
+        
+        let layoutManager: NSLayoutManager =    textView!.layoutManager
+        var location: CGPoint = recognizer.locationInView(textView)
+        location.x -= textView!.textContainerInset.left
+        location.y -= textView!.textContainerInset.top
+
+        // Find the character that's been tapped on
+        var charIndex: Int
+        charIndex = layoutManager.characterIndexForPoint(location, inTextContainer: textView!.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        
+        if charIndex < textView!.textStorage.length {
+            println(charIndex)
+
+            var range = NSRange(location: 0, length: 98)
+
+            var influenceAttributes:NSDictionary?
+            influenceAttributes  = textView!.attributedText?.attributesAtIndex(charIndex, effectiveRange: &range)
+            if let privacyTag: AnyObject = influenceAttributes?["privacyTag"] {
+                self.performSegueWithIdentifier("showPrivacyPolicyController", sender: self)                
+                println("Privacy tag it is")
+                
+            }
+            else if let termsTag: AnyObject = influenceAttributes?["termsTag"] {
+                println("Terms tag it is")
+                self.performSegueWithIdentifier("showTermsController", sender: self)
+            }
+            
+        }
+        
+        
+        
+    }
     
 
     
@@ -89,10 +186,6 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     }
     
     
-
-    
-    
-    
     
     
     
@@ -106,6 +199,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     
     func loginViewShowingLoggedInUser(loginView : FBLoginView!) {
         println("User Logged In")
+        fbLoginView.hidden = true
     }
     
     func loginViewFetchedUserInfo(loginView : FBLoginView!, user: FBGraphUser) {
@@ -118,10 +212,22 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         println("User Name: \(user.name)")
         var userEmail = user.objectForKey("email") as String
         println("User Email: \(userEmail)")
+        
+        var userSettings = UserSettings.loadUserSettings() as UserSettings
+        userSettings.fbId    = user.objectID
+        userSettings.fbName  = user.name
+        userSettings.saveUserSettings()
+        
+        println(userSettings.fbName)
+        println(userSettings.fbId)
+        
+        var timer = NSTimer.scheduledTimerWithTimeInterval(2.1, target: self, selector: Selector("pushSignUpController"), userInfo: nil, repeats: false)
+//        self.performSegueWithIdentifier("pushSignUpController", sender: self)
     }
     
     func loginViewShowingLoggedOutUser(loginView : FBLoginView!) {
         println("User Logged Out")
+        fbLoginView.hidden = false
     }
     
     func loginView(loginView : FBLoginView!, handleError:NSError) {

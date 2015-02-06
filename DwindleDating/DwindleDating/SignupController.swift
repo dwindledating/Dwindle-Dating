@@ -54,7 +54,9 @@ class SignupController: UIViewController  {
         imgViewProfile.layer.borderColor = UIColor.redColor().CGColor
         imgViewProfile.layer.borderWidth = 5.0;
         imgViewProfile.layer.masksToBounds = true
-        
+     
+        println(NSStringFromCGRect(imgViewProfile.bounds))
+        println(NSStringFromCGRect(imgViewProfile.frame))
     }
     
     
