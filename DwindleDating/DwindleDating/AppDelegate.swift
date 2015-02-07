@@ -32,6 +32,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         
         println(screenWidth,screenHeight)
+        
+        var navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.tintColor = UIColor.whiteColor()
+        navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]  // Title's text color
+
+        
         return true
     }
 

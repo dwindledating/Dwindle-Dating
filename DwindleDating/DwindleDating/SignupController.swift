@@ -12,6 +12,8 @@ class SignupController: UIViewController  {
     
     @IBOutlet var imgViewProfile : UIImageView!
     @IBOutlet var lblWelcometxt : UILabel!
+    @IBOutlet var btnNext       : UIButton!
+    
     var userImgUrl: NSURL!
     var userName: String!
     
@@ -57,10 +59,17 @@ class SignupController: UIViewController  {
      
         println(NSStringFromCGRect(imgViewProfile.bounds))
         println(NSStringFromCGRect(imgViewProfile.frame))
+        
+        btnNext.layer.cornerRadius = 5.0
+        
     }
     
     
-    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()

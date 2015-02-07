@@ -593,6 +593,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="btnNext" destination="hpk-aA-Aac" id="sqa-E4-4N6"/>
                         <outlet property="imgViewProfile" destination="3L4-bb-hAE" id="04a-qR-urT"/>
                         <outlet property="lblWelcometxt" destination="UL5-0Q-lFo" id="Hyq-O2-8eA"/>
                         <segue destination="kku-bR-39j" kind="show" identifier="showGenderSelector" id="AEe-ky-eJq"/>
