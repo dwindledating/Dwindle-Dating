@@ -33,8 +33,14 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             
         }
     }
+    
+    
     func pushSignUpController(){
          performSegueWithIdentifier("showSignup", sender: nil)
+    }
+    
+    func pushMenuController(){
+        performSegueWithIdentifier("showMenu", sender: nil)
     }
     
     
@@ -226,7 +232,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         println(userSettings.fbName)
         println(userSettings.fbId)
         
-        var timer = NSTimer.scheduledTimerWithTimeInterval(2.1, target: self, selector: Selector("pushSignUpController"), userInfo: nil, repeats: false)
+        var timer = NSTimer.scheduledTimerWithTimeInterval(2.1, target: self, selector: Selector("pushMenuController"), userInfo: nil, repeats: false)
 //        self.performSegueWithIdentifier("pushSignUpController", sender: self)
     }
     

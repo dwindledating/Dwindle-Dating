@@ -10,6 +10,7 @@
 		45174A341A77EE6700F17584 /* MatchListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174A331A77EE6700F17584 /* MatchListController.swift */; };
 		45174A361A77EE7C00F17584 /* MatchChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174A351A77EE7C00F17584 /* MatchChatController.swift */; };
 		45174A381A77EEAC00F17584 /* GamePlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174A371A77EEAC00F17584 /* GamePlayController.swift */; };
+		452DCD121A8F476700F624B4 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452DCD111A8F476700F624B4 /* RoundImageView.swift */; };
 		4560D3F81A736E5F00564860 /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4560D3F71A736E5F00564860 /* PrivacyPolicy.swift */; };
 		4560D3FA1A736ED800564860 /* TermsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4560D3F91A736ED800564860 /* TermsController.swift */; };
 		4560D3FC1A73722300564860 /* SignupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4560D3FB1A73722300564860 /* SignupController.swift */; };
@@ -17,6 +18,7 @@
 		4560D4001A73724300564860 /* AgeSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4560D3FF1A73724300564860 /* AgeSelectionController.swift */; };
 		4560D4021A73725100564860 /* DistanceSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4560D4011A73725100564860 /* DistanceSelectionController.swift */; };
 		4560D4041A73726600564860 /* PictureSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4560D4031A73726600564860 /* PictureSelectionController.swift */; };
+		4568E19A1A90E89400302F81 /* RoundButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E1991A90E89300302F81 /* RoundButtonView.swift */; };
 		457290D91A71AD9100FD5251 /* KDCycleBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457290D81A71AD9100FD5251 /* KDCycleBannerView.m */; };
 		457290FB1A71AE4A00FD5251 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 457290DB1A71AE4A00FD5251 /* LICENSE */; };
 		457290FC1A71AE4A00FD5251 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 457290DC1A71AE4A00FD5251 /* README.md */; };
@@ -40,11 +42,14 @@
 		458D3C9C1A68442100A0BD6B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 458D3C9B1A68442100A0BD6B /* Images.xcassets */; };
 		458D3C9F1A68442100A0BD6B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 458D3C9D1A68442100A0BD6B /* LaunchScreen.xib */; };
 		458D3CAB1A68442200A0BD6B /* DwindleDatingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D3CAA1A68442200A0BD6B /* DwindleDatingTests.swift */; };
+		45AEF4B11A8764F5003BAF17 /* DDCustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AEF4B01A8764F5003BAF17 /* DDCustomSegue.m */; };
+		45AEF4B31A876580003BAF17 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45AEF4B21A876580003BAF17 /* QuartzCore.framework */; };
 		45C98C0A1A7289FB000E7C79 /* image1.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C98C091A7289FB000E7C79 /* image1.png */; };
 		45C99D751A69D1DF00AC0DFC /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C99D741A69D1DF00AC0DFC /* FacebookSDK.framework */; };
 		45DBF22C1A73EBFF0055D3CB /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF22B1A73EBFF0055D3CB /* MenuController.swift */; };
 		45EB7F651A73B57D006ECAD2 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EB7F641A73B57D006ECAD2 /* UserSettings.m */; };
 		45EB7F671A73C24D006ECAD2 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EB7F661A73C24D006ECAD2 /* SettingsController.swift */; };
+		45EDA6091A8A2DA000CDB4EF /* MatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EDA6081A8A2DA000CDB4EF /* MatchCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +66,7 @@
 		45174A331A77EE6700F17584 /* MatchListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchListController.swift; sourceTree = "<group>"; };
 		45174A351A77EE7C00F17584 /* MatchChatController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchChatController.swift; sourceTree = "<group>"; };
 		45174A371A77EEAC00F17584 /* GamePlayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePlayController.swift; sourceTree = "<group>"; };
+		452DCD111A8F476700F624B4 /* RoundImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoundImageView.swift; path = Backend/RoundImageView.swift; sourceTree = "<group>"; };
 		4560D3F71A736E5F00564860 /* PrivacyPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicy.swift; sourceTree = "<group>"; };
 		4560D3F91A736ED800564860 /* TermsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsController.swift; sourceTree = "<group>"; };
 		4560D3FB1A73722300564860 /* SignupController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupController.swift; sourceTree = "<group>"; };
@@ -68,6 +74,7 @@
 		4560D3FF1A73724300564860 /* AgeSelectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgeSelectionController.swift; sourceTree = "<group>"; };
 		4560D4011A73725100564860 /* DistanceSelectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceSelectionController.swift; sourceTree = "<group>"; };
 		4560D4031A73726600564860 /* PictureSelectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureSelectionController.swift; sourceTree = "<group>"; };
+		4568E1991A90E89300302F81 /* RoundButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoundButtonView.swift; path = Backend/RoundButtonView.swift; sourceTree = "<group>"; };
 		457290D71A71AD9100FD5251 /* KDCycleBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KDCycleBannerView.h; sourceTree = "<group>"; };
 		457290D81A71AD9100FD5251 /* KDCycleBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KDCycleBannerView.m; sourceTree = "<group>"; };
 		457290DB1A71AE4A00FD5251 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -111,6 +118,9 @@
 		458D3CA41A68442200A0BD6B /* DwindleDatingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DwindleDatingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		458D3CA91A68442200A0BD6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		458D3CAA1A68442200A0BD6B /* DwindleDatingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DwindleDatingTests.swift; sourceTree = "<group>"; };
+		45AEF4AF1A8764F5003BAF17 /* DDCustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCustomSegue.h; sourceTree = "<group>"; };
+		45AEF4B01A8764F5003BAF17 /* DDCustomSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCustomSegue.m; sourceTree = "<group>"; };
+		45AEF4B21A876580003BAF17 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		45C1EC061A69D93A006A398A /* FacebookBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookBridge.h; sourceTree = "<group>"; };
 		45C98C091A7289FB000E7C79 /* image1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image1.png; sourceTree = "<group>"; };
 		45C99D741A69D1DF00AC0DFC /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
@@ -118,6 +128,7 @@
 		45EB7F631A73B57D006ECAD2 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserSettings.h; path = Backend/UserSettings.h; sourceTree = "<group>"; };
 		45EB7F641A73B57D006ECAD2 /* UserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserSettings.m; path = Backend/UserSettings.m; sourceTree = "<group>"; };
 		45EB7F661A73C24D006ECAD2 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		45EDA6081A8A2DA000CDB4EF /* MatchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45AEF4B31A876580003BAF17 /* QuartzCore.framework in Frameworks */,
 				45C99D751A69D1DF00AC0DFC /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,6 +210,7 @@
 		458D3C861A68442100A0BD6B = {
 			isa = PBXGroup;
 			children = (
+				45AEF4B21A876580003BAF17 /* QuartzCore.framework */,
 				45EB7F601A73AD91006ECAD2 /* Backend */,
 				45C98C091A7289FB000E7C79 /* image1.png */,
 				45C99D721A69D1DF00AC0DFC /* ThirdParty */,
@@ -219,6 +232,7 @@
 		458D3C911A68442100A0BD6B /* DwindleDating */ = {
 			isa = PBXGroup;
 			children = (
+				45EDA6081A8A2DA000CDB4EF /* MatchCell.swift */,
 				458D3C981A68442100A0BD6B /* Main.storyboard */,
 				458D3C941A68442100A0BD6B /* AppDelegate.swift */,
 				45174A331A77EE6700F17584 /* MatchListController.swift */,
@@ -266,6 +280,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		45AEF4AE1A8764F5003BAF17 /* CustomSegue */ = {
+			isa = PBXGroup;
+			children = (
+				45AEF4AF1A8764F5003BAF17 /* DDCustomSegue.h */,
+				45AEF4B01A8764F5003BAF17 /* DDCustomSegue.m */,
+			);
+			name = CustomSegue;
+			path = Backend/CustomSegue;
+			sourceTree = "<group>";
+		};
 		45C1EC051A69D93A006A398A /* FacebookBridge */ = {
 			isa = PBXGroup;
 			children = (
@@ -295,6 +319,9 @@
 		45EB7F601A73AD91006ECAD2 /* Backend */ = {
 			isa = PBXGroup;
 			children = (
+				452DCD111A8F476700F624B4 /* RoundImageView.swift */,
+				4568E1991A90E89300302F81 /* RoundButtonView.swift */,
+				45AEF4AE1A8764F5003BAF17 /* CustomSegue */,
 				45EB7F631A73B57D006ECAD2 /* UserSettings.h */,
 				45EB7F641A73B57D006ECAD2 /* UserSettings.m */,
 			);
@@ -403,7 +430,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45AEF4B11A8764F5003BAF17 /* DDCustomSegue.m in Sources */,
 				45EB7F671A73C24D006ECAD2 /* SettingsController.swift in Sources */,
+				4568E19A1A90E89400302F81 /* RoundButtonView.swift in Sources */,
 				457290FD1A71AE4A00FD5251 /* NSData+ImageContentType.m in Sources */,
 				457291031A71AE4A00FD5251 /* SDWebImageManager.m in Sources */,
 				457291081A71AE4A00FD5251 /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -417,6 +446,7 @@
 				4560D4001A73724300564860 /* AgeSelectionController.swift in Sources */,
 				457291001A71AE4A00FD5251 /* SDWebImageDecoder.m in Sources */,
 				4560D4041A73726600564860 /* PictureSelectionController.swift in Sources */,
+				452DCD121A8F476700F624B4 /* RoundImageView.swift in Sources */,
 				4560D3FC1A73722300564860 /* SignupController.swift in Sources */,
 				457291071A71AE4A00FD5251 /* UIImage+MultiFormat.m in Sources */,
 				457291021A71AE4A00FD5251 /* SDWebImageDownloaderOperation.m in Sources */,
@@ -432,6 +462,7 @@
 				457290FF1A71AE4A00FD5251 /* SDWebImageCompat.m in Sources */,
 				457291061A71AE4A00FD5251 /* UIImage+GIF.m in Sources */,
 				45174A381A77EEAC00F17584 /* GamePlayController.swift in Sources */,
+				45EDA6091A8A2DA000CDB4EF /* MatchCell.swift in Sources */,
 				4572910A1A71AE4A00FD5251 /* UIView+WebCacheOperation.m in Sources */,
 				458D3C951A68442100A0BD6B /* AppDelegate.swift in Sources */,
 			);

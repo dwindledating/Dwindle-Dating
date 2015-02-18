@@ -13,14 +13,20 @@ class AgeSelectionController: UIViewController ,UIPickerViewDataSource,UIPickerV
     
     @IBOutlet var pickerViewFrom :  UIPickerView!
     @IBOutlet var pickerViewTo :    UIPickerView!
+    @IBOutlet var btnNext       :   UIButton!
     
     var ageFrom: String!
     var ageTo: String!
     
     
+    func initContentView(){
+        btnNext.layer.cornerRadius = 5.0
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.initContentView()
         
     }
     

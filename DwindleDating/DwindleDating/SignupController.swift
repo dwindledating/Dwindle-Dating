@@ -10,7 +10,7 @@ import UIKit
 
 class SignupController: UIViewController  {
     
-    @IBOutlet var imgViewProfile : UIImageView!
+    @IBOutlet var imgViewProfile : RoundImageView!
     @IBOutlet var lblWelcometxt : UILabel!
     @IBOutlet var btnNext       : UIButton!
     
@@ -32,7 +32,8 @@ class SignupController: UIViewController  {
         
         let welcomeText = "Lets get started,\n"
         var welcomeMsgAttributed = NSMutableAttributedString(string: welcomeText, attributes: attrsWelcomeTxt)
-        
+
+        userName = "TEST"
         let username = userName + " ! "
         var attrsName = [NSForegroundColorAttributeName: UIColor.purpleColor(),
             NSFontAttributeName : UIFont.systemFontOfSize(14.0)]
@@ -46,19 +47,28 @@ class SignupController: UIViewController  {
         
         
         
-        let img = UIImage(named:"image1.png")!
+        let img = UIImage(named:"matches")!
+        imgViewProfile.borderWidth = 5.0
         imgViewProfile.sd_setImageWithURL(userImgUrl,
                                         placeholderImage: img,
                                         options:SDWebImageOptions.ContinueInBackground)
-
-        imgViewProfile.contentMode = UIViewContentMode.ScaleAspectFill
-        imgViewProfile.layer.cornerRadius = imgViewProfile.frame.size.width/2.0;
-        imgViewProfile.layer.borderColor = UIColor.redColor().CGColor
-        imgViewProfile.layer.borderWidth = 5.0;
-        imgViewProfile.layer.masksToBounds = true
-     
-        println(NSStringFromCGRect(imgViewProfile.bounds))
-        println(NSStringFromCGRect(imgViewProfile.frame))
+//
+////            ( UIViewAutoresizingFlexibleBottomMargin
+////                | UIViewAutoresizingFlexibleHeight
+////                | UIViewAutoresizingFlexibleLeftMargin
+////                | UIViewAutoresizingFlexibleRightMargin
+////                | UIViewAutoresizingFlexibleTopMargin
+////                | UIViewAutoresizingFlexibleWidth );
+//
+//        imgViewProfile.image = img
+//        imgViewProfile.contentMode = UIViewContentMode.ScaleAspectFill
+//        imgViewProfile.layer.cornerRadius = imgViewProfile.bounds.size.width/2.0;
+//        imgViewProfile.layer.borderColor = UIColor.redColor().CGColor
+//        imgViewProfile.layer.borderWidth = 5.0;
+//        imgViewProfile.layer.masksToBounds = true
+//     
+//        println(NSStringFromCGRect(imgViewProfile.bounds))
+//        println(NSStringFromCGRect(imgViewProfile.frame))
         
         btnNext.layer.cornerRadius = 5.0
         

@@ -11,9 +11,29 @@ import UIKit
 
 class PictureSelectionController: UIViewController  {
     
+    @IBOutlet var btnPicture1       :   RoundButtonView!
+    @IBOutlet var btnPicture2       :   RoundButtonView!
+    @IBOutlet var btnPicture3       :   RoundButtonView!
+    @IBOutlet var btnPicture4       :   RoundButtonView!
+    @IBOutlet var btnPicture5       :   RoundButtonView!
+    @IBOutlet var btnNext       :   UIButton!
+    
+    func initContentView(){
+        btnNext.layer.cornerRadius = 5.0
+        
+        self.btnPicture1.borderWidth = 5.0;
+        self.btnPicture2.borderWidth = 5.0;
+        self.btnPicture3.borderWidth = 5.0;
+        self.btnPicture4.borderWidth = 5.0;
+        self.btnPicture5.borderWidth = 5.0;
+    }
+
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.initContentView()
         
     }
     
@@ -29,7 +49,13 @@ class PictureSelectionController: UIViewController  {
         performSegueWithIdentifier("showMenuController", sender: nil)
         
     }
-    
+
+    @IBAction func openImagePicker(sender: UIButton) {
+        
+//        performSegueWithIdentifier("showMenuController", sender: nil)
+        
+    }
+
     
     
 }

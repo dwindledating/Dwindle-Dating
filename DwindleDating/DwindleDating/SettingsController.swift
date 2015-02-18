@@ -17,8 +17,6 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -27,6 +25,16 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
     
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
     
     
     
