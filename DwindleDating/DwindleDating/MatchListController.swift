@@ -23,7 +23,7 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+//        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     
@@ -96,6 +96,29 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView .deselectRowAtIndexPath(indexPath, animated: true)
+        
+            self.performSegueWithIdentifier("showMatchChatController", sender: self)
+
+    }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if(segue.identifier == "showMatchChatController") {
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+
+//            var signupVC = (segue.destinationViewController as SignupController)
+//            
+//            //Set Profile Image
+//            let urlPath: String = "http://graph.facebook.com/"  + UserSettings.loadUserSettings().fbId + "/picture?type=large"
+//            var url: NSURL = NSURL(string: urlPath)!
+//            signupVC.userImgUrl = url
+//            
+//            //Set Welcome Message
+//            signupVC.userName = UserSettings.loadUserSettings().fbName
+            
+            
+        }
     }
     
     

@@ -9,7 +9,7 @@
 import UIKit
 
 
-class MenuController: UIViewController  {
+class MenuController: UIViewController , UIActionSheetDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -54,8 +54,42 @@ class MenuController: UIViewController  {
     
     @IBAction func shareButtonPressed(sender: AnyObject) {
    
+        var sheet = UIActionSheet(title: "Share via", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Message", "Email");
+        sheet.showFromRect(sender.frame, inView: self.view, animated: true)
         
+//        sheet.showFromToolbar(self.inputToolbar);
         
+    }
+    
+    
+    
+    
+    
+    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        if (buttonIndex == actionSheet.cancelButtonIndex) {
+            return;
+        }
+        
+        switch (buttonIndex) {
+        case 0:
+//            self.demoData.addPhotoMediaMessage();
+            break;
+            
+        case 1:
+//            var weakView = self.collectionView as UICollectionView;
+//            self.demoData.addLocationMediaMessageCompletion({ () -> Void in
+//                weakView.reloadData();
+//            });
+            break;
+            
+        default:
+            
+            break;
+            
+        }
+        
+//        JSQSystemSoundPlayer.jsq_playMessageSentSound();
+//        self.finishSendingMessageAnimated(true);
     }
     
 }

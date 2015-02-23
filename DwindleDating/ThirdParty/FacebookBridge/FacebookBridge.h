@@ -14,4 +14,9 @@
 #import "UIImageView+WebCache.h"
 #import "UserSettings.h"
 
+#import "DemoModelData.h"
+#import "NSUserDefaults+DemoSettings.h"
+#import "JSQMessagesViewController.h"
+
+
 #endif

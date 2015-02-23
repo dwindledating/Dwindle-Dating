@@ -10,22 +10,22 @@ import UIKit
 
 class RoundButtonView: UIButton {
     
-    var borderWidth: CGFloat!
+    var borderWidth: CGFloat! = 2.0
+
     
     func initContentView(){
         
         self.contentMode = UIViewContentMode.ScaleAspectFill
         self.layer.cornerRadius = (self.frame.size.width)/2.0;
-        self.layer.borderColor = UIColor.blueColor().CGColor
-//        if let borderWidth = nil{
-//            //use youtConstant you do not need to unwrap `xyz`
-//            self.layer.borderWidth = 5.0
-//
-//        }
-//        else
-//        {
+        self.layer.borderColor = UIColor(red: 1.0, green: 0.0 , blue: 78.0/255.0, alpha: 1.0).CGColor
+        if borderWidth != nil{
+            //use youtConstant you do not need to unwrap `xyz`
             self.layer.borderWidth = borderWidth
-//        }
+        }
+        else
+        {
+            self.layer.borderWidth = 2.0
+        }
         self.layer.masksToBounds = true
         
     }

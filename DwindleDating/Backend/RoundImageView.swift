@@ -16,7 +16,7 @@ class RoundImageView: UIImageView {
         
         self.contentMode = UIViewContentMode.ScaleAspectFill
         self.layer.cornerRadius = (self.frame.size.width)/2.0;
-        self.layer.borderColor = UIColor.blueColor().CGColor
+        self.layer.borderColor = UIColor(red: 1.0, green: 0.0 , blue: 78.0/255.0, alpha: 1.0).CGColor
         self.layer.borderWidth = borderWidth
         self.layer.masksToBounds = true
         
