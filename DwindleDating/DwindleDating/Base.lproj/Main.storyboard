@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A7T-DZ-deN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14D105g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A7T-DZ-deN">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -640,16 +640,16 @@
                                 <exclude reference="Ywr-8v-eIo"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="41o-Zg-5Oy"/>
-                                <exclude reference="4VN-al-Aqz"/>
-                                <exclude reference="g6t-rq-r85"/>
-                                <exclude reference="yVV-KW-hrV"/>
                                 <exclude reference="0x9-go-MSj"/>
                                 <exclude reference="MiL-Vc-JYn"/>
                                 <exclude reference="ci5-b6-e7h"/>
                                 <exclude reference="hjO-zh-skN"/>
                                 <exclude reference="swP-ME-Oxo"/>
                                 <exclude reference="xWE-1n-FOR"/>
+                                <exclude reference="41o-Zg-5Oy"/>
+                                <exclude reference="4VN-al-Aqz"/>
+                                <exclude reference="g6t-rq-r85"/>
+                                <exclude reference="yVV-KW-hrV"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -658,16 +658,16 @@
                                 <include reference="Ywr-8v-eIo"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="41o-Zg-5Oy"/>
-                                <include reference="4VN-al-Aqz"/>
-                                <include reference="g6t-rq-r85"/>
-                                <include reference="yVV-KW-hrV"/>
                                 <include reference="0x9-go-MSj"/>
                                 <include reference="MiL-Vc-JYn"/>
                                 <include reference="ci5-b6-e7h"/>
                                 <include reference="hjO-zh-skN"/>
                                 <include reference="swP-ME-Oxo"/>
                                 <include reference="xWE-1n-FOR"/>
+                                <include reference="41o-Zg-5Oy"/>
+                                <include reference="4VN-al-Aqz"/>
+                                <include reference="g6t-rq-r85"/>
+                                <include reference="yVV-KW-hrV"/>
                             </mask>
                         </variation>
                     </view>
@@ -690,7 +690,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Xco-Cx-7sh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="J8k-8P-Nl8">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Q6R-wz-4yo" customClass="JSQMessagesCollectionView">
@@ -828,17 +828,6 @@
                                     </mask>
                                     <mask key="constraints">
                                         <exclude reference="9Z5-p1-pDp"/>
-                                        <exclude reference="IV6-aH-oGc"/>
-                                        <exclude reference="QlZ-ml-LfO"/>
-                                        <exclude reference="UUr-do-iOK"/>
-                                        <exclude reference="Aso-GV-Wt5"/>
-                                        <exclude reference="DQ5-5U-hDE"/>
-                                        <exclude reference="PIt-5v-ACR"/>
-                                        <exclude reference="e0F-Zk-a1J"/>
-                                        <exclude reference="17G-nU-H15"/>
-                                        <exclude reference="DCT-VJ-HKi"/>
-                                        <exclude reference="u8H-TL-wEJ"/>
-                                        <exclude reference="ye7-yF-FSM"/>
                                         <exclude reference="Fsz-be-XLX"/>
                                         <exclude reference="Q0a-wx-uxh"/>
                                         <exclude reference="WVM-Y0-yN4"/>
@@ -848,6 +837,17 @@
                                         <exclude reference="jOU-lv-zwe"/>
                                         <exclude reference="naY-KV-jFp"/>
                                         <exclude reference="ppq-fT-rTZ"/>
+                                        <exclude reference="Aso-GV-Wt5"/>
+                                        <exclude reference="DQ5-5U-hDE"/>
+                                        <exclude reference="PIt-5v-ACR"/>
+                                        <exclude reference="e0F-Zk-a1J"/>
+                                        <exclude reference="17G-nU-H15"/>
+                                        <exclude reference="DCT-VJ-HKi"/>
+                                        <exclude reference="u8H-TL-wEJ"/>
+                                        <exclude reference="ye7-yF-FSM"/>
+                                        <exclude reference="IV6-aH-oGc"/>
+                                        <exclude reference="QlZ-ml-LfO"/>
+                                        <exclude reference="UUr-do-iOK"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -860,17 +860,6 @@
                                     </mask>
                                     <mask key="constraints">
                                         <include reference="9Z5-p1-pDp"/>
-                                        <include reference="IV6-aH-oGc"/>
-                                        <include reference="QlZ-ml-LfO"/>
-                                        <include reference="UUr-do-iOK"/>
-                                        <include reference="Aso-GV-Wt5"/>
-                                        <include reference="DQ5-5U-hDE"/>
-                                        <include reference="PIt-5v-ACR"/>
-                                        <include reference="e0F-Zk-a1J"/>
-                                        <include reference="17G-nU-H15"/>
-                                        <include reference="DCT-VJ-HKi"/>
-                                        <include reference="u8H-TL-wEJ"/>
-                                        <include reference="ye7-yF-FSM"/>
                                         <include reference="Fsz-be-XLX"/>
                                         <include reference="Q0a-wx-uxh"/>
                                         <include reference="WVM-Y0-yN4"/>
@@ -880,6 +869,17 @@
                                         <include reference="jOU-lv-zwe"/>
                                         <include reference="naY-KV-jFp"/>
                                         <include reference="ppq-fT-rTZ"/>
+                                        <include reference="Aso-GV-Wt5"/>
+                                        <include reference="DQ5-5U-hDE"/>
+                                        <include reference="PIt-5v-ACR"/>
+                                        <include reference="e0F-Zk-a1J"/>
+                                        <include reference="17G-nU-H15"/>
+                                        <include reference="DCT-VJ-HKi"/>
+                                        <include reference="u8H-TL-wEJ"/>
+                                        <include reference="ye7-yF-FSM"/>
+                                        <include reference="IV6-aH-oGc"/>
+                                        <include reference="QlZ-ml-LfO"/>
+                                        <include reference="UUr-do-iOK"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -922,9 +922,9 @@
                                 <exclude reference="hzr-aQ-Mv2"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="XH9-Ym-aVx"/>
                                 <exclude reference="7hd-1R-dvn"/>
                                 <exclude reference="bXS-y5-PkM"/>
-                                <exclude reference="XH9-Ym-aVx"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -932,9 +932,9 @@
                                 <include reference="hzr-aQ-Mv2"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="XH9-Ym-aVx"/>
                                 <include reference="7hd-1R-dvn"/>
                                 <include reference="bXS-y5-PkM"/>
-                                <exclude reference="XH9-Ym-aVx"/>
                             </mask>
                         </variation>
                     </view>
@@ -1730,8 +1730,7 @@ Connect you be</string>
                                         <exclude reference="YeQ-eQ-2XM"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="16" y="198" width="149" height="149"/>
+                                <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
                                         <include reference="YeQ-eQ-2XM"/>
                                     </mask>
@@ -1748,9 +1747,6 @@ Connect you be</string>
                                     <color key="titleColor" red="1" green="0.0" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="15" y="357" width="149" height="149"/>
-                                </variation>
                                 <connections>
                                     <action selector="openImagePicker:" destination="Ysw-6z-QjM" eventType="touchUpInside" id="tUu-D2-OoG"/>
                                 </connections>
@@ -1763,9 +1759,6 @@ Connect you be</string>
                                     <color key="titleColor" red="1" green="0.0" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="248" y="198" width="149" height="149"/>
-                                </variation>
                                 <connections>
                                     <action selector="openImagePicker:" destination="Ysw-6z-QjM" eventType="touchUpInside" id="6rS-ep-zKN"/>
                                 </connections>
@@ -1778,9 +1771,6 @@ Connect you be</string>
                                     <color key="titleColor" red="1" green="0.0" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="247" y="356" width="149" height="149"/>
-                                </variation>
                                 <connections>
                                     <action selector="openImagePicker:" destination="Ysw-6z-QjM" eventType="touchUpInside" id="B7j-rL-Xer"/>
                                 </connections>
@@ -1793,9 +1783,6 @@ Connect you be</string>
                                     <color key="titleColor" red="1" green="0.0" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="134" y="514" width="149" height="148"/>
-                                </variation>
                                 <connections>
                                     <action selector="openImagePicker:" destination="Ysw-6z-QjM" eventType="touchUpInside" id="uVt-h1-vNP"/>
                                 </connections>
@@ -1807,9 +1794,6 @@ the game!</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="46" y="79" width="322" height="95"/>
-                                </variation>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
