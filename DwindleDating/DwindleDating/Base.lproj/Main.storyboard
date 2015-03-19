@@ -729,6 +729,8 @@
                     <connections>
                         <outlet property="collectionView" destination="Q6R-wz-4yo" id="EEr-XT-PWM"/>
                         <outlet property="inputToolbar" destination="d0G-6Z-I50" id="6Rb-nn-ygh"/>
+                        <outlet property="toolbarBottomLayoutGuide" destination="swD-lP-nc5" id="keN-s1-5uY"/>
+                        <outlet property="toolbarHeightConstraint" destination="4oR-4w-Rbp" id="ZyS-z7-uL1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tUO-aX-eCt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1730,7 +1732,8 @@ Connect you be</string>
                                         <exclude reference="YeQ-eQ-2XM"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="16" y="198" width="149" height="149"/>
                                     <mask key="constraints">
                                         <include reference="YeQ-eQ-2XM"/>
                                     </mask>
@@ -1747,6 +1750,9 @@ Connect you be</string>
                                     <color key="titleColor" red="1" green="0.0" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="15" y="357" width="149" height="149"/>
+                                </variation>
                                 <connections>
                                     <action selector="openImagePicker:" destination="Ysw-6z-QjM" eventType="touchUpInside" id="tUu-D2-OoG"/>
                                 </connections>
@@ -1759,6 +1765,9 @@ Connect you be</string>
                                     <color key="titleColor" red="1" green="0.0" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="248" y="198" width="149" height="149"/>
+                                </variation>
                                 <connections>
                                     <action selector="openImagePicker:" destination="Ysw-6z-QjM" eventType="touchUpInside" id="6rS-ep-zKN"/>
                                 </connections>
@@ -1771,6 +1780,9 @@ Connect you be</string>
                                     <color key="titleColor" red="1" green="0.0" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="247" y="356" width="149" height="149"/>
+                                </variation>
                                 <connections>
                                     <action selector="openImagePicker:" destination="Ysw-6z-QjM" eventType="touchUpInside" id="B7j-rL-Xer"/>
                                 </connections>
@@ -1783,6 +1795,9 @@ Connect you be</string>
                                     <color key="titleColor" red="1" green="0.0" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="134" y="514" width="149" height="148"/>
+                                </variation>
                                 <connections>
                                     <action selector="openImagePicker:" destination="Ysw-6z-QjM" eventType="touchUpInside" id="uVt-h1-vNP"/>
                                 </connections>
@@ -1794,6 +1809,9 @@ the game!</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="46" y="79" width="322" height="95"/>
+                                </variation>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2024,7 +2042,7 @@ the game!</string>
         </scene>
     </scenes>
     <resources>
-        <image name="demo_avatar_jobs" width="64" height="64"/>
+        <image name="demo_avatar_jobs" width="80" height="80"/>
         <image name="genderFemale" width="154" height="148"/>
         <image name="genderMale" width="154" height="148"/>
         <image name="image1.png" width="800" height="500"/>

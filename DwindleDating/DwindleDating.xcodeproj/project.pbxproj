@@ -57,7 +57,6 @@
 		455DB35D1A99D3AA00CEAEA2 /* JSQMessagesTypingIndicatorFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 455DB3281A99D3AA00CEAEA2 /* JSQMessagesTypingIndicatorFooterView.xib */; };
 		455DB35E1A99D3AA00CEAEA2 /* JSQSystemSoundPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 455DB32D1A99D3AA00CEAEA2 /* JSQSystemSoundPlayer.m */; };
 		455DB35F1A99D3AA00CEAEA2 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 455DB32E1A99D3AA00CEAEA2 /* LICENSE */; };
-		455DB3601A99D3AA00CEAEA2 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 455DB32F1A99D3AA00CEAEA2 /* README.md */; };
 		455DB3611A99D3AA00CEAEA2 /* NSUserDefaults+DemoSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 455DB3311A99D3AA00CEAEA2 /* NSUserDefaults+DemoSettings.m */; };
 		4560D3F81A736E5F00564860 /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4560D3F71A736E5F00564860 /* PrivacyPolicy.swift */; };
 		4560D3FA1A736ED800564860 /* TermsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4560D3F91A736ED800564860 /* TermsController.swift */; };
@@ -69,7 +68,6 @@
 		4568E19A1A90E89400302F81 /* RoundButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E1991A90E89300302F81 /* RoundButtonView.swift */; };
 		457290D91A71AD9100FD5251 /* KDCycleBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457290D81A71AD9100FD5251 /* KDCycleBannerView.m */; };
 		457290FB1A71AE4A00FD5251 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 457290DB1A71AE4A00FD5251 /* LICENSE */; };
-		457290FC1A71AE4A00FD5251 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 457290DC1A71AE4A00FD5251 /* README.md */; };
 		457290FD1A71AE4A00FD5251 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 457290DF1A71AE4A00FD5251 /* NSData+ImageContentType.m */; };
 		457290FE1A71AE4A00FD5251 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 457290E11A71AE4A00FD5251 /* SDImageCache.m */; };
 		457290FF1A71AE4A00FD5251 /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 457290E31A71AE4A00FD5251 /* SDWebImageCompat.m */; };
@@ -92,7 +90,6 @@
 		458D3CAB1A68442200A0BD6B /* DwindleDatingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D3CAA1A68442200A0BD6B /* DwindleDatingTests.swift */; };
 		45AEF4B11A8764F5003BAF17 /* DDCustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AEF4B01A8764F5003BAF17 /* DDCustomSegue.m */; };
 		45AEF4B31A876580003BAF17 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45AEF4B21A876580003BAF17 /* QuartzCore.framework */; };
-		45C98C0A1A7289FB000E7C79 /* image1.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C98C091A7289FB000E7C79 /* image1.png */; };
 		45C99D751A69D1DF00AC0DFC /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C99D741A69D1DF00AC0DFC /* FacebookSDK.framework */; };
 		45DBF22C1A73EBFF0055D3CB /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF22B1A73EBFF0055D3CB /* MenuController.swift */; };
 		45EB7F651A73B57D006ECAD2 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EB7F641A73B57D006ECAD2 /* UserSettings.m */; };
@@ -219,7 +216,6 @@
 		455DB32C1A99D3AA00CEAEA2 /* JSQSystemSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQSystemSoundPlayer.h; sourceTree = "<group>"; };
 		455DB32D1A99D3AA00CEAEA2 /* JSQSystemSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQSystemSoundPlayer.m; sourceTree = "<group>"; };
 		455DB32E1A99D3AA00CEAEA2 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		455DB32F1A99D3AA00CEAEA2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		455DB3301A99D3AA00CEAEA2 /* NSUserDefaults+DemoSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+DemoSettings.h"; sourceTree = "<group>"; };
 		455DB3311A99D3AA00CEAEA2 /* NSUserDefaults+DemoSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+DemoSettings.m"; sourceTree = "<group>"; };
 		4560D3F71A736E5F00564860 /* PrivacyPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicy.swift; sourceTree = "<group>"; };
@@ -233,7 +229,6 @@
 		457290D71A71AD9100FD5251 /* KDCycleBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KDCycleBannerView.h; sourceTree = "<group>"; };
 		457290D81A71AD9100FD5251 /* KDCycleBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KDCycleBannerView.m; sourceTree = "<group>"; };
 		457290DB1A71AE4A00FD5251 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		457290DC1A71AE4A00FD5251 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		457290DE1A71AE4A00FD5251 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
 		457290DF1A71AE4A00FD5251 /* NSData+ImageContentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+ImageContentType.m"; sourceTree = "<group>"; };
 		457290E01A71AE4A00FD5251 /* SDImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDImageCache.h; sourceTree = "<group>"; };
@@ -277,7 +272,6 @@
 		45AEF4B01A8764F5003BAF17 /* DDCustomSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCustomSegue.m; sourceTree = "<group>"; };
 		45AEF4B21A876580003BAF17 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		45C1EC061A69D93A006A398A /* FacebookBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookBridge.h; sourceTree = "<group>"; };
-		45C98C091A7289FB000E7C79 /* image1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image1.png; sourceTree = "<group>"; };
 		45C99D741A69D1DF00AC0DFC /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		45DBF22B1A73EBFF0055D3CB /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		45EB7F631A73B57D006ECAD2 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserSettings.h; path = Backend/UserSettings.h; sourceTree = "<group>"; };
@@ -488,7 +482,6 @@
 			children = (
 				455DB32A1A99D3AA00CEAEA2 /* JSQSystemSoundPlayer */,
 				455DB32E1A99D3AA00CEAEA2 /* LICENSE */,
-				455DB32F1A99D3AA00CEAEA2 /* README.md */,
 			);
 			path = JSQSystemSoundPlayer;
 			sourceTree = "<group>";
@@ -524,7 +517,6 @@
 			isa = PBXGroup;
 			children = (
 				457290DB1A71AE4A00FD5251 /* LICENSE */,
-				457290DC1A71AE4A00FD5251 /* README.md */,
 				457290DD1A71AE4A00FD5251 /* SDWebImage */,
 			);
 			path = SDWebImage;
@@ -571,7 +563,6 @@
 			children = (
 				45AEF4B21A876580003BAF17 /* QuartzCore.framework */,
 				45EB7F601A73AD91006ECAD2 /* Backend */,
-				45C98C091A7289FB000E7C79 /* image1.png */,
 				45C99D721A69D1DF00AC0DFC /* ThirdParty */,
 				458D3C911A68442100A0BD6B /* DwindleDating */,
 				458D3CA71A68442200A0BD6B /* DwindleDatingTests */,
@@ -782,7 +773,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				458D3C9A1A68442100A0BD6B /* Main.storyboard in Resources */,
-				45C98C0A1A7289FB000E7C79 /* image1.png in Resources */,
 				458D3C9F1A68442100A0BD6B /* LaunchScreen.xib in Resources */,
 				455DB35D1A99D3AA00CEAEA2 /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
 				455DB33D1A99D3AA00CEAEA2 /* JSQMessagesViewController.xib in Resources */,
@@ -861,7 +851,6 @@
 				455DB3571A99D3AA00CEAEA2 /* JSQMessagesLoadEarlierHeaderView.m in Sources */,
 				455DB3451A99D3AA00CEAEA2 /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,
 				455DB34A1A99D3AA00CEAEA2 /* JSQMessagesBubbleImage.m in Sources */,
-				457290FC1A71AE4A00FD5251 /* README.md in Sources */,
 				457291051A71AE4A00FD5251 /* UIButton+WebCache.m in Sources */,
 				45174A361A77EE7C00F17584 /* MatchChatController.swift in Sources */,
 				455DB33A1A99D3AA00CEAEA2 /* UIView+JSQMessages.m in Sources */,
@@ -871,7 +860,6 @@
 				4560D3F81A736E5F00564860 /* PrivacyPolicy.swift in Sources */,
 				455DB3611A99D3AA00CEAEA2 /* NSUserDefaults+DemoSettings.m in Sources */,
 				455DB3441A99D3AA00CEAEA2 /* JSQMessagesCollectionViewFlowLayoutInvalidationContext.m in Sources */,
-				455DB3601A99D3AA00CEAEA2 /* README.md in Sources */,
 				45EB7F651A73B57D006ECAD2 /* UserSettings.m in Sources */,
 				4560D3FA1A736ED800564860 /* TermsController.swift in Sources */,
 				4560D4021A73725100564860 /* DistanceSelectionController.swift in Sources */,
