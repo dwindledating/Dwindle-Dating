@@ -52,10 +52,15 @@ static NSString * const kJSQDemoAvatarIdWoz = @"309-41802-93823";
 
 @property (strong, nonatomic) NSDictionary *users;
 
+
+- (void)sendTextMessage;
+
 - (void)addPhotoMediaMessage;
 
 - (void)addLocationMediaMessageCompletion:(JSQLocationMediaItemCompletionBlock)completion;
 
 - (void)addVideoMediaMessage;
+
+
 
 @end

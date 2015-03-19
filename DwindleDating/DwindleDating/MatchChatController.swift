@@ -134,7 +134,7 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
     override func didPressAccessoryButton(sender: UIButton!) {
         
         
-        var sheet = UIActionSheet(title: "Media messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Send photo", "Send location", "Send video");
+        var sheet = UIActionSheet(title: "Media messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Send photo", "Send message");
         
         //    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Media messages"
         //    delegate:self
@@ -152,26 +152,29 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
         }
         
         switch (buttonIndex) {
-        case 0:
+        case 1:
             self.demoData.addPhotoMediaMessage();
             break;
             
-        case 1:
-            var weakView = self.collectionView as UICollectionView;
-            self.demoData.addLocationMediaMessageCompletion({ () -> Void in
-                weakView.reloadData();
-            });
+        case 2:
+            self.demoData.sendTextMessage();
+            //var weakView = self.collectionView as UICollectionView;
+            //self.demoData.addLocationMediaMessageCompletion({ () -> Void in
+            //   weakView.reloadData();
+            //});
+            
             break;
             
-        case 2:
-            self.demoData.addVideoMediaMessage();
-            break;
+            //        case 3:
+            //            self.demoData.addVideoMediaMessage();
+            //            break;
             
         default:
             
             break;
             
         }
+
         
         JSQSystemSoundPlayer.jsq_playMessageSentSound();
         self.finishSendingMessageAnimated(true);
