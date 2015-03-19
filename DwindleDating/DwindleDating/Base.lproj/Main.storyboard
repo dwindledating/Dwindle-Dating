@@ -924,7 +924,6 @@
                                 <exclude reference="hzr-aQ-Mv2"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="XH9-Ym-aVx"/>
                                 <exclude reference="7hd-1R-dvn"/>
                                 <exclude reference="bXS-y5-PkM"/>
                             </mask>
@@ -934,7 +933,7 @@
                                 <include reference="hzr-aQ-Mv2"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="XH9-Ym-aVx"/>
+                                <include reference="XH9-Ym-aVx"/>
                                 <include reference="7hd-1R-dvn"/>
                                 <include reference="bXS-y5-PkM"/>
                             </mask>
@@ -944,6 +943,8 @@
                     <connections>
                         <outlet property="collectionView" destination="Git-m8-lh1" id="a05-di-svB"/>
                         <outlet property="inputToolbar" destination="uqj-g6-zxd" id="V0O-sz-d59"/>
+                        <outlet property="toolbarBottomLayoutGuide" destination="NuY-9H-fD8" id="TMh-y3-mKP"/>
+                        <outlet property="toolbarHeightConstraint" destination="acy-Ld-zun" id="Ul7-Em-Oth"/>
                         <outlet property="topConstraint" destination="W09-Od-5eF" id="Zpo-H4-ZL0"/>
                     </connections>
                 </viewController>
