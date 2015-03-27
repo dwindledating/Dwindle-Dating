@@ -122,7 +122,7 @@
                      [[JSQMessage alloc] initWithSenderId:kJSQDemoAvatarIdCook
                                         senderDisplayName:kJSQDemoAvatarDisplayNameCook
                                                      date:[NSDate date]
-                                                     text:@"It is unit-tested, free."],
+                                                     text:@"It is unit-tested."],
                      
                      [[JSQMessage alloc] initWithSenderId:kJSQDemoAvatarIdSquires
                                         senderDisplayName:kJSQDemoAvatarDisplayNameSquires
@@ -130,7 +130,7 @@
                                                      text:@"Now with media messages!"],
                      nil];
     
-    [self addPhotoMediaMessage];
+//    [self addPhotoMediaMessage];
     
     /**
      *  Setting to load extra messages for testing/demo
@@ -156,14 +156,16 @@
     }
 }
 
-- (void)sendTextMessage{
-    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:kJSQDemoAvatarIdCook
+- (void)sendTextMessage:(NSString *)txtMsg{
+    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:kJSQDemoAvatarIdSquires
                                                   senderDisplayName:kJSQDemoAvatarDisplayNameCook
                                                                date:[NSDate date]
-                                                               text:@"Sample message that is."];
+                                                               text:txtMsg];
    [self.messages addObject:message];
 
 }
+
+
 
 - (void)addPhotoMediaMessage
 {

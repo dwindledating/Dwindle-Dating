@@ -11,14 +11,16 @@ import UIKit
 class MatchCell: UITableViewCell{
 
     
-    @IBOutlet var imgViewProfile : UIImageView!
+    @IBOutlet var imgViewProfile : RoundImageView!
     @IBOutlet var lblName   : UILabel!
     @IBOutlet var lblDetail : UILabel!
     @IBOutlet var lblTime   : UILabel!
     
     
     
-    
+//    init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+//        self = super.init(style: style, String)
+//    }
     
 
 

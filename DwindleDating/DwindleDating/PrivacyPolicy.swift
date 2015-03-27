@@ -14,7 +14,7 @@ class PrivacyPolicy: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        self.edgesForExtendedLayout = UIRectEdge.None
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -30,5 +30,11 @@ class PrivacyPolicy: UIViewController  {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func goBackPressed(sender: UIBarButtonItem) {
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     
 }

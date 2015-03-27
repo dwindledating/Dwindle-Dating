@@ -120,6 +120,15 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView .deselectRowAtIndexPath(indexPath, animated: true)
+        
+        if (indexPath.row == 2){
+            self.performSegueWithIdentifier("pushTermsController", sender: nil)
+        }
+        else if (indexPath.row == 3){
+            self.performSegueWithIdentifier("pushPrivacyController", sender: nil)
+        }
+        
+        
     }
     
     
@@ -128,10 +137,11 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
             view.layer.masksToBounds = true
             view.userInteractionEnabled = true
-            view.backgroundColor = UIColor.grayColor()
+            view.backgroundColor = UIColor.clearColor()
             view.frame = CGRectMake(0,0,tableview.frame.size.width , 80)
             let button = UIButton()
-            button.frame = CGRectMake(30,20,tableview.frame.size.width - 40, 40)
+            button.frame = CGRectMake(0,20,tableview.frame.size.width - 40, 40)
+            button.center.x = tableView.center.x
             button.backgroundColor = UIColor(red: 1.0 , green:0, blue: 75.0/255.0, alpha: 1.0)
             button.setTitle("Logout", forState: UIControlState.Normal)
             button.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)

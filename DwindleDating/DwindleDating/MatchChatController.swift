@@ -25,6 +25,47 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
         
     }
     
+    func openProfile(){
+    
+        println("openProfile")
+    
+    }
+    
+    
+    func addNavigationProfileButton(){
+    
+        
+        var img = UIImage(named:"demo_avatar_jobs")!
+        img = img.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+
+        var btnProfileImg: RoundButtonView = RoundButtonView.buttonWithType(UIButtonType.Custom) as RoundButtonView
+//        var btnProfileImg: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        btnProfileImg.setImage(img, forState: UIControlState.Normal)
+        btnProfileImg.addTarget(self, action: Selector("openProfile"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        var frame = btnProfileImg.frame
+        frame.size = CGSizeMake(44, 44)
+        btnProfileImg.frame = frame
+        
+        var barButton = UIBarButtonItem(customView: btnProfileImg)
+//        var barButton = UIBarButtonItem(image: img, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("openProfile"))
+        self.navigationItem.rightBarButtonItem = barButton
+        
+//        UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"Title"];
+//        item.rightBarButtonItem = rightButton;
+//        item.hidesBackButton = YES;
+//        
+////        UIImage *image = [[UIImage imageNamed:@"myImage.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(YOUR_METHOD:)];
+//        let imgView : UIImageView l
+//        imgViewProfile.borderWidth = 5.0
+//        imgViewProfile.sd_setImageWithURL(userImgUrl,
+//            placeholderImage: img,
+//            options:SDWebImageOptions.ContinueInBackground)
+
+        
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 //        self.navigationController?.setNavigationBarHidden(false, animated: false)
@@ -53,6 +94,7 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.addNavigationProfileButton()
         
         self.title = "Chat Controller"
         
@@ -75,12 +117,16 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
         
         self.showLoadEarlierMessagesHeader = true
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.jsq_defaultTypingIndicatorImage(), style: UIBarButtonItemStyle.Bordered, target: self, action: "receiveMessagePressed:")
+        
+        
+        
+        
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "demo_avatar_jobs"), style: UIBarButtonItemStyle.Bordered, target: self, action: "receiveMessagePressed:")
         
         
         self.jsq_configureMessagesViewController();
         self.jsq_registerForNotifications(true);
-        
+        self.inputToolbar.contentView.leftBarButtonItem = nil;
         
     }
     
@@ -134,13 +180,12 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
     override func didPressAccessoryButton(sender: UIButton!) {
         
         
-        var sheet = UIActionSheet(title: "Media messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Send photo", "Send message");
+        var sheet = UIActionSheet(title: "Quick messages",
+                                delegate:self,
+                                cancelButtonTitle: "Cancel",
+                                destructiveButtonTitle: nil,
+                                otherButtonTitles: "Send Template Message 1", "Send Template Message 2");
         
-        //    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Media messages"
-        //    delegate:self
-        //    cancelButtonTitle:@"Cancel"
-        //    destructiveButtonTitle:nil
-        //    otherButtonTitles:@"Send photo", @"Send location", @"Send video", nil];
         sheet.showFromToolbar(self.inputToolbar);
     }
     
@@ -153,11 +198,11 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
         
         switch (buttonIndex) {
         case 1:
-            self.demoData.addPhotoMediaMessage();
+            self.demoData.sendTextMessage("Sample text message 1");
             break;
             
         case 2:
-            self.demoData.sendTextMessage();
+            self.demoData.sendTextMessage("Sample text message 2");
             //var weakView = self.collectionView as UICollectionView;
             //self.demoData.addLocationMediaMessageCompletion({ () -> Void in
             //   weakView.reloadData();

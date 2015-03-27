@@ -17,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         // Override point for customization after application launch.
+//        [[UINavigationBar appearance] setBarTintColor:[UIColor yellowColor]];
+//        UINavigationBar.appearance().barTintColor = UIColor.blackColor()
+        
         
         FBLoginView.self
         FBProfilePictureView.self
@@ -29,15 +32,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         application.setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
 //        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
-
         
         println(screenWidth,screenHeight)
         
         var navigationBarAppearace = UINavigationBar.appearance()
+        
+        navigationBarAppearace.barTintColor = UIColor(red: 0/255.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
+        navigationBarAppearace?.barStyle = UIBarStyle.Default
+
         navigationBarAppearace.tintColor = UIColor.whiteColor()
         navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]  // Title's text color
 
         
+
         return true
     }
 

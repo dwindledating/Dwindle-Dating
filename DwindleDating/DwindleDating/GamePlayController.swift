@@ -77,7 +77,13 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
         
         self.showLoadEarlierMessagesHeader = true
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.jsq_defaultTypingIndicatorImage(), style: UIBarButtonItemStyle.Bordered, target: self, action: "receiveMessagePressed:")
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.jsq_defaultTypingIndicatorImage(), style: UIBarButtonItemStyle.Bordered, target: self, action: "receiveMessagePressed:")
+
+        //        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Home", style:UIBarButtonItemStyle.Bordered , target: self, action: "receiveMessagePressed:")
+
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style:UIBarButtonItemStyle.Bordered , target: self, action: "receiveMessagePressed:")
+
         
         
         self.jsq_configureMessagesViewController();
@@ -136,7 +142,7 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
     override func didPressAccessoryButton(sender: UIButton!) {
         
         
-        var sheet = UIActionSheet(title: "Media messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Send photo", "Send message");
+        var sheet = UIActionSheet(title: "Quick messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Send Template Message 1", "Send Template Message 2");
         
         //    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Media messages"
         //    delegate:self
@@ -155,11 +161,12 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
         
         switch (buttonIndex) {
         case 1:
-            self.demoData.addPhotoMediaMessage();
+//            self.demoData.addPhotoMediaMessage();
+            self.demoData.sendTextMessage("Sample text message 1");
             break;
             
         case 2:
-            self.demoData.sendTextMessage();
+            self.demoData.sendTextMessage("Sample text message 2");
             //var weakView = self.collectionView as UICollectionView;
             //self.demoData.addLocationMediaMessageCompletion({ () -> Void in
              //   weakView.reloadData();

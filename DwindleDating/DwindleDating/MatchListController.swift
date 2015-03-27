@@ -81,9 +81,11 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         if(cell_ != nil)
         {
             cell_?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            cell_?.imgViewProfile.borderWidth = 0;
             cell_?.lblName.text     = matchDict["name"] as String?
             cell_?.lblDetail.text   = matchDict["message"] as String?
             cell_?.lblTime.text     = matchDict["time"] as String?
+            cell_?.imgViewProfile.image   = UIImage(named:"demo_avatar_jobs")
         }
         
         
