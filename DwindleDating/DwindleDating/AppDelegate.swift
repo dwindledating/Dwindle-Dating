@@ -21,6 +21,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        UINavigationBar.appearance().barTintColor = UIColor.blackColor()
         
         
+//        for family in UIFont.familyNames()
+//        {
+            var family = "Helvetica Neue"
+            println("\(family)")
+            
+            for name in UIFont.fontNamesForFamilyName(family as NSString)
+            {
+                println("   \(name)")
+            }
+            
+//        }
+        
+        
         FBLoginView.self
         FBProfilePictureView.self
         

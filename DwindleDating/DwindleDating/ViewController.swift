@@ -76,8 +76,9 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
 
         txtViewPrivacy.editable = true
         txtViewPrivacy.textColor = UIColor(red: 38/255.0, green: 182/255.0, blue: 218/255.0, alpha: 1.0)
-        txtViewPrivacy.font = UIFont(name: "Helvetica", size: 12.0)
+        txtViewPrivacy.font = UIFont(name: "HelveticaNeue-Light", size: 11.0)
         txtViewPrivacy.editable = false
+        txtViewPrivacy.backgroundColor = UIColor.clearColor()
 
     }
     
@@ -113,7 +114,8 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
 //        let fontColor = [NSForegroundColorAttributeName:UIColor(red: 1.0, green:1.0, blue: 1.0, alpha: 1.0)]
 
         
-        let myfont: UIFont? = UIFont(name: "Arial", size: 8.0)
+        let myfont: UIFont? = txtViewPrivacy.font
+//        txtViewPrivacy.font = myfont
         
         let textviewAttrString = NSMutableAttributedString()
         textviewAttrString.appendAttributedString(txtViewPrivacy.attributedText)

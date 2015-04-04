@@ -128,7 +128,7 @@
                                 <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstAttribute="trailing" secondItem="VQQ-bD-9U2" secondAttribute="trailing" id="8VZ-TJ-FMY"/>
-                            <constraint firstItem="Whd-T3-vNc" firstAttribute="top" secondItem="JhP-gS-Eea" secondAttribute="bottom" constant="32" id="ADv-mh-RhU"/>
+                            <constraint firstItem="Whd-T3-vNc" firstAttribute="top" secondItem="JhP-gS-Eea" secondAttribute="bottom" constant="28" id="ADv-mh-RhU"/>
                             <constraint firstItem="VQQ-bD-9U2" firstAttribute="top" secondItem="K2Q-Dv-QK9" secondAttribute="top" id="CSK-Bc-Kq6"/>
                             <constraint firstAttribute="centerY" secondItem="1W2-gz-CpD" secondAttribute="centerY" id="J0E-as-JJ9"/>
                             <constraint firstItem="8qU-7H-bJG" firstAttribute="width" secondItem="K2Q-Dv-QK9" secondAttribute="width" multiplier="337:414" id="Ka5-9h-Gjc"/>
@@ -137,7 +137,7 @@
                             <constraint firstItem="Dfa-va-dQ2" firstAttribute="top" secondItem="OV5-st-vLn" secondAttribute="bottom" id="RLN-kg-c3n"/>
                             <constraint firstAttribute="centerY" secondItem="cYj-cf-pkh" secondAttribute="centerY" id="U2P-Pt-f5O"/>
                             <constraint firstItem="cYj-cf-pkh" firstAttribute="width" secondItem="K2Q-Dv-QK9" secondAttribute="width" multiplier="65:414" id="ULN-U0-zv9"/>
-                            <constraint firstItem="8qU-7H-bJG" firstAttribute="top" secondItem="Whd-T3-vNc" secondAttribute="bottom" constant="14" id="YOr-J5-l94"/>
+                            <constraint firstItem="8qU-7H-bJG" firstAttribute="top" secondItem="Whd-T3-vNc" secondAttribute="bottom" constant="18" id="YOr-J5-l94"/>
                             <constraint firstItem="JhP-gS-Eea" firstAttribute="leading" secondItem="cYj-cf-pkh" secondAttribute="trailing" id="aOd-Qd-9Ot"/>
                             <constraint firstItem="JhP-gS-Eea" firstAttribute="top" secondItem="gvQ-av-bl7" secondAttribute="bottom" id="aqK-nX-cI0"/>
                             <constraint firstAttribute="centerX" secondItem="gvQ-av-bl7" secondAttribute="centerX" id="cES-LG-vSj"/>
