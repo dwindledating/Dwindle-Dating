@@ -17,6 +17,6 @@
 #import "DemoModelData.h"
 #import "NSUserDefaults+DemoSettings.h"
 #import "JSQMessagesViewController.h"
-
+#import "ServiceManager.h"
 
 #endif

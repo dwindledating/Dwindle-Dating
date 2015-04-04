@@ -14,6 +14,8 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     @IBOutlet var scroller : KDCycleBannerView!
     @IBOutlet var fbLoginView : FBLoginView!
     @IBOutlet var txtViewPrivacy : UITextView!
+    
+    var cachedUserId : String!
 
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -35,6 +37,27 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     }
     
     
+    func signIn(fbId: String){
+        
+        var manager = ServiceManager()
+        
+        manager.loginWithFacebookId(fbId, sucessBlock:{ (isRegistered:Bool) -> Void in
+            println("isRegistered: \(isRegistered)")
+
+            if (isRegistered){
+                self.pushMenuController()
+            }
+            else{
+                self.pushSignUpController()
+            }
+            
+        }) { (error: NSError!) -> Void in
+              println("error: \(error)")
+        }
+
+        
+    }
+    
     func pushSignUpController(){
          performSegueWithIdentifier("showSignup", sender: nil)
     }
@@ -47,6 +70,9 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     override func viewDidAppear(animated: Bool) {
     
         super.viewDidAppear(animated)
+
+        self.fbLoginView.delegate = self
+        self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
 
         txtViewPrivacy.editable = true
         txtViewPrivacy.textColor = UIColor(red: 38/255.0, green: 182/255.0, blue: 218/255.0, alpha: 1.0)
@@ -64,13 +90,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.fbLoginView.delegate = self
-        self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
-
         self.initContentView()
-        
-//        var timer = NSTimer.scheduledTimerWithTimeInterval(2.1, target: self, selector: Selector("pushSignUpController"), userInfo: nil, repeats: false)
-        
     }
     
     
@@ -100,14 +120,12 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         textviewAttrString.addAttribute(NSFontAttributeName, value:myfont!, range: NSRange(location: 0, length: textviewAttrString.length))
         var termsDict: Dictionary<String, AnyObject> = [
             "termsTag": true,
-//            "NSForegroundColorAttributeName": fontColor,
             "NSUnderline": 1
         ]
         let termsString     = NSAttributedString(string: "Terms and Conditions", attributes: termsDict)
 
         var privacyDict: Dictionary<String, AnyObject> = [
             "privacyTag": true,
-//            "NSForegroundColorAttributeName": fontColor,
             "NSUnderline": 1
         ]
         let privacyString   = NSAttributedString(string:"Privacy Policy",attributes: privacyDict)
@@ -216,15 +234,30 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     func loginViewFetchedUserInfo(loginView : FBLoginView!, user: FBGraphUser) {
         //fbLoginView.alpha = 0
         
-        var accessToken = FBSession.activeSession().accessTokenData.accessToken
-        println("token: \(accessToken)")
-        println("User: \(user)")
-        println("User ID: \(user.objectID)")
-        println("User Name: \(user.name)")
-        var userEmail = user.objectForKey("email") as String
-        println("User Email: \(userEmail)")
+        if var cachedId = cachedUserId{
+            cachedUserId = ""
+            if (cachedUserId == user.objectID){
+                return;
+            }
+        }
         
+        
+        
+        cachedUserId = user.objectID
         var userSettings = UserSettings.loadUserSettings() as UserSettings
+//        if (!userSettings.fbId.isEmpty){
+//            return
+//        }
+
+        
+        var accessToken = FBSession.activeSession().accessTokenData.accessToken
+//        println("token: \(accessToken)")
+//        println("User: \(user)")
+//        println("User ID: \(user.objectID)")
+//        println("User Name: \(user.name)")
+//        var userEmail = user.objectForKey("email") as String
+//        println("User Email: \(userEmail)")
+        
         userSettings.fbId    = user.objectID
         userSettings.fbName  = user.name
         userSettings.saveUserSettings()
@@ -233,8 +266,10 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         println(userSettings.fbId)
         
 //        var timer = NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: Selector("pushMenuController"), userInfo: nil, repeats: false)
-        var timer = NSTimer.scheduledTimerWithTimeInterval(2.1, target: self, selector: Selector("pushSignUpController"), userInfo: nil, repeats: false)
+//        var timer = NSTimer.scheduledTimerWithTimeInterval(2.1, target: self, selector: Selector("pushSignUpController"), userInfo: nil, repeats: false)
 
+        self.signIn(userSettings.fbId)
+        
 //        self.performSegueWithIdentifier("pushSignUpController", sender: self)
     }
     
