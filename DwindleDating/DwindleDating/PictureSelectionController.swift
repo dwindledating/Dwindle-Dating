@@ -106,7 +106,8 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
                 sucessBlock: { (isRegistered:Bool) -> Void in
                     println("isRegistered: \(isRegistered)")
                     ProgressHUD.showSuccess("Registered Successfully")
-    
+                    self.performSegueWithIdentifier("showMenuController", sender: nil)
+                    
                 }) { (error: NSError!) -> Void in
                     ProgressHUD.showSuccess("Registeration Failed")
                     println("error: \(error)")
@@ -119,7 +120,7 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
     @IBAction func nextButtonPressed(sender: UIButton) {
         
         self.signup()
-//        performSegueWithIdentifier("showMenuController", sender: nil)
+//
         
     }
     

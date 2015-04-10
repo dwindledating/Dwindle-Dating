@@ -43,20 +43,24 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         println(" =======Signing IN======== ")
         println(" ========================= ")
 
-        self.pushSignUpController()
-        return
-        
+//        self.pushSignUpController()
+//        return
+
+        ProgressHUD.show("Signing in...")
+
         var manager = ServiceManager()
 
         manager.loginWithFacebookId(fbId, sucessBlock:{ (isRegistered:Bool) -> Void in
             println("isRegistered: \(isRegistered)")
 
             if (isRegistered){
-//                self.pushMenuController()
-                 self.pushSignUpController()
+                self.pushMenuController()
+//                 self.pushSignUpController()
+                ProgressHUD.dismiss()
             }
             else{
                 self.pushSignUpController()
+                ProgressHUD.dismiss()
             }
             
         }) { (error: NSError!) -> Void in
