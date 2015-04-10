@@ -15,10 +15,27 @@
                     failure:(void (^)(NSError *error))failureBlock{
     
     
-    NSDictionary *params = @{@"":fbId};
+    NSDictionary *params = @{@"fb_id":fbId};
+//    NSArray *params = @[fbId];
     
-    [super makeRequestWithUrl:nil
-                andParameters:nil
+//    [super makeRequestWithMethod:@"login"
+//                   andParameters:params
+//                    withResponse:^(id response) {
+//                        
+//                        //GOT PRODUCTS PARSE IT
+//                        NSDictionary *responseDict = (NSDictionary*)response;
+//                        BOOL isRegistered = ([responseDict[@"status"] isEqualToString:@"NotRegistered"]) ? false : true;
+//                        successBlock(isRegistered);
+//                    
+//                    }failure:^(NSError *error) {
+//                    
+//                        failureBlock (error);
+//                        
+//                    }];
+    
+    
+    [super makeRequestWithUrl:@"login"
+                andParameters:params
               withRequestType:RequestType_GET
              withResponseType:ResponseType_JSON
              withHeaderValues:nil
@@ -34,7 +51,9 @@
                      failureBlock (error);
                  }];
     
-
+//    http://52.11.98.82:3000/login?fb_id=facebookID
+//    http://52.11.98.82:3000/login?fb_id=637824466345948
+    
 }
 
 @end

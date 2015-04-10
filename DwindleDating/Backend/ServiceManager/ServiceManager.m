@@ -11,6 +11,7 @@
 #import "DBProductsService.h"
 
 #import "LoginNetworkService.h"
+#import "SignUpNetworkService.h"
 
 
 @implementation ServiceManager
@@ -35,6 +36,35 @@
     
 }
 
+
+-(void) signupWithFacebookId:(NSString*)fbId
+                      gender:(NSString*)gender
+              requiredGender:(NSString*)reqGender
+                     fromAge:(NSString*)fromAge
+                       toAge:(NSString*)toAge
+                    distance:(NSString*)distance
+                      images:(NSArray*)images
+                 sucessBlock:(void (^)(BOOL isRegistered))successBlock
+                     failure:(void (^)(NSError *error))failureBlock{
+    
+    SignUpNetworkService *networkService = [SignUpNetworkService new];
+    [networkService signupWithFacebookId:fbId
+                                  gender:gender
+                          requiredGender:reqGender
+                                 fromAge:fromAge
+                                   toAge:toAge
+                                distance:distance
+                                  images:images
+                             sucessBlock:^(BOOL isRegistered) {
+                                successBlock(isRegistered);
+                             } failure:^(NSError *error) {
+                                failureBlock(error);
+                             }];
+    
+}
+
+
+//=======================
 -(void) getProductsWithNameOrder:(BOOL)nameOrder
                       priceOrder:(BOOL)priceOrder
                       brandOrder:(BOOL)brandOrder

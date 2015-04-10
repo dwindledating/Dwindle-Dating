@@ -38,14 +38,22 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     
     
     func signIn(fbId: String){
+
+        println(" ========================= ")
+        println(" =======Signing IN======== ")
+        println(" ========================= ")
+
+        self.pushSignUpController()
+        return
         
         var manager = ServiceManager()
-        
+
         manager.loginWithFacebookId(fbId, sucessBlock:{ (isRegistered:Bool) -> Void in
             println("isRegistered: \(isRegistered)")
 
             if (isRegistered){
-                self.pushMenuController()
+//                self.pushMenuController()
+                 self.pushSignUpController()
             }
             else{
                 self.pushSignUpController()
@@ -55,6 +63,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
               println("error: \(error)")
         }
 
+        
         
     }
     
@@ -79,6 +88,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         txtViewPrivacy.font = UIFont(name: "HelveticaNeue-Light", size: 11.0)
         txtViewPrivacy.editable = false
         txtViewPrivacy.backgroundColor = UIColor.clearColor()
+        
 
     }
     
@@ -107,15 +117,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         txtViewPrivacy.addGestureRecognizer(tapGesture)
     
         let paragraph = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as NSMutableParagraphStyle
-//        paragraph.alignment = NSTextAlignment.Center
-//        paragraph.lineSpacing = 3.0
-        
-        // Create locally formatted strings
-//        let fontColor = [NSForegroundColorAttributeName:UIColor(red: 1.0, green:1.0, blue: 1.0, alpha: 1.0)]
-
-        
         let myfont: UIFont? = txtViewPrivacy.font
-//        txtViewPrivacy.font = myfont
         
         let textviewAttrString = NSMutableAttributedString()
         textviewAttrString.appendAttributedString(txtViewPrivacy.attributedText)
@@ -183,11 +185,8 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             
         }
         
-        
-        
     }
     
-
     
     // MARK : KDCycleBannerView DELEGATE
     func placeHolderImageOfBannerView(bannerView: KDCycleBannerView!, atIndex index: UInt) -> UIImage! {
@@ -237,42 +236,28 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         //fbLoginView.alpha = 0
         
         if var cachedId = cachedUserId{
-            cachedUserId = ""
             if (cachedUserId == user.objectID){
                 return;
             }
+        }
+        else{
+            // cacheId is nil
         }
         
         
         
         cachedUserId = user.objectID
         var userSettings = UserSettings.loadUserSettings() as UserSettings
-//        if (!userSettings.fbId.isEmpty){
-//            return
-//        }
 
         
         var accessToken = FBSession.activeSession().accessTokenData.accessToken
-//        println("token: \(accessToken)")
-//        println("User: \(user)")
-//        println("User ID: \(user.objectID)")
-//        println("User Name: \(user.name)")
-//        var userEmail = user.objectForKey("email") as String
-//        println("User Email: \(userEmail)")
         
         userSettings.fbId    = user.objectID
         userSettings.fbName  = user.name
         userSettings.saveUserSettings()
         
-        println(userSettings.fbName)
-        println(userSettings.fbId)
-        
-//        var timer = NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: Selector("pushMenuController"), userInfo: nil, repeats: false)
-//        var timer = NSTimer.scheduledTimerWithTimeInterval(2.1, target: self, selector: Selector("pushSignUpController"), userInfo: nil, repeats: false)
-
         self.signIn(userSettings.fbId)
         
-//        self.performSegueWithIdentifier("pushSignUpController", sender: self)
     }
     
     func loginViewShowingLoggedOutUser(loginView : FBLoginView!) {

@@ -11,6 +11,7 @@
 
 #import <FacebookSDK/FacebookSDK.h>
 #import "KDCycleBannerView.h"
+#import "ProgressHUD.h"
 #import "UIImageView+WebCache.h"
 #import "UserSettings.h"
 
@@ -18,5 +19,6 @@
 #import "NSUserDefaults+DemoSettings.h"
 #import "JSQMessagesViewController.h"
 #import "ServiceManager.h"
+
 
 #endif

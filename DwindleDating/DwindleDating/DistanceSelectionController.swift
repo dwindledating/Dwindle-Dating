@@ -39,6 +39,15 @@ class DistanceSelectionController: UIViewController ,UIPickerViewDataSource,UIPi
     
     @IBAction func nextButtonPressed(sender: UIButton) {
         
+        
+        let distance : Int =  pickerViewDistance.selectedRowInComponent(0)
+        var distanceStr = String(distance)
+        
+        
+        var settings = UserSettings.loadUserSettings()
+        settings.userDistance    = distanceStr
+        settings.saveUserSettings()
+        
         performSegueWithIdentifier("showPictureSelector", sender: nil)
         
     }

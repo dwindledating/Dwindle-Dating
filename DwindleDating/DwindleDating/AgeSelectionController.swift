@@ -40,6 +40,24 @@ class AgeSelectionController: UIViewController ,UIPickerViewDataSource,UIPickerV
     
     @IBAction func nextButtonPressed(sender: UIButton) {
         
+        var gender :NSString = "M"
+        if(sender.tag == 1){
+            gender = "F"
+        }
+        
+        
+        let ageFrom : Int =  pickerViewFrom.selectedRowInComponent(0)
+        var ageFromStr = String(ageFrom)
+        
+        let ageto : Int =  pickerViewTo.selectedRowInComponent(0)
+        var ageToStr = String(ageto)
+        
+        
+        var settings = UserSettings.loadUserSettings()
+        settings.userAgeFrom    = ageFromStr
+        settings.userAgeTo      = ageToStr
+        settings.saveUserSettings()
+        
         performSegueWithIdentifier("showDistanceSelector", sender: nil)
         
     }

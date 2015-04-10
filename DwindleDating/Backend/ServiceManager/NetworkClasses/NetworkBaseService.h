@@ -40,4 +40,12 @@ typedef enum {
                       failure:(void (^)(NSError *error))fail;
 
 
+-(void) uploadRequestWithUrl:(NSString*)URLString
+               andParameters:(NSDictionary*)params
+          andImageParameters:(NSArray*)imagesArr
+            withResponseType:(ResponseType)responseType
+            withHeaderValues:(NSDictionary*)headerParams
+                withResponse:(void (^)(id response))success
+                     failure:(void (^)(NSError *error))fail;
+
 @end

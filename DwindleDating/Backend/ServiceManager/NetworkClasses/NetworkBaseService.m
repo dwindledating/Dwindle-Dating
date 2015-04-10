@@ -9,7 +9,7 @@
 #import "NetworkBaseService.h"
 #import "AFHTTPRequestOperationManager.h"
 
-NSString *const kApp_BaseUrl = @"http://52.11.98.82:3000/login/637824466345948";
+NSString *const kApp_BaseUrl = @"http://52.11.98.82:3000/";
 
 @implementation NetworkBaseService
 
@@ -52,8 +52,72 @@ NSString *const kApp_BaseUrl = @"http://52.11.98.82:3000/login/637824466345948";
 
 
 
+-(void) uploadRequestWithUrl:(NSString*)URLString
+               andParameters:(NSDictionary*)params
+          andImageParameters:(NSArray*)imagesArr
+            withResponseType:(ResponseType)responseType
+            withHeaderValues:(NSDictionary*)headerParams
+                withResponse:(void (^)(id response))success
+                     failure:(void (^)(NSError *error))fail{
+    
+    if(URLString == nil){
+        URLString = kApp_BaseUrl;
+    }
+    else{
+        URLString = [NSString stringWithFormat:@"%@%@",kApp_BaseUrl,URLString];
+    }
+
+    
+
+
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST"
+                             URLString:URLString
+                            parameters:params
+             constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    
+                int imgNo = 1;
+                for(UIImage *img in imagesArr)
+                {
+                    NSData *imgData = UIImagePNGRepresentation(img);
+                    NSString *imgName = [NSString stringWithFormat:@"image%d.png",imgNo];
+                    [formData appendPartWithFileData: imgData
+                                                name:@"image"
+                                            fileName:imgName
+                                            mimeType:@"image/png"];
+                }
+                 
+                
+                
+                 for (NSString *key in params.allKeys) {
+                     NSMutableData *data = [[NSMutableData alloc] init];
+                     [data appendData:[params[key] dataUsingEncoding:NSUTF8StringEncoding]];
+                     [formData appendPartWithFormData:data name:key];
+                 }
+                 
+
+                 
+             } error:nil];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    
+    AFHTTPRequestOperation *op = [manager HTTPRequestOperationWithRequest:request success: ^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"response: %@", responseObject);
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        fail(error);
+    }];
+    op.responseSerializer = [AFJSONResponseSerializer serializer];
+    [op start];
+
+    
+}
+
+
+
 -(void) makeRequestWithUrl:(NSString*)url
-             andParameters:(NSDictionary*)params
+             andParameters:(id)params
            withRequestType:(RequestType)requestType
           withResponseType:(ResponseType)responseType
           withHeaderValues:(NSDictionary*)headerParams
@@ -62,6 +126,9 @@ NSString *const kApp_BaseUrl = @"http://52.11.98.82:3000/login/637824466345948";
     
     if(url == nil){
         url = kApp_BaseUrl;
+    }
+    else{
+        url = [NSString stringWithFormat:@"%@%@",kApp_BaseUrl,url];
     }
 
     
@@ -99,7 +166,7 @@ NSString *const kApp_BaseUrl = @"http://52.11.98.82:3000/login/637824466345948";
         }
         
         [manager GET:url
-          parameters:nil
+          parameters:params
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  success(responseObject);
              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

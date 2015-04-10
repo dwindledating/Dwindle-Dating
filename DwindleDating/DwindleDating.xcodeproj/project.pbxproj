@@ -106,6 +106,9 @@
 		4591A78C1ACE6D3D001DED1C /* ProductsNetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4591A7831ACE6D3D001DED1C /* ProductsNetworkService.m */; };
 		4591A78D1ACE6D3D001DED1C /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4591A7851ACE6D3D001DED1C /* ServiceManager.m */; };
 		4591A7911ACE7A71001DED1C /* LoginNetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4591A7901ACE7A71001DED1C /* LoginNetworkService.m */; };
+		45A1524A1AD7B31B002C4D1C /* ProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45A152471AD7B31B002C4D1C /* ProgressHUD.bundle */; };
+		45A1524B1AD7B31B002C4D1C /* ProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A152491AD7B31B002C4D1C /* ProgressHUD.m */; };
+		45A883231AD4597A00472783 /* SignUpNetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A883221AD4597A00472783 /* SignUpNetworkService.m */; };
 		45AEF4B11A8764F5003BAF17 /* DDCustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AEF4B01A8764F5003BAF17 /* DDCustomSegue.m */; };
 		45AEF4B31A876580003BAF17 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45AEF4B21A876580003BAF17 /* QuartzCore.framework */; };
 		45C99D751A69D1DF00AC0DFC /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C99D741A69D1DF00AC0DFC /* FacebookSDK.framework */; };
@@ -322,6 +325,11 @@
 		4591A7851ACE6D3D001DED1C /* ServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceManager.m; sourceTree = "<group>"; };
 		4591A78F1ACE7A71001DED1C /* LoginNetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginNetworkService.h; path = LoginNetworkService/LoginNetworkService.h; sourceTree = "<group>"; };
 		4591A7901ACE7A71001DED1C /* LoginNetworkService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginNetworkService.m; path = LoginNetworkService/LoginNetworkService.m; sourceTree = "<group>"; };
+		45A152471AD7B31B002C4D1C /* ProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ProgressHUD.bundle; sourceTree = "<group>"; };
+		45A152481AD7B31B002C4D1C /* ProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressHUD.h; sourceTree = "<group>"; };
+		45A152491AD7B31B002C4D1C /* ProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressHUD.m; sourceTree = "<group>"; };
+		45A883211AD4597A00472783 /* SignUpNetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignUpNetworkService.h; path = SignUpNetworkService/SignUpNetworkService.h; sourceTree = "<group>"; };
+		45A883221AD4597A00472783 /* SignUpNetworkService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignUpNetworkService.m; path = SignUpNetworkService/SignUpNetworkService.m; sourceTree = "<group>"; };
 		45AEF4AF1A8764F5003BAF17 /* DDCustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCustomSegue.h; sourceTree = "<group>"; };
 		45AEF4B01A8764F5003BAF17 /* DDCustomSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCustomSegue.m; sourceTree = "<group>"; };
 		45AEF4B21A876580003BAF17 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -767,6 +775,7 @@
 			children = (
 				4591A77F1ACE6D3D001DED1C /* NetworkBaseService.h */,
 				4591A7801ACE6D3D001DED1C /* NetworkBaseService.m */,
+				45A883201AD4595E00472783 /* SignUpNetworkService */,
 				4591A78E1ACE7879001DED1C /* LoginNetworkService */,
 				4591A7811ACE6D3D001DED1C /* ProductsNetworkService */,
 			);
@@ -791,6 +800,25 @@
 			name = LoginNetworkService;
 			sourceTree = "<group>";
 		};
+		45A152461AD7B31B002C4D1C /* ProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				45A152471AD7B31B002C4D1C /* ProgressHUD.bundle */,
+				45A152481AD7B31B002C4D1C /* ProgressHUD.h */,
+				45A152491AD7B31B002C4D1C /* ProgressHUD.m */,
+			);
+			path = ProgressHUD;
+			sourceTree = "<group>";
+		};
+		45A883201AD4595E00472783 /* SignUpNetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				45A883211AD4597A00472783 /* SignUpNetworkService.h */,
+				45A883221AD4597A00472783 /* SignUpNetworkService.m */,
+			);
+			name = SignUpNetworkService;
+			sourceTree = "<group>";
+		};
 		45AEF4AE1A8764F5003BAF17 /* CustomSegue */ = {
 			isa = PBXGroup;
 			children = (
@@ -812,6 +840,7 @@
 		45C99D721A69D1DF00AC0DFC /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				45A152461AD7B31B002C4D1C /* ProgressHUD */,
 				4591A7521ACE6C09001DED1C /* AFNetworking */,
 				455DB2B81A99D3AA00CEAEA2 /* ChatController */,
 				457290D61A71AD9100FD5251 /* KDCycleBannerView */,
@@ -938,6 +967,7 @@
 			files = (
 				458D3C9A1A68442100A0BD6B /* Main.storyboard in Resources */,
 				458D3C9F1A68442100A0BD6B /* LaunchScreen.xib in Resources */,
+				45A1524A1AD7B31B002C4D1C /* ProgressHUD.bundle in Resources */,
 				455DB35D1A99D3AA00CEAEA2 /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
 				455DB33D1A99D3AA00CEAEA2 /* JSQMessagesViewController.xib in Resources */,
 				455DB3331A99D3AA00CEAEA2 /* JSQMessagesAssets.bundle in Resources */,
@@ -999,6 +1029,7 @@
 				45DBF22C1A73EBFF0055D3CB /* MenuController.swift in Sources */,
 				4560D3FE1A73723A00564860 /* GenderSelectionController.swift in Sources */,
 				455DB33C1A99D3AA00CEAEA2 /* JSQMessagesViewController.m in Sources */,
+				45A883231AD4597A00472783 /* SignUpNetworkService.m in Sources */,
 				458D3C971A68442100A0BD6B /* ViewController.swift in Sources */,
 				4560D4001A73724300564860 /* AgeSelectionController.swift in Sources */,
 				455DB3561A99D3AA00CEAEA2 /* JSQMessagesLabel.m in Sources */,
@@ -1019,6 +1050,7 @@
 				455DB3371A99D3AA00CEAEA2 /* UIColor+JSQMessages.m in Sources */,
 				4591A76E1ACE6C09001DED1C /* AFURLSessionManager.m in Sources */,
 				455DB33B1A99D3AA00CEAEA2 /* JSQMessagesKeyboardController.m in Sources */,
+				45A1524B1AD7B31B002C4D1C /* ProgressHUD.m in Sources */,
 				455DB3351A99D3AA00CEAEA2 /* JSQSystemSoundPlayer+JSQMessages.m in Sources */,
 				455DB3471A99D3AA00CEAEA2 /* JSQMediaItem.m in Sources */,
 				455DB3591A99D3AA00CEAEA2 /* JSQMessagesMediaPlaceholderView.m in Sources */,

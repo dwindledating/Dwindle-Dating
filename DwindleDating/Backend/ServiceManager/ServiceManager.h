@@ -23,6 +23,16 @@
 
 
 
+-(void) signupWithFacebookId:(NSString*)fbId
+                      gender:(NSString*)gender
+              requiredGender:(NSString*)reqGender
+                     fromAge:(NSString*)fromAge
+                       toAge:(NSString*)toAge
+                    distance:(NSString*)distance
+                      images:(NSArray*)images
+                sucessBlock:(void (^)(BOOL isRegistered))successBlock
+                    failure:(void (^)(NSError *error))failureBlock;
+
 
 
 

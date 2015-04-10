@@ -23,14 +23,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 //        for family in UIFont.familyNames()
 //        {
-            var family = "Helvetica Neue"
-            println("\(family)")
-            
-            for name in UIFont.fontNamesForFamilyName(family as NSString)
-            {
-                println("   \(name)")
-            }
-            
+//            var family = "Helvetica Neue"
+//            println("\(family)")
+//            
+//            for name in UIFont.fontNamesForFamilyName(family as NSString)
+//            {
+//                println("   \(name)")
+//            }
+        
 //        }
         
         

@@ -29,13 +29,14 @@ class GenderSelectionController: UIViewController  {
     
     @IBAction func genderSelected(sender: UIButton) {
         
-        var gender = "M"
+        var gender :NSString = "M"
         if(sender.tag == 1){
             gender = "F"
         }
-
-        UserSettings.loadUserSettings().userGender = gender
-        UserSettings.loadUserSettings().saveUserSettings()
+        
+        var settings = UserSettings.loadUserSettings()
+        settings.userGender = gender
+        settings.saveUserSettings()
         
         performSegueWithIdentifier("showAgeSelector", sender: nil)
         
