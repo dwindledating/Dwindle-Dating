@@ -66,14 +66,16 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
     
     
     func signup (){
-       
+        self.performSegueWithIdentifier("showMenuController", sender: nil)
+
+        return
         
-        if(!self.validateAllImages()){
-            let myAlert: UIAlertController = UIAlertController(title: title, message: "Please provide all 5 images to proceed", preferredStyle: .Alert)
-            myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            self.presentViewController(myAlert, animated: true, completion: nil)
-            return
-        }
+//        if(!self.validateAllImages()){
+//            let myAlert: UIAlertController = UIAlertController(title: title, message: "Please provide all 5 images to proceed", preferredStyle: .Alert)
+//            myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+//            self.presentViewController(myAlert, animated: true, completion: nil)
+//            return
+//        }
         
         println("validate all images\(self.validateAllImages())")
         var settings = UserSettings.loadUserSettings()

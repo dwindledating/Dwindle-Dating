@@ -24,6 +24,9 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate, Soc
     
     var demoData: DemoModelData!
     
+    
+    
+    
     func receiveMessagePressed(sender: UIBarButtonItem){
         
         
@@ -35,6 +38,12 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate, Soc
         
     }
     
+     // MARK : - Action Methods
+    
+    @IBAction func openImageGallery(sender: AnyObject) {
+        
+        
+    }
     
     // MARK : - Utilty Methods
     
@@ -272,7 +281,7 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate, Soc
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.collectionView.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();
-        var timer = NSTimer.scheduledTimerWithTimeInterval(1.1, target: self, selector: Selector("gamePlay"), userInfo: nil, repeats: false)
+//        var timer = NSTimer.scheduledTimerWithTimeInterval(1.1, target: self, selector: Selector("gamePlay"), userInfo: nil, repeats: false)
 
         
 //        self.resizeCollectionView(50)

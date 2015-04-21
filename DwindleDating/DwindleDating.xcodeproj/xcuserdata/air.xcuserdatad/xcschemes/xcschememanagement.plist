@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>DevDwindleDating.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>DwindleDating.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +17,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>451BC5E91AE6E65D003E1C2D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>458D3C8E1A68442100A0BD6B</key>
 		<dict>
 			<key>primary</key>
