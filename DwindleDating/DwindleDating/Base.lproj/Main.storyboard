@@ -267,7 +267,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menuBg" translatesAutoresizingMaskIntoConstraints="NO" id="aze-7D-p8l">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="rhz-Kn-R47">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_new" translatesAutoresizingMaskIntoConstraints="NO" id="rhz-Kn-R47">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                             </imageView>
                             <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cPF-yB-KDz">
@@ -755,6 +755,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iU0-KU-V65" customClass="RoundButtonView" customModule="DwindleDating" customModuleProvider="target">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" constant="44" id="G0D-gr-xLq"/>
                                             <constraint firstAttribute="width" secondItem="iU0-KU-V65" secondAttribute="height" multiplier="1:1" id="OFL-QM-QHl"/>
                                         </constraints>
                                         <state key="normal" image="demo_avatar_jobs">
@@ -762,11 +763,13 @@
                                         </state>
                                         <variation key="default">
                                             <mask key="constraints">
+                                                <exclude reference="G0D-gr-xLq"/>
                                                 <exclude reference="OFL-QM-QHl"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=compact">
                                             <mask key="constraints">
+                                                <include reference="G0D-gr-xLq"/>
                                                 <include reference="OFL-QM-QHl"/>
                                             </mask>
                                         </variation>
@@ -796,15 +799,13 @@
                                         </state>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="PUn-QW-Fp7" firstAttribute="top" secondItem="hzr-aQ-Mv2" secondAttribute="top" constant="6" id="17G-nU-H15"/>
-                                    <constraint firstAttribute="height" constant="55" id="9Z5-p1-pDp"/>
                                     <constraint firstItem="ItI-zG-iz2" firstAttribute="leading" secondItem="iU0-KU-V65" secondAttribute="trailing" constant="12" id="Aso-GV-Wt5"/>
                                     <constraint firstItem="PUn-QW-Fp7" firstAttribute="width" secondItem="ItI-zG-iz2" secondAttribute="width" id="DCT-VJ-HKi"/>
                                     <constraint firstItem="ItI-zG-iz2" firstAttribute="height" secondItem="iU0-KU-V65" secondAttribute="height" id="DQ5-5U-hDE"/>
                                     <constraint firstItem="4r3-iP-1tY" firstAttribute="top" secondItem="hzr-aQ-Mv2" secondAttribute="top" constant="6" id="Fsz-be-XLX"/>
-                                    <constraint firstItem="iU0-KU-V65" firstAttribute="leading" secondItem="hzr-aQ-Mv2" secondAttribute="leading" constant="24" id="IV6-aH-oGc"/>
                                     <constraint firstItem="ItI-zG-iz2" firstAttribute="top" secondItem="hzr-aQ-Mv2" secondAttribute="top" constant="6" id="PIt-5v-ACR"/>
                                     <constraint firstItem="4r3-iP-1tY" firstAttribute="width" secondItem="Byn-SX-e8b" secondAttribute="width" id="Q0a-wx-uxh"/>
                                     <constraint firstItem="iU0-KU-V65" firstAttribute="top" secondItem="hzr-aQ-Mv2" secondAttribute="top" constant="6" id="QlZ-ml-LfO"/>
@@ -829,7 +830,6 @@
                                         <exclude reference="Byn-SX-e8b"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <exclude reference="9Z5-p1-pDp"/>
                                         <exclude reference="Fsz-be-XLX"/>
                                         <exclude reference="Q0a-wx-uxh"/>
                                         <exclude reference="WVM-Y0-yN4"/>
@@ -847,7 +847,6 @@
                                         <exclude reference="DCT-VJ-HKi"/>
                                         <exclude reference="u8H-TL-wEJ"/>
                                         <exclude reference="ye7-yF-FSM"/>
-                                        <exclude reference="IV6-aH-oGc"/>
                                         <exclude reference="QlZ-ml-LfO"/>
                                         <exclude reference="UUr-do-iOK"/>
                                     </mask>
@@ -861,7 +860,6 @@
                                         <include reference="Byn-SX-e8b"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <include reference="9Z5-p1-pDp"/>
                                         <include reference="Fsz-be-XLX"/>
                                         <include reference="Q0a-wx-uxh"/>
                                         <include reference="WVM-Y0-yN4"/>
@@ -879,7 +877,6 @@
                                         <include reference="DCT-VJ-HKi"/>
                                         <include reference="u8H-TL-wEJ"/>
                                         <include reference="ye7-yF-FSM"/>
-                                        <include reference="IV6-aH-oGc"/>
                                         <include reference="QlZ-ml-LfO"/>
                                         <include reference="UUr-do-iOK"/>
                                     </mask>
@@ -911,13 +908,13 @@
                             <constraint firstAttribute="bottom" secondItem="uqj-g6-zxd" secondAttribute="bottom" id="NuY-9H-fD8"/>
                             <constraint firstItem="uqj-g6-zxd" firstAttribute="leading" secondItem="yPO-9R-yaP" secondAttribute="leading" id="P9f-Fe-Pf6"/>
                             <constraint firstItem="Git-m8-lh1" firstAttribute="leading" secondItem="yPO-9R-yaP" secondAttribute="leading" id="Rn4-nF-G97"/>
-                            <constraint firstItem="Git-m8-lh1" firstAttribute="top" secondItem="yPO-9R-yaP" secondAttribute="top" constant="55" id="W09-Od-5eF">
-                                <variation key="heightClass=regular-widthClass=compact" constant="55"/>
-                            </constraint>
                             <constraint firstItem="Git-m8-lh1" firstAttribute="top" secondItem="hzr-aQ-Mv2" secondAttribute="bottom" id="XH9-Ym-aVx"/>
                             <constraint firstAttribute="trailing" secondItem="hzr-aQ-Mv2" secondAttribute="trailing" id="bXS-y5-PkM"/>
                             <constraint firstAttribute="trailing" secondItem="uqj-g6-zxd" secondAttribute="trailing" id="hhI-Cl-1F0"/>
                             <constraint firstAttribute="bottom" secondItem="Git-m8-lh1" secondAttribute="bottom" id="i17-7O-p55"/>
+                            <constraint firstItem="hzr-aQ-Mv2" firstAttribute="height" secondItem="yPO-9R-yaP" secondAttribute="height" multiplier="55:504" id="okh-lt-frC">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -926,6 +923,7 @@
                             <mask key="constraints">
                                 <exclude reference="7hd-1R-dvn"/>
                                 <exclude reference="bXS-y5-PkM"/>
+                                <exclude reference="okh-lt-frC"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -933,9 +931,10 @@
                                 <include reference="hzr-aQ-Mv2"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="XH9-Ym-aVx"/>
                                 <include reference="7hd-1R-dvn"/>
                                 <include reference="bXS-y5-PkM"/>
+                                <include reference="okh-lt-frC"/>
+                                <include reference="XH9-Ym-aVx"/>
                             </mask>
                         </variation>
                     </view>
@@ -945,7 +944,6 @@
                         <outlet property="inputToolbar" destination="uqj-g6-zxd" id="V0O-sz-d59"/>
                         <outlet property="toolbarBottomLayoutGuide" destination="NuY-9H-fD8" id="TMh-y3-mKP"/>
                         <outlet property="toolbarHeightConstraint" destination="acy-Ld-zun" id="Ul7-Em-Oth"/>
-                        <outlet property="topConstraint" destination="W09-Od-5eF" id="Zpo-H4-ZL0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pRi-hL-Mmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2211,7 +2209,7 @@
         <image name="genderFemale" width="154" height="148"/>
         <image name="genderMale" width="154" height="148"/>
         <image name="image1.png" width="800" height="500"/>
-        <image name="logo" width="245" height="110"/>
+        <image name="logo_new" width="245" height="112"/>
         <image name="matches" width="109" height="107"/>
         <image name="menuBg" width="320" height="568"/>
         <image name="play" width="109" height="107"/>
