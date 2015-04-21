@@ -76,15 +76,15 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var cell_ : MatchCell? = tableView.dequeueReusableCellWithIdentifier("matchIdentifier") as? MatchCell
-        var matchDict = namesArr[indexPath.row] as NSDictionary
+        var matchDict = namesArr[indexPath.row] as! NSDictionary
         
         if(cell_ != nil)
         {
             cell_?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             cell_?.imgViewProfile.borderWidth = 0;
-            cell_?.lblName.text     = matchDict["name"] as String?
-            cell_?.lblDetail.text   = matchDict["message"] as String?
-            cell_?.lblTime.text     = matchDict["time"] as String?
+            cell_?.lblName.text     = matchDict["name"] as? String
+            cell_?.lblDetail.text   = matchDict["message"] as? String
+            cell_?.lblTime.text     = matchDict["time"] as? String
             cell_?.imgViewProfile.image   = UIImage(named:"demo_avatar_jobs")
         }
         

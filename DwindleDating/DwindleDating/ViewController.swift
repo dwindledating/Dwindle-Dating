@@ -22,7 +22,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
         if(segue.identifier == "showSignup") {
             
-            var signupVC = (segue.destinationViewController as SignupController)
+            var signupVC = (segue.destinationViewController as! SignupController)
             
             //Set Profile Image
             let urlPath: String = "http://graph.facebook.com/"  + UserSettings.loadUserSettings().fbId + "/picture?type=large"
@@ -43,10 +43,10 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         println(" =======Signing IN======== ")
         println(" ========================= ")
 
-//        self.pushSignUpController()
-//        return
+        self.pushMenuController()
+        return
 
-        ProgressHUD.show("Signing in...")
+//        ProgressHUD.show("Signing in...")
 
         var manager = ServiceManager()
 
@@ -89,11 +89,10 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
 
         txtViewPrivacy.editable = true
         txtViewPrivacy.textColor = UIColor(red: 38/255.0, green: 182/255.0, blue: 218/255.0, alpha: 1.0)
-        txtViewPrivacy.font = UIFont(name: "HelveticaNeue-Light", size: 11.0)
+        txtViewPrivacy.font = UIFont(name: "HelveticaNeue-CondensedBold", size: 11.0)
         txtViewPrivacy.editable = false
         txtViewPrivacy.backgroundColor = UIColor.clearColor()
         
-
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -120,7 +119,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         var tapGesture = UITapGestureRecognizer(target: self, action: "textTapped:")
         txtViewPrivacy.addGestureRecognizer(tapGesture)
     
-        let paragraph = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as NSMutableParagraphStyle
+        let paragraph = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
         let myfont: UIFont? = txtViewPrivacy.font
         
         let textviewAttrString = NSMutableAttributedString()

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14D130a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A7T-DZ-deN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A7T-DZ-deN">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -1048,6 +1048,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="hpk-aA-Aac" secondAttribute="height" multiplier="141:19" id="5z5-dv-E9W"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Next">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1066,7 +1067,7 @@
                                     <action selector="nextButtonPressed:" destination="QoL-vX-WS1" eventType="touchUpInside" id="hra-qs-pKX"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's get started," textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UL5-0Q-lFo">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's get started," textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UL5-0Q-lFo">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="UL5-0Q-lFo" secondAttribute="height" multiplier="50:11" id="ghQ-sC-0Br"/>
@@ -1248,14 +1249,12 @@
                                     <action selector="genderSelected:" destination="kku-bR-39j" eventType="touchUpInside" id="cGR-yr-HfT"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y7h-Ec-u8Z">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First, choose the gender you would like to be matched with." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y7h-Ec-u8Z">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Y7h-Ec-u8Z" secondAttribute="height" multiplier="251:51" id="2WZ-YA-bBA"/>
                                 </constraints>
-                                <string key="text">What gender would you like 
-to go on a Dwindle Date with?</string>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="22"/>
                                 <color key="textColor" red="0.0" green="0.50588235290000005" blue="0.68235294120000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
@@ -1307,7 +1306,9 @@ to go on a Dwindle Date with?</string>
                             <constraint firstItem="JhW-eU-enO" firstAttribute="top" secondItem="Rjr-P0-9vc" secondAttribute="bottom" id="OIv-5w-oLV"/>
                             <constraint firstAttribute="trailingMargin" secondItem="4jt-Br-Nx7" secondAttribute="trailing" constant="67" id="Thb-RC-jcN"/>
                             <constraint firstItem="b7Q-6b-W3Q" firstAttribute="centerX" secondItem="Y7h-Ec-u8Z" secondAttribute="centerX" constant="-0.5" id="Z3D-r9-FFB"/>
-                            <constraint firstItem="4jt-Br-Nx7" firstAttribute="top" secondItem="b7Q-6b-W3Q" secondAttribute="bottom" constant="36" id="c3W-6E-H5I"/>
+                            <constraint firstItem="4jt-Br-Nx7" firstAttribute="top" secondItem="b7Q-6b-W3Q" secondAttribute="bottom" constant="36" id="c3W-6E-H5I">
+                                <variation key="heightClass=regular-widthClass=compact" constant="-20"/>
+                            </constraint>
                             <constraint firstItem="Y7h-Ec-u8Z" firstAttribute="top" secondItem="Rjr-P0-9vc" secondAttribute="bottom" constant="18" id="hyk-Sn-sLW"/>
                             <constraint firstItem="4jt-Br-Nx7" firstAttribute="leading" secondItem="7ff-Cg-RAd" secondAttribute="leadingMargin" constant="67" id="wws-DI-CcG"/>
                         </constraints>
@@ -1374,14 +1375,12 @@ to go on a Dwindle Date with?</string>
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OcO-Al-op0">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next, choose your desired age range." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OcO-Al-op0">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="OcO-Al-op0" secondAttribute="height" multiplier="131:30" id="HHC-rr-6wb"/>
                                 </constraints>
-                                <string key="text">What age group of people would 
-you like to connect with?</string>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="22"/>
                                 <color key="textColor" red="0.0" green="0.50588235290000005" blue="0.68235294120000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
@@ -1453,8 +1452,8 @@ you like to connect with?</string>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="PE0-6m-t56" secondAttribute="height" multiplier="59:45" id="6S1-yG-hve"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="25"/>
+                                <color key="textColor" red="0.0" green="0.50588235290000005" blue="0.68235294120000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -1473,6 +1472,7 @@ you like to connect with?</string>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="zd5-xg-jR0" secondAttribute="height" multiplier="141:19" id="swZ-6F-bfj"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Next">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1588,14 +1588,14 @@ you like to connect with?</string>
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCM-K9-ugT">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now, choose how far from your current location you would like your matches to be." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCM-K9-ugT">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="n1I-vg-dq5"/>
+                                    <constraint firstAttribute="height" constant="60" id="n1I-vg-dq5">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="86"/>
+                                    </constraint>
                                 </constraints>
-                                <string key="text">Where should everyone we 
-Connect you be</string>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="22"/>
                                 <color key="textColor" red="0.0" green="0.50588235290000005" blue="0.68235294120000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
@@ -1615,6 +1615,7 @@ Connect you be</string>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="aQH-FW-UdH" secondAttribute="height" multiplier="141:19" id="oVd-Mk-5UU"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Next">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1674,7 +1675,9 @@ Connect you be</string>
                             <constraint firstItem="PUK-Dt-1id" firstAttribute="top" secondItem="aQH-FW-UdH" secondAttribute="bottom" constant="20" id="bw8-wB-AES"/>
                             <constraint firstAttribute="centerX" secondItem="ws3-go-ctc" secondAttribute="centerX" constant="-3.5" id="cC2-lE-tQa"/>
                             <constraint firstItem="LCM-K9-ugT" firstAttribute="leading" secondItem="ZDl-vz-f6K" secondAttribute="leadingMargin" constant="30" id="d2Q-CI-BUi"/>
-                            <constraint firstItem="LCM-K9-ugT" firstAttribute="top" secondItem="Qx2-ia-dlf" secondAttribute="bottom" constant="14" id="daC-2T-96G"/>
+                            <constraint firstItem="LCM-K9-ugT" firstAttribute="top" secondItem="Qx2-ia-dlf" secondAttribute="bottom" constant="14" id="daC-2T-96G">
+                                <variation key="heightClass=regular-widthClass=compact" constant="22"/>
+                            </constraint>
                             <constraint firstAttribute="centerX" secondItem="jbs-61-S6D" secondAttribute="centerX" id="hkl-4w-y8b"/>
                             <constraint firstItem="aQH-FW-UdH" firstAttribute="trailing" secondItem="ZDl-vz-f6K" secondAttribute="trailingMargin" id="kuE-zL-TId"/>
                             <constraint firstAttribute="centerX" secondItem="LCM-K9-ugT" secondAttribute="centerX" id="uFc-vx-P86"/>
@@ -1750,6 +1753,7 @@ Connect you be</string>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Ub0-25-1Hz" secondAttribute="height" multiplier="141:19" id="nCb-9j-gIa"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Find me a Dwindle Date!">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1784,8 +1788,7 @@ Connect you be</string>
                                         <exclude reference="YeQ-eQ-2XM"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="16" y="237" width="136" height="136"/>
+                                <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
                                         <include reference="YeQ-eQ-2XM"/>
                                     </mask>
@@ -1802,9 +1805,6 @@ Connect you be</string>
                                     <color key="titleColor" red="1" green="0.0" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="15" y="383" width="136" height="135"/>
-                                </variation>
                                 <connections>
                                     <action selector="openImagePicker:" destination="Ysw-6z-QjM" eventType="touchUpInside" id="tUu-D2-OoG"/>
                                 </connections>
@@ -1817,9 +1817,6 @@ Connect you be</string>
                                     <color key="titleColor" red="1" green="0.0" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="261" y="237" width="136" height="136"/>
-                                </variation>
                                 <connections>
                                     <action selector="openImagePicker:" destination="Ysw-6z-QjM" eventType="touchUpInside" id="6rS-ep-zKN"/>
                                 </connections>
@@ -1832,9 +1829,6 @@ Connect you be</string>
                                     <color key="titleColor" red="1" green="0.0" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="260" y="382" width="136" height="135"/>
-                                </variation>
                                 <connections>
                                     <action selector="openImagePicker:" destination="Ysw-6z-QjM" eventType="touchUpInside" id="B7j-rL-Xer"/>
                                 </connections>
@@ -1847,21 +1841,18 @@ Connect you be</string>
                                     <color key="titleColor" red="1" green="0.0" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="142" y="526" width="135" height="136"/>
-                                </variation>
                                 <connections>
                                     <action selector="openImagePicker:" destination="Ysw-6z-QjM" eventType="touchUpInside" id="uVt-h1-vNP"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O9J-HA-ztx">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last step! Upload 5 of your best photos. Your matches can potentially see all 5 so make them count!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O9J-HA-ztx">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="58" id="qVV-HG-wve"/>
+                                    <constraint firstAttribute="height" constant="74" id="qVV-HG-wve">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="74"/>
+                                    </constraint>
                                 </constraints>
-                                <string key="text">Upload 5 pictures to play 
-the game!</string>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.50588235290000005" blue="0.68235294120000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
@@ -1869,8 +1860,7 @@ the game!</string>
                                         <exclude reference="qVV-HG-wve"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="107" y="141" width="203" height="58"/>
+                                <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
                                         <include reference="qVV-HG-wve"/>
                                     </mask>
@@ -1888,23 +1878,33 @@ the game!</string>
                             <constraint firstAttribute="trailingMargin" secondItem="Lsr-LL-SRU" secondAttribute="trailing" constant="1" id="2Lr-r7-xA7"/>
                             <constraint firstItem="Lsr-LL-SRU" firstAttribute="top" secondItem="O9J-HA-ztx" secondAttribute="bottom" constant="38" id="3Hg-f6-GRM"/>
                             <constraint firstItem="Jhd-JX-dyC" firstAttribute="height" secondItem="jru-Mi-bPK" secondAttribute="height" id="3VY-W7-WlD"/>
-                            <constraint firstItem="O9J-HA-ztx" firstAttribute="top" secondItem="ewM-Uq-7kN" secondAttribute="bottom" constant="-7" id="6OU-ys-yQv"/>
+                            <constraint firstItem="O9J-HA-ztx" firstAttribute="top" secondItem="ewM-Uq-7kN" secondAttribute="bottom" constant="-7" id="6OU-ys-yQv">
+                                <variation key="heightClass=regular-widthClass=compact" constant="-5"/>
+                            </constraint>
                             <constraint firstItem="jru-Mi-bPK" firstAttribute="top" secondItem="Jhd-JX-dyC" secondAttribute="bottom" constant="10" id="6Yi-E8-7rc"/>
                             <constraint firstItem="Ub0-25-1Hz" firstAttribute="leading" secondItem="FHV-ue-sAi" secondAttribute="leadingMargin" id="7dW-aV-sRA"/>
                             <constraint firstItem="Lsr-LL-SRU" firstAttribute="width" secondItem="sfc-e7-Zk7" secondAttribute="width" id="7rb-jt-FuD"/>
                             <constraint firstItem="Jhd-JX-dyC" firstAttribute="centerY" secondItem="Lsr-LL-SRU" secondAttribute="centerY" id="9aS-kR-bLO"/>
+                            <constraint firstItem="O9J-HA-ztx" firstAttribute="leading" secondItem="FHV-ue-sAi" secondAttribute="leading" constant="41" id="F9U-6A-FXQ"/>
                             <constraint firstItem="Jhd-JX-dyC" firstAttribute="width" secondItem="FHV-ue-sAi" secondAttribute="width" multiplier="105/320" id="GZe-xz-0j8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Ub0-25-1Hz" secondAttribute="trailing" constant="6" id="T3I-zg-zE4"/>
                             <constraint firstItem="Jhd-JX-dyC" firstAttribute="height" secondItem="Lsr-LL-SRU" secondAttribute="height" id="UaV-sh-W3u"/>
                             <constraint firstItem="Lsr-LL-SRU" firstAttribute="height" secondItem="sfc-e7-Zk7" secondAttribute="height" id="Yad-G1-L1B"/>
+                            <constraint firstAttribute="trailing" secondItem="O9J-HA-ztx" secondAttribute="trailing" constant="33" id="ZCU-Ua-RSA"/>
                             <constraint firstItem="Jhd-JX-dyC" firstAttribute="leading" secondItem="FHV-ue-sAi" secondAttribute="leadingMargin" id="ZTx-8k-hyO"/>
                             <constraint firstItem="Lsr-LL-SRU" firstAttribute="trailing" secondItem="sfc-e7-Zk7" secondAttribute="trailing" constant="1" id="Zgf-TZ-YCO"/>
-                            <constraint firstItem="ewM-Uq-7kN" firstAttribute="centerX" secondItem="O9J-HA-ztx" secondAttribute="centerX" constant="-1" id="c5P-aX-MfQ"/>
-                            <constraint firstItem="Jhd-JX-dyC" firstAttribute="leading" secondItem="jru-Mi-bPK" secondAttribute="leading" constant="1" id="c9g-9b-VT3"/>
+                            <constraint firstItem="ewM-Uq-7kN" firstAttribute="centerX" secondItem="O9J-HA-ztx" secondAttribute="centerX" constant="-1" id="c5P-aX-MfQ">
+                                <variation key="heightClass=regular-widthClass=compact" constant="-3.5"/>
+                            </constraint>
+                            <constraint firstItem="Jhd-JX-dyC" firstAttribute="leading" secondItem="jru-Mi-bPK" secondAttribute="leading" constant="1" id="c9g-9b-VT3">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstItem="ewM-Uq-7kN" firstAttribute="top" secondItem="arM-oQ-1zk" secondAttribute="bottom" id="g9s-2K-Kqh">
                                 <variation key="heightClass=regular-widthClass=compact" constant="10"/>
                             </constraint>
-                            <constraint firstItem="B3u-oZ-je8" firstAttribute="centerX" secondItem="O9J-HA-ztx" secondAttribute="centerX" constant="1.5" id="gIK-fF-jXN"/>
+                            <constraint firstItem="B3u-oZ-je8" firstAttribute="centerX" secondItem="O9J-HA-ztx" secondAttribute="centerX" constant="1.5" id="gIK-fF-jXN">
+                                <variation key="heightClass=regular-widthClass=compact" constant="-1.5"/>
+                            </constraint>
                             <constraint firstItem="Ub0-25-1Hz" firstAttribute="top" secondItem="B3u-oZ-je8" secondAttribute="bottom" constant="7" id="hjl-SW-Xnq"/>
                             <constraint firstItem="v3L-0X-Jw8" firstAttribute="top" secondItem="Ub0-25-1Hz" secondAttribute="bottom" constant="16" id="m17-5B-n8k"/>
                             <constraint firstItem="Jhd-JX-dyC" firstAttribute="width" secondItem="Lsr-LL-SRU" secondAttribute="width" id="nfW-Ar-RuV"/>
@@ -1928,15 +1928,12 @@ the game!</string>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="6OU-ys-yQv"/>
-                                <exclude reference="m17-5B-n8k"/>
+                                <exclude reference="F9U-6A-FXQ"/>
+                                <exclude reference="ZCU-Ua-RSA"/>
                                 <exclude reference="0uF-ic-C2J"/>
                                 <exclude reference="c5P-aX-MfQ"/>
                                 <exclude reference="g9s-2K-Kqh"/>
                                 <exclude reference="nuu-5g-xhd"/>
-                                <exclude reference="gIK-fF-jXN"/>
-                                <exclude reference="sxr-fA-I8k"/>
-                                <exclude reference="tIk-NO-KkA"/>
-                                <exclude reference="yTW-K5-5nU"/>
                                 <exclude reference="3VY-W7-WlD"/>
                                 <exclude reference="9aS-kR-bLO"/>
                                 <exclude reference="GZe-xz-0j8"/>
@@ -1950,11 +1947,16 @@ the game!</string>
                                 <exclude reference="7rb-jt-FuD"/>
                                 <exclude reference="Yad-G1-L1B"/>
                                 <exclude reference="Zgf-TZ-YCO"/>
+                                <exclude reference="6Yi-E8-7rc"/>
+                                <exclude reference="zSc-ys-lma"/>
+                                <exclude reference="gIK-fF-jXN"/>
+                                <exclude reference="sxr-fA-I8k"/>
+                                <exclude reference="tIk-NO-KkA"/>
+                                <exclude reference="yTW-K5-5nU"/>
                                 <exclude reference="7dW-aV-sRA"/>
                                 <exclude reference="T3I-zg-zE4"/>
                                 <exclude reference="hjl-SW-Xnq"/>
-                                <exclude reference="6Yi-E8-7rc"/>
-                                <exclude reference="zSc-ys-lma"/>
+                                <exclude reference="m17-5B-n8k"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1970,15 +1972,12 @@ the game!</string>
                             </mask>
                             <mask key="constraints">
                                 <include reference="6OU-ys-yQv"/>
-                                <include reference="m17-5B-n8k"/>
+                                <include reference="F9U-6A-FXQ"/>
+                                <include reference="ZCU-Ua-RSA"/>
                                 <include reference="0uF-ic-C2J"/>
                                 <include reference="c5P-aX-MfQ"/>
                                 <include reference="g9s-2K-Kqh"/>
                                 <exclude reference="nuu-5g-xhd"/>
-                                <include reference="gIK-fF-jXN"/>
-                                <include reference="sxr-fA-I8k"/>
-                                <include reference="tIk-NO-KkA"/>
-                                <include reference="yTW-K5-5nU"/>
                                 <include reference="3VY-W7-WlD"/>
                                 <include reference="9aS-kR-bLO"/>
                                 <include reference="GZe-xz-0j8"/>
@@ -1992,11 +1991,16 @@ the game!</string>
                                 <include reference="7rb-jt-FuD"/>
                                 <include reference="Yad-G1-L1B"/>
                                 <include reference="Zgf-TZ-YCO"/>
+                                <include reference="6Yi-E8-7rc"/>
+                                <include reference="zSc-ys-lma"/>
+                                <include reference="gIK-fF-jXN"/>
+                                <include reference="sxr-fA-I8k"/>
+                                <include reference="tIk-NO-KkA"/>
+                                <include reference="yTW-K5-5nU"/>
                                 <include reference="7dW-aV-sRA"/>
                                 <include reference="T3I-zg-zE4"/>
                                 <include reference="hjl-SW-Xnq"/>
-                                <include reference="6Yi-E8-7rc"/>
-                                <include reference="zSc-ys-lma"/>
+                                <include reference="m17-5B-n8k"/>
                             </mask>
                         </variation>
                     </view>

@@ -19,6 +19,8 @@
 #import "NSUserDefaults+DemoSettings.h"
 #import "JSQMessagesViewController.h"
 #import "ServiceManager.h"
+#import "Player.h"
+#import "SocketIO.h"
 
 
 #endif

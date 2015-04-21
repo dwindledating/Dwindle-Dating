@@ -12,6 +12,8 @@
 
 #import "LoginNetworkService.h"
 #import "SignUpNetworkService.h"
+#import "GamePlayUsersService.h"
+
 
 
 @implementation ServiceManager
@@ -63,6 +65,25 @@
     
 }
 
+
+
+-(void) getGamePlayUsersAgainstFacebookId:(NSString*)fbId
+                              sucessBlock:(void (^)(NSDictionary* allPlayers))successBlock
+                                  failure:(void (^)(NSError *error))failureBlock{
+    
+    GamePlayUsersService *networkService = [GamePlayUsersService new];
+    [networkService getGamePlayUsersAgainstFacebookId:fbId
+                                          sucessBlock:^(NSDictionary *allPlayers) {
+                                              
+            successBlock(allPlayers);
+                                              
+    } failure:^(NSError *error) {
+        
+             failureBlock(error);
+    }];
+    
+    
+}
 
 //=======================
 -(void) getProductsWithNameOrder:(BOOL)nameOrder

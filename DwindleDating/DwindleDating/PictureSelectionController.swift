@@ -26,11 +26,11 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
     func initContentView(){
         btnNext.layer.cornerRadius = 5.0
         
-        self.btnPicture1.borderWidth = 5.0;
-        self.btnPicture2.borderWidth = 5.0;
-        self.btnPicture3.borderWidth = 5.0;
-        self.btnPicture4.borderWidth = 5.0;
-        self.btnPicture5.borderWidth = 5.0;
+        self.btnPicture1.borderWidth = 3.0;
+        self.btnPicture2.borderWidth = 3.0;
+        self.btnPicture3.borderWidth = 3.0;
+        self.btnPicture4.borderWidth = 3.0;
+        self.btnPicture5.borderWidth = 3.0;
     }
 
     
@@ -120,7 +120,6 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
     @IBAction func nextButtonPressed(sender: UIButton) {
         
         self.signup()
-//
         
     }
     
@@ -152,7 +151,7 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
         
         picker.dismissViewControllerAnimated(true, completion: { () -> Void in
 
-            var img = info[UIImagePickerControllerEditedImage] as UIImage //2
+            var img = info[UIImagePickerControllerEditedImage] as! UIImage //2
             self.btnOpener?.setImage(img, forState: UIControlState.Normal)
             self.btnOpener?.userInteractionEnabled = false
             

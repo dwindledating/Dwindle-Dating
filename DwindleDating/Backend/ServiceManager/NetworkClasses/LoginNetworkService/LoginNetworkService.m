@@ -16,23 +16,6 @@
     
     
     NSDictionary *params = @{@"fb_id":fbId};
-//    NSArray *params = @[fbId];
-    
-//    [super makeRequestWithMethod:@"login"
-//                   andParameters:params
-//                    withResponse:^(id response) {
-//                        
-//                        //GOT PRODUCTS PARSE IT
-//                        NSDictionary *responseDict = (NSDictionary*)response;
-//                        BOOL isRegistered = ([responseDict[@"status"] isEqualToString:@"NotRegistered"]) ? false : true;
-//                        successBlock(isRegistered);
-//                    
-//                    }failure:^(NSError *error) {
-//                    
-//                        failureBlock (error);
-//                        
-//                    }];
-    
     
     [super makeRequestWithUrl:@"login"
                 andParameters:params

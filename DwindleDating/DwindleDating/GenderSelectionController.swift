@@ -18,6 +18,8 @@ class GenderSelectionController: UIViewController  {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        self.navigationItem.title = "Gender"
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -35,7 +37,7 @@ class GenderSelectionController: UIViewController  {
         }
         
         var settings = UserSettings.loadUserSettings()
-        settings.userGender = gender
+        settings.userGender = gender as String
         settings.saveUserSettings()
         
         performSegueWithIdentifier("showAgeSelector", sender: nil)

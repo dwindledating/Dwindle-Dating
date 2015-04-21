@@ -9,8 +9,15 @@
 import UIKit
 
 
-class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
+class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate, SocketIODelegate {
+
     
+    var playerMain : Player!
+    var playerOpponent: Player!
+    var playerOther1 : Player!
+    var playerOther2 : Player!
+    var playerOther3 : Player!
+    var socketIO     :SocketIO?
     
     @IBOutlet var imagesViewContainer : UIView!
     
@@ -25,7 +32,231 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
     func closePressed(sender: UIBarButtonItem){
         
         
+        
     }
+    
+    
+    // MARK : - Utilty Methods
+    
+ 
+    func JSONParseArray(jsonString: String) -> [AnyObject] {
+        if let data = jsonString.dataUsingEncoding(NSUTF8StringEncoding) {
+            if let array = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: nil)  as? [AnyObject] {
+                return array
+            }
+        }
+        return [AnyObject]()
+    }
+    
+ 
+    
+    
+    // MARK: - SOCKETS
+    
+    func initSocketConnection(){
+        
+        // create socket.io client instance
+        
+        self.socketIO = SocketIO(delegate: self)
+        
+        
+        var properties = [NSHTTPCookieDomain:"52.11.98.82",
+                          NSHTTPCookiePath:"/",
+                          NSHTTPCookieName:"auth",
+                          NSHTTPCookieValue:"56cdea636acdf132"]
+        
+    
+
+        var cookie:NSHTTPCookie = NSHTTPCookie(properties: properties)!
+        var cookies = [cookie]
+        
+        self.socketIO?.cookies = cookies
+        
+        self.socketIO?.connectToHost("52.11.98.82", onPort: 3000)
+
+    }
+    
+    
+    func startGame(){
+        
+        self.initSocketConnection();
+        
+    }
+    
+    
+    func sendChat(message:String){
+        self.socketIO?.sendEvent("sendchat", withData: [message])
+    }
+    
+    // MARK: -   SOCKET DELEGATES
+    
+    
+    
+    
+    func socketIODidConnect(socket: SocketIO!) {
+        println("socket.io connected.")
+        
+        var playerId:String = self.playerMain.fbId
+        println("Info\(playerId)")
+        
+        self.socketIO?.sendEvent("addMainUser", withData: [playerId])
+//        self.socketIO?.sendEvent("addMainUser", withData: data)
+//        socketIO?.sendEvent("addMainUser", withData: data)
+//        [socketIO sendEvent:@"addUser" withData:@[@"yunas",@"alirajab"]];
+
+    }
+    
+    
+    
+    func socketIO(socket: SocketIO!, didReceiveMessage packet: SocketIOPacket!) {
+        //code
+        println("PacketName \(packet.name)")
+        
+    }
+    
+    
+    func socketIO(socket: SocketIO!, didReceiveEvent packet: SocketIOPacket!) {
+        //code
+        println("PacketName \(packet.name)")
+        
+
+        
+        if (packet.name == "mainuseradded") {
+             println("\n MainUserAdded data as string looks like \(packet.data)")
+            var playerId:String = self.playerMain.fbId
+            var playerOpponentId:String = self.playerOpponent.fbId
+            println("playerId \(playerId) andOpponentPlayerId\(playerOpponentId)")
+//            self.socketIO?.sendEvent("addUser", withData: [playerOpponentId,playerId])
+        }
+        else if (packet.name == "useradded"){
+
+            println("\n UserAdded data as string looks like \(packet.data)")
+//            self.socketIO?.sendEvent("sendchat", withData: ["message from yunas"])
+        }
+        
+        else if (packet.name == "updatechat"){
+            println("\n \(packet.name) data as string looks like \(packet.data)")
+        }
+        
+        else if (packet.name == "adduserspic"){
+            println("\n \(packet.name) data as string looks like \(packet.data)")
+        }
+        else if (packet.name == "deleteuser"){
+            println("\n \(packet.name) data as string looks like \(packet.data)")
+        }
+        
+//        if (packet.name == "updaterooms") {
+//           
+////            self.JSONParseArray(packet.dataAsJSON())
+////            let dictionary = self.JSONParseDictionary(packet.data)
+//
+//            let responseArr:AnyObject = packet.dataAsJSON()
+//            println("updateRooms data looks like \(responseArr)")
+//            println("\n updateRooms data as string looks like \(packet.data)")
+//            
+//            
+////            let connectedInfoDict: AnyObject! = responseArr[1]
+//            let connectedInfoDict: Dictionary<String, AnyObject> = (responseArr[1] as? Dictionary)!
+//            
+//            let userName = connectedInfoDict["name"] as? String
+//            
+////            if( userName == self.playerMain.fbId){
+////                var playerId:String = self.playerMain.fbId
+////                var playerOpponentId:String = self.playerOpponent.fbId
+////                println("playerId \(playerId) andOpponentPlayerId\(playerOpponentId)")
+////                
+////                self.socketIO?.sendEvent("addUser", withData: [playerOpponentId,playerId])
+////
+////            }
+//            
+//            
+//        }
+
+    }
+    
+    
+    func socketIO(socket: SocketIO!, onError error: NSError!) {
+        //
+        
+        var errorCode = error.code as Int
+        if (errorCode == -8) { //SocketIOUnauthorized
+            println("not authorized");
+        } else {
+            println("onError()\(error)");
+        }
+
+    }
+    
+    
+    func socketIODidDisconnect(socket: SocketIO!, disconnectedWithError error: NSError!) {
+        //code
+        
+        println("socket.io disconnected. did error occur? \(error)");
+        var state:UIApplicationState  = UIApplication.sharedApplication().applicationState
+        if (state == UIApplicationState.Background) {//UIApplicationStateBackground
+            println("Application is in background and SIO disconnected.");
+        }
+
+
+    }
+    
+    
+    
+    // MARK: -   WEBSERVICE
+    
+    func gamePlay(){
+        var settings = UserSettings.loadUserSettings()
+        
+        ProgressHUD.show("Commencing Game...")
+        
+        var manager = ServiceManager()
+
+        
+        manager.getGamePlayUsersAgainstFacebookId(settings.fbId, sucessBlock: { (allPlayers:[NSObject: AnyObject]!) -> Void in
+            
+            var data:NSDictionary = allPlayers as NSDictionary
+            println("players \(data)")
+            
+           // code
+            self.playerMain      = data["MainPlayer"] as? Player
+            self.playerOpponent  = data["OpponentPlayer"] as? Player
+            
+            var otherData = data["Others"] as! NSArray
+            self.playerOther1 = otherData[0] as? Player
+            self.playerOther2 = otherData[1] as? Player
+            self.playerOther3 = otherData[2] as? Player
+            
+            ProgressHUD.showSuccess("Game Commenced Succesfully")
+
+            
+            
+            println("PlayerMain = \(self.playerMain.fbId)")
+            println("PlayerOpponent = \(self.playerOpponent.fbId)")
+            println("PlayerOther1 = \(self.playerOther1.fbId)")
+            println("PlayerOther2 = \(self.playerOther2.fbId)")
+            println("PlayerOther3 = \(self.playerOther3.fbId)")
+            
+            //Open Socket
+            
+            self.startGame()
+            
+            }) { (error: NSError!) -> Void in
+           // code
+            ProgressHUD.showError("Game Commencing Failed")
+        }
+        
+//        manager.getGamePlayUsersAgainstFacebookId(settings.fbId, sucessBlock: { (isRegistered:Bool) -> Void in
+//
+//            println("isRegistered: \(isRegistered)")
+//
+//        }) { (error: NSError!) -> Void in
+//            ProgressHUD.showSuccess("Registeration Failed")
+//            println("error: \(error)")
+//            
+//        }
+        
+    }
+    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -41,6 +272,9 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.collectionView.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();
+        var timer = NSTimer.scheduledTimerWithTimeInterval(1.1, target: self, selector: Selector("gamePlay"), userInfo: nil, repeats: false)
+
+        
 //        self.resizeCollectionView(50)
         //        self.view.addSubview(imagesViewContainer)
 //        var myView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 100)) as UIView
@@ -135,6 +369,9 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
         
         self.finishSendingMessageAnimated(true);
         
+        self.sendChat(text)
+        
+        
     }
     
     
@@ -195,7 +432,7 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
     // MARK: -  JSQMessages CollectionView DataSource
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
-        return self.demoData.messages[indexPath.item] as JSQMessageData
+        return self.demoData.messages[indexPath.item] as! JSQMessageData
     }
     
     
@@ -207,7 +444,7 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
         *  Otherwise, return your previously created bubble image data objects.
         */
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as JSQMessage
+        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         if (message.senderId == self.senderId) {
             return self.demoData.outgoingBubbleImageData;
         }
@@ -238,7 +475,7 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
         *  Override the defaults in `viewDidLoad`
         */
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as JSQMessage
+        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         
         if (message.senderId == self.senderId) {
             if (!NSUserDefaults.outgoingAvatarSetting()) {
@@ -264,7 +501,7 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
         *  Show a timestamp for every 3rd message
         */
         if (indexPath.item % 3 == 0) {
-            var message : JSQMessage = self.demoData.messages [indexPath.item] as JSQMessage
+            var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
             return JSQMessagesTimestampFormatter.sharedFormatter().attributedTimestampForDate(message.date)
         }
         
@@ -274,7 +511,7 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as JSQMessage
+        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         
         /**
         *  iOS7-style sender name labels
@@ -284,7 +521,7 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
         }
         
         if (indexPath.item - 1 > 0) {
-            var previousMessage: JSQMessage = self.demoData.messages[indexPath.item - 1] as JSQMessage;
+            var previousMessage: JSQMessage = self.demoData.messages[indexPath.item - 1]as! JSQMessage;
             if (previousMessage.senderId == message.senderId) {
                 return nil;
             }
@@ -315,9 +552,9 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
     
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
+        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         if let textView = cell.textView {
-            var message = self.demoData.messages[indexPath.item] as JSQMessage
+            var message = self.demoData.messages[indexPath.item] as! JSQMessage
             if message.senderId == self.senderId {
                 textView.textColor = UIColor.whiteColor()
             } else {
@@ -365,14 +602,14 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate {
         *  iOS7-style sender name labels
         */
         
-        var currentMessage :JSQMessage = self.demoData.messages[indexPath.item] as JSQMessage;
+        var currentMessage :JSQMessage = self.demoData.messages[indexPath.item] as! JSQMessage;
         
         if (currentMessage.senderId == self.senderId) {
             return 0.0;
         }
         
         if (indexPath.item - 1 > 0) {
-            var previousMessage :JSQMessage = self.demoData.messages[indexPath.item - 1] as JSQMessage;
+            var previousMessage :JSQMessage = self.demoData.messages[indexPath.item - 1] as! JSQMessage;
             if (previousMessage.senderId == currentMessage.senderId) {
                 return 0.0;
             }

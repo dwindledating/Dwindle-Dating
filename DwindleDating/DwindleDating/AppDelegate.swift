@@ -23,13 +23,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 //        for family in UIFont.familyNames()
 //        {
-//            var family = "Helvetica Neue"
-//            println("\(family)")
-//            
-//            for name in UIFont.fontNamesForFamilyName(family as NSString)
-//            {
-//                println("   \(name)")
-//            }
+            var family = "Helvetica Neue"
+            println("\(family)")
+            
+            for name in UIFont.fontNamesForFamilyName(family as String)
+            {
+                println("   \(name)")
+            }
         
 //        }
         
@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var navigationBarAppearace = UINavigationBar.appearance()
         
         navigationBarAppearace.barTintColor = UIColor(red: 0/255.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
-        navigationBarAppearace?.barStyle = UIBarStyle.Default
+        navigationBarAppearace.barStyle = UIBarStyle.Default
 
         navigationBarAppearace.tintColor = UIColor.whiteColor()
         navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]  // Title's text color
@@ -61,7 +61,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: NSString?, annotation: AnyObject) -> Bool {
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        //code
         var wasHandled:Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication)
         return wasHandled
     }

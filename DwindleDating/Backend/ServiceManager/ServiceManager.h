@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 @interface ServiceManager : NSObject
 
 
@@ -34,6 +35,9 @@
                     failure:(void (^)(NSError *error))failureBlock;
 
 
+-(void) getGamePlayUsersAgainstFacebookId:(NSString*)fbId
+                              sucessBlock:(void (^)(NSDictionary* allPlayers))successBlock
+                                  failure:(void (^)(NSError *error))failureBlock;
 
 
 @end

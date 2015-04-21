@@ -38,7 +38,7 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
         var img = UIImage(named:"demo_avatar_jobs")!
         img = img.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
 
-        var btnProfileImg: RoundButtonView = RoundButtonView.buttonWithType(UIButtonType.Custom) as RoundButtonView
+        var btnProfileImg: RoundButtonView = RoundButtonView.buttonWithType(UIButtonType.Custom) as! RoundButtonView
 //        var btnProfileImg: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
         btnProfileImg.setImage(img, forState: UIControlState.Normal)
         btnProfileImg.addTarget(self, action: Selector("openProfile"), forControlEvents: UIControlEvents.TouchUpInside)
@@ -232,7 +232,7 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
     // MARK: -  JSQMessages CollectionView DataSource
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
-        return self.demoData.messages[indexPath.item] as JSQMessageData
+        return self.demoData.messages[indexPath.item]as! JSQMessageData
     }
     
     
@@ -244,7 +244,7 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
         *  Otherwise, return your previously created bubble image data objects.
         */
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as JSQMessage
+        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         if (message.senderId == self.senderId) {
             return self.demoData.outgoingBubbleImageData;
         }
@@ -275,7 +275,7 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
         *  Override the defaults in `viewDidLoad`
         */
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as JSQMessage
+        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         
         if (message.senderId == self.senderId) {
             if (!NSUserDefaults.outgoingAvatarSetting()) {
@@ -301,7 +301,7 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
         *  Show a timestamp for every 3rd message
         */
         if (indexPath.item % 3 == 0) {
-            var message : JSQMessage = self.demoData.messages [indexPath.item] as JSQMessage
+            var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
             return JSQMessagesTimestampFormatter.sharedFormatter().attributedTimestampForDate(message.date)
         }
         
@@ -311,7 +311,7 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as JSQMessage
+        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         
         /**
         *  iOS7-style sender name labels
@@ -321,7 +321,7 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
         }
         
         if (indexPath.item - 1 > 0) {
-            var previousMessage: JSQMessage = self.demoData.messages[indexPath.item - 1] as JSQMessage;
+            var previousMessage: JSQMessage = self.demoData.messages[indexPath.item - 1] as! JSQMessage;
             if (previousMessage.senderId == message.senderId) {
                 return nil;
             }
@@ -352,9 +352,9 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
     
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
+        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         if let textView = cell.textView {
-            var message = self.demoData.messages[indexPath.item] as JSQMessage
+            var message = self.demoData.messages[indexPath.item] as! JSQMessage
             if message.senderId == self.senderId {
                 textView.textColor = UIColor.whiteColor()
             } else {
@@ -402,14 +402,14 @@ class MatchChatController: JSQMessagesViewController , UIActionSheetDelegate {
         *  iOS7-style sender name labels
         */
         
-        var currentMessage :JSQMessage = self.demoData.messages[indexPath.item] as JSQMessage;
+        var currentMessage :JSQMessage = self.demoData.messages[indexPath.item] as! JSQMessage;
         
         if (currentMessage.senderId == self.senderId) {
             return 0.0;
         }
         
         if (indexPath.item - 1 > 0) {
-            var previousMessage :JSQMessage = self.demoData.messages[indexPath.item - 1] as JSQMessage;
+            var previousMessage :JSQMessage = self.demoData.messages[indexPath.item - 1] as! JSQMessage;
             if (previousMessage.senderId == currentMessage.senderId) {
                 return 0.0;
             }
