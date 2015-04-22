@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A7T-DZ-deN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A7T-DZ-deN">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -959,6 +959,7 @@
                         <outlet property="inputToolbar" destination="uqj-g6-zxd" id="V0O-sz-d59"/>
                         <outlet property="toolbarBottomLayoutGuide" destination="NuY-9H-fD8" id="TMh-y3-mKP"/>
                         <outlet property="toolbarHeightConstraint" destination="acy-Ld-zun" id="Ul7-Em-Oth"/>
+                        <outlet property="topConstraint" destination="XH9-Ym-aVx" id="Yo8-9K-eii"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pRi-hL-Mmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1036,7 +1037,7 @@
                         <viewControllerLayoutGuide type="bottom" id="G9z-vX-IDc"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hN0-Kk-QEG">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3L4-bb-hAE" customClass="RoundImageView" customModule="DwindleDating" customModuleProvider="target">
@@ -1235,7 +1236,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ORi-E9-mQ8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7ff-Cg-RAd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First, choose the gender you would like to be matched with." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y7h-Ec-u8Z">
@@ -1295,9 +1296,9 @@
                                 <exclude reference="l8g-9t-PbA"/>
                                 <exclude reference="Gie-GM-ZJK"/>
                                 <exclude reference="OIv-5w-oLV"/>
-                                <exclude reference="YxE-43-Yq1"/>
                                 <exclude reference="28z-Zz-7Lg"/>
                                 <exclude reference="tw1-3x-u0m"/>
+                                <exclude reference="YxE-43-Yq1"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1314,9 +1315,9 @@
                                 <include reference="l8g-9t-PbA"/>
                                 <include reference="Gie-GM-ZJK"/>
                                 <include reference="OIv-5w-oLV"/>
-                                <include reference="YxE-43-Yq1"/>
                                 <include reference="28z-Zz-7Lg"/>
                                 <include reference="tw1-3x-u0m"/>
+                                <include reference="YxE-43-Yq1"/>
                             </mask>
                         </variation>
                     </view>
@@ -1337,7 +1338,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ijO-aU-r5s"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="NmD-vc-Awa">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next, choose your desired age range." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OcO-Al-op0">
@@ -1425,8 +1426,7 @@
                                         <exclude reference="6S1-yG-hve"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="137" y="296" width="59" height="44"/>
+                                <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
                                         <include reference="6S1-yG-hve"/>
                                     </mask>
@@ -1551,7 +1551,7 @@
                         <viewControllerLayoutGuide type="bottom" id="PUK-Dt-1id"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ZDl-vz-f6K">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now, choose how far from your current location you would like your matches to be." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCM-K9-ugT">
@@ -1667,12 +1667,12 @@
                                 <exclude reference="d2Q-CI-BUi"/>
                                 <exclude reference="daC-2T-96G"/>
                                 <exclude reference="uFc-vx-P86"/>
+                                <exclude reference="bw8-wB-AES"/>
+                                <exclude reference="1sN-na-n5a"/>
                                 <exclude reference="EQz-cE-lcZ"/>
                                 <exclude reference="hkl-4w-y8b"/>
-                                <exclude reference="1sN-na-n5a"/>
                                 <exclude reference="K28-ia-exk"/>
                                 <exclude reference="kuE-zL-TId"/>
-                                <exclude reference="bw8-wB-AES"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1688,12 +1688,12 @@
                                 <include reference="d2Q-CI-BUi"/>
                                 <include reference="daC-2T-96G"/>
                                 <include reference="uFc-vx-P86"/>
+                                <include reference="bw8-wB-AES"/>
+                                <include reference="1sN-na-n5a"/>
                                 <include reference="EQz-cE-lcZ"/>
                                 <include reference="hkl-4w-y8b"/>
-                                <include reference="1sN-na-n5a"/>
                                 <include reference="K28-ia-exk"/>
                                 <include reference="kuE-zL-TId"/>
-                                <include reference="bw8-wB-AES"/>
                             </mask>
                         </variation>
                     </view>
@@ -1716,7 +1716,7 @@
                         <viewControllerLayoutGuide type="bottom" id="v3L-0X-Jw8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FHV-ue-sAi">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ub0-25-1Hz">
@@ -1884,10 +1884,15 @@
                                 <exclude reference="CMP-I7-XRS"/>
                                 <exclude reference="o3t-5W-vZd"/>
                                 <exclude reference="yhV-Ue-hRl"/>
+                                <exclude reference="m17-5B-n8k"/>
                                 <exclude reference="0uF-ic-C2J"/>
                                 <exclude reference="8nu-La-LrS"/>
                                 <exclude reference="g9s-2K-Kqh"/>
                                 <exclude reference="nuu-5g-xhd"/>
+                                <exclude reference="jWG-jP-ByM"/>
+                                <exclude reference="sxr-fA-I8k"/>
+                                <exclude reference="tIk-NO-KkA"/>
+                                <exclude reference="yTW-K5-5nU"/>
                                 <exclude reference="3VY-W7-WlD"/>
                                 <exclude reference="9aS-kR-bLO"/>
                                 <exclude reference="GZe-xz-0j8"/>
@@ -1900,16 +1905,11 @@
                                 <exclude reference="7rb-jt-FuD"/>
                                 <exclude reference="Yad-G1-L1B"/>
                                 <exclude reference="Zgf-TZ-YCO"/>
-                                <exclude reference="6Yi-E8-7rc"/>
-                                <exclude reference="zSc-ys-lma"/>
-                                <exclude reference="jWG-jP-ByM"/>
-                                <exclude reference="sxr-fA-I8k"/>
-                                <exclude reference="tIk-NO-KkA"/>
-                                <exclude reference="yTW-K5-5nU"/>
                                 <exclude reference="7dW-aV-sRA"/>
                                 <exclude reference="T3I-zg-zE4"/>
                                 <exclude reference="hjl-SW-Xnq"/>
-                                <exclude reference="m17-5B-n8k"/>
+                                <exclude reference="6Yi-E8-7rc"/>
+                                <exclude reference="zSc-ys-lma"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1927,10 +1927,15 @@
                                 <include reference="CMP-I7-XRS"/>
                                 <include reference="o3t-5W-vZd"/>
                                 <include reference="yhV-Ue-hRl"/>
+                                <include reference="m17-5B-n8k"/>
                                 <include reference="0uF-ic-C2J"/>
                                 <include reference="8nu-La-LrS"/>
                                 <include reference="g9s-2K-Kqh"/>
                                 <exclude reference="nuu-5g-xhd"/>
+                                <include reference="jWG-jP-ByM"/>
+                                <include reference="sxr-fA-I8k"/>
+                                <include reference="tIk-NO-KkA"/>
+                                <include reference="yTW-K5-5nU"/>
                                 <include reference="3VY-W7-WlD"/>
                                 <include reference="9aS-kR-bLO"/>
                                 <include reference="GZe-xz-0j8"/>
@@ -1943,16 +1948,11 @@
                                 <include reference="7rb-jt-FuD"/>
                                 <include reference="Yad-G1-L1B"/>
                                 <include reference="Zgf-TZ-YCO"/>
-                                <include reference="6Yi-E8-7rc"/>
-                                <include reference="zSc-ys-lma"/>
-                                <include reference="jWG-jP-ByM"/>
-                                <include reference="sxr-fA-I8k"/>
-                                <include reference="tIk-NO-KkA"/>
-                                <include reference="yTW-K5-5nU"/>
                                 <include reference="7dW-aV-sRA"/>
                                 <include reference="T3I-zg-zE4"/>
                                 <include reference="hjl-SW-Xnq"/>
-                                <include reference="m17-5B-n8k"/>
+                                <include reference="6Yi-E8-7rc"/>
+                                <include reference="zSc-ys-lma"/>
                             </mask>
                         </variation>
                     </view>
@@ -2172,8 +2172,8 @@
         <image name="signupBg" width="375" height="667"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="1NX-cT-MOl"/>
         <segue reference="pei-dO-3bt"/>
-        <segue reference="zpR-AM-gi7"/>
+        <segue reference="1NX-cT-MOl"/>
+        <segue reference="d24-cx-jfv"/>
     </inferredMetricsTieBreakers>
 </document>

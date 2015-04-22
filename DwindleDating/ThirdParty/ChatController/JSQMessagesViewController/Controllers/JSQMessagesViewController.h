@@ -267,6 +267,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstraint;
 - (void)jsq_configureMessagesViewController;
 - (void)jsq_registerForNotifications:(BOOL)registerForNotifications;
-
+- (void)jsq_adjustInputToolbarHeightConstraintByDelta:(CGFloat)dy;
 
 @end

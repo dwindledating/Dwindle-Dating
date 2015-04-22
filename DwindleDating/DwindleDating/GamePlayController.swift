@@ -38,14 +38,24 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate, Soc
         
     }
     
-     // MARK : - Action Methods
+        // MARK: - Action Methods
+
     
     @IBAction func openImageGallery(sender: AnyObject) {
+  
+//        self.jsq_adjustInputToolbarHeightConstraintByDelta(80)
+//        self.toolbarHeightConstraint.constant += 80;
         
+//        if (self.toolbarHeightConstraint.constant < self.inputToolbar.preferredDefaultHeight) {
+//            self.toolbarHeightConstraint.constant = self.inputToolbar.preferredDefaultHeight;
+//        }
         
+        self.topConstraint.constant = 80
+        self.view.needsUpdateConstraints()
+        self.view.layoutIfNeeded()
     }
     
-    // MARK : - Utilty Methods
+    // MARK: - Utilty Methods
     
  
     func JSONParseArray(jsonString: String) -> [AnyObject] {
@@ -57,6 +67,51 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate, Soc
         return [AnyObject]()
     }
     
+    
+    // MARK: -   WEBSERVICE
+    
+    func gamePlay(){
+        var settings = UserSettings.loadUserSettings()
+        
+        ProgressHUD.show("Commencing Game...")
+        
+        var manager = ServiceManager()
+        
+        
+        manager.getGamePlayUsersAgainstFacebookId(settings.fbId, sucessBlock: { (allPlayers:[NSObject: AnyObject]!) -> Void in
+            
+            var data:NSDictionary = allPlayers as NSDictionary
+            println("players \(data)")
+            
+            // code
+            self.playerMain      = data["MainPlayer"] as? Player
+            self.playerOpponent  = data["OpponentPlayer"] as? Player
+            
+            var otherData = data["Others"] as! NSArray
+            self.playerOther1 = otherData[0] as? Player
+            self.playerOther2 = otherData[1] as? Player
+            self.playerOther3 = otherData[2] as? Player
+            
+            ProgressHUD.showSuccess("Game Commenced Succesfully")
+            
+            
+            
+            println("PlayerMain = \(self.playerMain.fbId)")
+            println("PlayerOpponent = \(self.playerOpponent.fbId)")
+            println("PlayerOther1 = \(self.playerOther1.fbId)")
+            println("PlayerOther2 = \(self.playerOther2.fbId)")
+            println("PlayerOther3 = \(self.playerOther3.fbId)")
+            
+            //Open Socket
+            
+            self.startGame()
+            
+            }) { (error: NSError!) -> Void in
+                // code
+                ProgressHUD.showError("Game Commencing Failed")
+        }
+        
+    }
  
     
     
@@ -208,64 +263,9 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate, Soc
 
 
     }
-    
-    
-    
-    // MARK: -   WEBSERVICE
-    
-    func gamePlay(){
-        var settings = UserSettings.loadUserSettings()
-        
-        ProgressHUD.show("Commencing Game...")
-        
-        var manager = ServiceManager()
 
-        
-        manager.getGamePlayUsersAgainstFacebookId(settings.fbId, sucessBlock: { (allPlayers:[NSObject: AnyObject]!) -> Void in
-            
-            var data:NSDictionary = allPlayers as NSDictionary
-            println("players \(data)")
-            
-           // code
-            self.playerMain      = data["MainPlayer"] as? Player
-            self.playerOpponent  = data["OpponentPlayer"] as? Player
-            
-            var otherData = data["Others"] as! NSArray
-            self.playerOther1 = otherData[0] as? Player
-            self.playerOther2 = otherData[1] as? Player
-            self.playerOther3 = otherData[2] as? Player
-            
-            ProgressHUD.showSuccess("Game Commenced Succesfully")
-
-            
-            
-            println("PlayerMain = \(self.playerMain.fbId)")
-            println("PlayerOpponent = \(self.playerOpponent.fbId)")
-            println("PlayerOther1 = \(self.playerOther1.fbId)")
-            println("PlayerOther2 = \(self.playerOther2.fbId)")
-            println("PlayerOther3 = \(self.playerOther3.fbId)")
-            
-            //Open Socket
-            
-            self.startGame()
-            
-            }) { (error: NSError!) -> Void in
-           // code
-            ProgressHUD.showError("Game Commencing Failed")
-        }
-        
-//        manager.getGamePlayUsersAgainstFacebookId(settings.fbId, sucessBlock: { (isRegistered:Bool) -> Void in
-//
-//            println("isRegistered: \(isRegistered)")
-//
-//        }) { (error: NSError!) -> Void in
-//            ProgressHUD.showSuccess("Registeration Failed")
-//            println("error: \(error)")
-//            
-//        }
-        
-    }
     
+        // MARK: -   VIEW LIFE CYCLE
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)

@@ -43,8 +43,8 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         println(" =======Signing IN======== ")
         println(" ========================= ")
 
-        self.pushSignUpController()
-//        self.pushMenuController()
+//        self.pushSignUpController()
+        self.pushMenuController()
         return
 
 //        ProgressHUD.show("Signing in...")
