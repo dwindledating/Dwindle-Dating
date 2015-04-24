@@ -246,6 +246,8 @@
 		45A1524A1AD7B31B002C4D1C /* ProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45A152471AD7B31B002C4D1C /* ProgressHUD.bundle */; };
 		45A1524B1AD7B31B002C4D1C /* ProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A152491AD7B31B002C4D1C /* ProgressHUD.m */; };
 		45A883231AD4597A00472783 /* SignUpNetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A883221AD4597A00472783 /* SignUpNetworkService.m */; };
+		45AE75B81AEA2BB000D0F14A /* EditPicturesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AE75B71AEA2BB000D0F14A /* EditPicturesController.swift */; };
+		45AE75B91AEA2BB000D0F14A /* EditPicturesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AE75B71AEA2BB000D0F14A /* EditPicturesController.swift */; };
 		45AEF4B11A8764F5003BAF17 /* DDCustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AEF4B01A8764F5003BAF17 /* DDCustomSegue.m */; };
 		45AEF4B31A876580003BAF17 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45AEF4B21A876580003BAF17 /* QuartzCore.framework */; };
 		45C494ED1ADD09FC00031269 /* GamePlayUsersService.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C494EC1ADD09FC00031269 /* GamePlayUsersService.m */; };
@@ -485,6 +487,7 @@
 		45A152491AD7B31B002C4D1C /* ProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressHUD.m; sourceTree = "<group>"; };
 		45A883211AD4597A00472783 /* SignUpNetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignUpNetworkService.h; path = SignUpNetworkService/SignUpNetworkService.h; sourceTree = "<group>"; };
 		45A883221AD4597A00472783 /* SignUpNetworkService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignUpNetworkService.m; path = SignUpNetworkService/SignUpNetworkService.m; sourceTree = "<group>"; };
+		45AE75B71AEA2BB000D0F14A /* EditPicturesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPicturesController.swift; sourceTree = "<group>"; };
 		45AEF4AF1A8764F5003BAF17 /* DDCustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCustomSegue.h; sourceTree = "<group>"; };
 		45AEF4B01A8764F5003BAF17 /* DDCustomSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCustomSegue.m; sourceTree = "<group>"; };
 		45AEF4B21A876580003BAF17 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -846,6 +849,7 @@
 				4560D3FF1A73724300564860 /* AgeSelectionController.swift */,
 				4560D4011A73725100564860 /* DistanceSelectionController.swift */,
 				4560D4031A73726600564860 /* PictureSelectionController.swift */,
+				45AE75B71AEA2BB000D0F14A /* EditPicturesController.swift */,
 				45EB7F661A73C24D006ECAD2 /* SettingsController.swift */,
 				4560D3F71A736E5F00564860 /* PrivacyPolicy.swift */,
 				4560D3F91A736ED800564860 /* TermsController.swift */,
@@ -1268,6 +1272,7 @@
 				451BC5F41AE6E65D003E1C2D /* NSData+ImageContentType.m in Sources */,
 				451BC5F51AE6E65D003E1C2D /* UIImage+JSQMessages.m in Sources */,
 				451BC5F61AE6E65D003E1C2D /* SDWebImageManager.m in Sources */,
+				45AE75B91AEA2BB000D0F14A /* EditPicturesController.swift in Sources */,
 				451BC5F71AE6E65D003E1C2D /* UIImageView+HighlightedWebCache.m in Sources */,
 				451BC5F81AE6E65D003E1C2D /* ProductsNetworkService.m in Sources */,
 				451BC5F91AE6E65D003E1C2D /* JSQMessagesTimestampFormatter.m in Sources */,
@@ -1379,6 +1384,7 @@
 				457290FD1A71AE4A00FD5251 /* NSData+ImageContentType.m in Sources */,
 				455DB3391A99D3AA00CEAEA2 /* UIImage+JSQMessages.m in Sources */,
 				457291031A71AE4A00FD5251 /* SDWebImageManager.m in Sources */,
+				45AE75B81AEA2BB000D0F14A /* EditPicturesController.swift in Sources */,
 				457291081A71AE4A00FD5251 /* UIImageView+HighlightedWebCache.m in Sources */,
 				4591A78C1ACE6D3D001DED1C /* ProductsNetworkService.m in Sources */,
 				455DB3411A99D3AA00CEAEA2 /* JSQMessagesTimestampFormatter.m in Sources */,

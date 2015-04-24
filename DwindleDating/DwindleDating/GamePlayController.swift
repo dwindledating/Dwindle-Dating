@@ -9,8 +9,15 @@
 import UIKit
 
 
-class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate, SocketIODelegate {
+//, KDCycleBannerViewDelegate
+class GamePlayController: JSQMessagesViewController,
+UIActionSheetDelegate,
+KDCycleBannerViewDataource,
+KDCycleBannerViewDelegate,
+SocketIODelegate {
 
+    
+    @IBOutlet var scroller : KDCycleBannerView!
     
     var playerMain : Player!
     var playerOpponent: Player!
@@ -19,9 +26,11 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate, Soc
     var playerOther3 : Player!
     var socketIO     :SocketIO?
     
+    @IBOutlet weak var galleryHeightConstraint : NSLayoutConstraint?
+    
     @IBOutlet var imagesViewContainer : UIView!
     
-    
+    var galleryOpenerButton : UIButton!
     var demoData: DemoModelData!
     
     
@@ -38,21 +47,75 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate, Soc
         
     }
     
+    
+    // MARK: - Scroller Stuff - KDCycleBannerView DELEGATE
+    
+    func placeHolderImageOfBannerView(bannerView: KDCycleBannerView!, atIndex index: UInt) -> UIImage! {
+        let img = UIImage(named:"image1.png")!
+        return img
+    }
+    
+    func placeHolderImageOfZeroBannerView() -> UIImage! {
+        let img = UIImage(named:"image1.png")!
+        return img
+    }
+    
+    
+    // MARK : KDCycleBannerView DataSource
+    func numberOfKDCycleBannerView(bannerView: KDCycleBannerView!) -> [AnyObject]! {
+        let imagesList   = [UIImage(named:"signup_01")!,
+                            UIImage(named:"signup_02")!,
+                            UIImage(named:"signup_03")!]
+        
+        return imagesList
+    }
+    
+    
+    func contentModeForImageIndex(index: UInt) -> UIViewContentMode {
+        return UIViewContentMode.ScaleAspectFit;
+    }
+
+    
+    
         // MARK: - Action Methods
 
     
     @IBAction func openImageGallery(sender: AnyObject) {
   
-//        self.jsq_adjustInputToolbarHeightConstraintByDelta(80)
-//        self.toolbarHeightConstraint.constant += 80;
+        var button = sender as? UIButton
+        println("tagId\(button?.tag)")
         
-//        if (self.toolbarHeightConstraint.constant < self.inputToolbar.preferredDefaultHeight) {
-//            self.toolbarHeightConstraint.constant = self.inputToolbar.preferredDefaultHeight;
-//        }
+        if var prevButton = galleryOpenerButton{
+            if (prevButton.isEqual(button)){
+                println("Same Button")
+            }
+            else{
+                galleryOpenerButton.tag = 0
+                galleryOpenerButton = button
+                println("Different Button")
+            }
+        }
+        else{
+            // cacheId is nil
+            
+            galleryOpenerButton = button
+            println("Setting Button")
+        }
+
         
-        self.topConstraint.constant = 80
-        self.view.needsUpdateConstraints()
-        self.view.layoutIfNeeded()
+        if (galleryOpenerButton!.tag == 0){
+            galleryOpenerButton!.tag = 1
+            galleryHeightConstraint!.constant = 275
+        }
+        else if (galleryOpenerButton!.tag == 1){
+            galleryOpenerButton!.tag = 0
+            galleryHeightConstraint!.constant = 0
+        }
+        
+        UIView.animateWithDuration(0.5) {
+            self.view.needsUpdateConstraints()
+            self.view.layoutIfNeeded()
+        }
     }
     
     // MARK: - Utilty Methods
@@ -266,41 +329,13 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate, Soc
 
     
         // MARK: -   VIEW LIFE CYCLE
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        self.collectionView.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();
-//        var timer = NSTimer.scheduledTimerWithTimeInterval(1.1, target: self, selector: Selector("gamePlay"), userInfo: nil, repeats: false)
-
+    func initContentView(){
+        // Scroll Initialization
+        scroller.autoPlayTimeInterval = 2;
+        scroller.continuous = false;
         
-//        self.resizeCollectionView(50)
-        //        self.view.addSubview(imagesViewContainer)
-//        var myView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 100)) as UIView
-//        myView.backgroundColor = UIColor.redColor()
-//        self.view.addSubview(myView)
-        //        self.view.addSubview(imagesViewContainer)
-        //        self.view.bringSubviewToFront(imagesViewContainer)
-        //        println(imagesViewContainer)
         
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        self.title = "Chat Controller"
-        
+        // Message Controller Stuff
         
         /**
         *  You MUST set your senderId and display name
@@ -319,6 +354,33 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate, Soc
         }
         
         self.showLoadEarlierMessagesHeader = true
+        self.jsq_configureMessagesViewController();
+        self.jsq_registerForNotifications(true);
+    
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.collectionView.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        self.title = "Chat Controller"
+        self.initContentView()
         
 //        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.jsq_defaultTypingIndicatorImage(), style: UIBarButtonItemStyle.Bordered, target: self, action: "receiveMessagePressed:")
 
@@ -327,12 +389,6 @@ class GamePlayController: JSQMessagesViewController , UIActionSheetDelegate, Soc
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style:UIBarButtonItemStyle.Bordered , target: self, action: "receiveMessagePressed:")
 
-        
-        
-        self.jsq_configureMessagesViewController();
-        self.jsq_registerForNotifications(true);
-        
-        
     }
     
     override func didReceiveMemoryWarning() {

@@ -109,9 +109,10 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     }
     
     
-    // MARK: - Scroller Stuff
+
     
     func initContentView(){
+        // Scroll Initialization
             scroller.autoPlayTimeInterval = 2;
             scroller.continuous = false;
         
@@ -191,8 +192,8 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
     }
     
+    // MARK: - Scroller Stuff - KDCycleBannerView DELEGATE
     
-    // MARK : KDCycleBannerView DELEGATE
     func placeHolderImageOfBannerView(bannerView: KDCycleBannerView!, atIndex index: UInt) -> UIImage! {
         let img = UIImage(named:"image1.png")!
         return img
