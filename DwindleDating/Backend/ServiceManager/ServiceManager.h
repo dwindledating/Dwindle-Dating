@@ -39,5 +39,30 @@
                               sucessBlock:(void (^)(NSDictionary* allPlayers))successBlock
                                   failure:(void (^)(NSError *error))failureBlock;
 
+-(void) getUserPicturesAgainstFacebookId:(NSString*)fbId
+                             sucessBlock:(void (^)(NSDictionary* pictures))successBlock
+                                 failure:(void (^)(NSError *error))failureBlock;
 
+-(void) updateUserPictureAgainstFacebookId:(NSString*)fbId
+                            andPictureName:(NSString*)picName
+                                 withImage:(NSArray*)imagesArr
+                               sucessBlock:(void (^)(BOOL isUpdated))successBlock
+                                   failure:(void (^)(NSError *error))failureBlock;
+
+-(void) editDistance:(NSNumber*)distance
+   againstFacebookId:(NSString*)fbId
+         sucessBlock:(void (^)(BOOL isUpdated))successBlock
+             failure:(void (^)(NSError *error))failureBlock;
+
+
+-(void) editAgeFromRange:(NSNumber*)ageFrom
+              andToRange:(NSNumber*)ageTo
+       againstFacebookId:(NSString*)fbId
+             sucessBlock:(void (^)(bool isUpdated))successBlock
+                 failure:(void (^)(NSError *error))failureBlock;
+
+-(void) editRequiredGender:(NSString*)gender
+         againstFacebookId:(NSString*)fbId
+               sucessBlock:(void (^)(bool isUpdated))successBlock
+                   failure:(void (^)(NSError *error))failureBlock;
 @end

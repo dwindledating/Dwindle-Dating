@@ -58,24 +58,7 @@ class SignupController: UIViewController  {
         imgViewProfile.sd_setImageWithURL(userImgUrl,
                                         placeholderImage: img,
                                         options:SDWebImageOptions.ContinueInBackground)
-//
-////            ( UIViewAutoresizingFlexibleBottomMargin
-////                | UIViewAutoresizingFlexibleHeight
-////                | UIViewAutoresizingFlexibleLeftMargin
-////                | UIViewAutoresizingFlexibleRightMargin
-////                | UIViewAutoresizingFlexibleTopMargin
-////                | UIViewAutoresizingFlexibleWidth );
-//
-//        imgViewProfile.image = img
-//        imgViewProfile.contentMode = UIViewContentMode.ScaleAspectFill
-//        imgViewProfile.layer.cornerRadius = imgViewProfile.bounds.size.width/2.0;
-//        imgViewProfile.layer.borderColor = UIColor.redColor().CGColor
-//        imgViewProfile.layer.borderWidth = 5.0;
-//        imgViewProfile.layer.masksToBounds = true
-//     
-//        println(NSStringFromCGRect(imgViewProfile.bounds))
-//        println(NSStringFromCGRect(imgViewProfile.frame))
-        
+
         btnNext.layer.cornerRadius = 5.0
         
     }

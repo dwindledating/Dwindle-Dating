@@ -66,21 +66,22 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
     
     
     func signup (){
-        self.performSegueWithIdentifier("showMenuController", sender: nil)
-
-        return
+//        self.performSegueWithIdentifier("showMenuController", sender: nil)
+//
+//        return
         
-//        if(!self.validateAllImages()){
-//            let myAlert: UIAlertController = UIAlertController(title: title, message: "Please provide all 5 images to proceed", preferredStyle: .Alert)
-//            myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-//            self.presentViewController(myAlert, animated: true, completion: nil)
-//            return
-//        }
+        if(!self.validateAllImages()){
+            let myAlert: UIAlertController = UIAlertController(title: title, message: "Please provide all 5 images to proceed", preferredStyle: .Alert)
+            myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            self.presentViewController(myAlert, animated: true, completion: nil)
+            return
+        }
         
         println("validate all images\(self.validateAllImages())")
         var settings = UserSettings.loadUserSettings()
 
         println("User Gender \(settings.userGender)")
+        println("Required Gender \(settings.requiredGender)")
         println("User Distance \(settings.userDistance)")
         println("From Age \(settings.userAgeFrom)")
         println("to Age \(settings.userAgeTo)")
@@ -100,7 +101,7 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
         var manager = ServiceManager()
             manager.signupWithFacebookId(settings.fbId,
                 gender: settings.userGender,
-                requiredGender: settings.userGender,
+                requiredGender: settings.requiredGender,
                 fromAge:settings.userAgeFrom,
                 toAge: settings.userAgeTo,
                 distance: settings.userDistance,
@@ -111,7 +112,7 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
                     self.performSegueWithIdentifier("showMenuController", sender: nil)
                     
                 }) { (error: NSError!) -> Void in
-                    ProgressHUD.showSuccess("Registeration Failed")
+                    ProgressHUD.showError("Registeration Failed")
                     println("error: \(error)")
             }
 

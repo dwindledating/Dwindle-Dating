@@ -13,7 +13,8 @@
 #import "LoginNetworkService.h"
 #import "SignUpNetworkService.h"
 #import "GamePlayUsersService.h"
-
+#import "PicturesService.h"
+#import "UserSettingsService.h"
 
 
 @implementation ServiceManager
@@ -84,6 +85,104 @@
     
     
 }
+
+
+-(void) getUserPicturesAgainstFacebookId:(NSString*)fbId
+                             sucessBlock:(void (^)(NSDictionary* pictures))successBlock
+                                 failure:(void (^)(NSError *error))failureBlock{
+    
+    PicturesService *networkService = [PicturesService new];
+    [networkService getUserPicturesAgainstFacebookId:fbId
+                                         sucessBlock:^(NSDictionary *pictures) {
+        
+        successBlock(pictures);
+
+    } failure:^(NSError *error) {
+    
+        failureBlock(error);
+        
+    }];
+    
+    
+}
+
+
+-(void) updateUserPictureAgainstFacebookId:(NSString*)fbId
+                            andPictureName:(NSString*)picName
+                                 withImage:(NSArray*)imagesArr
+                               sucessBlock:(void (^)(BOOL isUpdated))successBlock
+                                   failure:(void (^)(NSError *error))failureBlock{
+ 
+    
+    PicturesService *networkService = [PicturesService new];
+    [networkService updateUserPictureAgainstFacebookId:fbId
+                                        andPictureName:picName
+                                             withImage:imagesArr
+                                           sucessBlock:^(BOOL isUpdated) {
+                                             successBlock(isUpdated);
+    } failure:^(NSError *error) {
+                                             failureBlock(error);
+    }];
+
+    
+}
+
+
+-(void) editDistance:(NSNumber*)distance
+   againstFacebookId:(NSString*)fbId
+         sucessBlock:(void (^)(BOOL isUpdated))successBlock
+             failure:(void (^)(NSError *error))failureBlock{
+
+    
+    UserSettingsService *networkService = [UserSettingsService new];
+    [networkService editDistance:distance
+               againstFacebookId:fbId sucessBlock:^(BOOL isUpdated) {
+                   
+                   successBlock(isUpdated);
+                   
+               } failure:^(NSError *error) {
+                   failureBlock(error);
+               }];
+    
+}
+
+-(void) editAgeFromRange:(NSNumber*)ageFrom
+              andToRange:(NSNumber*)ageTo
+       againstFacebookId:(NSString*)fbId
+             sucessBlock:(void (^)(bool isUpdated))successBlock
+                 failure:(void (^)(NSError *error))failureBlock{
+    
+    UserSettingsService *networkService = [UserSettingsService new];
+    [networkService editAgeFromRange:ageFrom
+                          andToRange:ageTo
+                   againstFacebookId:fbId
+                         sucessBlock:^(bool isUpdated) {
+                             successBlock(isUpdated);
+                         } failure:^(NSError *error) {
+                             failureBlock(error);
+                         }];
+    
+}
+
+
+
+-(void) editRequiredGender:(NSString*)gender
+         againstFacebookId:(NSString*)fbId
+               sucessBlock:(void (^)(bool isUpdated))successBlock
+                   failure:(void (^)(NSError *error))failureBlock{
+
+    UserSettingsService *networkService = [UserSettingsService new];
+    [networkService editRequiredGender:gender
+                   againstFacebookId:fbId
+                         sucessBlock:^(bool isUpdated) {
+                             successBlock(isUpdated);
+                         } failure:^(NSError *error) {
+                             failureBlock(error);
+                         }];
+
+    
+}
+
 
 //=======================
 -(void) getProductsWithNameOrder:(BOOL)nameOrder

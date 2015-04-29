@@ -37,7 +37,7 @@ class GenderSelectionController: UIViewController  {
         }
         
         var settings = UserSettings.loadUserSettings()
-        settings.userGender = gender as String
+        settings.requiredGender = gender as String
         settings.saveUserSettings()
         
         performSegueWithIdentifier("showAgeSelector", sender: nil)

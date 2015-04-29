@@ -78,12 +78,12 @@ NSString *const kApp_BaseUrl = @"http://52.11.98.82:3000/";
                 int imgNo = 1;
                 for(UIImage *img in imagesArr)
                 {
-                    NSData *imgData = UIImagePNGRepresentation(img);
-                    NSString *imgName = [NSString stringWithFormat:@"image%d.png",imgNo];
+                    NSData *imgData = UIImageJPEGRepresentation(img, 1.0);
+                    NSString *imgName = [NSString stringWithFormat:@"image%d.jpg",imgNo];
                     [formData appendPartWithFileData: imgData
                                                 name:@"image"
                                             fileName:imgName
-                                            mimeType:@"image/png"];
+                                            mimeType:@"image/jpg"];
                 }
                  
                 

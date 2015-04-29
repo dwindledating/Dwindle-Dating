@@ -13,6 +13,7 @@
 #import "KDCycleBannerView.h"
 #import "ProgressHUD.h"
 #import "UIImageView+WebCache.h"
+#import "UIButton+WebCache.h"
 #import "UserSettings.h"
 
 #import "DemoModelData.h"

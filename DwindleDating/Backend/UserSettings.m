@@ -9,13 +9,13 @@
 
 #import "UserSettings.h"
 
-
 @implementation UserSettings
 
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if(self) {
         self.userGender     = [decoder decodeObjectForKey:@"userGender"];
+        self.requiredGender = [decoder decodeObjectForKey:@"requiredGender"];
         self.userDistance   = [decoder decodeObjectForKey:@"userDistance"];
         self.userAgeFrom    = [decoder decodeObjectForKey:@"userAgeFrom"];
         self.userAgeTo      = [decoder decodeObjectForKey:@"userAgeTo"];
@@ -28,12 +28,13 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     
-    [encoder encodeObject:self.userGender   forKey:@"userGender"];
-    [encoder encodeObject:self.userDistance forKey:@"userDistance"];
-    [encoder encodeObject:self.userAgeFrom  forKey:@"userAgeFrom"];
-    [encoder encodeObject:self.userAgeTo    forKey:@"userAgeTo"];
-    [encoder encodeObject:self.fbName       forKey:@"fbName"];
-    [encoder encodeObject:self.fbId         forKey:@"fbId"];
+    [encoder encodeObject:self.userGender       forKey:@"userGender"];
+    [encoder encodeObject:self.requiredGender   forKey:@"requiredGender"];
+    [encoder encodeObject:self.userDistance     forKey:@"userDistance"];
+    [encoder encodeObject:self.userAgeFrom      forKey:@"userAgeFrom"];
+    [encoder encodeObject:self.userAgeTo        forKey:@"userAgeTo"];
+    [encoder encodeObject:self.fbName           forKey:@"fbName"];
+    [encoder encodeObject:self.fbId             forKey:@"fbId"];
     
 }
 
@@ -48,6 +49,7 @@
         
         UserSettings *settings = [UserSettings new];
         settings.userGender     = @"";
+        settings.requiredGender = @"";
         settings.userDistance   = @"";
         settings.userAgeFrom    = @"";
         settings.userAgeTo      = @"";
@@ -56,6 +58,22 @@
         
         return settings;
     }
+}
+
+
+
+-(void)removeUserSettings{
+
+    self.userGender     = @"";
+    self.requiredGender = @"";
+    self.userDistance   = @"";
+    self.userAgeFrom    = @"";
+    self.userAgeTo      = @"";
+    self.fbName         = @"";
+    self.fbId           = @"";
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UserSettings"];
+    
 }
 
 -(void)saveUserSettings{

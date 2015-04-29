@@ -44,16 +44,17 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         println(" ========================= ")
 
 //        self.pushSignUpController()
-        self.pushMenuController()
-        return
+//        self.pushMenuController()
+//        return
 
-//        ProgressHUD.show("Signing in...")
+        ProgressHUD.show("Signing in...")
 
         var manager = ServiceManager()
 
         manager.loginWithFacebookId(fbId, sucessBlock:{ (isRegistered:Bool) -> Void in
             println("isRegistered: \(isRegistered)")
 
+            self.cachedUserId = nil
             if (isRegistered){
                 self.pushMenuController()
 //                 self.pushSignUpController()
@@ -88,6 +89,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         self.fbLoginView.delegate = self
         self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
 
+        
         txtViewPrivacy.editable = true
         txtViewPrivacy.textColor = UIColor(red: 38/255.0, green: 182/255.0, blue: 218/255.0, alpha: 1.0)
         txtViewPrivacy.font = UIFont(name: "HelveticaNeue-CondensedBold", size: 11.0)
@@ -253,10 +255,17 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
         cachedUserId = user.objectID
         var userSettings = UserSettings.loadUserSettings() as UserSettings
+        
+        
+        userSettings.userGender    = "F"
 
+        var gender = user.objectForKey("gender") as! String
+        if (gender == "male"){
+            userSettings.userGender    = "M"
+        }
         
         var accessToken = FBSession.activeSession().accessTokenData.accessToken
-        
+
         userSettings.fbId    = user.objectID
         userSettings.fbName  = user.name
         userSettings.saveUserSettings()

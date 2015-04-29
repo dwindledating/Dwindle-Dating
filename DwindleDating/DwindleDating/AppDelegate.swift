@@ -17,21 +17,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         // Override point for customization after application launch.
-//        [[UINavigationBar appearance] setBarTintColor:[UIColor yellowColor]];
-//        UINavigationBar.appearance().barTintColor = UIColor.blackColor()
-        
-        
-//        for family in UIFont.familyNames()
-//        {
-            var family = "Helvetica Neue"
-            println("\(family)")
-            
-            for name in UIFont.fontNamesForFamilyName(family as String)
-            {
-                println("   \(name)")
-            }
-        
-//        }
+//            var family = "Helvetica Neue"
+//            println("\(family)")
+//            
+//            for name in UIFont.fontNamesForFamilyName(family as String)
+//            {
+//                println("   \(name)")
+//            }
         
         
         FBLoginView.self
@@ -44,7 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let screenHeight = screenSize.height;
 
         application.setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
-//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
         
         println(screenWidth,screenHeight)
         

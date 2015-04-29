@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4510693F1AF11CBF00F81D50 /* PicturesService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510693E1AF11CBF00F81D50 /* PicturesService.m */; };
+		451069401AF11CBF00F81D50 /* PicturesService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510693E1AF11CBF00F81D50 /* PicturesService.m */; };
+		451069441AF11ECF00F81D50 /* UserSettingsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 451069431AF11ECF00F81D50 /* UserSettingsService.m */; };
+		451069451AF11ECF00F81D50 /* UserSettingsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 451069431AF11ECF00F81D50 /* UserSettingsService.m */; };
 		45148B4A1ADF845700DE232C /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 45148B491ADF845700DE232C /* Player.m */; };
 		45174A341A77EE6700F17584 /* MatchListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174A331A77EE6700F17584 /* MatchListController.swift */; };
 		45174A361A77EE7C00F17584 /* MatchChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174A351A77EE7C00F17584 /* MatchChatController.swift */; };
@@ -243,6 +247,14 @@
 		4598E5001AE15ACD00FC7EC7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4598E4FF1AE15ACD00FC7EC7 /* Security.framework */; };
 		4598E5021AE15AD500FC7EC7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4598E5011AE15AD500FC7EC7 /* Foundation.framework */; };
 		4598E5041AE15ADB00FC7EC7 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4598E5031AE15ADB00FC7EC7 /* CFNetwork.framework */; };
+		459CDCDF1AEAE54200E9103D /* ChangePrefrencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459CDCDE1AEAE54200E9103D /* ChangePrefrencesController.swift */; };
+		459CDCE01AEAE54200E9103D /* ChangePrefrencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459CDCDE1AEAE54200E9103D /* ChangePrefrencesController.swift */; };
+		459CDCE21AED32C500E9103D /* EditGenderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459CDCE11AED32C500E9103D /* EditGenderController.swift */; };
+		459CDCE31AED32C500E9103D /* EditGenderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459CDCE11AED32C500E9103D /* EditGenderController.swift */; };
+		459CDCE71AED34A800E9103D /* EditDistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459CDCE61AED34A800E9103D /* EditDistanceController.swift */; };
+		459CDCE81AED34A800E9103D /* EditDistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459CDCE61AED34A800E9103D /* EditDistanceController.swift */; };
+		459CDCEA1AED34CA00E9103D /* EditAgeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459CDCE91AED34CA00E9103D /* EditAgeController.swift */; };
+		459CDCEB1AED34CA00E9103D /* EditAgeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459CDCE91AED34CA00E9103D /* EditAgeController.swift */; };
 		45A1524A1AD7B31B002C4D1C /* ProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45A152471AD7B31B002C4D1C /* ProgressHUD.bundle */; };
 		45A1524B1AD7B31B002C4D1C /* ProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A152491AD7B31B002C4D1C /* ProgressHUD.m */; };
 		45A883231AD4597A00472783 /* SignUpNetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A883221AD4597A00472783 /* SignUpNetworkService.m */; };
@@ -262,6 +274,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4510693D1AF11CBF00F81D50 /* PicturesService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PicturesService.h; sourceTree = "<group>"; };
+		4510693E1AF11CBF00F81D50 /* PicturesService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PicturesService.m; sourceTree = "<group>"; };
+		451069421AF11ECF00F81D50 /* UserSettingsService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserSettingsService.h; path = UserSettingsService/UserSettingsService.h; sourceTree = "<group>"; };
+		451069431AF11ECF00F81D50 /* UserSettingsService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserSettingsService.m; path = UserSettingsService/UserSettingsService.m; sourceTree = "<group>"; };
 		45148B481ADF845700DE232C /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = Backend/Models/Player.h; sourceTree = "<group>"; };
 		45148B491ADF845700DE232C /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Player.m; path = Backend/Models/Player.m; sourceTree = "<group>"; };
 		45174A331A77EE6700F17584 /* MatchListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchListController.swift; sourceTree = "<group>"; };
@@ -482,6 +498,10 @@
 		4598E4FF1AE15ACD00FC7EC7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4598E5011AE15AD500FC7EC7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4598E5031AE15ADB00FC7EC7 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		459CDCDE1AEAE54200E9103D /* ChangePrefrencesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePrefrencesController.swift; sourceTree = "<group>"; };
+		459CDCE11AED32C500E9103D /* EditGenderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditGenderController.swift; sourceTree = "<group>"; };
+		459CDCE61AED34A800E9103D /* EditDistanceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDistanceController.swift; sourceTree = "<group>"; };
+		459CDCE91AED34CA00E9103D /* EditAgeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditAgeController.swift; sourceTree = "<group>"; };
 		45A152471AD7B31B002C4D1C /* ProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ProgressHUD.bundle; sourceTree = "<group>"; };
 		45A152481AD7B31B002C4D1C /* ProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressHUD.h; sourceTree = "<group>"; };
 		45A152491AD7B31B002C4D1C /* ProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressHUD.m; sourceTree = "<group>"; };
@@ -539,6 +559,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4510693C1AF11CBF00F81D50 /* PicturesService */ = {
+			isa = PBXGroup;
+			children = (
+				4510693D1AF11CBF00F81D50 /* PicturesService.h */,
+				4510693E1AF11CBF00F81D50 /* PicturesService.m */,
+			);
+			path = PicturesService;
+			sourceTree = "<group>";
+		};
+		451069411AF11DD100F81D50 /* UserSettings */ = {
+			isa = PBXGroup;
+			children = (
+				45EB7F631A73B57D006ECAD2 /* UserSettings.h */,
+				45EB7F641A73B57D006ECAD2 /* UserSettings.m */,
+			);
+			name = UserSettings;
+			sourceTree = "<group>";
+		};
+		451069461AF11ED400F81D50 /* UserSettingsService */ = {
+			isa = PBXGroup;
+			children = (
+				451069421AF11ECF00F81D50 /* UserSettingsService.h */,
+				451069431AF11ECF00F81D50 /* UserSettingsService.m */,
+			);
+			name = UserSettingsService;
+			sourceTree = "<group>";
+		};
 		45148B471ADF820E00DE232C /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -844,13 +891,8 @@
 				45174A371A77EEAC00F17584 /* GamePlayController.swift */,
 				458D3C961A68442100A0BD6B /* ViewController.swift */,
 				45DBF22B1A73EBFF0055D3CB /* MenuController.swift */,
-				4560D3FB1A73722300564860 /* SignupController.swift */,
-				4560D3FD1A73723A00564860 /* GenderSelectionController.swift */,
-				4560D3FF1A73724300564860 /* AgeSelectionController.swift */,
-				4560D4011A73725100564860 /* DistanceSelectionController.swift */,
-				4560D4031A73726600564860 /* PictureSelectionController.swift */,
-				45AE75B71AEA2BB000D0F14A /* EditPicturesController.swift */,
-				45EB7F661A73C24D006ECAD2 /* SettingsController.swift */,
+				459CDCE51AED335900E9103D /* SignupController */,
+				459CDCE41AED333400E9103D /* EditSettings */,
 				4560D3F71A736E5F00564860 /* PrivacyPolicy.swift */,
 				4560D3F91A736ED800564860 /* TermsController.swift */,
 				458D3C9B1A68442100A0BD6B /* Images.xcassets */,
@@ -914,10 +956,10 @@
 		4591A76F1ACE6D3D001DED1C /* ServiceManager */ = {
 			isa = PBXGroup;
 			children = (
-				4591A7701ACE6D3D001DED1C /* Database */,
-				4591A77E1ACE6D3D001DED1C /* NetworkClasses */,
 				4591A7841ACE6D3D001DED1C /* ServiceManager.h */,
 				4591A7851ACE6D3D001DED1C /* ServiceManager.m */,
+				4591A7701ACE6D3D001DED1C /* Database */,
+				4591A77E1ACE6D3D001DED1C /* NetworkClasses */,
 			);
 			name = ServiceManager;
 			path = Backend/ServiceManager;
@@ -966,9 +1008,11 @@
 		4591A77E1ACE6D3D001DED1C /* NetworkClasses */ = {
 			isa = PBXGroup;
 			children = (
-				45C494EA1ADD09C500031269 /* GamePlayUsersService */,
 				4591A77F1ACE6D3D001DED1C /* NetworkBaseService.h */,
 				4591A7801ACE6D3D001DED1C /* NetworkBaseService.m */,
+				451069461AF11ED400F81D50 /* UserSettingsService */,
+				4510693C1AF11CBF00F81D50 /* PicturesService */,
+				45C494EA1ADD09C500031269 /* GamePlayUsersService */,
 				45A883201AD4595E00472783 /* SignUpNetworkService */,
 				4591A78E1ACE7879001DED1C /* LoginNetworkService */,
 				4591A7811ACE6D3D001DED1C /* ProductsNetworkService */,
@@ -1025,6 +1069,31 @@
 				4592708A1AE12719006FFA29 /* SRWebSocket.m */,
 			);
 			path = SocketRocket;
+			sourceTree = "<group>";
+		};
+		459CDCE41AED333400E9103D /* EditSettings */ = {
+			isa = PBXGroup;
+			children = (
+				45EB7F661A73C24D006ECAD2 /* SettingsController.swift */,
+				459CDCDE1AEAE54200E9103D /* ChangePrefrencesController.swift */,
+				45AE75B71AEA2BB000D0F14A /* EditPicturesController.swift */,
+				459CDCE11AED32C500E9103D /* EditGenderController.swift */,
+				459CDCE91AED34CA00E9103D /* EditAgeController.swift */,
+				459CDCE61AED34A800E9103D /* EditDistanceController.swift */,
+			);
+			name = EditSettings;
+			sourceTree = "<group>";
+		};
+		459CDCE51AED335900E9103D /* SignupController */ = {
+			isa = PBXGroup;
+			children = (
+				4560D3FB1A73722300564860 /* SignupController.swift */,
+				4560D3FD1A73723A00564860 /* GenderSelectionController.swift */,
+				4560D3FF1A73724300564860 /* AgeSelectionController.swift */,
+				4560D4011A73725100564860 /* DistanceSelectionController.swift */,
+				4560D4031A73726600564860 /* PictureSelectionController.swift */,
+			);
+			name = SignupController;
 			sourceTree = "<group>";
 		};
 		45A152461AD7B31B002C4D1C /* ProgressHUD */ = {
@@ -1112,14 +1181,13 @@
 		45EB7F601A73AD91006ECAD2 /* Backend */ = {
 			isa = PBXGroup;
 			children = (
+				452DCD111A8F476700F624B4 /* RoundImageView.swift */,
+				4568E1991A90E89300302F81 /* RoundButtonView.swift */,
 				45148B471ADF820E00DE232C /* Models */,
 				45C4973A1ADD410C00031269 /* LocationManager */,
 				4591A76F1ACE6D3D001DED1C /* ServiceManager */,
-				452DCD111A8F476700F624B4 /* RoundImageView.swift */,
-				4568E1991A90E89300302F81 /* RoundButtonView.swift */,
 				45AEF4AE1A8764F5003BAF17 /* CustomSegue */,
-				45EB7F631A73B57D006ECAD2 /* UserSettings.h */,
-				45EB7F641A73B57D006ECAD2 /* UserSettings.m */,
+				451069411AF11DD100F81D50 /* UserSettings */,
 			);
 			name = Backend;
 			sourceTree = "<group>";
@@ -1270,6 +1338,7 @@
 				451BC5F21AE6E65D003E1C2D /* JSQMessagesCollectionViewFlowLayout.m in Sources */,
 				451BC5F31AE6E65D003E1C2D /* RoundButtonView.swift in Sources */,
 				451BC5F41AE6E65D003E1C2D /* NSData+ImageContentType.m in Sources */,
+				451069401AF11CBF00F81D50 /* PicturesService.m in Sources */,
 				451BC5F51AE6E65D003E1C2D /* UIImage+JSQMessages.m in Sources */,
 				451BC5F61AE6E65D003E1C2D /* SDWebImageManager.m in Sources */,
 				45AE75B91AEA2BB000D0F14A /* EditPicturesController.swift in Sources */,
@@ -1284,6 +1353,7 @@
 				451BC5FF1AE6E65D003E1C2D /* AFHTTPRequestOperation.m in Sources */,
 				451BC6001AE6E65D003E1C2D /* JSQMessagesInputToolbar.m in Sources */,
 				451BC6011AE6E65D003E1C2D /* UIImageView+WebCache.m in Sources */,
+				459CDCE81AED34A800E9103D /* EditDistanceController.swift in Sources */,
 				451BC6021AE6E65D003E1C2D /* SDImageCache.m in Sources */,
 				451BC6031AE6E65D003E1C2D /* JSQMessagesCollectionView.m in Sources */,
 				451BC6041AE6E65D003E1C2D /* JSQMessagesMediaViewBubbleImageMasker.m in Sources */,
@@ -1300,6 +1370,7 @@
 				451BC60F1AE6E65D003E1C2D /* ViewController.swift in Sources */,
 				451BC6101AE6E65D003E1C2D /* AgeSelectionController.swift in Sources */,
 				451BC6111AE6E65D003E1C2D /* JSQMessagesLabel.m in Sources */,
+				451069451AF11ECF00F81D50 /* UserSettingsService.m in Sources */,
 				451BC6121AE6E65D003E1C2D /* JSQMessagesToolbarContentView.m in Sources */,
 				451BC6131AE6E65D003E1C2D /* SDWebImageDecoder.m in Sources */,
 				451BC6141AE6E65D003E1C2D /* JSQPhotoMediaItem.m in Sources */,
@@ -1319,6 +1390,7 @@
 				451BC6221AE6E65D003E1C2D /* UIColor+JSQMessages.m in Sources */,
 				451BC6231AE6E65D003E1C2D /* AFURLSessionManager.m in Sources */,
 				451BC6241AE6E65D003E1C2D /* JSQMessagesKeyboardController.m in Sources */,
+				459CDCE31AED32C500E9103D /* EditGenderController.swift in Sources */,
 				451BC6251AE6E65D003E1C2D /* ProgressHUD.m in Sources */,
 				451BC6261AE6E65D003E1C2D /* JSQSystemSoundPlayer+JSQMessages.m in Sources */,
 				451BC6271AE6E65D003E1C2D /* JSQMediaItem.m in Sources */,
@@ -1326,6 +1398,7 @@
 				451BC6291AE6E65D003E1C2D /* UIDevice+JSQMessages.m in Sources */,
 				451BC62A1AE6E65D003E1C2D /* CoreDataProvider.m in Sources */,
 				451BC62B1AE6E65D003E1C2D /* base64.c in Sources */,
+				459CDCE01AEAE54200E9103D /* ChangePrefrencesController.swift in Sources */,
 				451BC62C1AE6E65D003E1C2D /* JSQMessagesLoadEarlierHeaderView.m in Sources */,
 				451BC62D1AE6E65D003E1C2D /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,
 				451BC62E1AE6E65D003E1C2D /* JSQMessagesBubbleImage.m in Sources */,
@@ -1356,6 +1429,7 @@
 				451BC6471AE6E65D003E1C2D /* SDWebImageCompat.m in Sources */,
 				451BC6481AE6E65D003E1C2D /* UIImage+GIF.m in Sources */,
 				451BC6491AE6E65D003E1C2D /* GamePlayController.swift in Sources */,
+				459CDCEB1AED34CA00E9103D /* EditAgeController.swift in Sources */,
 				451BC64A1AE6E65D003E1C2D /* MatchCell.swift in Sources */,
 				451BC64B1AE6E65D003E1C2D /* JSQMessagesAvatarImage.m in Sources */,
 				451BC64C1AE6E65D003E1C2D /* AFHTTPRequestOperationManager.m in Sources */,
@@ -1382,6 +1456,7 @@
 				455DB3431A99D3AA00CEAEA2 /* JSQMessagesCollectionViewFlowLayout.m in Sources */,
 				4568E19A1A90E89400302F81 /* RoundButtonView.swift in Sources */,
 				457290FD1A71AE4A00FD5251 /* NSData+ImageContentType.m in Sources */,
+				4510693F1AF11CBF00F81D50 /* PicturesService.m in Sources */,
 				455DB3391A99D3AA00CEAEA2 /* UIImage+JSQMessages.m in Sources */,
 				457291031A71AE4A00FD5251 /* SDWebImageManager.m in Sources */,
 				45AE75B81AEA2BB000D0F14A /* EditPicturesController.swift in Sources */,
@@ -1396,6 +1471,7 @@
 				4591A7661ACE6C09001DED1C /* AFHTTPRequestOperation.m in Sources */,
 				455DB3551A99D3AA00CEAEA2 /* JSQMessagesInputToolbar.m in Sources */,
 				457291091A71AE4A00FD5251 /* UIImageView+WebCache.m in Sources */,
+				459CDCE71AED34A800E9103D /* EditDistanceController.swift in Sources */,
 				457290FE1A71AE4A00FD5251 /* SDImageCache.m in Sources */,
 				455DB34E1A99D3AA00CEAEA2 /* JSQMessagesCollectionView.m in Sources */,
 				455DB3401A99D3AA00CEAEA2 /* JSQMessagesMediaViewBubbleImageMasker.m in Sources */,
@@ -1412,6 +1488,7 @@
 				458D3C971A68442100A0BD6B /* ViewController.swift in Sources */,
 				4560D4001A73724300564860 /* AgeSelectionController.swift in Sources */,
 				455DB3561A99D3AA00CEAEA2 /* JSQMessagesLabel.m in Sources */,
+				451069441AF11ECF00F81D50 /* UserSettingsService.m in Sources */,
 				455DB35A1A99D3AA00CEAEA2 /* JSQMessagesToolbarContentView.m in Sources */,
 				457291001A71AE4A00FD5251 /* SDWebImageDecoder.m in Sources */,
 				455DB34B1A99D3AA00CEAEA2 /* JSQPhotoMediaItem.m in Sources */,
@@ -1431,6 +1508,7 @@
 				455DB3371A99D3AA00CEAEA2 /* UIColor+JSQMessages.m in Sources */,
 				4591A76E1ACE6C09001DED1C /* AFURLSessionManager.m in Sources */,
 				455DB33B1A99D3AA00CEAEA2 /* JSQMessagesKeyboardController.m in Sources */,
+				459CDCE21AED32C500E9103D /* EditGenderController.swift in Sources */,
 				45A1524B1AD7B31B002C4D1C /* ProgressHUD.m in Sources */,
 				455DB3351A99D3AA00CEAEA2 /* JSQSystemSoundPlayer+JSQMessages.m in Sources */,
 				455DB3471A99D3AA00CEAEA2 /* JSQMediaItem.m in Sources */,
@@ -1438,6 +1516,7 @@
 				455DB3381A99D3AA00CEAEA2 /* UIDevice+JSQMessages.m in Sources */,
 				4591A7861ACE6D3D001DED1C /* CoreDataProvider.m in Sources */,
 				459270901AE12719006FFA29 /* base64.c in Sources */,
+				459CDCDF1AEAE54200E9103D /* ChangePrefrencesController.swift in Sources */,
 				455DB3571A99D3AA00CEAEA2 /* JSQMessagesLoadEarlierHeaderView.m in Sources */,
 				455DB3451A99D3AA00CEAEA2 /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,
 				455DB34A1A99D3AA00CEAEA2 /* JSQMessagesBubbleImage.m in Sources */,
@@ -1468,6 +1547,7 @@
 				457290FF1A71AE4A00FD5251 /* SDWebImageCompat.m in Sources */,
 				457291061A71AE4A00FD5251 /* UIImage+GIF.m in Sources */,
 				45174A381A77EEAC00F17584 /* GamePlayController.swift in Sources */,
+				459CDCEA1AED34CA00E9103D /* EditAgeController.swift in Sources */,
 				45EDA6091A8A2DA000CDB4EF /* MatchCell.swift in Sources */,
 				455DB3491A99D3AA00CEAEA2 /* JSQMessagesAvatarImage.m in Sources */,
 				4591A7671ACE6C09001DED1C /* AFHTTPRequestOperationManager.m in Sources */,
@@ -1534,7 +1614,7 @@
 					"$(PROJECT_DIR)/ThirdParty/FacebookSDK",
 				);
 				INFOPLIST_FILE = "DwindleDating copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "DwindleDating copy";
 				PROVISIONING_PROFILE = "9189fda0-90f4-41b0-a087-f6d3031a0388";
@@ -1552,7 +1632,7 @@
 					"$(PROJECT_DIR)/ThirdParty/FacebookSDK",
 				);
 				INFOPLIST_FILE = "DwindleDating copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "DwindleDating copy";
 				PROVISIONING_PROFILE = "9189fda0-90f4-41b0-a087-f6d3031a0388";

@@ -73,8 +73,13 @@ static void *kContentImageViewObservationContext = &kContentImageViewObservation
     // progress autoPlayTimeInterval
     if (self.autoPlayTimeInterval > 0) {
         if ((self.isContinuous && _datasourceImages.count > 3) || (!self.isContinuous &&_datasourceImages.count > 1)) {
-            [self performSelector:@selector(autoSwitchBannerView) withObject:nil afterDelay:self.autoPlayTimeInterval];
+            [self performSelector:@selector(autoSwitchBannerView)
+                       withObject:nil
+                       afterDelay:self.autoPlayTimeInterval];
         }
+    }
+    else{
+        NSLog(@"No Auto Play Interval => %lu",(unsigned long)self.autoPlayTimeInterval);
     }
 }
 
@@ -222,7 +227,11 @@ static void *kContentImageViewObservationContext = &kContentImageViewObservation
     
     [self setSwitchPage:-1 animated:YES withUserInterface:NO];
     
-    [self performSelector:_cmd withObject:nil afterDelay:self.autoPlayTimeInterval];
+    if (self.autoPlayTimeInterval > 0) {
+        [self performSelector:_cmd withObject:nil afterDelay:self.autoPlayTimeInterval];
+    }
+    
+
 }
 
 #pragma mark - KVO
@@ -282,7 +291,12 @@ static void *kContentImageViewObservationContext = &kContentImageViewObservation
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [self performSelector:@selector(autoSwitchBannerView) withObject:nil afterDelay:self.autoPlayTimeInterval];
+    if (self.autoPlayTimeInterval > 0) {
+        
+        [self performSelector:@selector(autoSwitchBannerView)
+                   withObject:nil
+                   afterDelay:self.autoPlayTimeInterval];
+    }
 }
 
 #pragma mark - UIGestureRecognizerDelegate

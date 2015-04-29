@@ -20,8 +20,47 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
     @IBOutlet var btnPicture5       :   RoundButtonView!
 
     
-    
+    var userPicturesDict : NSDictionary!
     var btnOpener : UIButton?
+    
+    
+    func getUserPictures(){
+        
+        ProgressHUD.show("Loading pictures...")
+        var settings = UserSettings.loadUserSettings()
+        var manager = ServiceManager()
+        manager.getUserPicturesAgainstFacebookId(settings.fbId,  sucessBlock: { (pictures:[NSObject: AnyObject]!) -> Void in
+            //code
+            ProgressHUD.dismiss()
+            
+            
+            var data:NSDictionary = pictures as NSDictionary
+            self.userPicturesDict = data
+            println("pictures \(data)")
+            
+            // code
+//            let urlPath: String =
+            var url1: NSURL = NSURL(string: (data["Pic1 Path"] as? String)!)!
+            var url2: NSURL = NSURL(string: (data["Pic2 Path"] as? String)!)!
+            var url3: NSURL = NSURL(string: (data["Pic3 Path"] as? String)!)!
+            var url4: NSURL = NSURL(string: (data["Pic4 Path"] as? String)!)!
+            var url5: NSURL = NSURL(string: (data["Pic5 Path"] as? String)!)!
+            
+            self.btnPicture1.sd_setImageWithURL(url1 , forState: .Normal)
+            self.btnPicture2.sd_setImageWithURL(url2 , forState: .Normal)
+            self.btnPicture3.sd_setImageWithURL(url3 , forState: .Normal)
+            self.btnPicture4.sd_setImageWithURL(url4 , forState: .Normal)
+            self.btnPicture5.sd_setImageWithURL(url5 , forState: .Normal)
+            
+//            self.btnPicture1.sd_setImageWithURL(url1, forState: UIControlState.Normal, placeholderImage: nil, options: SDWebImageOptions.ProgressiveDownload)
+            
+            }) { (error:NSError!) -> Void in
+            //code
+            ProgressHUD.showError("Loading Failed")
+        }
+
+    }
+    
     
     func initContentView(){
         
@@ -30,6 +69,8 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
         self.btnPicture3.borderWidth = 3.0;
         self.btnPicture4.borderWidth = 3.0;
         self.btnPicture5.borderWidth = 3.0;
+        
+        self.getUserPictures()
     }
     
     
@@ -48,6 +89,17 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
     }
     
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+
     // MARK : - WEBSERVICE
     
     
@@ -64,65 +116,63 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
     }
     
     
-    func signup (){
-        self.performSegueWithIdentifier("showMenuController", sender: nil)
+    func updatePicture (){
+
         
-        return
-            
-            //        if(!self.validateAllImages()){
-            //            let myAlert: UIAlertController = UIAlertController(title: title, message: "Please provide all 5 images to proceed", preferredStyle: .Alert)
-            //            myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            //            self.presentViewController(myAlert, animated: true, completion: nil)
-            //            return
-            //        }
-            
-            println("validate all images\(self.validateAllImages())")
+        var picName:String = "";
+        var picUrl : String = "";
+        
+        if(self.btnPicture1.isEqual(btnOpener)){
+            picName = userPicturesDict["Pic1 Name"] as! String
+            picUrl  = userPicturesDict["Pic1 Path"] as! String
+        }
+        else if (self.btnPicture2.isEqual(btnOpener)){
+            picName = userPicturesDict["Pic2 Name"] as! String
+            picUrl  = userPicturesDict["Pic2 Path"] as! String
+        }
+        else if (self.btnPicture3.isEqual(btnOpener)){
+            picName = userPicturesDict["Pic3 Name"] as! String
+            picUrl  = userPicturesDict["Pic3 Path"] as! String
+        }
+        else if (self.btnPicture4.isEqual(btnOpener)){
+            picName = userPicturesDict["Pic4 Name"] as! String
+            picUrl  = userPicturesDict["Pic4 Path"] as! String
+        }
+        else if (self.btnPicture5.isEqual(btnOpener)){
+            picName = userPicturesDict["Pic5 Name"] as! String
+            picUrl  = userPicturesDict["Pic5 Path"] as! String
+        }
+        
+        SDImageCache.sharedImageCache().removeImageForKey(picUrl, fromDisk: true)
         var settings = UserSettings.loadUserSettings()
-        
-        println("User Gender \(settings.userGender)")
-        println("User Distance \(settings.userDistance)")
-        println("From Age \(settings.userAgeFrom)")
-        println("to Age \(settings.userAgeTo)")
-        println("to distance \(settings.userDistance)")
         
         var imagesArr = [UIImage]()
         
-        imagesArr.append(btnPicture1.imageForState(UIControlState.Normal)!)
-        imagesArr.append(btnPicture2.imageForState(UIControlState.Normal)!)
-        imagesArr.append(btnPicture3.imageForState(UIControlState.Normal)!)
-        imagesArr.append(btnPicture4.imageForState(UIControlState.Normal)!)
-        imagesArr.append(btnPicture5.imageForState(UIControlState.Normal)!)
+        imagesArr.append(self.btnOpener!.imageForState(UIControlState.Normal)!)
         
         
-        ProgressHUD.show("Uploading pictures...")
+        ProgressHUD.show("Updating picture")
         
         var manager = ServiceManager()
-        manager.signupWithFacebookId(settings.fbId,
-            gender: settings.userGender,
-            requiredGender: settings.userGender,
-            fromAge:settings.userAgeFrom,
-            toAge: settings.userAgeTo,
-            distance: settings.userDistance,
-            images: imagesArr,
-            sucessBlock: { (isRegistered:Bool) -> Void in
-                println("isRegistered: \(isRegistered)")
-                ProgressHUD.showSuccess("Registered Successfully")
-                self.performSegueWithIdentifier("showMenuController", sender: nil)
-                
+        
+        manager.updateUserPictureAgainstFacebookId(settings.fbId, andPictureName: picName, withImage: imagesArr, sucessBlock: { (isUpdated:Bool) -> Void in
+            println("isUpdated: \(isUpdated)")
+            ProgressHUD.showSuccess("Updated Successfully")
+            
             }) { (error: NSError!) -> Void in
-                ProgressHUD.showSuccess("Registeration Failed")
+                ProgressHUD.showError("Update Failed")
                 println("error: \(error)")
         }
-        
+
     }
     
     // MARK : - IBActions
     
-    @IBAction func nextButtonPressed(sender: UIButton) {
-        
-        self.signup()
-        
-    }
+//    @IBAction func nextButtonPressed(sender: UIButton) {
+//        
+//        self.signup()
+//        
+//    }
     
     
     
@@ -154,7 +204,9 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
             
             var img = info[UIImagePickerControllerEditedImage] as! UIImage //2
             self.btnOpener?.setImage(img, forState: UIControlState.Normal)
-            self.btnOpener?.userInteractionEnabled = false
+//            self.btnOpener?.userInteractionEnabled = false
+            self.updatePicture()
+            
             
         })
     }

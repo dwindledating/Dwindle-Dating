@@ -331,8 +331,8 @@ SocketIODelegate {
         // MARK: -   VIEW LIFE CYCLE
     func initContentView(){
         // Scroll Initialization
-        scroller.autoPlayTimeInterval = 2;
-        scroller.continuous = false;
+        scroller.autoPlayTimeInterval = 0;
+        scroller.continuous = true;
         
         
         // Message Controller Stuff

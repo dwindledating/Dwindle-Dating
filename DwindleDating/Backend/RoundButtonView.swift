@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class RoundButtonView: UIButton {
     
     var borderWidth: CGFloat! = 2.0
@@ -40,6 +42,7 @@ class RoundButtonView: UIButton {
         super.layoutSubviews()
         self.initContentView()
     }
+    
     
 }
 

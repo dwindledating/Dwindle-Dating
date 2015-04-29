@@ -37,6 +37,54 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
     
+    //MARK: - Alert Stuff
+    
+    func removeUser(){
+        println("removeUser")
+        FBSession.activeSession().closeAndClearTokenInformation()
+        var settings = UserSettings.loadUserSettings()
+        settings.removeUserSettings()
+        self.navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    func alert(title: String, message: String) {
+        if let getModernAlert: AnyClass = NSClassFromString("UIAlertController") { // iOS 8
+            
+            let actionHandler = { (action:UIAlertAction!) -> Void in
+                self.removeUser()
+            }
+            
+            let myAlert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+            myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: actionHandler))
+            myAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+            self.presentViewController(myAlert, animated: true, completion: nil)
+        } else { // iOS 7
+            let alert: UIAlertView = UIAlertView()
+            alert.delegate = self
+            
+            alert.title = title
+            alert.message = message
+            alert.addButtonWithTitle("OK")
+            alert.addButtonWithTitle("Cancel")
+            alert.show()
+        }
+    }
+
+    
+    func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
+        switch buttonIndex{
+        case 0:
+            println("1st")
+        case 1:
+            println("2nd")
+        case 2:
+            println("3rd")
+        default:
+            println("error")
+        }
+        
+    }
+    
     
     //MARK: - TableView DataSource
     
@@ -62,6 +110,7 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let checkImage = UIImage(named: "accessory")
             let checkmark = UIImageView(image: checkImage)
             cell_?.accessoryView = checkmark
+            cell_?.backgroundColor = UIColor.clearColor()
 
         }
         
@@ -90,22 +139,6 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
     
-    func alert(title: String, message: String) {
-        if let getModernAlert: AnyClass = NSClassFromString("UIAlertController") { // iOS 8
-            let myAlert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-            myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            self.presentViewController(myAlert, animated: true, completion: nil)
-        } else { // iOS 7
-            let alert: UIAlertView = UIAlertView()
-            alert.delegate = self
-            
-            alert.title = title
-            alert.message = message
-            alert.addButtonWithTitle("OK")
-            
-            alert.show()
-        }
-    }
     
     @IBAction func logout(sender: UIButton) {
         
@@ -120,8 +153,14 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView .deselectRowAtIndexPath(indexPath, animated: true)
-        
-        if (indexPath.row == 2){
+
+        if (indexPath.row == 0){
+            self.performSegueWithIdentifier("showEditPicturesController", sender: nil)
+        }
+        else if (indexPath.row == 1){
+            self.performSegueWithIdentifier("showChangePrefrencesController", sender: nil)
+        }
+        else if (indexPath.row == 2){
             self.performSegueWithIdentifier("pushTermsController", sender: nil)
         }
         else if (indexPath.row == 3){
