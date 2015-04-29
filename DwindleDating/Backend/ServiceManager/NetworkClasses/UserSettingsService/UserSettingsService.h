@@ -13,7 +13,7 @@
 
 -(void) editDistance:(NSNumber*)distance
    againstFacebookId:(NSString*)fbId
-         sucessBlock:(void (^)(bool isUpdated))successBlock
+         sucessBlock:(void (^)(BOOL isUpdated))successBlock
              failure:(void (^)(NSError *error))failureBlock;
 
 
