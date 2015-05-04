@@ -12,7 +12,7 @@
 
 #import "LoginNetworkService.h"
 #import "SignUpNetworkService.h"
-#import "GamePlayUsersService.h"
+
 #import "PicturesService.h"
 #import "UserSettingsService.h"
 
@@ -85,6 +85,21 @@
     
     
 }
+
+-(void) getUserLocation:(void (^)(CLLocation *currentLocation))successBlock
+                failure:(void (^)(NSError *error))failureBlock{
+    
+    
+    GamePlayUsersService *networkService = [GamePlayUsersService new];
+    [networkService getUserLocation:^(CLLocation *currentLocation) {
+        //code
+        successBlock(currentLocation);
+    } failure:^(NSError *error) {
+        //code
+        failureBlock(error);
+    }];
+}
+
 
 
 -(void) getUserPicturesAgainstFacebookId:(NSString*)fbId

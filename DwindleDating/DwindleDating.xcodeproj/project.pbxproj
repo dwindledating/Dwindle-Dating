@@ -267,6 +267,8 @@
 		45C497421ADD410C00031269 /* INTULocationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C4973F1ADD410C00031269 /* INTULocationRequest.m */; };
 		45C497441ADD87BC00031269 /* LocationByAli.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 45C497431ADD87BC00031269 /* LocationByAli.gpx */; };
 		45C99D751A69D1DF00AC0DFC /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C99D741A69D1DF00AC0DFC /* FacebookSDK.framework */; };
+		45DB79981AF661EF00458F2B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45DB79971AF661EF00458F2B /* CoreLocation.framework */; };
+		45DB79991AF661F500458F2B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45DB79971AF661EF00458F2B /* CoreLocation.framework */; };
 		45DBF22C1A73EBFF0055D3CB /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF22B1A73EBFF0055D3CB /* MenuController.swift */; };
 		45EB7F651A73B57D006ECAD2 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EB7F641A73B57D006ECAD2 /* UserSettings.m */; };
 		45EB7F671A73C24D006ECAD2 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EB7F661A73C24D006ECAD2 /* SettingsController.swift */; };
@@ -522,6 +524,7 @@
 		45C497401ADD410C00031269 /* INTULocationRequestDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INTULocationRequestDefines.h; sourceTree = "<group>"; };
 		45C497431ADD87BC00031269 /* LocationByAli.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LocationByAli.gpx; sourceTree = "<group>"; };
 		45C99D741A69D1DF00AC0DFC /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		45DB79971AF661EF00458F2B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		45DBF22B1A73EBFF0055D3CB /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		45EB7F631A73B57D006ECAD2 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserSettings.h; path = Backend/UserSettings.h; sourceTree = "<group>"; };
 		45EB7F641A73B57D006ECAD2 /* UserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserSettings.m; path = Backend/UserSettings.m; sourceTree = "<group>"; };
@@ -538,6 +541,7 @@
 				451BC6551AE6E65D003E1C2D /* Foundation.framework in Frameworks */,
 				451BC6561AE6E65D003E1C2D /* Security.framework in Frameworks */,
 				451BC6571AE6E65D003E1C2D /* libicucore.dylib in Frameworks */,
+				45DB79991AF661F500458F2B /* CoreLocation.framework in Frameworks */,
 				451BC6581AE6E65D003E1C2D /* QuartzCore.framework in Frameworks */,
 				451BC6591AE6E65D003E1C2D /* FacebookSDK.framework in Frameworks */,
 			);
@@ -547,6 +551,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45DB79981AF661EF00458F2B /* CoreLocation.framework in Frameworks */,
 				4598E5041AE15ADB00FC7EC7 /* CFNetwork.framework in Frameworks */,
 				4598E5021AE15AD500FC7EC7 /* Foundation.framework in Frameworks */,
 				4598E5001AE15ACD00FC7EC7 /* Security.framework in Frameworks */,
@@ -856,16 +861,11 @@
 		458D3C861A68442100A0BD6B = {
 			isa = PBXGroup;
 			children = (
-				4598E5031AE15ADB00FC7EC7 /* CFNetwork.framework */,
-				4598E5011AE15AD500FC7EC7 /* Foundation.framework */,
-				4598E4FF1AE15ACD00FC7EC7 /* Security.framework */,
-				4598E4FD1AE15AC600FC7EC7 /* libicucore.dylib */,
-				45C497431ADD87BC00031269 /* LocationByAli.gpx */,
-				45AEF4B21A876580003BAF17 /* QuartzCore.framework */,
 				45EB7F601A73AD91006ECAD2 /* Backend */,
 				45C99D721A69D1DF00AC0DFC /* ThirdParty */,
 				458D3C911A68442100A0BD6B /* DwindleDating */,
 				458D3CA71A68442200A0BD6B /* DwindleDatingTests */,
+				459DD9E41AF81B8700BA2F81 /* Frameworks */,
 				458D3C901A68442100A0BD6B /* Products */,
 				451BC66E1AE6E65E003E1C2D /* DwindleDating copy-Info.plist */,
 			);
@@ -1094,6 +1094,20 @@
 				4560D4031A73726600564860 /* PictureSelectionController.swift */,
 			);
 			name = SignupController;
+			sourceTree = "<group>";
+		};
+		459DD9E41AF81B8700BA2F81 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				45DB79971AF661EF00458F2B /* CoreLocation.framework */,
+				4598E5031AE15ADB00FC7EC7 /* CFNetwork.framework */,
+				4598E5011AE15AD500FC7EC7 /* Foundation.framework */,
+				4598E4FF1AE15ACD00FC7EC7 /* Security.framework */,
+				4598E4FD1AE15AC600FC7EC7 /* libicucore.dylib */,
+				45C497431ADD87BC00031269 /* LocationByAli.gpx */,
+				45AEF4B21A876580003BAF17 /* QuartzCore.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		45A152461AD7B31B002C4D1C /* ProgressHUD */ = {
@@ -1729,7 +1743,7 @@
 					"$(PROJECT_DIR)/ThirdParty/FacebookSDK",
 				);
 				INFOPLIST_FILE = DwindleDating/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0cc0da01-5736-48fb-90f4-78272481bd7b";
@@ -1747,7 +1761,7 @@
 					"$(PROJECT_DIR)/ThirdParty/FacebookSDK",
 				);
 				INFOPLIST_FILE = DwindleDating/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0cc0da01-5736-48fb-90f4-78272481bd7b";

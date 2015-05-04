@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+//import corelocation
 
 //, KDCycleBannerViewDelegate
 class GamePlayController: JSQMessagesViewController,
@@ -19,25 +19,36 @@ SocketIODelegate {
     
     @IBOutlet var scroller : KDCycleBannerView!
     
+    @IBOutlet weak var btn1: RoundButtonView!
+    @IBOutlet weak var btn2: RoundButtonView!
+    @IBOutlet weak var btn3: RoundButtonView!
+    @IBOutlet weak var btn4: RoundButtonView!
+    @IBOutlet weak var btn5: RoundButtonView!
+    
+    
+    var playersDict:[String:AnyObject]! = [:]
+    
     var playerMain : Player!
     var playerOpponent: Player!
     var playerOther1 : Player!
     var playerOther2 : Player!
     var playerOther3 : Player!
+    var playerOther4 : Player!
     var socketIO     :SocketIO?
     
     @IBOutlet weak var galleryHeightConstraint : NSLayoutConstraint?
     
     @IBOutlet var imagesViewContainer : UIView!
     
-    var galleryOpenerButton : UIButton!
+    var galleryOpenerButton : RoundButtonView!
     var demoData: DemoModelData!
     
     
     
     
-    func receiveMessagePressed(sender: UIBarButtonItem){
-        
+    func skipPressed(sender: UIBarButtonItem){
+
+        self.socketIO?.sendEvent("loggedout", withData:[])
         
     }
     
@@ -50,24 +61,38 @@ SocketIODelegate {
     
     // MARK: - Scroller Stuff - KDCycleBannerView DELEGATE
     
-    func placeHolderImageOfBannerView(bannerView: KDCycleBannerView!, atIndex index: UInt) -> UIImage! {
-        let img = UIImage(named:"image1.png")!
-        return img
-    }
-    
-    func placeHolderImageOfZeroBannerView() -> UIImage! {
-        let img = UIImage(named:"image1.png")!
-        return img
-    }
+//    func placeHolderImageOfBannerView(bannerView: KDCycleBannerView!, atIndex index: UInt) -> UIImage! {
+//        let img = UIImage(named:"image1.png")!
+//        return img
+//    }
+//    
+//    func placeHolderImageOfZeroBannerView() -> UIImage! {
+//        let img = UIImage(named:"image1.png")!
+//        return img
+//    }
     
     
     // MARK : KDCycleBannerView DataSource
     func numberOfKDCycleBannerView(bannerView: KDCycleBannerView!) -> [AnyObject]! {
-        let imagesList   = [UIImage(named:"signup_01")!,
-                            UIImage(named:"signup_02")!,
-                            UIImage(named:"signup_03")!]
+       
+        var imagesList:AnyObject = []
+        var selectedPlayer: Player!
         
-        return imagesList
+        if var tmpOpener = galleryOpenerButton{
+            selectedPlayer = self.getPlayerAgainstId(galleryOpenerButton.playerId)
+        }
+        
+        if var tmpSelectedPlayer = selectedPlayer{
+
+            imagesList = (selectedPlayer.galleryImages as NSArray as? [NSURL])!
+            
+        }
+        else{
+            // is nil
+                let imagesList   = [UIImage(named:"signup_01")!]
+        }
+        
+        return imagesList as! [AnyObject]
     }
     
     
@@ -76,12 +101,168 @@ SocketIODelegate {
     }
 
     
+    // MARK: - PlayersManagement - PLAYERS
     
-        // MARK: - Action Methods
+    func handleDeleteUser(response:[String:AnyObject]){
+
+        let deleteUserDict:AnyObject = (response["DeletedUser"] as? Dictionary<String,AnyObject>)!
+        let deleteUserFbId:String = (deleteUserDict["fb_id"] as? String)!
+        println("DeleteUserFbId => \(deleteUserFbId))")
+        
+        var btn = self.getPlayerButtonAgainstId(deleteUserFbId)
+        btn.selected = false
+        btn.enabled = false
+
+    }
+
+    func handleAddUser(response:[String:AnyObject], key:String){
+        
+        let userDict:AnyObject = (response[key] as? Dictionary<String,AnyObject>)!
+        let userFbId:String = (userDict["fb_id"] as? String)!
+        let userImgPath:String = (userDict["pic_path"] as? String)!
+        
+        var player = self.getPlayerAgainstId(userFbId)
+        player.addImageUrlToGallery(userImgPath)
+        
+        
+    }
 
     
+    
+    
+    func handleDwindleDown(respDict:[String:AnyObject]){
+        
+        
+//        let string = "{\"name\": \"John\", \"age\": 35, \"children\": [\"Jack\", \"Jill\"]}"
+//        let respStr = "{\"DwindleDown\":{\"DeletedUser\":{\"fb_id\":\"DDDD\"},\"User1\":{\"fb_id\":\"637824466345948\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/637824466345948/image11.png\"},\"User2\":{\"fb_id\":\"A\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/A/Purple-Colored-MacBook-Keyboard.jpg\"},\"OtherUser1\":{\"fb_id\":\"1427619287531895\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/1427619287531895/3.png\"},\"OtherUser2\":{\"fb_id\":\"10153221085360955\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/10153221085360955/3.jpg\"},\"OtherUser4\":{\"fb_id\":\"AAA\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/AAA/Purple-Colored-MacBook-Keyboard.jpg\"}}}"
+//        
+//        
+//        let respDict:AnyObject = self.JSONParseDictionary(respStr)
+        
+//        let roomUserInfoDict: AnyObject =  self.JSONParseDictionary(dataStr)
+//        let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
+
+        let ddDict:[String:AnyObject] = (respDict["DwindleDown"] as? Dictionary<String,AnyObject>)!
+
+        
+        for (key, value) in ddDict {
+            
+            if (key == "DeletedUser"){
+                //        1. Delete User
+                self.handleDeleteUser(ddDict as [String : AnyObject])
+            }
+            else{
+                //        2. Add picture to Remaining Users
+                self.handleAddUser(ddDict as [String : AnyObject], key: key)
+            }
+            
+        }
+
+        
+//        let deleteUserDict:AnyObject = (ddDict["DeletedUser"] as? Dictionary<String,AnyObject>)!
+//        let deleteUserFbId:String = (deleteUserDict["fb_id"] as? String)!
+//        println("DeleteUserFbId => \(deleteUserFbId))")
+        
+        
+//{\"DwindleDown\":{\"DeletedUser\":{\"fb_id\":\"DDDD\"},\"User1\":{\"fb_id\":\"637824466345948\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/637824466345948/image11.png\"},\"User2\":{\"fb_id\":\"A\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/A/Purple-Colored-MacBook-Keyboard.jpg\"},\"OtherUser1\":{\"fb_id\":\"1427619287531895\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/1427619287531895/3.png\"},\"OtherUser2\":{\"fb_id\":\"10153221085360955\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/10153221085360955/3.jpg\"},\"OtherUser4\":{\"fb_id\":\"AAA\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/AAA/Purple-Colored-MacBook-Keyboard.jpg\"}}}
+        
+        
+    }
+
+    
+    
+    func getPlayerButtonAgainstId(fbId:String)-> RoundButtonView{
+        
+        if(btn1.playerId == fbId){
+            return btn1
+        }
+        else if (btn2.playerId == fbId){
+            return btn2
+        }
+        else if (btn3.playerId == fbId){
+            return btn3
+        }
+        else if (btn4.playerId == fbId){
+            return btn4
+        }
+        else
+        {
+            return btn5
+        }
+    }
+    
+    func getPlayerAgainstId(fbId: String) -> Player{
+
+        var playerRequested : Player!
+        if var tmpPlayersDict = playersDict{
+
+                for (key, value) in playersDict {
+                    var player  = playersDict[key] as? Player
+                    if (player?.fbId == fbId){
+                        playerRequested = player
+                        break
+                    }
+                }
+            }
+        else{
+            // is nil
+        }
+        return playerRequested
+        
+    }
+    
+    // MARK: - HANDLE UI - DwindleDown
+    
+    func setPlayerImages(){
+
+        
+        
+        playersDict["main"] = self.playerMain
+        playersDict["opponent"] = self.playerOpponent
+        playersDict["other1"] = self.playerOther1
+        playersDict["other2"] = self.playerOther2
+        playersDict["other3"] = self.playerOther3
+        playersDict["other4"] = self.playerOther4
+        
+        
+        btn1.playerId = self.playerOpponent.fbId
+        btn2.playerId = self.playerOther1.fbId
+        btn3.playerId = self.playerOther2.fbId
+        btn4.playerId = self.playerOther3.fbId
+        btn5.playerId = self.playerOther4.fbId
+        
+        btn1.sd_setImageWithURL(self.playerOpponent.imgPath, forState:.Normal)
+        btn2.sd_setImageWithURL(self.playerOther1.imgPath, forState:.Normal)
+        btn3.sd_setImageWithURL(self.playerOther2.imgPath, forState:.Normal)
+        btn4.sd_setImageWithURL(self.playerOther3.imgPath, forState:.Normal)
+        btn5.sd_setImageWithURL(self.playerOther4.imgPath, forState:.Normal)
+        
+        println("PlayerOpponent = \(self.playerOpponent.imgPath)")
+        println("PlayerOther1 = \(self.playerOther1.imgPath)")
+        println("PlayerOther2 = \(self.playerOther2.imgPath)")
+        println("PlayerOther3 = \(self.playerOther3.imgPath)")
+        println("PlayerOther4 = \(self.playerOther4.imgPath)")
+        
+    }
+    
+    
+    
+    
+    // MARK: - HANDLE UI - OpenGallery
+
+    
+    func hideKeyboard(){
+
+        if(self.inputToolbar.contentView.textView.isFirstResponder()){
+            self.inputToolbar.contentView.textView.resignFirstResponder()
+        }
+    }
+    
     @IBAction func openImageGallery(sender: AnyObject) {
-  
+
+        //Close Keyboard
+        self.hideKeyboard()
+        
         var button = sender as? UIButton
         println("tagId\(button?.tag)")
         
@@ -91,14 +272,14 @@ SocketIODelegate {
             }
             else{
                 galleryOpenerButton.tag = 0
-                galleryOpenerButton = button
+                galleryOpenerButton = button as? RoundButtonView
                 println("Different Button")
             }
         }
         else{
             // cacheId is nil
             
-            galleryOpenerButton = button
+            galleryOpenerButton = button as? RoundButtonView
             println("Setting Button")
         }
 
@@ -116,6 +297,10 @@ SocketIODelegate {
             self.view.needsUpdateConstraints()
             self.view.layoutIfNeeded()
         }
+        
+        scroller.reloadDataWithCompleteBlock { () -> Void in
+            //code
+        }
     }
     
     // MARK: - Utilty Methods
@@ -129,7 +314,15 @@ SocketIODelegate {
         }
         return [AnyObject]()
     }
-    
+
+    func JSONParseDictionary(jsonString: String) -> [String: AnyObject] {
+        if let data = jsonString.dataUsingEncoding(NSUTF8StringEncoding) {
+            if let dictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: nil)  as? [String: AnyObject] {
+                return dictionary
+            }
+        }
+        return [String: AnyObject]()
+    }
     
     // MARK: -   WEBSERVICE
     
@@ -185,7 +378,9 @@ SocketIODelegate {
         // create socket.io client instance
         
         self.socketIO = SocketIO(delegate: self)
+        //var settings = UserSettings.loadUserSettings()
         
+        //self.socketIO?.setResourceName(settings.fbId)
         
         var properties = [NSHTTPCookieDomain:"52.11.98.82",
                           NSHTTPCookiePath:"/",
@@ -206,6 +401,10 @@ SocketIODelegate {
     
     func startGame(){
         
+//        self.handleDwindleDown([:])
+//        return
+
+        ProgressHUD.show("Commencing Game...")
         self.initSocketConnection();
         
     }
@@ -223,14 +422,24 @@ SocketIODelegate {
     func socketIODidConnect(socket: SocketIO!) {
         println("socket.io connected.")
         
-        var playerId:String = self.playerMain.fbId
-        println("Info\(playerId)")
+        var settings = UserSettings.loadUserSettings()
+        ProgressHUD.show("Joining User...")
+        var manager = ServiceManager()
         
-        self.socketIO?.sendEvent("addMainUser", withData: [playerId])
-//        self.socketIO?.sendEvent("addMainUser", withData: data)
-//        socketIO?.sendEvent("addMainUser", withData: data)
-//        [socketIO sendEvent:@"addUser" withData:@[@"yunas",@"alirajab"]];
-
+        
+        
+        
+        manager.getUserLocation({ (location: CLLocation!) -> Void in
+            //code
+            println("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
+            self.socketIO?.sendEvent("Play", withData: [settings.fbId,location.coordinate.longitude,location.coordinate.latitude])
+            
+            }, failure: { (error:NSError!) -> Void in
+            //code
+                    println("Error Message =>\(error.localizedDescription)")
+        })
+        
+        
     }
     
     
@@ -248,56 +457,67 @@ SocketIODelegate {
         
 
         
-        if (packet.name == "mainuseradded") {
-             println("\n MainUserAdded data as string looks like \(packet.data)")
-            var playerId:String = self.playerMain.fbId
-            var playerOpponentId:String = self.playerOpponent.fbId
-            println("playerId \(playerId) andOpponentPlayerId\(playerOpponentId)")
-//            self.socketIO?.sendEvent("addUser", withData: [playerOpponentId,playerId])
-        }
-        else if (packet.name == "useradded"){
+        if (packet.name == "startgame") {
+            
+            
+            println("\n startgame data as string looks like \(packet.data)")
 
-            println("\n UserAdded data as string looks like \(packet.data)")
-//            self.socketIO?.sendEvent("sendchat", withData: ["message from yunas"])
-        }
+            let responseArr:AnyObject =  packet.dataAsJSON()
+            let dataStr: String = responseArr[1] as! String
+            
+            let roomUserInfoDict: AnyObject =  self.JSONParseDictionary(dataStr)
+            let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
+
+
+            
+            self.playerMain      =  Player(dict: roomUserInfoDict["MainUser"]! as? Dictionary)
+            self.playerOpponent  = Player(dict: roomUserInfoDict["SecondUser"]! as? Dictionary)
+            
+            var otherData:AnyObject = roomUserInfoDict["OtherUsers"] as! NSArray
+            self.playerOther1 = Player(dict: otherData[0]! as? Dictionary)
+            self.playerOther2 = Player(dict: otherData[1]! as? Dictionary)
+            self.playerOther3 = Player(dict: otherData[2]! as? Dictionary)
+            self.playerOther4 = Player(dict: otherData[3]! as? Dictionary)
+
+            ProgressHUD.showSuccess("Game Commenced Succesfully")
+            
+            self.setPlayerImages()
+            
+            println("\n RoomName ==>  \(roomName)")
+            
+            self.socketIO?.sendEvent("addUser", withData: [roomName])
         
+        }
         else if (packet.name == "updatechat"){
             println("\n \(packet.name) data as string looks like \(packet.data)")
+            
+            //["updatechat","A","Hi"]
+
+            let responseArr:AnyObject =  packet.dataAsJSON()
+            var _senderId:String = (responseArr[1] as? String)!
+            var _message:String = (responseArr[2] as? String)!
+            if (_senderId == self.playerOpponent.fbId){
+                self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
+            }
+            
         }
         
-        else if (packet.name == "adduserspic"){
+        else if (packet.name == "dwindledown"){
             println("\n \(packet.name) data as string looks like \(packet.data)")
+
+            let responseArr:AnyObject =  packet.dataAsJSON()
+            let dataStr: String = responseArr[1] as! String
+            
+            let dwindledownDict: AnyObject =  self.JSONParseDictionary(dataStr)
+            self.handleDwindleDown(dwindledownDict as! [String : AnyObject])
+            
         }
-        else if (packet.name == "deleteuser"){
-            println("\n \(packet.name) data as string looks like \(packet.data)")
+        else if (packet.name == "useradded"){
+            
+            println("\n UserAdded data as string looks like \(packet.data)")
         }
-        
-//        if (packet.name == "updaterooms") {
-//           
-////            self.JSONParseArray(packet.dataAsJSON())
-////            let dictionary = self.JSONParseDictionary(packet.data)
-//
-//            let responseArr:AnyObject = packet.dataAsJSON()
-//            println("updateRooms data looks like \(responseArr)")
-//            println("\n updateRooms data as string looks like \(packet.data)")
-//            
-//            
-////            let connectedInfoDict: AnyObject! = responseArr[1]
-//            let connectedInfoDict: Dictionary<String, AnyObject> = (responseArr[1] as? Dictionary)!
-//            
-//            let userName = connectedInfoDict["name"] as? String
-//            
-////            if( userName == self.playerMain.fbId){
-////                var playerId:String = self.playerMain.fbId
-////                var playerOpponentId:String = self.playerOpponent.fbId
-////                println("playerId \(playerId) andOpponentPlayerId\(playerOpponentId)")
-////                
-////                self.socketIO?.sendEvent("addUser", withData: [playerOpponentId,playerId])
-////
-////            }
-//            
-//            
-//        }
+
+
 
     }
     
@@ -340,8 +560,12 @@ SocketIODelegate {
         /**
         *  You MUST set your senderId and display name
         */
-        self.senderId = "053496-4509-289"//kJSQDemoAvatarIdSquires;
-        self.senderDisplayName = "Jesse Squires"// kJSQDemoAvatarDisplayNameSquires;
+        
+        var settings = UserSettings.loadUserSettings()
+//        settings.fbId
+        
+        self.senderId = settings.fbId //"053496-4509-289"//kJSQDemoAvatarIdSquires;
+        self.senderDisplayName = settings.fbId // "Jesse Squires"// kJSQDemoAvatarDisplayNameSquires;
         
         self.demoData = DemoModelData()
         
@@ -353,7 +577,7 @@ SocketIODelegate {
             self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
         }
         
-        self.showLoadEarlierMessagesHeader = true
+        self.showLoadEarlierMessagesHeader = false
         self.jsq_configureMessagesViewController();
         self.jsq_registerForNotifications(true);
     
@@ -373,6 +597,7 @@ SocketIODelegate {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.collectionView.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();
+        self.startGame()
     }
     
     override func viewDidLoad() {
@@ -382,12 +607,7 @@ SocketIODelegate {
         self.title = "Chat Controller"
         self.initContentView()
         
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.jsq_defaultTypingIndicatorImage(), style: UIBarButtonItemStyle.Bordered, target: self, action: "receiveMessagePressed:")
-
-        //        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Home", style:UIBarButtonItemStyle.Bordered , target: self, action: "receiveMessagePressed:")
-
-        
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style:UIBarButtonItemStyle.Bordered , target: self, action: "receiveMessagePressed:")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style:UIBarButtonItemStyle.Bordered , target: self, action: "skipPressed:")
 
     }
     
@@ -403,10 +623,18 @@ SocketIODelegate {
     //============================================================================================\\
     // MARK: -   Actions
     
-    func receivedMessagePressed(sender: UIBarButtonItem) {
+//    func receivedMessagePressed(sender: UIBarButtonItem) {
+    func receivedMessagePressed(_senderId:String, _displayName:String, _message:String) {
         // Simulate reciving message
         showTypingIndicator = !showTypingIndicator
         scrollToBottomAnimated(true)
+        var newMessage : JSQMessage ;
+
+        newMessage = JSQMessage(senderId: _senderId, displayName: _displayName, text: _message)
+        JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
+        self.demoData.messages.addObject(newMessage)
+        self.finishReceivingMessageAnimated(true)
+        
     }
     
     
@@ -476,10 +704,6 @@ SocketIODelegate {
             
             break;
             
-//        case 3:
-//            self.demoData.addVideoMediaMessage();
-//            break;
-            
         default:
             
             break;
@@ -540,18 +764,18 @@ SocketIODelegate {
         *  Override the defaults in `viewDidLoad`
         */
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
-        
-        if (message.senderId == self.senderId) {
-            if (!NSUserDefaults.outgoingAvatarSetting()) {
-                return nil;
-            }
-        }
-        else {
-            if (!NSUserDefaults.incomingAvatarSetting()) {
-                return nil;
-            }
-        }
+        //        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
+        //        
+        //        if (message.senderId == self.senderId) {
+        //            if (!NSUserDefaults.outgoingAvatarSetting()) {
+        //                return nil;
+        //            }
+        //        }
+        //        else {
+        //            if (!NSUserDefaults.incomingAvatarSetting()) {
+        //                return nil;
+        //            }
+        //        }
         
         return nil;
         //return self.demoData.avatars[message.senderId] as JSQMessageAvatarImageDataSource;

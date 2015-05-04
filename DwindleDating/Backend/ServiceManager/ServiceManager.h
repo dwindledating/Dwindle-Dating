@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GamePlayUsersService.h"
 
 
 @interface ServiceManager : NSObject
@@ -38,6 +39,9 @@
 -(void) getGamePlayUsersAgainstFacebookId:(NSString*)fbId
                               sucessBlock:(void (^)(NSDictionary* allPlayers))successBlock
                                   failure:(void (^)(NSError *error))failureBlock;
+
+-(void) getUserLocation:(void (^)(CLLocation *currentLocation))successBlock
+                failure:(void (^)(NSError *error))failureBlock;
 
 -(void) getUserPicturesAgainstFacebookId:(NSString*)fbId
                              sucessBlock:(void (^)(NSDictionary* pictures))successBlock

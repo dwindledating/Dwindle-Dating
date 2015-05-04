@@ -7,7 +7,7 @@
 //
 
 #import "GamePlayUsersService.h"
-#import "INTULocationManager.h"
+
 #import "Player.h"
 
 @implementation GamePlayUsersService
@@ -94,6 +94,54 @@
         }
     }];
 
+}
+
+
+-(void) getUserLocation:(void (^)(CLLocation *currentLocation))successBlock
+                failure:(void (^)(NSError *error))failureBlock{
+    
+    
+    
+    INTULocationManager *locMgr = [INTULocationManager sharedInstance];
+    INTULocationRequestID locationRequestID;
+    locationRequestID = [locMgr requestLocationWithDesiredAccuracy:INTULocationAccuracyHouse
+                                                           timeout:10
+                                              delayUntilAuthorized:YES
+                                                             block:
+                         ^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+                             
+                             if (status == INTULocationStatusSuccess) {
+                                 // A new updated location is available in currentLocation, and achievedAccuracy indicates how accurate this particular location is
+                                 NSString* text = [NSString stringWithFormat:@"Subscription block called with Current Location:\n%@", currentLocation];
+                                 NSLog(@"%@",text);
+                                 
+                                 successBlock(currentLocation);
+                                 
+                             }
+                             else {
+                                 // An error occurred, which causes the subscription to cancel automatically (this block will not execute again unless it is used to start a new subscription).
+                                 
+                                 //            __locationRequestID = NSNotFound;
+                                 //
+                                 
+                                 NSString *errorMsg ;
+                                 if (status == INTULocationStatusServicesNotDetermined) {
+                                     errorMsg = @"Error: User has not responded to the permissions alert.";
+                                 } else if (status == INTULocationStatusServicesDenied) {
+                                     errorMsg = @"Error: User has denied this app permissions to access device location.";
+                                 } else if (status == INTULocationStatusServicesRestricted) {
+                                     errorMsg = @"Error: User is restricted from using location services by a usage policy.";
+                                 } else if (status == INTULocationStatusServicesDisabled) {
+                                     errorMsg = @"Error: Location services are turned off for all apps on this device.";
+                                 } else {
+                                     errorMsg = @"An unknown error occurred.\n(Are you using iOS Simulator with location set to 'None'?)";
+                                 }
+                                 
+                                 NSError* error = [NSError errorWithDomain:@"local" code:420 userInfo:@{@"message":errorMsg}];
+                                 failureBlock(error);
+                             }
+                         }];
+    
     
     
     

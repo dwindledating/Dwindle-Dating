@@ -12,7 +12,9 @@
 
 @property (nonatomic,retain) NSString *fbId;
 @property (nonatomic,retain) NSURL *imgPath;
+@property (nonatomic,retain) NSMutableArray *galleryImages;
 
 - (instancetype)initWithDict:(NSDictionary*)dict;
+- (void) addImageUrlToGallery:(NSString*)imgPath;
 
 @end

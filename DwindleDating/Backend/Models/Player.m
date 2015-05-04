@@ -11,7 +11,7 @@
 @implementation Player
 
 - (instancetype)initWithDict:(NSDictionary*)dict{
-    self = [self initWithFBId:dict[@"fb_id"] andImagePath:@"pic_path"];
+    self = [self initWithFBId:dict[@"fb_id"] andImagePath:dict[@"pic_path"]];
     return self;
 }
 
@@ -20,6 +20,8 @@
     if (self) {
         self.fbId = [NSString stringWithString:fbId];
         self.imgPath = [NSURL URLWithString:imgPath];
+        self.galleryImages = [NSMutableArray new];
+        [self.galleryImages addObject:self.imgPath];
     }
     return self;
 }
@@ -30,6 +32,11 @@
         
     }
     return self;
+}
+
+
+- (void) addImageUrlToGallery:(NSString*)imgPath{
+     [self.galleryImages addObject:[NSURL URLWithString:imgPath]];
 }
 
 @end

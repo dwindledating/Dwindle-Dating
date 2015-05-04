@@ -46,6 +46,15 @@ static char imageURLKey;
         self.image = placeholder;
     }
     
+    
+    UIActivityIndicatorView* activityIndication = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    [activityIndication setFrame:CGRectMake((self.frame.size.width - activityIndication.frame.size.width) / 2 , (self.frame.size.height - activityIndication.frame.size.height) / 2 , activityIndication.frame.size.width , activityIndication.frame.size.width)];
+    [self addSubview:activityIndication];
+    
+    [activityIndication startAnimating];
+
+    
     if (url) {
         __weak UIImageView *wself = self;
         id <SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadImageWithURL:url options:options progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
@@ -53,6 +62,10 @@ static char imageURLKey;
             dispatch_main_sync_safe(^{
                 if (!wself) return;
                 if (image) {
+                    
+                    [activityIndication stopAnimating];
+                    [activityIndication removeFromSuperview];
+                    
                     wself.image = image;
                     [wself setNeedsLayout];
                 } else {
