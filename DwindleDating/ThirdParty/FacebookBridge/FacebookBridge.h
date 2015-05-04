@@ -10,5 +10,18 @@
 #define DwindleDating_FacebookBridge_h
 
 #import <FacebookSDK/FacebookSDK.h>
+#import "KDCycleBannerView.h"
+#import "ProgressHUD.h"
+#import "UIImageView+WebCache.h"
+#import "UIButton+WebCache.h"
+#import "UserSettings.h"
+
+#import "DemoModelData.h"
+#import "NSUserDefaults+DemoSettings.h"
+#import "JSQMessagesViewController.h"
+#import "ServiceManager.h"
+#import "Player.h"
+#import "SocketIO.h"
+
 
 #endif

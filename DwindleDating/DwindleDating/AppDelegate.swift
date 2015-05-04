@@ -17,14 +17,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         // Override point for customization after application launch.
+//            var family = "Helvetica Neue"
+//            println("\(family)")
+//            
+//            for name in UIFont.fontNamesForFamilyName(family as String)
+//            {
+//                println("   \(name)")
+//            }
+        
         
         FBLoginView.self
         FBProfilePictureView.self
         
+        
+        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        
+        let screenWidth = screenSize.width;
+        let screenHeight = screenSize.height;
+
+        application.setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
+        
+        println(screenWidth,screenHeight)
+        
+        var navigationBarAppearace = UINavigationBar.appearance()
+        
+        navigationBarAppearace.barTintColor = UIColor(red: 0/255.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
+        navigationBarAppearace.barStyle = UIBarStyle.Default
+
+        navigationBarAppearace.tintColor = UIColor.whiteColor()
+        navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]  // Title's text color
+
+        
+
         return true
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: NSString?, annotation: AnyObject) -> Bool {
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        //code
         var wasHandled:Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication)
         return wasHandled
     }
