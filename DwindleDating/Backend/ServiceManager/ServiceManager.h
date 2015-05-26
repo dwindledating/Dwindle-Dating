@@ -13,11 +13,11 @@
 @interface ServiceManager : NSObject
 
 
--(void) getProductsWithNameOrder:(BOOL)nameOrder
-                      priceOrder:(BOOL)priceOrder
-                      brandOrder:(BOOL)brandOrder
-                     sucessBlock:(void (^)(NSArray *productsArr))successBlock
-                         failure:(void (^)(NSError *error))failureBlock;
+//-(void) getProductsWithNameOrder:(BOOL)nameOrder
+//                      priceOrder:(BOOL)priceOrder
+//                      brandOrder:(BOOL)brandOrder
+//                     sucessBlock:(void (^)(NSArray *productsArr))successBlock
+//                         failure:(void (^)(NSError *error))failureBlock;
 
 -(void) loginWithFacebookId:(NSString*)fbId
                 sucessBlock:(void (^)(BOOL isRegistered))successBlock
@@ -26,15 +26,16 @@
 
 
 -(void) signupWithFacebookId:(NSString*)fbId
+                    fullName:(NSString*)fullName
+                         dob:(NSString*)dob
                       gender:(NSString*)gender
               requiredGender:(NSString*)reqGender
                      fromAge:(NSString*)fromAge
                        toAge:(NSString*)toAge
                     distance:(NSString*)distance
-                      images:(NSArray*)images
-                sucessBlock:(void (^)(BOOL isRegistered))successBlock
-                    failure:(void (^)(NSError *error))failureBlock;
-
+                      images:(NSArray*)imagesArr
+                 sucessBlock:(void (^)(BOOL isRegistered))successBlock
+                     failure:(void (^)(NSError *error))failureBlock;
 
 -(void) getGamePlayUsersAgainstFacebookId:(NSString*)fbId
                               sucessBlock:(void (^)(NSDictionary* allPlayers))successBlock
@@ -69,4 +70,9 @@
          againstFacebookId:(NSString*)fbId
                sucessBlock:(void (^)(bool isUpdated))successBlock
                    failure:(void (^)(NSError *error))failureBlock;
+
+-(void) getMathchesForUser:(NSString*)fbId
+               sucessBlock:(void (^)(NSArray *matchesArr))successBlock
+                   failure:(void (^)(NSError *error))failureBlock;
+
 @end

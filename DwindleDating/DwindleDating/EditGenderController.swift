@@ -59,7 +59,7 @@ class EditGenderController: UIViewController  {
         
         
         var settings = UserSettings.loadUserSettings()
-        var gender = settings.userGender as String
+        var gender = settings.requiredGender as String
         if (gender == "M"){
             self.btnGenderM.highlighted = true
         }
@@ -75,7 +75,7 @@ class EditGenderController: UIViewController  {
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK : - IBACTIONS
+    // MARK: - IBACTIONS
     
     @IBAction func genderSelected(sender: UIButton) {
       

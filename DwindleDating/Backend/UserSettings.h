@@ -11,6 +11,7 @@
 @interface UserSettings : NSObject<NSCoding>
 
 @property (nonatomic, strong) NSString* userGender;
+@property (nonatomic, strong) NSString* userBirthday;
 @property (nonatomic, strong) NSString* requiredGender;
 @property (nonatomic, strong) NSString* userDistance;
 @property (nonatomic, strong) NSString* userAgeFrom;

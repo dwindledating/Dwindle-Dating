@@ -7,7 +7,7 @@
 //
 
 #import "ServiceManager.h"
-#import "ProductsNetworkService.h"
+//#import "ProductsNetworkService.h"
 #import "DBProductsService.h"
 
 #import "LoginNetworkService.h"
@@ -15,6 +15,8 @@
 
 #import "PicturesService.h"
 #import "UserSettingsService.h"
+
+#import "MatchesService.h"
 
 
 @implementation ServiceManager
@@ -41,23 +43,28 @@
 
 
 -(void) signupWithFacebookId:(NSString*)fbId
+                    fullName:(NSString*)fullName
+                         dob:(NSString*)dob
                       gender:(NSString*)gender
               requiredGender:(NSString*)reqGender
                      fromAge:(NSString*)fromAge
                        toAge:(NSString*)toAge
                     distance:(NSString*)distance
-                      images:(NSArray*)images
+                      images:(NSArray*)imagesArr
                  sucessBlock:(void (^)(BOOL isRegistered))successBlock
                      failure:(void (^)(NSError *error))failureBlock{
-    
+
     SignUpNetworkService *networkService = [SignUpNetworkService new];
+    
     [networkService signupWithFacebookId:fbId
+                                fullName:fullName
+                                     dob:dob
                                   gender:gender
                           requiredGender:reqGender
                                  fromAge:fromAge
                                    toAge:toAge
                                 distance:distance
-                                  images:images
+                                  images:imagesArr
                              sucessBlock:^(BOOL isRegistered) {
                                 successBlock(isRegistered);
                              } failure:^(NSError *error) {
@@ -199,41 +206,56 @@
 }
 
 
-//=======================
--(void) getProductsWithNameOrder:(BOOL)nameOrder
-                      priceOrder:(BOOL)priceOrder
-                      brandOrder:(BOOL)brandOrder
-                     sucessBlock:(void (^)(NSArray *productsArr))successBlock
-                         failure:(void (^)(NSError *error))failureBlock{
+-(void) getMathchesForUser:(NSString*)fbId
+               sucessBlock:(void (^)(NSArray *matchesArr))successBlock
+                   failure:(void (^)(NSError *error))failureBlock{
     
     
-    //Now first look into the database if there are feeds get them if they are not
-    //get from server and save them.
-    
-    DBProductsService *dbService = [DBProductsService new];
-    NSArray *products = [dbService getProducts];
-    
-    if (products.count) {
-        NSLog(@"Products from LOCAL DB");
-        successBlock(products);
-    }
-    else{
-        ProductsNetworkService *networkService = [ProductsNetworkService new];
-        [networkService getProductsWithNameOrder:nameOrder
-                                      priceOrder:priceOrder
-                                      brandOrder:brandOrder
-                                     sucessBlock:^(NSArray *productsArr) {
-
-            NSLog(@"Products from Server");
-            successBlock(productsArr);
-         
-        } failure:^(NSError *error) {
-            failureBlock(error);
-            
-        }];
-                
-    }
+    MatchesService *mateches =  [MatchesService new];
+    [mateches getMathchesForUser:fbId sucessBlock:^(NSArray *matchesArr) {
+        successBlock (matchesArr);
+    } failure:^(NSError *error) {
+        failureBlock(error);
+    }];
     
 }
+
+//
+////=======================
+//-(void) getProductsWithNameOrder:(BOOL)nameOrder
+//                      priceOrder:(BOOL)priceOrder
+//                      brandOrder:(BOOL)brandOrder
+//                     sucessBlock:(void (^)(NSArray *productsArr))successBlock
+//                         failure:(void (^)(NSError *error))failureBlock{
+//    
+//    
+//    //Now first look into the database if there are feeds get them if they are not
+//    //get from server and save them.
+//    
+//    DBProductsService *dbService = [DBProductsService new];
+//    NSArray *products = [dbService getProducts];
+//    
+//    if (products.count) {
+//        NSLog(@"Products from LOCAL DB");
+//        successBlock(products);
+//    }
+//    else{
+//        ProductsNetworkService *networkService = [ProductsNetworkService new];
+//        [networkService getProductsWithNameOrder:nameOrder
+//                                      priceOrder:priceOrder
+//                                      brandOrder:brandOrder
+//                                     sucessBlock:^(NSArray *productsArr) {
+//
+//            NSLog(@"Products from Server");
+//            successBlock(productsArr);
+//         
+//        } failure:^(NSError *error) {
+//            failureBlock(error);
+//            
+//        }];
+//                
+//    }
+//    
+//}
 
 @end

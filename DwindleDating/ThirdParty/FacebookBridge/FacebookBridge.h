@@ -21,7 +21,10 @@
 #import "JSQMessagesViewController.h"
 #import "ServiceManager.h"
 #import "Player.h"
+#import "Match.h"
 #import "SocketIO.h"
+
+NSString *const BFTaskMultipleExceptionsException = @"BFMultipleExceptionsException";
 
 
 #endif

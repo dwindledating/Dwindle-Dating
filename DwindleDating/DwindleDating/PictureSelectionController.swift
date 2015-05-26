@@ -80,6 +80,9 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
         println("validate all images\(self.validateAllImages())")
         var settings = UserSettings.loadUserSettings()
 
+        println("User FBID \(settings.fbId)")
+        println("User FBNAME \(settings.fbName)")
+        println("User DOB \(settings.userBirthday)")
         println("User Gender \(settings.userGender)")
         println("Required Gender \(settings.requiredGender)")
         println("User Distance \(settings.userDistance)")
@@ -100,6 +103,8 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
         
         var manager = ServiceManager()
             manager.signupWithFacebookId(settings.fbId,
+                fullName: settings.fbName,
+                dob:settings.userBirthday,
                 gender: settings.userGender,
                 requiredGender: settings.requiredGender,
                 fromAge:settings.userAgeFrom,

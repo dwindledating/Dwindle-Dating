@@ -15,6 +15,7 @@
     self = [super init];
     if(self) {
         self.userGender     = [decoder decodeObjectForKey:@"userGender"];
+        self.userBirthday   = [decoder decodeObjectForKey:@"userBirthday"];
         self.requiredGender = [decoder decodeObjectForKey:@"requiredGender"];
         self.userDistance   = [decoder decodeObjectForKey:@"userDistance"];
         self.userAgeFrom    = [decoder decodeObjectForKey:@"userAgeFrom"];
@@ -29,6 +30,7 @@
 - (void)encodeWithCoder:(NSCoder *)encoder {
     
     [encoder encodeObject:self.userGender       forKey:@"userGender"];
+    [encoder encodeObject:self.userBirthday     forKey:@"userBirthday"];
     [encoder encodeObject:self.requiredGender   forKey:@"requiredGender"];
     [encoder encodeObject:self.userDistance     forKey:@"userDistance"];
     [encoder encodeObject:self.userAgeFrom      forKey:@"userAgeFrom"];
@@ -49,6 +51,7 @@
         
         UserSettings *settings = [UserSettings new];
         settings.userGender     = @"";
+        settings.userBirthday   = @"";
         settings.requiredGender = @"";
         settings.userDistance   = @"";
         settings.userAgeFrom    = @"";
@@ -65,6 +68,7 @@
 -(void)removeUserSettings{
 
     self.userGender     = @"";
+    self.userBirthday   = @"";
     self.requiredGender = @"";
     self.userDistance   = @"";
     self.userAgeFrom    = @"";

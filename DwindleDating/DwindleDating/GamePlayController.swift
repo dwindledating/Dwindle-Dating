@@ -48,7 +48,9 @@ SocketIODelegate {
     
     func skipPressed(sender: UIBarButtonItem){
 
+//        self.socketIO?.sendEvent("skip", withData:[])
         self.socketIO?.sendEvent("loggedout", withData:[])
+        self.collectionView.reloadData()
         
     }
     
@@ -132,15 +134,6 @@ SocketIODelegate {
     
     func handleDwindleDown(respDict:[String:AnyObject]){
         
-        
-//        let string = "{\"name\": \"John\", \"age\": 35, \"children\": [\"Jack\", \"Jill\"]}"
-//        let respStr = "{\"DwindleDown\":{\"DeletedUser\":{\"fb_id\":\"DDDD\"},\"User1\":{\"fb_id\":\"637824466345948\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/637824466345948/image11.png\"},\"User2\":{\"fb_id\":\"A\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/A/Purple-Colored-MacBook-Keyboard.jpg\"},\"OtherUser1\":{\"fb_id\":\"1427619287531895\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/1427619287531895/3.png\"},\"OtherUser2\":{\"fb_id\":\"10153221085360955\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/10153221085360955/3.jpg\"},\"OtherUser4\":{\"fb_id\":\"AAA\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/AAA/Purple-Colored-MacBook-Keyboard.jpg\"}}}"
-//        
-//        
-//        let respDict:AnyObject = self.JSONParseDictionary(respStr)
-        
-//        let roomUserInfoDict: AnyObject =  self.JSONParseDictionary(dataStr)
-//        let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
 
         let ddDict:[String:AnyObject] = (respDict["DwindleDown"] as? Dictionary<String,AnyObject>)!
 
@@ -151,6 +144,18 @@ SocketIODelegate {
                 //        1. Delete User
                 self.handleDeleteUser(ddDict as [String : AnyObject])
             }
+            else if (key == "DwindleCount"){
+                var dCount = ddDict["DwindleCount"] as! Int
+                println("DwindleCount => \(dCount)")
+                
+                if (dCount == 5){
+                    ProgressHUD.showSuccess("Congratulations you have found your dwindle match")
+                }
+                else{
+                    ProgressHUD.showSuccess("Congratulations for \(dCount) dwindle down")
+                }
+
+            }
             else{
                 //        2. Add picture to Remaining Users
                 self.handleAddUser(ddDict as [String : AnyObject], key: key)
@@ -158,15 +163,6 @@ SocketIODelegate {
             
         }
 
-        
-//        let deleteUserDict:AnyObject = (ddDict["DeletedUser"] as? Dictionary<String,AnyObject>)!
-//        let deleteUserFbId:String = (deleteUserDict["fb_id"] as? String)!
-//        println("DeleteUserFbId => \(deleteUserFbId))")
-        
-        
-//{\"DwindleDown\":{\"DeletedUser\":{\"fb_id\":\"DDDD\"},\"User1\":{\"fb_id\":\"637824466345948\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/637824466345948/image11.png\"},\"User2\":{\"fb_id\":\"A\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/A/Purple-Colored-MacBook-Keyboard.jpg\"},\"OtherUser1\":{\"fb_id\":\"1427619287531895\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/1427619287531895/3.png\"},\"OtherUser2\":{\"fb_id\":\"10153221085360955\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/10153221085360955/3.jpg\"},\"OtherUser4\":{\"fb_id\":\"AAA\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/AAA/Purple-Colored-MacBook-Keyboard.jpg\"}}}
-        
-        
     }
 
     
@@ -468,8 +464,6 @@ SocketIODelegate {
             let roomUserInfoDict: AnyObject =  self.JSONParseDictionary(dataStr)
             let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
 
-
-            
             self.playerMain      =  Player(dict: roomUserInfoDict["MainUser"]! as? Dictionary)
             self.playerOpponent  = Player(dict: roomUserInfoDict["SecondUser"]! as? Dictionary)
             
@@ -494,14 +488,19 @@ SocketIODelegate {
             //["updatechat","A","Hi"]
 
             let responseArr:AnyObject =  packet.dataAsJSON()
-            var _senderId:String = (responseArr[1] as? String)!
+            
+            var _senderId:String = ""
+            if let tmpSenderId = responseArr[1]  as? String! {
+                _senderId = tmpSenderId
+            }
             var _message:String = (responseArr[2] as? String)!
-            if (_senderId == self.playerOpponent.fbId){
-                self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
+            if let tmpPlayerId = self.playerOpponent.fbId{
+                if (_senderId == self.playerOpponent.fbId){
+                    self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
+                }
             }
             
         }
-        
         else if (packet.name == "dwindledown"){
             println("\n \(packet.name) data as string looks like \(packet.data)")
 
@@ -516,7 +515,19 @@ SocketIODelegate {
             
             println("\n UserAdded data as string looks like \(packet.data)")
         }
-
+        else if (packet.name == "disconnect"){
+            
+            ProgressHUD.showError("One of the user has disconnected")
+//            println("\n UserAdded data as string looks like \(packet.data)")
+        }
+        else if (packet.name == "skip"){
+            
+            println("\n Skip data as string looks like \(packet.data)")
+        }
+        else if (packet.name == "skipchat"){
+            
+            println("\n Skipchat data as string looks like \(packet.data)")
+        }
 
 
     }
@@ -591,6 +602,14 @@ SocketIODelegate {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        ProgressHUD.dismiss()
+
+        var isConnected:Bool = self.socketIO!.isConnected;
+        if (isConnected){
+            self.sendChat("I am going")
+            self.socketIO?.sendEvent("loggedout", withData:[])
+        }
+        
     }
 
     
@@ -672,7 +691,7 @@ SocketIODelegate {
     override func didPressAccessoryButton(sender: UIButton!) {
         
         
-        var sheet = UIActionSheet(title: "Quick messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Send Template Message 1", "Send Template Message 2");
+        var sheet = UIActionSheet(title: "Quick messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "If Hollywood made a movie about your life, which actor would play you?", "Have you had any success with dating apps?");
         
         //    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Media messages"
         //    delegate:self
