@@ -47,19 +47,8 @@ SocketIODelegate {
     
     
     func skipPressed(sender: UIBarButtonItem){
-
-//        self.socketIO?.sendEvent("skip", withData:[])
-        self.socketIO?.sendEvent("loggedout", withData:[])
-        self.collectionView.reloadData()
-        
+        self.socketIO?.sendEvent("skip", withData:[])
     }
-    
-    func closePressed(sender: UIBarButtonItem){
-        
-        
-        
-    }
-    
     
     // MARK: - Scroller Stuff - KDCycleBannerView DELEGATE
     
@@ -72,6 +61,8 @@ SocketIODelegate {
 //        let img = UIImage(named:"image1.png")!
 //        return img
 //    }
+    
+    
     
     
     // MARK : KDCycleBannerView DataSource
@@ -129,9 +120,6 @@ SocketIODelegate {
         
     }
 
-    
-    
-    
     func handleDwindleDown(respDict:[String:AnyObject]){
         
 
@@ -148,7 +136,7 @@ SocketIODelegate {
                 var dCount = ddDict["DwindleCount"] as! Int
                 println("DwindleCount => \(dCount)")
                 
-                if (dCount == 5){
+                if (dCount == 4){
                     ProgressHUD.showSuccess("Congratulations you have found your dwindle match")
                 }
                 else{
@@ -209,9 +197,47 @@ SocketIODelegate {
     
     // MARK: - HANDLE UI - DwindleDown
     
-    func setPlayerImages(){
-
+    func resetGameViews(){
         
+        playersDict.removeAll(keepCapacity: false)
+        
+        btn1.playerId = ""
+        btn2.playerId = ""
+        btn3.playerId = ""
+        btn4.playerId = ""
+        btn5.playerId = ""
+        
+        btn1.enabled = true
+        btn2.enabled = true
+        btn3.enabled = true
+        btn4.enabled = true
+        btn5.enabled = true
+
+        btn1.selected = true
+        btn2.selected = true
+        btn3.selected = true
+        btn4.selected = true
+        btn5.selected = true
+        
+        btn1.setImage(nil, forState: UIControlState.Normal)
+        btn2.setImage(nil, forState: UIControlState.Normal)
+        btn3.setImage(nil, forState: UIControlState.Normal)
+        btn4.setImage(nil, forState: UIControlState.Normal)
+        btn5.setImage(nil, forState: UIControlState.Normal)
+        
+        self.playerMain = nil
+        self.playerOpponent = nil
+        self.playerOther1 = nil
+        self.playerOther2 = nil
+        self.playerOther3 = nil
+        self.playerOther4 = nil
+        
+        self.demoData.clearChat()
+        self.collectionView.reloadData()
+        
+    }
+    
+    func setPlayerImages(){
         
         playersDict["main"] = self.playerMain
         playersDict["opponent"] = self.playerOpponent
@@ -241,9 +267,6 @@ SocketIODelegate {
         
     }
     
-    
-    
-    
     // MARK: - HANDLE UI - OpenGallery
 
     
@@ -254,12 +277,36 @@ SocketIODelegate {
         }
     }
     
+    
+    func shouldOpenGallery(sender:AnyObject) -> Bool{
+        var button = sender as? RoundButtonView
+        
+        if let playerId = button?.playerId{
+            
+            if (playerId == ""){
+                return false
+            }
+        }
+        else{
+            return false
+        }
+
+        return true
+    }
+    
+    
     @IBAction func openImageGallery(sender: AnyObject) {
 
         //Close Keyboard
         self.hideKeyboard()
+
+        if(!self.shouldOpenGallery(sender)){
+            return
+        }
+        
         
         var button = sender as? UIButton
+        
         println("tagId\(button?.tag)")
         
         if var prevButton = galleryOpenerButton{
@@ -288,6 +335,7 @@ SocketIODelegate {
             galleryOpenerButton!.tag = 0
             galleryHeightConstraint!.constant = 0
         }
+        
         
         UIView.animateWithDuration(0.5) {
             self.view.needsUpdateConstraints()
@@ -419,11 +467,8 @@ SocketIODelegate {
         println("socket.io connected.")
         
         var settings = UserSettings.loadUserSettings()
-        ProgressHUD.show("Joining User...")
+        ProgressHUD.show("Finding match...")
         var manager = ServiceManager()
-        
-        
-        
         
         manager.getUserLocation({ (location: CLLocation!) -> Void in
             //code
@@ -494,9 +539,12 @@ SocketIODelegate {
                 _senderId = tmpSenderId
             }
             var _message:String = (responseArr[2] as? String)!
-            if let tmpPlayerId = self.playerOpponent.fbId{
-                if (_senderId == self.playerOpponent.fbId){
-                    self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
+           
+            if let tmpPlayer = self.playerOpponent{
+                if let tmpPlayerId = self.playerOpponent.fbId{
+                    if (_senderId == self.playerOpponent.fbId){
+                        self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
+                    }
                 }
             }
             
@@ -527,8 +575,25 @@ SocketIODelegate {
         else if (packet.name == "skipchat"){
             
             println("\n Skipchat data as string looks like \(packet.data)")
-        }
+            ProgressHUD.showError("The other user has left the game. Connecting to new users.")
+            self.resetGameViews()
+            let delay = 2.5 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                ProgressHUD.show("Finding match...")
+            }
 
+        }
+        else if (packet.name == "loggedoutResponse"){
+            ProgressHUD.showError("The other user has left the game. Connecting to new users.")
+            self.resetGameViews()
+            let delay = 2.5 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                ProgressHUD.show("Finding match...")
+            }
+            
+        }
 
     }
     
@@ -568,15 +633,9 @@ SocketIODelegate {
         
         // Message Controller Stuff
         
-        /**
-        *  You MUST set your senderId and display name
-        */
-        
         var settings = UserSettings.loadUserSettings()
-//        settings.fbId
-        
-        self.senderId = settings.fbId //"053496-4509-289"//kJSQDemoAvatarIdSquires;
-        self.senderDisplayName = settings.fbId // "Jesse Squires"// kJSQDemoAvatarDisplayNameSquires;
+        self.senderId = settings.fbId
+        self.senderDisplayName = settings.fbName
         
         self.demoData = DemoModelData()
         
@@ -600,15 +659,14 @@ SocketIODelegate {
     }
     
     override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
         ProgressHUD.dismiss()
-
         var isConnected:Bool = self.socketIO!.isConnected;
         if (isConnected){
-            self.sendChat("I am going")
             self.socketIO?.sendEvent("loggedout", withData:[])
         }
+        
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         
     }
 

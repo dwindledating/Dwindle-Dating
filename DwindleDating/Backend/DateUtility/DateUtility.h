@@ -13,4 +13,6 @@
 +(NSDate*) dateWithUTCStr :(NSString *)utcDateStr;
 +(NSTimeInterval) UTCWithDate:(NSDate *)date;
 +(NSString *) dateStrWithRespectToday:(NSDate*)date2;
++(NSDate *) getDwindleDateFromString:(NSString*)ddDate;
+
 @end

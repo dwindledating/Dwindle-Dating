@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Parse.setApplicationId("HEQ0TQq0Qvqdy7BAGii05miGcVp5AcvGbnvdhxQd",
             clientKey: "nXBmYwFcFaWLnykLWFL2NQpY5XSLyC5MbnRrCUKc")
 
+
         
         // Register for Push Notitications
         if application.applicationState != UIApplicationState.Background {

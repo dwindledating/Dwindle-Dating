@@ -95,6 +95,10 @@
     return self;
 }
 
+- (void) clearChat{
+    [self.messages removeAllObjects];
+}
+
 - (void)loadFakeMessages
 {
     /**

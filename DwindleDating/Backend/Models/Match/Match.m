@@ -8,6 +8,7 @@
 //
 
 #import "Match.h"
+#import "DateUtility.h"
 
 @implementation Match
 
@@ -17,7 +18,7 @@
         self.fbId   = dict[@"fb_id"];
         self.imgPath= [NSURL URLWithString:dict[@"PicPath"]];
         self.text   = dict[@"Text"];
-        self.date   = dict[@"Date"];
+        self.date   = [DateUtility dateStrWithRespectToday:[DateUtility getDwindleDateFromString:dict[@"Date"]]];
         self.status = [dict[@"Status"] boolValue];
     }
 
