@@ -55,20 +55,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        
-//        var msg1 = "Pls tell me the card this year doesnot include us in ugly sweaters or anything that..."
-//        var msg2 = "This bad boy hit the front page last night. Chocked for a bit but never went down, thank... "
-//        var msg3 = "We are all jammed up but we can focus on getting this done and public in 3 days..."
-//        var msg4 = "All done. Moving onto the maps for the 6. Take a look and let me know what you think. Thanks!"
-//        var msg5 = "We got a lunch train going to Brazen Head. You in?"
-//        
-//        var dict1 :NSDictionary = ["name":"Jon Lax", "message":msg1, "time":"10:10 AM", "pictureUrl":""]
-//        var dict2 :NSDictionary = ["name":"Christi", "message":msg2, "time":"09:41 AM", "pictureUrl":""]
-//        var dict3 :NSDictionary = ["name":"Geoff Teehan", "message":msg3, "time":"Yesterday", "pictureUrl":""]
-//        var dict4 :NSDictionary = ["name":"Nelson Leung", "message":msg4, "time":"Yesterday", "pictureUrl":""]
-//        var dict5 :NSDictionary = ["name":"Matt Hodgins", "message":msg5, "time":"Monday", "pictureUrl":""]
-//        
-//        namesArr = [dict1,dict2,dict3,dict4,dict5]
         self.getMatches()
         tableview.tintColor = UIColor.purpleColor()
         //        tableview.backgroundColor = UIColor.purpleColor()
@@ -117,9 +103,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
             cell_?.imgViewProfile.sd_setImageWithURL(match.imgPath)
         }
         
-        
-        
-        
         return cell_!
         
     }
@@ -128,7 +111,7 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView .deselectRowAtIndexPath(indexPath, animated: true)
         
-            self.performSegueWithIdentifier("showMatchChatController", sender: self)
+            self.performSegueWithIdentifier("showMatchChatController", sender: indexPath)
 
     }
     
@@ -138,15 +121,16 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         if(segue.identifier == "showMatchChatController") {
             self.navigationController?.setNavigationBarHidden(false, animated: false)
 
-//            var signupVC = (segue.destinationViewController as SignupController)
-//            
-//            //Set Profile Image
-//            let urlPath: String = "http://graph.facebook.com/"  + UserSettings.loadUserSettings().fbId + "/picture?type=large"
-//            var url: NSURL = NSURL(string: urlPath)!
-//            signupVC.userImgUrl = url
-//            
-//            //Set Welcome Message
-//            signupVC.userName = UserSettings.loadUserSettings().fbName
+            var indexPath: NSIndexPath = sender as! NSIndexPath;
+            
+            var match = matchesArr[indexPath.row] as! Match
+
+            var matchControl = (segue.destinationViewController as! MatchChatController)
+            
+            
+            matchControl.toUserId = match.fbId
+            matchControl.status = match.status
+
             
             
         }

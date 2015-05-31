@@ -65,7 +65,7 @@ SocketIODelegate {
     
     
     
-    // MARK : KDCycleBannerView DataSource
+    // MARK:- KDCycleBannerView DataSource
     func numberOfKDCycleBannerView(bannerView: KDCycleBannerView!) -> [AnyObject]! {
        
         var imagesList:AnyObject = []
@@ -587,7 +587,7 @@ SocketIODelegate {
         else if (packet.name == "loggedoutResponse"){
             ProgressHUD.showError("The other user has left the game. Connecting to new users.")
             self.resetGameViews()
-            let delay = 2.5 * Double(NSEC_PER_SEC)
+            let delay = 3.5 * Double(NSEC_PER_SEC)
             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
             dispatch_after(time, dispatch_get_main_queue()) {
                 ProgressHUD.show("Finding match...")
@@ -614,7 +614,7 @@ SocketIODelegate {
     func socketIODidDisconnect(socket: SocketIO!, disconnectedWithError error: NSError!) {
         //code
         
-        println("socket.io disconnected. did error occur? \(error)");
+        println("socket.io disconnected. did error occur \(error)");
         var state:UIApplicationState  = UIApplication.sharedApplication().applicationState
         if (state == UIApplicationState.Background) {//UIApplicationStateBackground
             println("Application is in background and SIO disconnected.");
@@ -681,10 +681,10 @@ SocketIODelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.title = "Chat Controller"
+        self.title = "Dwindle Match"
         self.initContentView()
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style:UIBarButtonItemStyle.Bordered , target: self, action: "skipPressed:")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style:UIBarButtonItemStyle.Plain , target: self, action: "skipPressed:")
 
     }
     

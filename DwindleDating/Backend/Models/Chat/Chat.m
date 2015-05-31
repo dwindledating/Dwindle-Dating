@@ -1,27 +1,24 @@
-
 //
-//  Matches.m
+//  Chat.m
 //  DwindleDating
 //
-//  Created by Yunas Qazi on 5/24/15.
+//  Created by Yunas Qazi on 5/31/15.
 //  Copyright (c) 2015 infinione. All rights reserved.
 //
 
-#import "Match.h"
+#import "Chat.h"
 #import "DateUtility.h"
 
-@implementation Match
+@implementation Chat
 
 - (instancetype)initWithDict:(NSDictionary*)dict{
     self = [super init];
     if (self) {
-        self.fbId   = dict[@"fb_id"];
-        self.imgPath= [NSURL URLWithString:dict[@"PicPath"]];
-        self.text   = dict[@"Text"];
+        self.fbId   = dict[@"FromUser"];
+        self.message   = dict[@"Message"];
         self.date   = [DateUtility dateStrWithRespectToday:[DateUtility getDwindleDateFromString:dict[@"Date"]]];
-        self.status = dict[@"Status"];
     }
-
+    
     return self;
 }
 
@@ -32,5 +29,7 @@
     }
     return self;
 }
+
+
 
 @end

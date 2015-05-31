@@ -20,14 +20,46 @@
 
 #import "NSUserDefaults+DemoSettings.h"
 
-
 /**
  *  This is for demo/testing purposes only.
  *  This object sets up some fake model data.
  *  Do not actually do anything like this.
  */
+#import "DateUtility.h"
 
 @implementation DemoModelData
+
+
+-(JSQMessage *) messageFromDict:(NSDictionary*)chatDict{
+   
+    return  [[JSQMessage alloc] initWithSenderId:chatDict[@"FromUser"]
+                               senderDisplayName:chatDict[@"FromUser"]
+                                            date:[DateUtility getDwindleDateFromString:chatDict[@"Date"]]
+                                            text:chatDict[@"Message"]];
+}
+
+- (void)addMessages:(NSArray *)messages{
+    
+    for (NSDictionary *chatDict in messages) {
+        JSQMessage *msg = [self messageFromDict:chatDict];
+        if (msg){
+             [self.messages addObject:[self messageFromDict:chatDict]];
+        }
+
+    }
+}
+
+- (instancetype)initDemoDataWithMessages:(NSArray*)messages{
+    self = [super init];
+    if (self){
+        self.messages = [NSMutableArray new];
+        for (NSDictionary *chatDict in messages) {
+            [self.messages addObject:[self messageFromDict:chatDict]];
+        }
+    }
+    return self;
+}
+
 
 - (instancetype)init
 {

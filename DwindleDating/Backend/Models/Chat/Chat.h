@@ -1,20 +1,18 @@
 //
-//  Matches.h
+//  Chat.h
 //  DwindleDating
 //
-//  Created by Yunas Qazi on 5/24/15.
+//  Created by Yunas Qazi on 5/31/15.
 //  Copyright (c) 2015 infinione. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface Match : NSObject
+@interface Chat : NSObject
 
 @property (nonatomic,retain) NSString *fbId;
-@property (nonatomic,retain) NSURL *imgPath;
-@property (nonatomic,retain) NSString *text;
+@property (nonatomic,retain) NSString *message;
 @property (nonatomic,retain) NSString *date;
-@property (nonatomic,retain) NSString *status;
 
 - (instancetype)initWithDict:(NSDictionary*)dict;
 

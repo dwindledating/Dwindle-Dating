@@ -749,26 +749,73 @@
                                     <constraint firstAttribute="height" constant="44" id="4oR-4w-Rbp"/>
                                 </constraints>
                                 <items/>
-                                <connections>
-                                    <outlet property="delegate" destination="q6t-0B-EgM" id="2HG-wT-Ael"/>
-                                </connections>
                             </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pp1-8w-ukY" userLabel="galleryView" customClass="KDCycleBannerView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="fwD-UU-n5G"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="fwD-UU-n5G"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="fwD-UU-n5G"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <outlet property="datasource" destination="q6t-0B-EgM" id="7lg-JY-aiJ"/>
+                                    <outlet property="delegate" destination="q6t-0B-EgM" id="7sO-KB-48C"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.36142007819999999" blue="0.51862645100000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="Q6R-wz-4yo" firstAttribute="top" secondItem="J8k-8P-Nl8" secondAttribute="top" id="EJk-VY-14r"/>
+                            <constraint firstItem="Pp1-8w-ukY" firstAttribute="top" secondItem="J8k-8P-Nl8" secondAttribute="top" id="QCh-kQ-gA3"/>
                             <constraint firstItem="d0G-6Z-I50" firstAttribute="leading" secondItem="J8k-8P-Nl8" secondAttribute="leading" id="Qvr-79-I75"/>
+                            <constraint firstAttribute="trailing" secondItem="Pp1-8w-ukY" secondAttribute="trailing" id="Ysy-TX-LY2"/>
                             <constraint firstAttribute="bottom" secondItem="Q6R-wz-4yo" secondAttribute="bottom" id="eeB-y4-fQ0"/>
+                            <constraint firstItem="Pp1-8w-ukY" firstAttribute="leading" secondItem="J8k-8P-Nl8" secondAttribute="leading" id="fXf-WG-iHu"/>
                             <constraint firstItem="Q6R-wz-4yo" firstAttribute="trailing" secondItem="J8k-8P-Nl8" secondAttribute="trailing" id="fy3-7Q-Ckf"/>
                             <constraint firstItem="Q6R-wz-4yo" firstAttribute="leading" secondItem="J8k-8P-Nl8" secondAttribute="leading" id="kZ9-Qp-Raj"/>
                             <constraint firstAttribute="trailing" secondItem="d0G-6Z-I50" secondAttribute="trailing" id="qFO-y7-FhS"/>
+                            <constraint firstItem="Q6R-wz-4yo" firstAttribute="top" secondItem="Pp1-8w-ukY" secondAttribute="bottom" id="sE0-Wa-y6f"/>
                             <constraint firstAttribute="bottom" secondItem="d0G-6Z-I50" secondAttribute="bottom" id="swD-lP-nc5"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="Pp1-8w-ukY"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="QCh-kQ-gA3"/>
+                                <exclude reference="Ysy-TX-LY2"/>
+                                <exclude reference="fXf-WG-iHu"/>
+                                <exclude reference="sE0-Wa-y6f"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="Pp1-8w-ukY"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="QCh-kQ-gA3"/>
+                                <include reference="Ysy-TX-LY2"/>
+                                <include reference="fXf-WG-iHu"/>
+                                <exclude reference="EJk-VY-14r"/>
+                                <include reference="sE0-Wa-y6f"/>
+                            </mask>
+                        </variation>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="Q6R-wz-4yo" id="EEr-XT-PWM"/>
+                        <outlet property="galleryHeightConstraint" destination="fwD-UU-n5G" id="g9U-Ec-fqk"/>
                         <outlet property="inputToolbar" destination="d0G-6Z-I50" id="6Rb-nn-ygh"/>
+                        <outlet property="scroller" destination="Pp1-8w-ukY" id="1HY-mM-Cwx"/>
                         <outlet property="toolbarBottomLayoutGuide" destination="swD-lP-nc5" id="keN-s1-5uY"/>
                         <outlet property="toolbarHeightConstraint" destination="4oR-4w-Rbp" id="ZyS-z7-uL1"/>
                     </connections>
