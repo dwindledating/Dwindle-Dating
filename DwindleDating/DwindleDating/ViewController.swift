@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Parse
 
 class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewDataource, KDCycleBannerViewDelegate {
 
@@ -17,8 +17,82 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     
     var cachedUserId : String!
 
+    
+    func shouldSetupUser() -> Bool{
+        var status:  Bool = false
+        
+        var currentUser = PFUser.currentUser()
+        if currentUser != nil {
+            // Do stuff with the user
+            println("PFUserId => \(currentUser?.username)")
+            
+        } else {
+            // Show the signup or login screen
+            status = true
+        }
+        
+        return status
+    }
+    
+    func setupUser() {
+        
+        if (self.shouldSetupUser()){
+
+            var settings = UserSettings.loadUserSettings()
+            
+            PFUser.logInWithUsernameInBackground(settings.fbId, password:settings.fbId) {
+                (user: PFUser?, error: NSError?) -> Void in
+                if user != nil {
+                    // Do stuff after successful login.
+                    let installation = PFInstallation.currentInstallation()
+                    installation["user"] = PFUser.currentUser()
+                    installation.saveInBackgroundWithBlock({ (status:Bool, error:NSError?) -> Void in
+                        //code
+                        if let error = error {
+                            let errorString = error.userInfo?["error"] as? NSString
+                            println("Error in Login : \(errorString)")
+                            // Show the errorString somewhere and let the user try again.
+                        } else {
+                            // Hooray! Let them use the app now.
+                            println("Hooray! Logged in now.")
+                        }
+                    })
+                    
+                } else {
+                    // The login failed. Check error to see why.
+                    var userMain = PFUser()
+                    userMain.username = settings.fbId
+                    userMain.password = settings.fbId
+                    
+                    // other fields can be set just like with PFObject
+                    userMain["fullName"] = settings.fbName
+                    userMain.signUpInBackgroundWithBlock {
+                        (succeeded: Bool, error: NSError?) -> Void in
+                        if let error = error {
+                            let errorString = error.userInfo?["error"] as? NSString
+                            println("Error : \(errorString)")
+                            // Show the errorString somewhere and let the user try again.
+                        } else {
+                            // Hooray! Let them use the app now.
+                            println("Hooray! Let them use the app now.")
+                            
+                            let installation = PFInstallation.currentInstallation()
+                            installation["user"] = PFUser.currentUser()
+                            installation.saveInBackgroundWithBlock({ (status:Bool, error:NSError?) -> Void in
+                                //code
+                            })
+                        }
+                    }
+                }
+            }
+            
+
+        }
+    }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        self.setupUser()
         
         if(segue.identifier == "showSignup") {
             

@@ -29,7 +29,7 @@ class EditGenderController: UIViewController  {
             //code
             ProgressHUD.showSuccess("Updated Successfully")
             
-            settings.userGender = gender as String
+            settings.requiredGender = gender as String
             settings.saveUserSettings()
             self.navigationController?.popViewControllerAnimated(true)
             

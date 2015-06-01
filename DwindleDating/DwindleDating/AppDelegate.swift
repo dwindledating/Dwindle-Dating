@@ -19,7 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
+    func setupUser() -> Void{
+        
+    }
 
 
     func registerForPushNotifications(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject:AnyObject]?){
@@ -67,8 +69,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
+//        installation["user"] = PFUser.currentUser()
         installation.saveInBackgroundWithBlock { (status: Bool, error:NSError?) -> Void in
             //code
+            
+    
+            
         }
 
     }

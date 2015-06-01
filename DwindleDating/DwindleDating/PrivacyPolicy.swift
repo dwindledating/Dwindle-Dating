@@ -10,11 +10,17 @@ import UIKit
 
 
 class PrivacyPolicy: UIViewController  {
+
+    @IBOutlet var webView :    UIWebView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.edgesForExtendedLayout = UIRectEdge.None
+        var path = NSBundle.mainBundle().pathForResource("PrivacyPolicy", ofType: "html")
+        var url = NSURL(fileURLWithPath: path!)
+        var request = NSURLRequest(URL: url!)
+        webView.loadRequest(request)
+
     }
     
     override func viewWillAppear(animated: Bool) {

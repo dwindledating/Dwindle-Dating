@@ -8,6 +8,7 @@
 
 import UIKit
 
+import Parse
 
 class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     
@@ -52,6 +53,8 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
             
             let actionHandler = { (action:UIAlertAction!) -> Void in
                 self.removeUser()
+                PFUser.logOut()
+
             }
             
             let myAlert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)

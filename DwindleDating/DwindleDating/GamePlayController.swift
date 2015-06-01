@@ -9,6 +9,17 @@
 import UIKit
 //import corelocation
 
+extension Array {
+    func shuffled() -> [T] {
+        var list = self
+        for i in 0..<(list.count - 1) {
+            let j = Int(arc4random_uniform(UInt32(list.count - i))) + i
+            swap(&list[i], &list[j])
+        }
+        return list
+    }
+}
+
 //, KDCycleBannerViewDelegate
 class GamePlayController: JSQMessagesViewController,
 UIActionSheetDelegate,
@@ -36,6 +47,9 @@ SocketIODelegate {
     var playerOther4 : Player!
     var socketIO     :SocketIO?
     
+    var randomPlayers:[String]! = []
+    
+    
     @IBOutlet weak var galleryHeightConstraint : NSLayoutConstraint?
     
     @IBOutlet var imagesViewContainer : UIView!
@@ -48,6 +62,8 @@ SocketIODelegate {
     
     func skipPressed(sender: UIBarButtonItem){
         self.socketIO?.sendEvent("skip", withData:[])
+        self.resetGameViews()
+
     }
     
     // MARK: - Scroller Stuff - KDCycleBannerView DELEGATE
@@ -199,6 +215,13 @@ SocketIODelegate {
     
     func resetGameViews(){
         
+        
+        let delay = 3.5 * Double(NSEC_PER_SEC)
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue()) {
+            ProgressHUD.show("Finding match...")
+        }
+
         playersDict.removeAll(keepCapacity: false)
         
         btn1.playerId = ""
@@ -237,6 +260,20 @@ SocketIODelegate {
         
     }
     
+    
+    func randomInt(min: Int, max:Int) -> Int {
+        return min + Int(arc4random_uniform(UInt32(max - min + 1)))
+    }
+    
+    func getPlayerIdRandomly() -> String{
+        
+//        let random = Int(arc4random_uniform(UInt32(randomPlayers.count - i))) + i
+        let rIndex = self.randomInt(0, max: randomPlayers.count-1)
+        let playerId: String = randomPlayers[rIndex]
+        randomPlayers.removeAtIndex(rIndex)
+        return playerId
+    }
+    
     func setPlayerImages(){
         
         playersDict["main"] = self.playerMain
@@ -246,24 +283,31 @@ SocketIODelegate {
         playersDict["other3"] = self.playerOther3
         playersDict["other4"] = self.playerOther4
         
+        // Create method that will have all player's id
+        // it will then assign 1 id to 1 user 
+        // and remove it from list
         
-        btn1.playerId = self.playerOpponent.fbId
-        btn2.playerId = self.playerOther1.fbId
-        btn3.playerId = self.playerOther2.fbId
-        btn4.playerId = self.playerOther3.fbId
-        btn5.playerId = self.playerOther4.fbId
         
-        btn1.sd_setImageWithURL(self.playerOpponent.imgPath, forState:.Normal)
-        btn2.sd_setImageWithURL(self.playerOther1.imgPath, forState:.Normal)
-        btn3.sd_setImageWithURL(self.playerOther2.imgPath, forState:.Normal)
-        btn4.sd_setImageWithURL(self.playerOther3.imgPath, forState:.Normal)
-        btn5.sd_setImageWithURL(self.playerOther4.imgPath, forState:.Normal)
+        btn1.playerId = self.getPlayerIdRandomly()
+        btn2.playerId = self.getPlayerIdRandomly()
+        btn3.playerId = self.getPlayerIdRandomly()
+        btn4.playerId = self.getPlayerIdRandomly()
+        btn5.playerId = self.getPlayerIdRandomly()
         
-        println("PlayerOpponent = \(self.playerOpponent.imgPath)")
-        println("PlayerOther1 = \(self.playerOther1.imgPath)")
-        println("PlayerOther2 = \(self.playerOther2.imgPath)")
-        println("PlayerOther3 = \(self.playerOther3.imgPath)")
-        println("PlayerOther4 = \(self.playerOther4.imgPath)")
+        var player = self.getPlayerAgainstId(btn1.playerId)
+        btn1.sd_setImageWithURL(player.imgPath, forState:.Normal)
+        
+        player = self.getPlayerAgainstId(btn2.playerId)
+        btn2.sd_setImageWithURL(player.imgPath, forState:.Normal)
+        
+        player = self.getPlayerAgainstId(btn3.playerId)
+        btn3.sd_setImageWithURL(player.imgPath, forState:.Normal)
+        
+        player = self.getPlayerAgainstId(btn4.playerId)
+        btn4.sd_setImageWithURL(player.imgPath, forState:.Normal)
+        
+        player = self.getPlayerAgainstId(btn5.playerId)
+        btn5.sd_setImageWithURL(player.imgPath, forState:.Normal)
         
     }
     
@@ -368,53 +412,6 @@ SocketIODelegate {
         return [String: AnyObject]()
     }
     
-    // MARK: -   WEBSERVICE
-    
-    func gamePlay(){
-        var settings = UserSettings.loadUserSettings()
-        
-        ProgressHUD.show("Commencing Game...")
-        
-        var manager = ServiceManager()
-        
-        
-        manager.getGamePlayUsersAgainstFacebookId(settings.fbId, sucessBlock: { (allPlayers:[NSObject: AnyObject]!) -> Void in
-            
-            var data:NSDictionary = allPlayers as NSDictionary
-            println("players \(data)")
-            
-            // code
-            self.playerMain      = data["MainPlayer"] as? Player
-            self.playerOpponent  = data["OpponentPlayer"] as? Player
-            
-            var otherData = data["Others"] as! NSArray
-            self.playerOther1 = otherData[0] as? Player
-            self.playerOther2 = otherData[1] as? Player
-            self.playerOther3 = otherData[2] as? Player
-            
-            ProgressHUD.showSuccess("Game Commenced Succesfully")
-            
-            
-            
-            println("PlayerMain = \(self.playerMain.fbId)")
-            println("PlayerOpponent = \(self.playerOpponent.fbId)")
-            println("PlayerOther1 = \(self.playerOther1.fbId)")
-            println("PlayerOther2 = \(self.playerOther2.fbId)")
-            println("PlayerOther3 = \(self.playerOther3.fbId)")
-            
-            //Open Socket
-            
-            self.startGame()
-            
-            }) { (error: NSError!) -> Void in
-                // code
-                ProgressHUD.showError("Game Commencing Failed")
-        }
-        
-    }
- 
-    
-    
     // MARK: - SOCKETS
     
     func initSocketConnection(){
@@ -445,23 +442,16 @@ SocketIODelegate {
     
     func startGame(){
         
-//        self.handleDwindleDown([:])
-//        return
-
         ProgressHUD.show("Commencing Game...")
         self.initSocketConnection();
         
     }
-    
     
     func sendChat(message:String){
         self.socketIO?.sendEvent("sendchat", withData: [message])
     }
     
     // MARK: -   SOCKET DELEGATES
-    
-    
-    
     
     func socketIODidConnect(socket: SocketIO!) {
         println("socket.io connected.")
@@ -492,6 +482,7 @@ SocketIODelegate {
     }
     
     
+    
     func socketIO(socket: SocketIO!, didReceiveEvent packet: SocketIOPacket!) {
         //code
         println("PacketName \(packet.name)")
@@ -518,6 +509,14 @@ SocketIODelegate {
             self.playerOther3 = Player(dict: otherData[2]! as? Dictionary)
             self.playerOther4 = Player(dict: otherData[3]! as? Dictionary)
 
+            randomPlayers.append(self.playerOpponent.fbId)
+            randomPlayers.append(self.playerOther1.fbId)
+            randomPlayers.append(self.playerOther2.fbId)
+            randomPlayers.append(self.playerOther3.fbId)
+            randomPlayers.append(self.playerOther4.fbId)
+            randomPlayers.shuffled()
+            
+            
             ProgressHUD.showSuccess("Game Commenced Succesfully")
             
             self.setPlayerImages()
@@ -577,22 +576,10 @@ SocketIODelegate {
             println("\n Skipchat data as string looks like \(packet.data)")
             ProgressHUD.showError("The other user has left the game. Connecting to new users.")
             self.resetGameViews()
-            let delay = 2.5 * Double(NSEC_PER_SEC)
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-            dispatch_after(time, dispatch_get_main_queue()) {
-                ProgressHUD.show("Finding match...")
-            }
-
         }
         else if (packet.name == "loggedoutResponse"){
             ProgressHUD.showError("The other user has left the game. Connecting to new users.")
             self.resetGameViews()
-            let delay = 3.5 * Double(NSEC_PER_SEC)
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-            dispatch_after(time, dispatch_get_main_queue()) {
-                ProgressHUD.show("Finding match...")
-            }
-            
         }
 
     }

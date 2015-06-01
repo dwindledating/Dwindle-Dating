@@ -74,43 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DwindleDating/GamePlayController.swift"
-            timestampString = "454615759.355868"
+            timestampString = "454881009.141148"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "395"
-            endingLineNumber = "395"
-            landmarkName = "gamePlay()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DwindleDating/GamePlayController.swift"
-            timestampString = "454615759.355868"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "700"
-            endingLineNumber = "700"
-            landmarkName = "GamePlayController"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DwindleDating/GamePlayController.swift"
-            timestampString = "454615759.355868"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "354"
-            endingLineNumber = "354"
+            startingLineNumber = "398"
+            endingLineNumber = "398"
             landmarkName = "JSONParseArray(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -122,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DwindleDating/GamePlayController.swift"
-            timestampString = "454615759.355868"
+            timestampString = "454881009.141148"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "458"
-            endingLineNumber = "458"
+            startingLineNumber = "451"
+            endingLineNumber = "451"
             landmarkName = "sendChat(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -138,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DwindleDating/GamePlayController.swift"
-            timestampString = "454615759.355868"
+            timestampString = "454881009.141148"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "skipPressed(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -154,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DwindleDating/ViewController.swift"
-            timestampString = "454358757.511902"
+            timestampString = "454871661.814394"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
+            startingLineNumber = "366"
+            endingLineNumber = "366"
             landmarkName = "loginViewFetchedUserInfo(_:user:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -170,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DwindleDating/ViewController.swift"
-            timestampString = "452726054.909214"
+            timestampString = "454871661.814394"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
             landmarkName = "loginViewFetchedUserInfo(_:user:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -186,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DwindleDating/GamePlayController.swift"
-            timestampString = "454615759.355868"
+            timestampString = "454881009.141148"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "475"
-            endingLineNumber = "475"
+            startingLineNumber = "465"
+            endingLineNumber = "465"
             landmarkName = "socketIODidConnect(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DwindleDating/GamePlayController.swift"
-            timestampString = "454615759.355868"
+            timestampString = "454881009.141148"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "480"
-            endingLineNumber = "480"
+            startingLineNumber = "470"
+            endingLineNumber = "470"
             landmarkName = "socketIODidConnect(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -250,76 +218,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DwindleDating/ViewController.swift"
-            timestampString = "452765747.019994"
+            timestampString = "454871661.814394"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "279"
-            endingLineNumber = "279"
+            startingLineNumber = "353"
+            endingLineNumber = "353"
             landmarkName = "loginViewFetchedUserInfo(_:user:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DwindleDating/AppDelegate.swift"
-            timestampString = "454541409.415643"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "application(_:didRegisterForRemoteNotificationsWithDeviceToken:)"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "DwindleDating.AppDelegate.application (DwindleDating.AppDelegate)(ObjectiveC.UIApplication, didRegisterForRemoteNotificationsWithDeviceToken : ObjectiveC.NSData) -&gt; ()"
-                  moduleName = "DwindleDating"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/air/yunas-air/iPhoneProjects/Infinione/iosGitCode/DwindleDating/dwindle_dating/DwindleDating/DwindleDating/AppDelegate.swift"
-                  timestampString = "454807057.379612"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "70"
-                  endingLineNumber = "70"
-                  offsetFromSymbolStart = "222">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "DwindleDating.AppDelegate.(application (DwindleDating.AppDelegate) -&gt; (ObjectiveC.UIApplication, didRegisterForRemoteNotificationsWithDeviceToken : ObjectiveC.NSData) -&gt; ()).(closure #1)"
-                  moduleName = "DwindleDating"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/air/yunas-air/iPhoneProjects/Infinione/iosGitCode/DwindleDating/dwindle_dating/DwindleDating/DwindleDating/AppDelegate.swift"
-                  timestampString = "454807057.379803"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "72"
-                  endingLineNumber = "72"
-                  offsetFromSymbolStart = "20">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DwindleDating/GamePlayController.swift"
-            timestampString = "454615759.355868"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "399"
-            endingLineNumber = "399"
-            landmarkName = "gamePlay()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -362,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DwindleDating/MatchChatController.swift"
-            timestampString = "454807056.753926"
+            timestampString = "454876426.786659"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
             landmarkName = "sendChat(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -384,6 +288,54 @@
             startingLineNumber = "214"
             endingLineNumber = "214"
             landmarkName = "-emit:args:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DwindleDating/ViewController.swift"
+            timestampString = "454871688.435688"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "setupUser()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DwindleDating/EditGenderController.swift"
+            timestampString = "454872748.816846"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "updateRequiredGender(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DwindleDating/MatchChatController.swift"
+            timestampString = "454876717.954129"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
+            landmarkName = "initSocketConnection()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

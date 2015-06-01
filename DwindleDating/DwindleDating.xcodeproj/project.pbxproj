@@ -140,6 +140,10 @@
 		451BC6681AE6E65D003E1C2D /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 455DB3171A99D3AA00CEAEA2 /* JSQMessagesCollectionViewCellOutgoing.xib */; };
 		451BC6691AE6E65D003E1C2D /* JSQMessagesToolbarContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 455DB3251A99D3AA00CEAEA2 /* JSQMessagesToolbarContentView.xib */; };
 		452DCD121A8F476700F624B4 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452DCD111A8F476700F624B4 /* RoundImageView.swift */; };
+		454DC0891B1C2EAC00B979D0 /* PrivacyPolicy.html in Resources */ = {isa = PBXBuildFile; fileRef = 454DC0871B1C2EAC00B979D0 /* PrivacyPolicy.html */; };
+		454DC08A1B1C2EAC00B979D0 /* PrivacyPolicy.html in Resources */ = {isa = PBXBuildFile; fileRef = 454DC0871B1C2EAC00B979D0 /* PrivacyPolicy.html */; };
+		454DC08B1B1C2EAC00B979D0 /* TermsandConditions.html in Resources */ = {isa = PBXBuildFile; fileRef = 454DC0881B1C2EAC00B979D0 /* TermsandConditions.html */; };
+		454DC08C1B1C2EAC00B979D0 /* TermsandConditions.html in Resources */ = {isa = PBXBuildFile; fileRef = 454DC0881B1C2EAC00B979D0 /* TermsandConditions.html */; };
 		455DB3321A99D3AA00CEAEA2 /* DemoModelData.m in Sources */ = {isa = PBXBuildFile; fileRef = 455DB2BB1A99D3AA00CEAEA2 /* DemoModelData.m */; };
 		455DB3331A99D3AA00CEAEA2 /* JSQMessagesAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 455DB2BE1A99D3AA00CEAEA2 /* JSQMessagesAssets.bundle */; };
 		455DB3341A99D3AA00CEAEA2 /* JSQMessages.strings in Resources */ = {isa = PBXBuildFile; fileRef = 455DB2C01A99D3AA00CEAEA2 /* JSQMessages.strings */; };
@@ -324,6 +328,8 @@
 		451BC66D1AE6E65D003E1C2D /* DwindleDating copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DwindleDating copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		451BC66E1AE6E65E003E1C2D /* DwindleDating copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DwindleDating copy-Info.plist"; path = "/Users/air/yunas-air/iPhoneProjects/Infinione/iosGitCode/DwindleDating/dwindle_dating/DwindleDating/DwindleDating copy-Info.plist"; sourceTree = "<absolute>"; };
 		452DCD111A8F476700F624B4 /* RoundImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoundImageView.swift; path = Backend/RoundImageView.swift; sourceTree = "<group>"; };
+		454DC0871B1C2EAC00B979D0 /* PrivacyPolicy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PrivacyPolicy.html; sourceTree = "<group>"; };
+		454DC0881B1C2EAC00B979D0 /* TermsandConditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = TermsandConditions.html; sourceTree = "<group>"; };
 		455DB2BA1A99D3AA00CEAEA2 /* DemoModelData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoModelData.h; sourceTree = "<group>"; };
 		455DB2BB1A99D3AA00CEAEA2 /* DemoModelData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoModelData.m; sourceTree = "<group>"; };
 		455DB2BE1A99D3AA00CEAEA2 /* JSQMessagesAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JSQMessagesAssets.bundle; sourceTree = "<group>"; };
@@ -683,6 +689,15 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		454DC0861B1C2EAC00B979D0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				454DC0871B1C2EAC00B979D0 /* PrivacyPolicy.html */,
+				454DC0881B1C2EAC00B979D0 /* TermsandConditions.html */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		455DB2B81A99D3AA00CEAEA2 /* ChatController */ = {
 			isa = PBXGroup;
 			children = (
@@ -991,6 +1006,7 @@
 		458D3C861A68442100A0BD6B = {
 			isa = PBXGroup;
 			children = (
+				454DC0861B1C2EAC00B979D0 /* Resources */,
 				45EB7F601A73AD91006ECAD2 /* Backend */,
 				45C99D721A69D1DF00AC0DFC /* ThirdParty */,
 				458D3C911A68442100A0BD6B /* DwindleDating */,
@@ -1014,7 +1030,6 @@
 			isa = PBXGroup;
 			children = (
 				45EDA6081A8A2DA000CDB4EF /* MatchCell.swift */,
-				458D3C981A68442100A0BD6B /* Main.storyboard */,
 				458D3C941A68442100A0BD6B /* AppDelegate.swift */,
 				45174A331A77EE6700F17584 /* MatchListController.swift */,
 				45174A351A77EE7C00F17584 /* MatchChatController.swift */,
@@ -1026,6 +1041,7 @@
 				4560D3F71A736E5F00564860 /* PrivacyPolicy.swift */,
 				4560D3F91A736ED800564860 /* TermsController.swift */,
 				458D3C9B1A68442100A0BD6B /* Images.xcassets */,
+				458D3C981A68442100A0BD6B /* Main.storyboard */,
 				458D3C9D1A68442100A0BD6B /* LaunchScreen.xib */,
 				458D3C921A68442100A0BD6B /* Supporting Files */,
 			);
@@ -1448,7 +1464,9 @@
 				451BC6651AE6E65D003E1C2D /* Images.xcassets in Resources */,
 				451BC6661AE6E65D003E1C2D /* LICENSE in Resources */,
 				451BC6671AE6E65D003E1C2D /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
+				454DC08A1B1C2EAC00B979D0 /* PrivacyPolicy.html in Resources */,
 				451BC6681AE6E65D003E1C2D /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
+				454DC08C1B1C2EAC00B979D0 /* TermsandConditions.html in Resources */,
 				451BC6691AE6E65D003E1C2D /* JSQMessagesToolbarContentView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1473,7 +1491,9 @@
 				458D3C9C1A68442100A0BD6B /* Images.xcassets in Resources */,
 				455DB35F1A99D3AA00CEAEA2 /* LICENSE in Resources */,
 				455DB3511A99D3AA00CEAEA2 /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
+				454DC0891B1C2EAC00B979D0 /* PrivacyPolicy.html in Resources */,
 				455DB3531A99D3AA00CEAEA2 /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
+				454DC08B1B1C2EAC00B979D0 /* TermsandConditions.html in Resources */,
 				455DB35B1A99D3AA00CEAEA2 /* JSQMessagesToolbarContentView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

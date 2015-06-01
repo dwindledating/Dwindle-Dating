@@ -200,28 +200,26 @@ class MatchChatController: JSQMessagesViewController ,
                 //code
                 println ("updatechat\(args)");
                 
-                var response = args[0] as! String
-                let data = response.dataUsingEncoding(NSUTF8StringEncoding)
-                
-                var err: NSError?
-                let responseArr = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
-                if(err != nil) {
-                    println("JSON Error \(err!.localizedDescription)")
-                }
+                var response = args as! Array<String>
+//                let data = response.dataUsingEncoding(NSUTF8StringEncoding)
+//                
+//                var err: NSError?
+//                let responseArr = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
+//                if(err != nil) {
+//                    println("JSON Error \(err!.localizedDescription)")
+//                }
 
                 var _senderId:String = ""
-                if let tmpSenderId = responseArr[1]  as? String! {
+                if let tmpSenderId = response[0] as? String {
                     _senderId = tmpSenderId
                 }
-                var _message:String = (responseArr[2] as? String)!
-                
+                var _message:String = (response[1] as? String)!
+
                 if let tmpPlayerId = self.toUserId{
                     if (_senderId == self.toUserId){
                         self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
                     }
                 }
-
-                
             })
             
         })

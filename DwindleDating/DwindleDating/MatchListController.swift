@@ -13,7 +13,7 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     @IBOutlet var tableview: UITableView!
     
-    var matchesArr : NSArray!
+    var matchesArr : NSMutableArray!
     
     
     // MARK:- WEB SERVICE
@@ -28,7 +28,12 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         
         manager.getMathchesForUser(settings.fbId, sucessBlock: { (_matchesArr:[AnyObject]!) -> Void in
             //code
-            self.matchesArr = NSArray(array: _matchesArr)
+            
+            
+            if let matches = self.matchesArr{
+                self.matchesArr.removeAllObjects()
+            }
+            self.matchesArr = NSMutableArray(array: _matchesArr)
             self.tableview.reloadData()
             ProgressHUD.dismiss()
             
@@ -45,6 +50,11 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    override func viewDidAppear(animated: Bool) {
+            super.viewDidAppear(animated)
+            self.getMatches()
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 //        self.navigationController?.setNavigationBarHidden(true, animated: false)
@@ -55,10 +65,7 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.getMatches()
         tableview.tintColor = UIColor.purpleColor()
-        //        tableview.backgroundColor = UIColor.purpleColor()
-        //        UITableView.appearance().tintColor = UIColor.purpleColor()
     }
     
     override func didReceiveMemoryWarning() {

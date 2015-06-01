@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>50BE7B87-64ED-4ABB-A6C2-174431FDE778</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>DwindleDating</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>F8193C5D4D735D2584F47B4B1071823322EABEBA</key>
 		<string>https://github.com/InfiniOneLLC/dwindle_dating.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>DwindleDating/DwindleDating.xcodeproj/project.xcworkspace</string>
+	<string>DwindleDating/DwindleDating.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>F8193C5D4D735D2584F47B4B1071823322EABEBA</key>
