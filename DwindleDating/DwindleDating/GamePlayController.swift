@@ -121,6 +121,7 @@ SocketIODelegate {
         var btn = self.getPlayerButtonAgainstId(deleteUserFbId)
         btn.selected = false
         btn.enabled = false
+        btn.setImage(nil, forState: UIControlState.Normal)
 
     }
 
