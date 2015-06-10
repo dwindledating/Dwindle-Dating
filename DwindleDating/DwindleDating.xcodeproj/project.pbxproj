@@ -297,12 +297,12 @@
 		45EB7F651A73B57D006ECAD2 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EB7F641A73B57D006ECAD2 /* UserSettings.m */; };
 		45EB7F671A73C24D006ECAD2 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EB7F661A73C24D006ECAD2 /* SettingsController.swift */; };
 		45EDA6091A8A2DA000CDB4EF /* MatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EDA6081A8A2DA000CDB4EF /* MatchCell.swift */; };
-		5263AE5B1B28BE2D00543EF7 /* SocketIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE4A1B28BE2D00543EF7 /* SocketIO.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		5263AE5C1B28BE2D00543EF7 /* SocketIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE4A1B28BE2D00543EF7 /* SocketIO.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		5263AE5D1B28BE2D00543EF7 /* SocketIOJSONSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE4C1B28BE2D00543EF7 /* SocketIOJSONSerialization.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		5263AE5E1B28BE2D00543EF7 /* SocketIOJSONSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE4C1B28BE2D00543EF7 /* SocketIOJSONSerialization.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		5263AE5F1B28BE2D00543EF7 /* SocketIOPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE4E1B28BE2D00543EF7 /* SocketIOPacket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		5263AE601B28BE2D00543EF7 /* SocketIOPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE4E1B28BE2D00543EF7 /* SocketIOPacket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5263AE5B1B28BE2D00543EF7 /* SocketIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE4A1B28BE2D00543EF7 /* SocketIO.m */; };
+		5263AE5C1B28BE2D00543EF7 /* SocketIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE4A1B28BE2D00543EF7 /* SocketIO.m */; };
+		5263AE5D1B28BE2D00543EF7 /* SocketIOJSONSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE4C1B28BE2D00543EF7 /* SocketIOJSONSerialization.m */; };
+		5263AE5E1B28BE2D00543EF7 /* SocketIOJSONSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE4C1B28BE2D00543EF7 /* SocketIOJSONSerialization.m */; };
+		5263AE5F1B28BE2D00543EF7 /* SocketIOPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE4E1B28BE2D00543EF7 /* SocketIOPacket.m */; };
+		5263AE601B28BE2D00543EF7 /* SocketIOPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE4E1B28BE2D00543EF7 /* SocketIOPacket.m */; };
 		5263AE611B28BE2D00543EF7 /* SocketIOTransportWebsocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE511B28BE2D00543EF7 /* SocketIOTransportWebsocket.m */; };
 		5263AE621B28BE2D00543EF7 /* SocketIOTransportWebsocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE511B28BE2D00543EF7 /* SocketIOTransportWebsocket.m */; };
 		5263AE631B28BE2D00543EF7 /* SocketIOTransportXHR.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE531B28BE2D00543EF7 /* SocketIOTransportXHR.m */; };

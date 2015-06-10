@@ -157,8 +157,7 @@ SocketIODelegate {
                     ProgressHUD.showSuccess("Congratulations you have found your dwindle match")
                 }
                 else{
-                
-                    ProgressHUD.showSuccess("Round \(dCount) Complete! \n Additional photo unlocked, tap above to view.")
+                    ProgressHUD.showSuccess("Congratulations for \(dCount) dwindle down")
                 }
 
             }
@@ -738,7 +737,17 @@ SocketIODelegate {
     override func didPressAccessoryButton(sender: UIButton!) {
         
         
-        var sheet = UIActionSheet(title: "Quick messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "If Hollywood made a movie about your life, which actor would play you?", "Have you had any success with dating apps?");
+        var sheet = UIActionSheet(title: "Quick messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles:
+            "What actor would best play the role of you?",
+            "You can live anyplace in the world, where?",
+            "Have you had any success with dating apps?",
+            "What's the worst job you've ever had?",
+            "What movie title describes your sex life?",
+            "Drink with anyone throughout history, who?",
+            "What about you surprises people the most?",
+            "      Do you have any nicknames?         ",
+            "What's the worst part about modern dating?",
+            "You're cooking me dinner, what's the menu?");
         
         //    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Media messages"
         //    delegate:self
