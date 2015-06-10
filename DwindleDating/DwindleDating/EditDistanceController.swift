@@ -21,6 +21,7 @@ class EditDistanceController: UIViewController ,UIPickerViewDataSource,UIPickerV
         var manager = ServiceManager()
         
         var row = pickerViewDistance.selectedRowInComponent(0)
+            row = ((row + 1) * 5)
         let rowNumber: NSNumber = row
         
         manager.editDistance(rowNumber, againstFacebookId: settings.fbId, sucessBlock: { (isUpdated: Bool) -> Void in
@@ -58,7 +59,8 @@ class EditDistanceController: UIViewController ,UIPickerViewDataSource,UIPickerV
 
         var settings = UserSettings.loadUserSettings()
         var distance = (settings.userDistance as String).toInt()
-        if let distanceInt = distance {
+        if var distanceInt = distance {
+            distanceInt = (distanceInt - 1) / 5
             pickerViewDistance.selectRow(distanceInt, inComponent: 0, animated: true)
         }
         else
@@ -100,13 +102,12 @@ class EditDistanceController: UIViewController ,UIPickerViewDataSource,UIPickerV
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if (component == 1) { return 1}
         
-        return 80
+        return 10
     }
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
         if (component == 1) { return "miles"}
-        
-        var title = "  " + String(format: "%02d", row)
+        var title = "  " + String(format: "%02d", ((row + 1) * 5))
         return title
     }
     
