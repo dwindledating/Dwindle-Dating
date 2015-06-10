@@ -26,6 +26,7 @@ class MatchChatController: JSQMessagesViewController ,
     var playerOpponent: Player!
     
     var toUserId: String!
+    var toUserName: String!
     var status: String!
     
     @IBOutlet var scroller : KDCycleBannerView!
@@ -83,7 +84,15 @@ class MatchChatController: JSQMessagesViewController ,
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.title = "Chat Controller"
+        if let userName = self.toUserName{
+            self.title = self.toUserName
+        }else
+        {
+            self.title = self.toUserId
+        }
+        
+        
+
         
         
         /**

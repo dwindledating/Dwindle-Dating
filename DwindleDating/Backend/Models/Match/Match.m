@@ -16,6 +16,7 @@
     self = [super init];
     if (self) {
         self.fbId   = dict[@"fb_id"];
+        self.name   = dict[@"user_name"];
         self.imgPath= [NSURL URLWithString:dict[@"PicPath"]];
         self.text   = dict[@"Text"];
         self.date   = [DateUtility dateStrWithRespectToday:[DateUtility getDwindleDateFromString:dict[@"Date"]]];

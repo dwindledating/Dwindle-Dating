@@ -11,6 +11,7 @@
 @interface Match : NSObject
 
 @property (nonatomic,retain) NSString *fbId;
+@property (nonatomic,retain) NSString *name;
 @property (nonatomic,retain) NSURL *imgPath;
 @property (nonatomic,retain) NSString *text;
 @property (nonatomic,retain) NSString *date;

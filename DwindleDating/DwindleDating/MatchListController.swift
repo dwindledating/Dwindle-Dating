@@ -136,7 +136,9 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
             
             
             matchControl.toUserId = match.fbId
+            matchControl.toUserName = match.name
             matchControl.status = match.status
+            
 
             
             
