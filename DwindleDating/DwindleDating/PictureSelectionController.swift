@@ -54,18 +54,20 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
     
     func validateAllImages () -> Bool{
         
-        if(!btnPicture1.userInteractionEnabled &&
-           !btnPicture2.userInteractionEnabled &&
-            !btnPicture3.userInteractionEnabled &&
-            !btnPicture4.userInteractionEnabled &&
-            !btnPicture5.userInteractionEnabled){
-                return true
+        if ((btnPicture1.imageForState(UIControlState.Normal) != nil ) &&
+            (btnPicture2.imageForState(UIControlState.Normal) != nil ) &&
+            (btnPicture3.imageForState(UIControlState.Normal) != nil ) &&
+            (btnPicture4.imageForState(UIControlState.Normal) != nil ) &&
+            (btnPicture5.imageForState(UIControlState.Normal) != nil )){
+            
+            return true
         }
         return false
     }
     
     
     func signup (){
+
 //        self.performSegueWithIdentifier("showMenuController", sender: nil)
 //
 //        return
@@ -90,13 +92,13 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
         println("to Age \(settings.userAgeTo)")
         println("to distance \(settings.userDistance)")
         
-            var imagesArr = [UIImage]()
+        var imagesArr = [UIImage]()
         
-            imagesArr.append(btnPicture1.imageForState(UIControlState.Normal)!)
-            imagesArr.append(btnPicture2.imageForState(UIControlState.Normal)!)
-            imagesArr.append(btnPicture3.imageForState(UIControlState.Normal)!)
-            imagesArr.append(btnPicture4.imageForState(UIControlState.Normal)!)
-            imagesArr.append(btnPicture5.imageForState(UIControlState.Normal)!)
+        imagesArr.append(btnPicture1.imageForState(UIControlState.Normal)!)
+        imagesArr.append(btnPicture2.imageForState(UIControlState.Normal)!)
+        imagesArr.append(btnPicture3.imageForState(UIControlState.Normal)!)
+        imagesArr.append(btnPicture4.imageForState(UIControlState.Normal)!)
+        imagesArr.append(btnPicture5.imageForState(UIControlState.Normal)!)
         
 
         ProgressHUD.show("Uploading pictures...")
@@ -161,7 +163,6 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
 
             var img = info[UIImagePickerControllerEditedImage] as! UIImage //2
             self.btnOpener?.setImage(img, forState: UIControlState.Normal)
-            self.btnOpener?.userInteractionEnabled = false
             
         })
     }
