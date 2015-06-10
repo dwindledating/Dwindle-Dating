@@ -2208,10 +2208,10 @@
             </objects>
             <point key="canvasLocation" x="4560" y="2145.75"/>
         </scene>
-        <!--Terms & Conditions-->
+        <!--Terms and Conditions*-->
         <scene sceneID="bI2-Kn-TXI">
             <objects>
-                <viewController title="Terms &amp; Conditions" id="dP1-DX-FHR" customClass="TermsController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Terms and Conditions*" id="dP1-DX-FHR" customClass="TermsController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="r4o-hk-D8G"/>
                         <viewControllerLayoutGuide type="bottom" id="ZRJ-R9-lrb"/>
@@ -2224,7 +2224,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <color key="barTintColor" red="0.0" green="0.50588235290000005" blue="0.68235294120000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
-                                    <navigationItem title="Terms and Conditions" id="c2Y-AS-Lft">
+                                    <navigationItem title="Terms and Conditions*" id="c2Y-AS-Lft">
                                         <barButtonItem key="leftBarButtonItem" title="Close" id="mM1-RC-7Jn">
                                             <connections>
                                                 <action selector="goBackPressed:" destination="dP1-DX-FHR" id="VGU-ny-KdL"/>
@@ -2393,10 +2393,10 @@
             </objects>
             <point key="canvasLocation" x="619.5" y="1404.75"/>
         </scene>
-        <!--Edit Pictures Controller-->
+        <!--Edit Photos-->
         <scene sceneID="XSQ-5W-rkX">
             <objects>
-                <viewController id="5ga-QV-22J" customClass="EditPicturesController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Edit Photos" id="5ga-QV-22J" customClass="EditPicturesController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="llt-CP-PSr"/>
                         <viewControllerLayoutGuide type="bottom" id="eLa-ZG-1yo"/>
@@ -2469,11 +2469,24 @@
                                     <action selector="openImagePicker:" destination="5ga-QV-22J" eventType="touchUpInside" id="hnp-gq-1tt"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last step! Upload 5 of your best photos. Your matches can potentially see all 5 so make them count!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7dv-cg-h8S">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap below to change your photos" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7dv-cg-h8S">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Sop-pi-mew"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.50588235290000005" blue="0.68235294120000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Sop-pi-mew"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="Sop-pi-mew"/>
+                                    </mask>
+                                </variation>
                             </label>
                             <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KPa-t6-yGv" customClass="RoundButtonView" customModule="DwindleDating" customModuleProvider="target">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
@@ -2590,12 +2603,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="svv-15-v9E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7620" y="1179.75"/>
+            <point key="canvasLocation" x="7326" y="1176"/>
         </scene>
-        <!--Select Age-->
+        <!--Age-->
         <scene sceneID="vGk-X4-Z73">
             <objects>
-                <viewController title="Select Age" id="GiD-Rw-5k9" customClass="EditAgeController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Age" id="GiD-Rw-5k9" customClass="EditAgeController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ddN-65-L2I"/>
                         <viewControllerLayoutGuide type="bottom" id="ZHl-oI-5BJ"/>
@@ -2604,7 +2617,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next, choose your desired age range." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iqP-D5-xXn">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose an age range" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iqP-D5-xXn">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="iqP-D5-xXn" secondAttribute="height" multiplier="131:30" id="vqY-Dy-MKm"/>
@@ -2792,10 +2805,10 @@
             </objects>
             <point key="canvasLocation" x="7968" y="138.75"/>
         </scene>
-        <!--Distance-->
+        <!--Location-->
         <scene sceneID="smr-51-Uap">
             <objects>
-                <viewController title="Distance" id="I9D-Aw-nxG" customClass="EditDistanceController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Location" id="I9D-Aw-nxG" customClass="EditDistanceController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FZB-Pw-JH9"/>
                         <viewControllerLayoutGuide type="bottom" id="ehe-zA-6Sy"/>
@@ -2804,7 +2817,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now, choose how far from your current location you would like your matches to be." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rov-XL-fqH">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select your match radius" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rov-XL-fqH">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="gpn-SB-0ic">
@@ -2944,10 +2957,10 @@
             </objects>
             <point key="canvasLocation" x="7968" y="641.25"/>
         </scene>
-        <!--Select Gender-->
+        <!--Gender-->
         <scene sceneID="k6h-UQ-c3d">
             <objects>
-                <viewController title="Select Gender" id="TQX-LZ-FyV" customClass="EditGenderController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Gender" id="TQX-LZ-FyV" customClass="EditGenderController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="k7E-Ae-UYT"/>
                         <viewControllerLayoutGuide type="bottom" id="m5U-2L-VOO"/>
@@ -2956,7 +2969,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First, choose the gender you would like to be matched with." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="464-An-R5P">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a gender to be matched with" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="464-An-R5P">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.50588235290000005" blue="0.68235294120000001" alpha="1" colorSpace="calibratedRGB"/>
