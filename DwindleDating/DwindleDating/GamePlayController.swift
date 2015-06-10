@@ -157,7 +157,8 @@ SocketIODelegate {
                     ProgressHUD.showSuccess("Congratulations you have found your dwindle match")
                 }
                 else{
-                    ProgressHUD.showSuccess("Congratulations for \(dCount) dwindle down")
+                
+                    ProgressHUD.showSuccess("Round \(dCount) Complete! \n Additional photo unlocked, tap above to view.")
                 }
 
             }
@@ -443,7 +444,7 @@ SocketIODelegate {
     
     func startGame(){
         
-        ProgressHUD.show("Commencing Game...")
+        ProgressHUD.show("Starting Game...")
         self.initSocketConnection();
         
     }
