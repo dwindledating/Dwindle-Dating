@@ -49,6 +49,17 @@
     }
 }
 
+- (void)appendMessagesAtTop:(NSArray *)messages{
+    for (NSDictionary *chatDict in messages) {
+        JSQMessage *msg = [self messageFromDict:chatDict];
+        if (msg){
+            [self.messages insertObject:[self messageFromDict:chatDict] atIndex:0];
+        }
+        
+    }
+}
+
+
 - (instancetype)initDemoDataWithMessages:(NSArray*)messages{
     self = [super init];
     if (self){

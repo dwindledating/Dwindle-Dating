@@ -268,5 +268,9 @@
 - (void)jsq_configureMessagesViewController;
 - (void)jsq_registerForNotifications:(BOOL)registerForNotifications;
 - (void)jsq_adjustInputToolbarHeightConstraintByDelta:(CGFloat)dy;
+- (UICollectionReusableView *)collectionView:(JSQMessagesCollectionView *)collectionView
+           viewForSupplementaryElementOfKind:(NSString *)kind
+                                 atIndexPath:(NSIndexPath *)indexPath;
+
 
 @end

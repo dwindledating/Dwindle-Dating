@@ -28,6 +28,8 @@ class MatchChatController: JSQMessagesViewController ,
     var toUserId: String!
     var toUserName: String!
     var status: String!
+    var paginationCountTotal : Int = 1
+    var paginationCountCurrent : Int = 1
     
     @IBOutlet var scroller : KDCycleBannerView!
 
@@ -75,6 +77,7 @@ class MatchChatController: JSQMessagesViewController ,
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+
         self.collectionView.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();
         self.startChat()
         
@@ -112,8 +115,10 @@ class MatchChatController: JSQMessagesViewController ,
             self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
         }
         
-        self.showLoadEarlierMessagesHeader = true
+
+//        self.collectionView.collectionViewLayout.springinessEnabled = false;
         
+
         
         
         
@@ -186,6 +191,12 @@ class MatchChatController: JSQMessagesViewController ,
                 if(err != nil) {
                     println("JSON Error \(err!.localizedDescription)")
                 }
+
+                //SET TOTAL PAGES COUNT
+                self.paginationCountTotal = responseDict["TotalPages"] as! Int
+                if (self.paginationCountTotal > 1){
+                    self.showLoadEarlierMessagesHeader = true
+                }
                 //SET CHAT
                 var messages = responseDict["Chat"] as! [AnyObject]
                 messages = messages.reverse()
@@ -207,18 +218,39 @@ class MatchChatController: JSQMessagesViewController ,
 
             })
             
+            socket.on("getChatLogForPageResult", callback: { (args:[AnyObject]!) -> Void in
+              
+                var response = args[0] as! String
+                let data = response.dataUsingEncoding(NSUTF8StringEncoding)
+                
+                var err: NSError?
+                var responseDict = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
+                if(err != nil) {
+                    println("JSON Error \(err!.localizedDescription)")
+                }
+                
+
+                println("getChatLogForPageResult\(responseDict)")
+                var messages = responseDict["Chat"] as! [AnyObject]
+//                messages = messages.reverse()
+                self.demoData.appendMessagesAtTop(messages)
+                self.collectionView.reloadData()
+                ProgressHUD.showSuccess("")
+
+                //SET CurrentPage COUNT
+                self.paginationCountCurrent = responseDict["PageCount"] as! Int
+                if (self.paginationCountCurrent >= self.paginationCountTotal){
+                    self.showLoadEarlierMessagesHeader = false
+                }
+                
+                
+            })
+            
             socket.on("updatechat", callback: { (args:[AnyObject]!) -> Void in
                 //code
                 println ("updatechat\(args)");
                 
                 var response = args as! Array<String>
-//                let data = response.dataUsingEncoding(NSUTF8StringEncoding)
-//                
-//                var err: NSError?
-//                let responseArr = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
-//                if(err != nil) {
-//                    println("JSON Error \(err!.localizedDescription)")
-//                }
 
                 var _senderId:String = ""
                 if let tmpSenderId = response[0] as? String {
@@ -302,6 +334,39 @@ class MatchChatController: JSQMessagesViewController ,
     //============================================================================================\\
     // MARK: -   JSQMessagesViewController method overrides
     
+    
+    
+    
+//    - (UICollectionReusableView *)collectionView:(JSQMessagesCollectionView *)collectionView
+//    viewForSupplementaryElementOfKind:(NSString *)kind
+//    atIndexPath:(NSIndexPath *)indexPath
+//    {
+//    if (self.showLoadEarlierMessagesHeader && [kind isEqualToString:UICollectionElementKindSectionHeader]) {
+//    JSQMessagesLoadEarlierHeaderView *header = [collectionView dequeueLoadEarlierMessagesViewHeaderForIndexPath:indexPath];
+//    
+//    // Customize header
+//    [header.loadButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//    
+//    return header;
+//    }
+//    
+//    return [super collectionView:collectionView
+//    viewForSupplementaryElementOfKind:kind
+//    atIndexPath:indexPath];
+//    }
+    
+    override func collectionView(collectionView: JSQMessagesCollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView{
+    
+        if (self.showLoadEarlierMessagesHeader && kind == UICollectionElementKindSectionHeader){
+
+            var header:JSQMessagesLoadEarlierHeaderView = collectionView.dequeueLoadEarlierMessagesViewHeaderForIndexPath(indexPath)
+            header.loadButton.setTitleColor(UIColor.jsq_messageBubbleGreenColorDwindleDating(), forState: UIControlState.Normal)
+            return header;
+        }
+        
+        return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind as String, atIndexPath: indexPath)
+    }
+   
     
     func receivedMessagePressed(_senderId:String, _displayName:String, _message:String) {
         // Simulate reciving message
@@ -549,6 +614,11 @@ class MatchChatController: JSQMessagesViewController ,
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, header headerView: JSQMessagesLoadEarlierHeaderView!, didTapLoadEarlierMessagesButton sender: UIButton!) {
         println("Load earlier messages!");
+
+        
+        ProgressHUD.show("Loading earlier messages")
+        var settings = UserSettings.loadUserSettings()
+        self.socketIO?.emit("getChatLogForPage", args: [settings.fbId,self.toUserId,self.paginationCountCurrent+1])
         
     }
     
