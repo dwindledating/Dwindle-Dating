@@ -38,19 +38,6 @@ static NSString *SIOMD5(NSString *string) {
 
 @implementation SIOSocket
 
-
-//-(id) copyWithZone: (NSZone *) zone
-//{
-//    SIOSocket *copy = [[SIOSocket allocWithZone: zone] init];
-////    self.
-////    [copy setNombre: self.nombre];
-////    [copy setLinea: self.linea];
-////    [copy setTags: self.tags];
-////    [copy setHtmlSource: self.htmlSource];
-//    
-//    return copy;
-//}
-
 // Generators
 + (void)socketWithHost:(NSString *)hostURL response:(void (^)(SIOSocket *))response {
     // Defaults documented with socket.io-client: https://github.com/Automattic/socket.io-client

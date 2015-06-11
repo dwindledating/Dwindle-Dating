@@ -157,6 +157,7 @@ class MatchChatController: JSQMessagesViewController ,
     
     func initSocketConnection(){
     
+        
         SIOSocket.socketWithHost("http://52.11.98.82:3000/Chat", response: { (socket: SIOSocket!) -> Void in
             //code
             self.socketIO = socket 
@@ -165,11 +166,13 @@ class MatchChatController: JSQMessagesViewController ,
   
                 println ("Connected");
                 var settings = UserSettings.loadUserSettings()
+                println("My FBID: \(settings.fbId) Wants to connect with :\(self.toUserId) with status: \(self.status)")
+                
                 socket.emit("chat", args: [settings.fbId,self.toUserId,self.status])
                 ProgressHUD.show("Getting Chat History")
                 
             })
-            
+
             
             socket.on("getChatLog", callback: { (args:[AnyObject]!) -> Void in
                 //code
@@ -204,7 +207,6 @@ class MatchChatController: JSQMessagesViewController ,
 
             })
             
-            
             socket.on("updatechat", callback: { (args:[AnyObject]!) -> Void in
                 //code
                 println ("updatechat\(args)");
@@ -231,6 +233,12 @@ class MatchChatController: JSQMessagesViewController ,
                 }
             })
             
+            socket.on("disconnect", callback: { (args:[AnyObject]!) -> Void in
+                //code
+                println ("disconnect\(args)");
+
+            
+            })
         })
         
     }

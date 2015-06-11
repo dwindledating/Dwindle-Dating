@@ -43,6 +43,5 @@ typedef NSArray SIOParameterArray;
 - (void)emit:(NSString *)event args:(SIOParameterArray *)args;
 
 - (void)close;
-//- (id) copyWithZone: (NSZone *) zone;
 
 @end

@@ -228,8 +228,8 @@
 		457291081A71AE4A00FD5251 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 457290F61A71AE4A00FD5251 /* UIImageView+HighlightedWebCache.m */; };
 		457291091A71AE4A00FD5251 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 457290F81A71AE4A00FD5251 /* UIImageView+WebCache.m */; };
 		4572910A1A71AE4A00FD5251 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 457290FA1A71AE4A00FD5251 /* UIView+WebCacheOperation.m */; };
-		457CAB661B1B13030068D474 /* SIOSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 457CAB641B1B13030068D474 /* SIOSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		457CAB671B1B13030068D474 /* SIOSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 457CAB641B1B13030068D474 /* SIOSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		457CAB661B1B13030068D474 /* SIOSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 457CAB641B1B13030068D474 /* SIOSocket.m */; };
+		457CAB671B1B13030068D474 /* SIOSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 457CAB641B1B13030068D474 /* SIOSocket.m */; };
 		457CAB6A1B1B86E70068D474 /* Chat.m in Sources */ = {isa = PBXBuildFile; fileRef = 457CAB691B1B86E70068D474 /* Chat.m */; };
 		457CAB6B1B1B86E70068D474 /* Chat.m in Sources */ = {isa = PBXBuildFile; fileRef = 457CAB691B1B86E70068D474 /* Chat.m */; };
 		458D3C951A68442100A0BD6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D3C941A68442100A0BD6B /* AppDelegate.swift */; };
