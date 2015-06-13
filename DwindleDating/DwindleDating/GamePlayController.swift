@@ -755,11 +755,6 @@ SocketIODelegate {
             "What's the worst part about modern dating?",
             "You're cooking me dinner, what's the menu?");
         
-        //    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Media messages"
-        //    delegate:self
-        //    cancelButtonTitle:@"Cancel"
-        //    destructiveButtonTitle:nil
-        //    otherButtonTitles:@"Send photo", @"Send location", @"Send video", nil];
         sheet.showFromToolbar(self.inputToolbar);
     }
     
