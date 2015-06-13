@@ -124,10 +124,8 @@
 		451BC6601AE6E65D003E1C2D /* JSQMessagesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 455DB2E21A99D3AA00CEAEA2 /* JSQMessagesViewController.xib */; };
 		451BC6611AE6E65D003E1C2D /* JSQMessagesAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 455DB2BE1A99D3AA00CEAEA2 /* JSQMessagesAssets.bundle */; };
 		451BC6621AE6E65D003E1C2D /* JSQMessagesLoadEarlierHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 455DB3201A99D3AA00CEAEA2 /* JSQMessagesLoadEarlierHeaderView.xib */; };
-		451BC6631AE6E65D003E1C2D /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 457290DB1A71AE4A00FD5251 /* LICENSE */; };
 		451BC6641AE6E65D003E1C2D /* JSQMessages.strings in Resources */ = {isa = PBXBuildFile; fileRef = 455DB2C01A99D3AA00CEAEA2 /* JSQMessages.strings */; };
 		451BC6651AE6E65D003E1C2D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 458D3C9B1A68442100A0BD6B /* Images.xcassets */; };
-		451BC6661AE6E65D003E1C2D /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 455DB32E1A99D3AA00CEAEA2 /* LICENSE */; };
 		451BC6671AE6E65D003E1C2D /* JSQMessagesCollectionViewCellIncoming.xib in Resources */ = {isa = PBXBuildFile; fileRef = 455DB3141A99D3AA00CEAEA2 /* JSQMessagesCollectionViewCellIncoming.xib */; };
 		451BC6681AE6E65D003E1C2D /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 455DB3171A99D3AA00CEAEA2 /* JSQMessagesCollectionViewCellOutgoing.xib */; };
 		451BC6691AE6E65D003E1C2D /* JSQMessagesToolbarContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 455DB3251A99D3AA00CEAEA2 /* JSQMessagesToolbarContentView.xib */; };
@@ -181,7 +179,6 @@
 		455DB35C1A99D3AA00CEAEA2 /* JSQMessagesTypingIndicatorFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 455DB3271A99D3AA00CEAEA2 /* JSQMessagesTypingIndicatorFooterView.m */; };
 		455DB35D1A99D3AA00CEAEA2 /* JSQMessagesTypingIndicatorFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 455DB3281A99D3AA00CEAEA2 /* JSQMessagesTypingIndicatorFooterView.xib */; };
 		455DB35E1A99D3AA00CEAEA2 /* JSQSystemSoundPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 455DB32D1A99D3AA00CEAEA2 /* JSQSystemSoundPlayer.m */; };
-		455DB35F1A99D3AA00CEAEA2 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 455DB32E1A99D3AA00CEAEA2 /* LICENSE */; };
 		455DB3611A99D3AA00CEAEA2 /* NSUserDefaults+DemoSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 455DB3311A99D3AA00CEAEA2 /* NSUserDefaults+DemoSettings.m */; };
 		455E80D91AFE8CD800781CB8 /* LocationByHassan.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 455E80D81AFE8CD800781CB8 /* LocationByHassan.gpx */; };
 		455E80DA1AFE8CD800781CB8 /* LocationByHassan.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 455E80D81AFE8CD800781CB8 /* LocationByHassan.gpx */; };
@@ -196,8 +193,6 @@
 		455E80EB1B0149FC00781CB8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E80EA1B0149FC00781CB8 /* libsqlite3.dylib */; };
 		455E80ED1B014A5E00781CB8 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E80EC1B014A5E00781CB8 /* Accounts.framework */; };
 		455E80EF1B014A6300781CB8 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E80EE1B014A6300781CB8 /* Social.framework */; };
-		455E80F11B01507000781CB8 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E80F01B01507000781CB8 /* Bolts.framework */; };
-		455E80F21B01507000781CB8 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E80F01B01507000781CB8 /* Bolts.framework */; };
 		4560D3F81A736E5F00564860 /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4560D3F71A736E5F00564860 /* PrivacyPolicy.swift */; };
 		4560D3FA1A736ED800564860 /* TermsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4560D3F91A736ED800564860 /* TermsController.swift */; };
 		4560D3FC1A73722300564860 /* SignupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4560D3FB1A73722300564860 /* SignupController.swift */; };
@@ -213,7 +208,6 @@
 		456192941B120F2C003A339E /* DateUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 456192921B120F2C003A339E /* DateUtility.m */; };
 		4568E19A1A90E89400302F81 /* RoundButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E1991A90E89300302F81 /* RoundButtonView.swift */; };
 		457290D91A71AD9100FD5251 /* KDCycleBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457290D81A71AD9100FD5251 /* KDCycleBannerView.m */; };
-		457290FB1A71AE4A00FD5251 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 457290DB1A71AE4A00FD5251 /* LICENSE */; };
 		457290FD1A71AE4A00FD5251 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 457290DF1A71AE4A00FD5251 /* NSData+ImageContentType.m */; };
 		457290FE1A71AE4A00FD5251 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 457290E11A71AE4A00FD5251 /* SDImageCache.m */; };
 		457290FF1A71AE4A00FD5251 /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 457290E31A71AE4A00FD5251 /* SDWebImageCompat.m */; };
@@ -313,6 +307,18 @@
 		5263AE681B28BE2D00543EF7 /* NSData+SRB64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE581B28BE2D00543EF7 /* NSData+SRB64Additions.m */; };
 		5263AE691B28BE2D00543EF7 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE5A1B28BE2D00543EF7 /* SRWebSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5263AE6A1B28BE2D00543EF7 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5263AE5A1B28BE2D00543EF7 /* SRWebSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		52D91EE41B2B2D7500D32DD3 /* UIViewController+BackButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D91EE31B2B2D7500D32DD3 /* UIViewController+BackButtonHandler.m */; };
+		52D91EE51B2B2D7500D32DD3 /* UIViewController+BackButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D91EE31B2B2D7500D32DD3 /* UIViewController+BackButtonHandler.m */; };
+		52D91EEA1B2B35B900D32DD3 /* CustomPopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D91EE91B2B35B900D32DD3 /* CustomPopSegue.swift */; };
+		52D91EEB1B2B35B900D32DD3 /* CustomPopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D91EE91B2B35B900D32DD3 /* CustomPopSegue.swift */; };
+		52D91F031B2B894E00D32DD3 /* DialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D91EFF1B2B894E00D32DD3 /* DialogView.m */; };
+		52D91F041B2B894E00D32DD3 /* DialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D91EFF1B2B894E00D32DD3 /* DialogView.m */; };
+		52D91F051B2B894E00D32DD3 /* FinalDwindleDownDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D91F011B2B894E00D32DD3 /* FinalDwindleDownDialog.m */; };
+		52D91F061B2B894E00D32DD3 /* FinalDwindleDownDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D91F011B2B894E00D32DD3 /* FinalDwindleDownDialog.m */; };
+		52D91F071B2B894E00D32DD3 /* FinalDwindleDownDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52D91F021B2B894E00D32DD3 /* FinalDwindleDownDialog.xib */; };
+		52D91F081B2B894E00D32DD3 /* FinalDwindleDownDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52D91F021B2B894E00D32DD3 /* FinalDwindleDownDialog.xib */; };
+		52D91F0A1B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D91F091B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift */; };
+		52D91F0B1B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D91F091B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -433,7 +439,6 @@
 		455DB3281A99D3AA00CEAEA2 /* JSQMessagesTypingIndicatorFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JSQMessagesTypingIndicatorFooterView.xib; sourceTree = "<group>"; };
 		455DB32C1A99D3AA00CEAEA2 /* JSQSystemSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQSystemSoundPlayer.h; sourceTree = "<group>"; };
 		455DB32D1A99D3AA00CEAEA2 /* JSQSystemSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQSystemSoundPlayer.m; sourceTree = "<group>"; };
-		455DB32E1A99D3AA00CEAEA2 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		455DB3301A99D3AA00CEAEA2 /* NSUserDefaults+DemoSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+DemoSettings.h"; sourceTree = "<group>"; };
 		455DB3311A99D3AA00CEAEA2 /* NSUserDefaults+DemoSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+DemoSettings.m"; sourceTree = "<group>"; };
 		455E80D81AFE8CD800781CB8 /* LocationByHassan.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LocationByHassan.gpx; sourceTree = "<group>"; };
@@ -464,7 +469,6 @@
 		4568E1991A90E89300302F81 /* RoundButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoundButtonView.swift; path = Backend/RoundButtonView.swift; sourceTree = "<group>"; };
 		457290D71A71AD9100FD5251 /* KDCycleBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KDCycleBannerView.h; sourceTree = "<group>"; };
 		457290D81A71AD9100FD5251 /* KDCycleBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KDCycleBannerView.m; sourceTree = "<group>"; };
-		457290DB1A71AE4A00FD5251 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		457290DE1A71AE4A00FD5251 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
 		457290DF1A71AE4A00FD5251 /* NSData+ImageContentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+ImageContentType.m"; sourceTree = "<group>"; };
 		457290E01A71AE4A00FD5251 /* SDImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDImageCache.h; sourceTree = "<group>"; };
@@ -595,6 +599,15 @@
 		5263AE581B28BE2D00543EF7 /* NSData+SRB64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SRB64Additions.m"; sourceTree = "<group>"; };
 		5263AE591B28BE2D00543EF7 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
 		5263AE5A1B28BE2D00543EF7 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
+		52D91EE21B2B2D7500D32DD3 /* UIViewController+BackButtonHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BackButtonHandler.h"; sourceTree = "<group>"; };
+		52D91EE31B2B2D7500D32DD3 /* UIViewController+BackButtonHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BackButtonHandler.m"; sourceTree = "<group>"; };
+		52D91EE91B2B35B900D32DD3 /* CustomPopSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPopSegue.swift; sourceTree = "<group>"; };
+		52D91EFE1B2B894E00D32DD3 /* DialogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogView.h; sourceTree = "<group>"; };
+		52D91EFF1B2B894E00D32DD3 /* DialogView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogView.m; sourceTree = "<group>"; };
+		52D91F001B2B894E00D32DD3 /* FinalDwindleDownDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinalDwindleDownDialog.h; sourceTree = "<group>"; };
+		52D91F011B2B894E00D32DD3 /* FinalDwindleDownDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinalDwindleDownDialog.m; sourceTree = "<group>"; };
+		52D91F021B2B894E00D32DD3 /* FinalDwindleDownDialog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FinalDwindleDownDialog.xib; sourceTree = "<group>"; };
+		52D91F091B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DwindleDatingSwiftBridge.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -617,7 +630,6 @@
 				451BC6551AE6E65D003E1C2D /* Foundation.framework in Frameworks */,
 				451BC6571AE6E65D003E1C2D /* libicucore.dylib in Frameworks */,
 				45DB79991AF661F500458F2B /* CoreLocation.framework in Frameworks */,
-				455E80F21B01507000781CB8 /* Bolts.framework in Frameworks */,
 				455E80DD1B0148EB00781CB8 /* Parse.framework in Frameworks */,
 				451BC6591AE6E65D003E1C2D /* FacebookSDK.framework in Frameworks */,
 			);
@@ -639,7 +651,6 @@
 				4598E4FE1AE15AC600FC7EC7 /* libicucore.dylib in Frameworks */,
 				45AC7AAF1B0A73DE0032E46B /* SystemConfiguration.framework in Frameworks */,
 				45AEF4B31A876580003BAF17 /* QuartzCore.framework in Frameworks */,
-				455E80F11B01507000781CB8 /* Bolts.framework in Frameworks */,
 				455E80DC1B0148EB00781CB8 /* Parse.framework in Frameworks */,
 				45AC7AB01B0A73DE0032E46B /* StoreKit.framework in Frameworks */,
 				45AC7AB11B0A73DE0032E46B /* MobileCoreServices.framework in Frameworks */,
@@ -879,7 +890,6 @@
 			isa = PBXGroup;
 			children = (
 				455DB32A1A99D3AA00CEAEA2 /* JSQSystemSoundPlayer */,
-				455DB32E1A99D3AA00CEAEA2 /* LICENSE */,
 			);
 			path = JSQSystemSoundPlayer;
 			sourceTree = "<group>";
@@ -942,7 +952,6 @@
 		457290DA1A71AE4A00FD5251 /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
-				457290DB1A71AE4A00FD5251 /* LICENSE */,
 				457290DD1A71AE4A00FD5251 /* SDWebImage */,
 			);
 			path = SDWebImage;
@@ -1252,6 +1261,7 @@
 			children = (
 				45AEF4AF1A8764F5003BAF17 /* DDCustomSegue.h */,
 				45AEF4B01A8764F5003BAF17 /* DDCustomSegue.m */,
+				52D91EE91B2B35B900D32DD3 /* CustomPopSegue.swift */,
 			);
 			name = CustomSegue;
 			path = Backend/CustomSegue;
@@ -1261,6 +1271,7 @@
 			isa = PBXGroup;
 			children = (
 				45C1EC061A69D93A006A398A /* FacebookBridge.h */,
+				52D91F091B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift */,
 			);
 			path = FacebookBridge;
 			sourceTree = "<group>";
@@ -1291,6 +1302,8 @@
 		45C99D721A69D1DF00AC0DFC /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				52D91EFD1B2B894E00D32DD3 /* DialogView */,
+				52D91EE11B2B2D7500D32DD3 /* NavigationHandler */,
 				5263AE481B28BE2D00543EF7 /* SocketIO */,
 				457CAB621B1B13020068D474 /* SIOSocket */,
 				45A152461AD7B31B002C4D1C /* ProgressHUD */,
@@ -1356,6 +1369,27 @@
 				5263AE5A1B28BE2D00543EF7 /* SRWebSocket.m */,
 			);
 			path = SocketRocket;
+			sourceTree = "<group>";
+		};
+		52D91EE11B2B2D7500D32DD3 /* NavigationHandler */ = {
+			isa = PBXGroup;
+			children = (
+				52D91EE21B2B2D7500D32DD3 /* UIViewController+BackButtonHandler.h */,
+				52D91EE31B2B2D7500D32DD3 /* UIViewController+BackButtonHandler.m */,
+			);
+			path = NavigationHandler;
+			sourceTree = "<group>";
+		};
+		52D91EFD1B2B894E00D32DD3 /* DialogView */ = {
+			isa = PBXGroup;
+			children = (
+				52D91EFE1B2B894E00D32DD3 /* DialogView.h */,
+				52D91EFF1B2B894E00D32DD3 /* DialogView.m */,
+				52D91F001B2B894E00D32DD3 /* FinalDwindleDownDialog.h */,
+				52D91F011B2B894E00D32DD3 /* FinalDwindleDownDialog.m */,
+				52D91F021B2B894E00D32DD3 /* FinalDwindleDownDialog.xib */,
+			);
+			path = DialogView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1455,13 +1489,12 @@
 				45A2BA081AF94B7E0077C332 /* LocationByYunasHome.gpx in Resources */,
 				451BC6601AE6E65D003E1C2D /* JSQMessagesViewController.xib in Resources */,
 				45A2BA051AF905780077C332 /* LocationByYunasOffice.gpx in Resources */,
+				52D91F081B2B894E00D32DD3 /* FinalDwindleDownDialog.xib in Resources */,
 				451BC6611AE6E65D003E1C2D /* JSQMessagesAssets.bundle in Resources */,
 				451BC6621AE6E65D003E1C2D /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
-				451BC6631AE6E65D003E1C2D /* LICENSE in Resources */,
 				455E80DA1AFE8CD800781CB8 /* LocationByHassan.gpx in Resources */,
 				451BC6641AE6E65D003E1C2D /* JSQMessages.strings in Resources */,
 				451BC6651AE6E65D003E1C2D /* Images.xcassets in Resources */,
-				451BC6661AE6E65D003E1C2D /* LICENSE in Resources */,
 				451BC6671AE6E65D003E1C2D /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
 				454DC08A1B1C2EAC00B979D0 /* PrivacyPolicy.html in Resources */,
 				451BC6681AE6E65D003E1C2D /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
@@ -1482,13 +1515,12 @@
 				45A2BA071AF94B7E0077C332 /* LocationByYunasHome.gpx in Resources */,
 				455DB33D1A99D3AA00CEAEA2 /* JSQMessagesViewController.xib in Resources */,
 				45A2BA041AF905780077C332 /* LocationByYunasOffice.gpx in Resources */,
+				52D91F071B2B894E00D32DD3 /* FinalDwindleDownDialog.xib in Resources */,
 				455DB3331A99D3AA00CEAEA2 /* JSQMessagesAssets.bundle in Resources */,
 				455DB3581A99D3AA00CEAEA2 /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
-				457290FB1A71AE4A00FD5251 /* LICENSE in Resources */,
 				455E80D91AFE8CD800781CB8 /* LocationByHassan.gpx in Resources */,
 				455DB3341A99D3AA00CEAEA2 /* JSQMessages.strings in Resources */,
 				458D3C9C1A68442100A0BD6B /* Images.xcassets in Resources */,
-				455DB35F1A99D3AA00CEAEA2 /* LICENSE in Resources */,
 				455DB3511A99D3AA00CEAEA2 /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
 				454DC0891B1C2EAC00B979D0 /* PrivacyPolicy.html in Resources */,
 				455DB3531A99D3AA00CEAEA2 /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
@@ -1553,6 +1585,7 @@
 				451069451AF11ECF00F81D50 /* UserSettingsService.m in Sources */,
 				451BC6121AE6E65D003E1C2D /* JSQMessagesToolbarContentView.m in Sources */,
 				451BC6131AE6E65D003E1C2D /* SDWebImageDecoder.m in Sources */,
+				52D91F0B1B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift in Sources */,
 				451BC6141AE6E65D003E1C2D /* JSQPhotoMediaItem.m in Sources */,
 				451BC6151AE6E65D003E1C2D /* GamePlayUsersService.m in Sources */,
 				451BC6161AE6E65D003E1C2D /* PictureSelectionController.swift in Sources */,
@@ -1564,9 +1597,11 @@
 				451BC61D1AE6E65D003E1C2D /* SDWebImageDownloaderOperation.m in Sources */,
 				451BC61E1AE6E65D003E1C2D /* RocketInternetDB.xcdatamodeld in Sources */,
 				451BC61F1AE6E65D003E1C2D /* JSQMessagesCollectionViewCellIncoming.m in Sources */,
+				52D91F061B2B894E00D32DD3 /* FinalDwindleDownDialog.m in Sources */,
 				457CAB671B1B13030068D474 /* SIOSocket.m in Sources */,
 				4561928B1B113C97003A339E /* Match.m in Sources */,
 				451BC6201AE6E65D003E1C2D /* JSQLocationMediaItem.m in Sources */,
+				52D91EE51B2B2D7500D32DD3 /* UIViewController+BackButtonHandler.m in Sources */,
 				451BC6211AE6E65D003E1C2D /* AFSecurityPolicy.m in Sources */,
 				451BC6221AE6E65D003E1C2D /* UIColor+JSQMessages.m in Sources */,
 				451BC6231AE6E65D003E1C2D /* AFURLSessionManager.m in Sources */,
@@ -1598,8 +1633,10 @@
 				451BC63D1AE6E65D003E1C2D /* JSQMessagesCollectionViewFlowLayoutInvalidationContext.m in Sources */,
 				451BC63F1AE6E65D003E1C2D /* UserSettings.m in Sources */,
 				451BC6401AE6E65D003E1C2D /* TermsController.swift in Sources */,
+				52D91EEB1B2B35B900D32DD3 /* CustomPopSegue.swift in Sources */,
 				451BC6411AE6E65D003E1C2D /* Player.m in Sources */,
 				451BC6421AE6E65D003E1C2D /* AFNetworkReachabilityManager.m in Sources */,
+				52D91F041B2B894E00D32DD3 /* DialogView.m in Sources */,
 				451BC6431AE6E65D003E1C2D /* AFURLRequestSerialization.m in Sources */,
 				451BC6441AE6E65D003E1C2D /* DistanceSelectionController.swift in Sources */,
 				451BC6451AE6E65D003E1C2D /* JSQMessagesBubbleImageFactory.m in Sources */,
@@ -1675,6 +1712,7 @@
 				451069441AF11ECF00F81D50 /* UserSettingsService.m in Sources */,
 				455DB35A1A99D3AA00CEAEA2 /* JSQMessagesToolbarContentView.m in Sources */,
 				457291001A71AE4A00FD5251 /* SDWebImageDecoder.m in Sources */,
+				52D91F0A1B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift in Sources */,
 				455DB34B1A99D3AA00CEAEA2 /* JSQPhotoMediaItem.m in Sources */,
 				45C494ED1ADD09FC00031269 /* GamePlayUsersService.m in Sources */,
 				4560D4041A73726600564860 /* PictureSelectionController.swift in Sources */,
@@ -1686,9 +1724,11 @@
 				457291021A71AE4A00FD5251 /* SDWebImageDownloaderOperation.m in Sources */,
 				4591A78A1ACE6D3D001DED1C /* RocketInternetDB.xcdatamodeld in Sources */,
 				455DB3501A99D3AA00CEAEA2 /* JSQMessagesCollectionViewCellIncoming.m in Sources */,
+				52D91F051B2B894E00D32DD3 /* FinalDwindleDownDialog.m in Sources */,
 				457CAB661B1B13030068D474 /* SIOSocket.m in Sources */,
 				4561928A1B113C97003A339E /* Match.m in Sources */,
 				455DB3461A99D3AA00CEAEA2 /* JSQLocationMediaItem.m in Sources */,
+				52D91EE41B2B2D7500D32DD3 /* UIViewController+BackButtonHandler.m in Sources */,
 				4591A76A1ACE6C09001DED1C /* AFSecurityPolicy.m in Sources */,
 				455DB3371A99D3AA00CEAEA2 /* UIColor+JSQMessages.m in Sources */,
 				4591A76E1ACE6C09001DED1C /* AFURLSessionManager.m in Sources */,
@@ -1720,8 +1760,10 @@
 				455DB3441A99D3AA00CEAEA2 /* JSQMessagesCollectionViewFlowLayoutInvalidationContext.m in Sources */,
 				45EB7F651A73B57D006ECAD2 /* UserSettings.m in Sources */,
 				4560D3FA1A736ED800564860 /* TermsController.swift in Sources */,
+				52D91EEA1B2B35B900D32DD3 /* CustomPopSegue.swift in Sources */,
 				45148B4A1ADF845700DE232C /* Player.m in Sources */,
 				4591A7691ACE6C09001DED1C /* AFNetworkReachabilityManager.m in Sources */,
+				52D91F031B2B894E00D32DD3 /* DialogView.m in Sources */,
 				4591A76C1ACE6C09001DED1C /* AFURLRequestSerialization.m in Sources */,
 				4560D4021A73725100564860 /* DistanceSelectionController.swift in Sources */,
 				455DB33F1A99D3AA00CEAEA2 /* JSQMessagesBubbleImageFactory.m in Sources */,
@@ -1845,6 +1887,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Dwindle Dating, Inc. (A9TU7DANHA)";
 				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1863,8 +1907,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_MODULE_NAME = DwindleDating;
 				PROVISIONING_PROFILE = "6349fd40-2bb6-46fd-8869-fe5a072e7a81";
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ThirdParty/FacebookBridge/DwindleDatingSwiftBridge.swift";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1888,6 +1934,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Dwindle Dating, Inc. (A9TU7DANHA)";
 				COPY_PHASE_STRIP = YES;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1899,8 +1947,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_MODULE_NAME = DwindleDating;
 				PROVISIONING_PROFILE = "6349fd40-2bb6-46fd-8869-fe5a072e7a81";
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ThirdParty/FacebookBridge/DwindleDatingSwiftBridge.swift";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

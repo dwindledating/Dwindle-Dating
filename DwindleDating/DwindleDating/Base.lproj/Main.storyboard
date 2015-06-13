@@ -527,7 +527,8 @@
                                                             <exclude reference="otz-k1-ajL"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="65" y="7" width="130" height="27"/>
                                                         <mask key="constraints">
                                                             <include reference="otz-k1-ajL"/>
                                                         </mask>
@@ -547,7 +548,8 @@
                                                             <exclude reference="ghI-jA-0AM"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="65" y="34" width="250" height="38"/>
                                                         <mask key="constraints">
                                                             <include reference="ghI-jA-0AM"/>
                                                         </mask>
@@ -569,7 +571,8 @@
                                                             <exclude reference="UhU-7c-jIR"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="203" y="8" width="112" height="26"/>
                                                         <mask key="constraints">
                                                             <include reference="UhU-7c-jIR"/>
                                                         </mask>
@@ -715,11 +718,12 @@
                     <connections>
                         <outlet property="tableview" destination="Ywr-8v-eIo" id="dLs-Qu-7oH"/>
                         <segue destination="q6t-0B-EgM" kind="show" identifier="showMatchChatController" id="HIH-82-Jir"/>
+                        <segue destination="3YB-m8-OeW" kind="custom" identifier="popToMenu" customClass="CustomPopSegue" id="z1b-rf-zfl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iEt-54-BYR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6339" y="2120.25"/>
+            <point key="canvasLocation" x="6073.5" y="2100"/>
         </scene>
         <!--Match Chat Controller-->
         <scene sceneID="Qyo-eT-Ov3">
@@ -1090,6 +1094,7 @@
                         <outlet property="toolbarBottomLayoutGuide" destination="NuY-9H-fD8" id="TMh-y3-mKP"/>
                         <outlet property="toolbarHeightConstraint" destination="acy-Ld-zun" id="Ul7-Em-Oth"/>
                         <outlet property="topConstraint" destination="f5g-gs-2i8" id="p3n-w4-hzt"/>
+                        <segue destination="BDt-hg-PJq" kind="show" identifier="pushMatchListing" id="kLh-Ty-0xR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pRi-hL-Mmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3061,8 +3066,9 @@
         <image name="signupBg" width="375" height="667"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zpR-AM-gi7"/>
-        <segue reference="zfu-PM-57A"/>
+        <segue reference="kLh-Ty-0xR"/>
+        <segue reference="z1b-rf-zfl"/>
         <segue reference="aa2-bj-gFG"/>
+        <segue reference="zfu-PM-57A"/>
     </inferredMetricsTieBreakers>
 </document>

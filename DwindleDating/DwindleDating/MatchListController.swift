@@ -15,9 +15,31 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     var matchesArr : NSMutableArray!
     
-    
     // MARK:- WEB SERVICE
     
+    func backViewController() -> UIViewController?{
+        let navC = self.navigationController!
+        let noOfViewControllers = navC.viewControllers.count
+        if (noOfViewControllers < 2){
+            return nil
+        }
+        else{
+            return navC.viewControllers[noOfViewControllers - 2] as? UIViewController
+        }
+    }
+    
+    override func navigationShouldPopOnBackButton() -> Bool {
+
+        let viewController = self.backViewController()
+        
+        if viewController!.isKindOfClass(GamePlayController)
+        {
+            self.performSegueWithIdentifier("popToMenu", sender: nil)
+            return false
+        }
+        
+        return true
+    }
     
     func getMatches (){
         
@@ -43,7 +65,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         }
     }
     
-    
     // MARK:-
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -60,7 +81,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
 //        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -73,16 +93,11 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         // Dispose of any resources that can be recreated.
     }
     
-    
-    
-    
-    
     //MARK: - TableView DataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1;
     }
-    
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
       
@@ -92,7 +107,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
  
         return 0;
     }
-    
     
     //MARK: - TableView Delegate
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -113,7 +127,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         return cell_!
         
     }
-    
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView .deselectRowAtIndexPath(indexPath, animated: true)
@@ -145,7 +158,5 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         }
     }
     
-    
-    
-    
+
 }

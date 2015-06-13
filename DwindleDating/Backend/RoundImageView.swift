@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RoundImageView: UIImageView {
+@objc class RoundImageView: UIImageView {
     
     var borderWidth: CGFloat?
     

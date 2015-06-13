@@ -47,6 +47,7 @@ SocketIODelegate {
     var playerOther4 : Player!
     var socketIO     :SocketIO?
     
+    var goingback : Bool = true
     var randomPlayers:[String]! = []
     
     
@@ -57,29 +58,11 @@ SocketIODelegate {
     var galleryOpenerButton : RoundButtonView!
     var demoData: DemoModelData!
     
-    
-    
-    
     func skipPressed(sender: UIBarButtonItem){
         self.socketIO?.sendEvent("skip", withData:[])
         self.resetGameViews()
 
     }
-    
-    // MARK: - Scroller Stuff - KDCycleBannerView DELEGATE
-    
-//    func placeHolderImageOfBannerView(bannerView: KDCycleBannerView!, atIndex index: UInt) -> UIImage! {
-//        let img = UIImage(named:"image1.png")!
-//        return img
-//    }
-//    
-//    func placeHolderImageOfZeroBannerView() -> UIImage! {
-//        let img = UIImage(named:"image1.png")!
-//        return img
-//    }
-    
-    
-    
     
     // MARK:- KDCycleBannerView DataSource
     func numberOfKDCycleBannerView(bannerView: KDCycleBannerView!) -> [AnyObject]! {
@@ -137,6 +120,28 @@ SocketIODelegate {
         
     }
 
+    
+    func handleFinalDwindleDown (){
+
+        let button = self.getPlayerButtonAgainstId(playerOpponent.fbId) as? RoundButtonView
+        let dp = button?.imageForState(UIControlState.Normal)
+
+        let dialog = FinalDwindleDownDialog.loadWithNib() as? FinalDwindleDownDialog
+//        let dp = UIImage(named: "demo_avatar_woz")
+        dialog?.showWithImage(dp, successBlock: { (index: Int32) -> Void in
+            //code
+            dialog?.dismissView(true)
+            println("Selected Option: \(index)")
+            if (index == 0){
+                self.performSegueWithIdentifier("pushMatchListing", sender: nil)
+            }
+            else{
+                // Restart Game
+            }
+        })
+
+    }
+    
     func handleDwindleDown(respDict:[String:AnyObject]){
         
 
@@ -154,7 +159,8 @@ SocketIODelegate {
                 println("DwindleCount => \(dCount)")
                 
                 if (dCount == 4){
-                    ProgressHUD.showSuccess("Congratulations you have found your dwindle match")
+                    //ProgressHUD.showSuccess("Congratulations you have found your dwindle match")
+                    self.handleFinalDwindleDown()
                 }
                 else{
                     ProgressHUD.showSuccess("Congratulations for \(dCount) dwindle down")
@@ -652,9 +658,9 @@ SocketIODelegate {
         if (isConnected){
             self.socketIO?.sendEvent("loggedout", withData:[])
         }
-        
+
         super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+//        self.navigationController?.setNavigationBarHidden(true, animated: false)
         
     }
 
@@ -728,8 +734,8 @@ SocketIODelegate {
         self.finishSendingMessageAnimated(true);
         
         self.sendChat(text)
-        
-        
+//        self.handleFinalDwindleDown()
+
     }
     
     
@@ -763,30 +769,41 @@ SocketIODelegate {
         if (buttonIndex == actionSheet.cancelButtonIndex) {
             return;
         }
+        let sampleMessagesArr = ["What actor would best play the role of you?",
+                                "You can live anyplace in the world, where?",
+                                "Have you had any success with dating apps?",
+                                "What's the worst job you've ever had?",
+                                "What movie title describes your sex life?",
+                                "Drink with anyone throughout history, who?",
+                                "What about you surprises people the most?",
+                                "Do you have any nicknames?",
+                                "What's the worst part about modern dating?",
+                                "You're cooking me dinner, what's the menu?"]
         
-        switch (buttonIndex) {
-        case 1:
-//            self.demoData.addPhotoMediaMessage();
-            self.demoData.sendTextMessage("Sample text message 1");
-            break;
-            
-        case 2:
-            self.demoData.sendTextMessage("Sample text message 2");
-            //var weakView = self.collectionView as UICollectionView;
-            //self.demoData.addLocationMediaMessageCompletion({ () -> Void in
-             //   weakView.reloadData();
-            //});
-            
-            break;
-            
-        default:
-            
-            break;
-            
-        }
-        
-        JSQSystemSoundPlayer.jsq_playMessageSentSound();
-        self.finishSendingMessageAnimated(true);
+        self.sendChat(sampleMessagesArr[buttonIndex])
+//        switch (buttonIndex) {
+//        case 1:
+////            self.demoData.addPhotoMediaMessage();
+//            self.demoData.sendTextMessage("Sample text message 1");
+//            break;
+//            
+//        case 2:
+//            self.demoData.sendTextMessage("Sample text message 2");
+//            //var weakView = self.collectionView as UICollectionView;
+//            //self.demoData.addLocationMediaMessageCompletion({ () -> Void in
+//             //   weakView.reloadData();
+//            //});
+//            
+//            break;
+//            
+//        default:
+//            
+//            break;
+//            
+//        }
+//        
+//        JSQSystemSoundPlayer.jsq_playMessageSentSound();
+//        self.finishSendingMessageAnimated(true);
     }
     
     //============================================================================================\\

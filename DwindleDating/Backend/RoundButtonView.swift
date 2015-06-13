@@ -10,7 +10,7 @@ import UIKit
 
 
 
-class RoundButtonView: UIButton {
+@objc class RoundButtonView: UIButton {
     
     var borderWidth: CGFloat! = 2.0
     var playerId: String = ""
