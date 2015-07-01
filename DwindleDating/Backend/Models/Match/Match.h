@@ -16,6 +16,7 @@
 @property (nonatomic,retain) NSString *text;
 @property (nonatomic,retain) NSString *date;
 @property (nonatomic,retain) NSString *status;
+@property (nonatomic) BOOL statusMessage;
 
 - (instancetype)initWithDict:(NSDictionary*)dict;
 

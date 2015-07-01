@@ -16,11 +16,16 @@
     self = [super init];
     if (self) {
         self.fbId   = dict[@"fb_id"];
-        self.name   = dict[@"user_name"];
+        self.name   = dict[@"Name"];
         self.imgPath= [NSURL URLWithString:dict[@"PicPath"]];
         self.text   = dict[@"Text"];
         self.date   = [DateUtility dateStrWithRespectToday:[DateUtility getDwindleDateFromString:dict[@"Date"]]];
         self.status = dict[@"Status"];
+        self.statusMessage = false;
+        if ([dict[@"MessageStatus"] isEqualToString:@"read"]){
+            self.statusMessage = true;
+        }
+        
     }
 
     return self;

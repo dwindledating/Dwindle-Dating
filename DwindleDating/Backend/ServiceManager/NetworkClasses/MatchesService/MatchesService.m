@@ -31,7 +31,7 @@
                          BOOL isEmpty = ([responseDict[@"status"] isEqualToString:@"No Record Found"]) ? false : true;
                          if (!isEmpty)
                          {
-                             NSError *error = [NSError errorWithDomain:@"NoRecord" code:420 userInfo:@{@"msg":@"No Record found"}];
+                             NSError *error = [NSError errorWithDomain:@"NoRecord" code:420 userInfo:@{@"msg":@"You don't have any matches yet :("}];
                              failureBlock(error);
                          }
                      }

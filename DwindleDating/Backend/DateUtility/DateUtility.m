@@ -20,6 +20,7 @@ NSString *const AppDateFomat = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:AppDateFomat];
+    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
     NSDate *date  = [dateFormatter dateFromString:ddDate];
     return date;
     // Convert to new Date Format

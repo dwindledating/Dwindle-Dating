@@ -11,6 +11,7 @@
 @interface Player : NSObject
 
 @property (nonatomic,retain) NSString *fbId;
+@property (nonatomic,retain) NSString *name;
 @property (nonatomic,retain) NSURL *imgPath;
 @property (nonatomic,retain) NSMutableArray *galleryImages;
 

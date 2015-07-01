@@ -32,11 +32,13 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
 
         let viewController = self.backViewController()
         
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         if viewController!.isKindOfClass(GamePlayController)
         {
             self.performSegueWithIdentifier("popToMenu", sender: nil)
             return false
         }
+        
         
         return true
     }
@@ -61,7 +63,13 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
             
             }) { (error: NSError!) -> Void in
             //code
-            ProgressHUD.showError("\(error.localizedDescription)")
+                if (error.code == 420){
+                    ProgressHUD.show("You don't have any matches yet :(", withSpin: false)
+
+                }else{
+                    ProgressHUD.showError("\(error.localizedDescription)")
+                }
+
         }
     }
     
@@ -78,7 +86,8 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-//        self.navigationController?.setNavigationBarHidden(true, animated: false)
+//
+        ProgressHUD.dismiss()
     }
 
     override func viewDidLoad() {
@@ -118,10 +127,24 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         {
             cell_?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             cell_?.imgViewProfile.borderWidth = 0;
-            cell_?.lblName.text     = match.fbId
+            cell_?.lblName.text     = match.name
             cell_?.lblDetail.text   = match.text//matchDict["message"] as? String
             cell_?.lblTime.text     = match.date//["time"] as? String
             cell_?.imgViewProfile.sd_setImageWithURL(match.imgPath)
+            if (!match.statusMessage){
+                var font = cell_?.lblDetail.font
+                font = UIFont.boldSystemFontOfSize(font!.pointSize)
+                cell_?.lblDetail.font = font
+                cell_?.backgroundColor = UIColor(red: 228/255.0, green: 240.0/255.0, blue: 250/255.0, alpha: 1.0)
+            }
+            else{
+                var font = cell_?.lblDetail.font
+                font = UIFont.systemFontOfSize(font!.pointSize)
+                cell_?.lblDetail.font = font
+                cell_?.backgroundColor = UIColor.clearColor()
+                
+            }
+
         }
         
         return cell_!
@@ -151,10 +174,9 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
             matchControl.toUserId = match.fbId
             matchControl.toUserName = match.name
             matchControl.status = match.status
-            
-
-            
-            
+        }
+        else{
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
         }
     }
     

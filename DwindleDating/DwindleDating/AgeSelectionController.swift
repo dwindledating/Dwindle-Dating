@@ -40,13 +40,15 @@ class AgeSelectionController: UIViewController ,UIPickerViewDataSource,UIPickerV
     
     @IBAction func nextButtonPressed(sender: UIButton) {
         
-        let ageFrom : Int =  pickerViewFrom.selectedRowInComponent(0)
+        var ageFrom : Int =  pickerViewFrom.selectedRowInComponent(0)
+        ageFrom += 18
         var ageFromStr = String(ageFrom)
         
-        let ageto : Int =  pickerViewTo.selectedRowInComponent(0)
-        var ageToStr = String(ageto)
+        var ageTo : Int =  pickerViewTo.selectedRowInComponent(0)
+        ageTo += 18
+        var ageToStr = String(ageTo)
         
-        if (ageFrom > ageto){
+        if (ageFrom > ageTo){
               UIAlertView(title: "Invalid Range", message: "Please Select Valid Range" , delegate: nil, cancelButtonTitle: "Ok").show()
             return
         }

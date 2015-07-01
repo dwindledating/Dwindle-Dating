@@ -61,7 +61,6 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     
@@ -83,7 +82,9 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
         
         var ageFrom = (settings.userAgeFrom as String).toInt()
         if var ageFromInt = ageFrom {
-            ageFromInt = ageFromInt - 18
+            if (ageFromInt > 0){
+                ageFromInt = ageFromInt - 18
+            }
             pickerViewFrom.selectRow(ageFromInt, inComponent: 0, animated: true)
         }
         else

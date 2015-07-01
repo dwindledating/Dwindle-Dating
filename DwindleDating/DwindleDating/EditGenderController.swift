@@ -55,8 +55,6 @@ class EditGenderController: UIViewController  {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        
         
         var settings = UserSettings.loadUserSettings()
         var gender = settings.requiredGender as String
