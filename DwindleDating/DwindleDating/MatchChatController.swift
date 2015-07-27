@@ -103,7 +103,8 @@ class MatchChatController: JSQMessagesViewController ,
         */
         var settings = UserSettings.loadUserSettings()
         self.senderId = settings.fbId//kJSQDemoAvatarIdSquires;
-        self.senderDisplayName = settings.fbName// kJSQDemoAvatarDisplayNameSquires;
+        self.senderDisplayName = " "//settings.fbName// kJSQDemoAvatarDisplayNameSquires;
+        
         
         self.demoData = DemoModelData()
         
@@ -374,7 +375,8 @@ class MatchChatController: JSQMessagesViewController ,
         scrollToBottomAnimated(true)
         var newMessage : JSQMessage ;
         
-        newMessage = JSQMessage(senderId: _senderId, displayName: _displayName, text: _message)
+        newMessage = JSQMessage(senderId: _senderId, displayName: " ", text: _message)
+        
         JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
         self.demoData.messages.addObject(newMessage)
         self.finishReceivingMessageAnimated(true)

@@ -33,7 +33,7 @@
 -(JSQMessage *) messageFromDict:(NSDictionary*)chatDict{
    
     return  [[JSQMessage alloc] initWithSenderId:chatDict[@"FromUser"]
-                               senderDisplayName:chatDict[@"FromUser"]
+                               senderDisplayName:@" "//chatDict[@"FromUser"]
                                             date:[DateUtility getDwindleDateFromString:chatDict[@"Date"]]
                                             text:chatDict[@"Message"]];
 }

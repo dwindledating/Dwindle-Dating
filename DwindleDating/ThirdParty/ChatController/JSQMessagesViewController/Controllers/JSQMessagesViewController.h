@@ -273,4 +273,5 @@
                                  atIndexPath:(NSIndexPath *)indexPath;
 
 
+-(void) hideKeyboardForcefully;
 @end

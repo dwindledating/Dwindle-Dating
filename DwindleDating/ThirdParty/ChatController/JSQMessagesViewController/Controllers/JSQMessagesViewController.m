@@ -262,6 +262,16 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     self.collectionView.collectionViewLayout.springinessEnabled = NO;
 }
 
+-(void) hideKeyboardForcefully{
+//    [self.inputToolbar.contentView.textView resignFirstResponder];
+//    [self.keyboardController endListeningForKeyboard];
+//    self.toolbarBottomLayoutGuide = 0;
+    [self.keyboardController.textView endEditing:true];
+//    [self jsq_removeObservers];
+//    [self.keyboardController endListeningForKeyboard];
+
+}
+
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];

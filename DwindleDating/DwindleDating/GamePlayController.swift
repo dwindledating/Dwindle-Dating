@@ -63,18 +63,27 @@ SocketIODelegate {
         switch buttonIndex{
         case 0:
             println("1st")
-            self.navigationController?.popViewControllerAnimated(true)
+            if (alertView.tag == 1){
+                self.performSkipPressed()
+            }
+            else{
+                self.navigationController?.popViewControllerAnimated(true)
+            }
+
         case 1:
             println("2nd")
         default:
             println("error")
         }
-        
     }
 
     
-    func showBackAlert(){
+    func showAlertWithDelay(shouldPop: Bool){
         let alert: UIAlertView = UIAlertView()
+        if (!shouldPop){
+            alert.tag = 1;
+        }
+        
         alert.delegate = self
         
         alert.title = "Quit Game"
@@ -82,21 +91,36 @@ SocketIODelegate {
         alert.addButtonWithTitle("Yes")
         alert.addButtonWithTitle("Cancel")
         alert.show()
-        
+    }
+    
+    func showBackAlertFromSkip(shouldPop: Bool){
+        self.hideKeyboard()
+        let delay = 0.5 * Double(NSEC_PER_SEC)
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue()) {
+            self.showAlertWithDelay(shouldPop)
+        }
+
     }
 
     override func navigationShouldPopOnBackButton() -> Bool {
         //ASK AGAIN IF USER WANTS TO QUIT THE GAME
         // IF YES THEN pop it
-        self.showBackAlert()
+        self.showBackAlertFromSkip(true)
         return false
     }
 
+
+    func performSkipPressed(){
+        var isConnected:Bool = self.socketIO!.isConnected;
+        if (isConnected){
+            self.socketIO?.sendEvent("skip", withData:[])
+        }
+        self.resetGameViews()
+    }
     
     func skipPressed(sender: UIBarButtonItem){
-        self.socketIO?.sendEvent("skip", withData:[])
-        self.resetGameViews()
-
+        self.showBackAlertFromSkip(false)
     }
     
     // MARK:- KDCycleBannerView DataSource
@@ -165,7 +189,7 @@ SocketIODelegate {
         let dialog = FinalDwindleDownDialog.loadWithNib() as? FinalDwindleDownDialog
 //        let dp = UIImage(named: "demo_avatar_woz")
         dialog?.showWithImage(dp, successBlock: { (index: Int32) -> Void in
-            //code
+            //Open Matches Listing
             dialog?.dismissView(true)
             println("Selected Option: \(index)")
             if (index == 0){
@@ -173,6 +197,8 @@ SocketIODelegate {
             }
             else{
                 // Restart Game
+                self.socketIO?.sendEvent("restartGamePlay", withData: [])
+                self.resetGameViews()
             }
         })
 
@@ -199,7 +225,8 @@ SocketIODelegate {
                     self.handleFinalDwindleDown()
                 }
                 else{
-                    ProgressHUD.showSuccess("Congratulations for \(dCount) dwindle down")
+                    
+                    ProgressHUD.showSuccess("Round \(dCount) Complete! Additional photo unlocked, tap above to view")
                 }
 
             }
@@ -256,13 +283,9 @@ SocketIODelegate {
     
     func resetGameViews(){
         
-        self.title = "Finding Match..."
-        
-        let delay = 3.5 * Double(NSEC_PER_SEC)
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-        dispatch_after(time, dispatch_get_main_queue()) {
-            ProgressHUD.show("Finding match...")
-        }
+        self.hideKeyboard()
+        self.title = "Finding Match"
+        ProgressHUD.show("Finding match")
 
         playersDict.removeAll(keepCapacity: false)
         
@@ -283,6 +306,13 @@ SocketIODelegate {
         btn3.selected = true
         btn4.selected = true
         btn5.selected = true
+        
+        
+        btn1.sd_cancelImageLoadForState(UIControlState.Normal)
+        btn2.sd_cancelImageLoadForState(UIControlState.Normal)
+        btn3.sd_cancelImageLoadForState(UIControlState.Normal)
+        btn4.sd_cancelImageLoadForState(UIControlState.Normal)
+        btn5.sd_cancelImageLoadForState(UIControlState.Normal)
         
         btn1.setImage(nil, forState: UIControlState.Normal)
         btn2.setImage(nil, forState: UIControlState.Normal)
@@ -355,9 +385,11 @@ SocketIODelegate {
     // MARK: - HANDLE UI - OpenGallery
     func hideKeyboard(){
 
-        if(self.inputToolbar.contentView.textView.isFirstResponder()){
+//        if(self.inputToolbar.contentView.textView.isFirstResponder()){
             self.inputToolbar.contentView.textView.resignFirstResponder()
-        }
+//        self.hideKeyboardForcefully()
+        
+//        }
     }
     
     func shouldOpenGallery(sender:AnyObject) -> Bool{
@@ -450,14 +482,16 @@ SocketIODelegate {
     
     // MARK: - SOCKETS
     
+    func releaseSockets(){
+        self.socketIO?.delegate = nil;
+        self.socketIO = nil
+    }
+    
     func initSocketConnection(){
         
         // create socket.io client instance
         
         self.socketIO = SocketIO(delegate: self)
-        //var settings = UserSettings.loadUserSettings()
-        
-        //self.socketIO?.setResourceName(settings.fbId)
         
         var properties = [NSHTTPCookieDomain:"52.11.98.82",
                           NSHTTPCookiePath:"/",
@@ -472,7 +506,7 @@ SocketIODelegate {
         self.socketIO?.cookies = cookies
         
         self.socketIO?.connectToHost("52.11.98.82", onPort: 3000)
-
+        
     }
     
     
@@ -493,7 +527,7 @@ SocketIODelegate {
         println("socket.io connected.")
         
         var settings = UserSettings.loadUserSettings()
-        ProgressHUD.show("Finding match...")
+        ProgressHUD.show("Finding match")
         var manager = ServiceManager()
         
         manager.getUserLocation({ (location: CLLocation!) -> Void in
@@ -554,7 +588,7 @@ SocketIODelegate {
             randomPlayers.shuffled()
             
             
-            ProgressHUD.showSuccess("Game Commenced Succesfully")
+            ProgressHUD.showSuccess("Game Started. Say Hello!")
             
             self.setPlayerImages()
             
@@ -599,10 +633,15 @@ SocketIODelegate {
             
             println("\n UserAdded data as string looks like \(packet.data)")
         }
-        else if (packet.name == "disconnect"){
+        else if (packet.name == "disconnectResponse"){
             
-            ProgressHUD.showError("One of the user has disconnected")
-//            println("\n UserAdded data as string looks like \(packet.data)")
+            println("\n disconnectResponse data as string looks like \(packet.data)")
+            ProgressHUD.showError("The other user has left the game. Connecting to new users.")
+            let delay = 3.5 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                self.resetGameViews()
+            }
         }
         else if (packet.name == "skip"){
             
@@ -612,36 +651,58 @@ SocketIODelegate {
             
             println("\n Skipchat data as string looks like \(packet.data)")
             ProgressHUD.showError("The other user has left the game. Connecting to new users.")
-            self.resetGameViews()
+            let delay = 3.5 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                self.resetGameViews()
+            }
+
+//            self.resetGameViews()
         }
         else if (packet.name == "loggedoutResponse"){
             ProgressHUD.showError("The other user has left the game. Connecting to new users.")
-            self.resetGameViews()
+            let delay = 3.5 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                self.resetGameViews()
+            }
         }
 
     }
     
     func socketIO(socket: SocketIO!, onError error: NSError!) {
         //
-        
+        println("GAMEPLAY CHAT => socket onError with error \(error.localizedDescription)");
         var errorCode = error.code as Int
         if (errorCode == -8) { //SocketIOUnauthorized
             println("not authorized");
         } else {
             println("onError()\(error)");
         }
-
+//        self.releaseSockets()
     }
     
     func socketIODidDisconnect(socket: SocketIO!, disconnectedWithError error: NSError!) {
         //code
         
-        println("socket.io disconnected. did error occur \(error)");
+        println("GAMEPLAY CHAT => socket.io disconnected. did error occur \(error)");
         var state:UIApplicationState  = UIApplication.sharedApplication().applicationState
         if (state == UIApplicationState.Background) {//UIApplicationStateBackground
             println("Application is in background and SIO disconnected.");
         }
+        
+        if (error.code == 57){
+            ProgressHUD.showError("You are disconnected. Please check your internet connection")
 
+            let delay = 3.5 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                self.navigationController?.popViewControllerAnimated(true)
+            }
+
+        }
+        self.releaseSockets()
+        
 
     }
     
@@ -674,6 +735,17 @@ SocketIODelegate {
     
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        let delay = 1.5 * Double(NSEC_PER_SEC)
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue()) {
+            ProgressHUD.dismiss()
+        }
+
+
+        super.viewDidDisappear(animated)
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
@@ -681,13 +753,18 @@ SocketIODelegate {
     
     override func viewWillDisappear(animated: Bool) {
         ProgressHUD.dismiss()
-        var isConnected:Bool = self.socketIO!.isConnected;
-        if (isConnected){
-            self.socketIO?.sendEvent("loggedout", withData:[])
-        }
+        
+        if let socket = self.socketIO{
+            var isConnected:Bool = self.socketIO!.isConnected;
+            if (isConnected){
+                println("loggedout Called");
+                self.socketIO?.sendEvent("loggedout", withData:[])
+                self.releaseSockets()
+            }
 
+        }
+        
         super.viewWillDisappear(animated)
-//        self.navigationController?.setNavigationBarHidden(true, animated: false)
         
     }
     
@@ -727,7 +804,7 @@ SocketIODelegate {
         scrollToBottomAnimated(true)
         var newMessage : JSQMessage ;
 
-        newMessage = JSQMessage(senderId: _senderId, displayName: _displayName, text: _message)
+        newMessage = JSQMessage(senderId: _senderId, displayName: " ", text: _message)
         JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
         self.demoData.messages.addObject(newMessage)
         self.finishReceivingMessageAnimated(true)
