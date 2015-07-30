@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Parse
 
 class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewDataource, KDCycleBannerViewDelegate {
 
@@ -17,8 +17,82 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     
     var cachedUserId : String!
 
+    
+    func shouldSetupUser() -> Bool{
+        var status:  Bool = false
+        
+        var currentUser = PFUser.currentUser()
+        if currentUser != nil {
+            // Do stuff with the user
+            println("PFUserId => \(currentUser?.username)")
+            
+        } else {
+            // Show the signup or login screen
+            status = true
+        }
+        
+        return status
+    }
+    
+    func setupUser() {
+        
+        if (self.shouldSetupUser()){
+
+            var settings = UserSettings.loadUserSettings()
+            
+            PFUser.logInWithUsernameInBackground(settings.fbId, password:settings.fbId) {
+                (user: PFUser?, error: NSError?) -> Void in
+                if user != nil {
+                    // Do stuff after successful login.
+                    let installation = PFInstallation.currentInstallation()
+                    installation["user"] = PFUser.currentUser()
+                    installation.saveInBackgroundWithBlock({ (status:Bool, error:NSError?) -> Void in
+                        //code
+                        if let error = error {
+                            let errorString = error.userInfo?["error"] as? NSString
+                            println("Error in Login : \(errorString)")
+                            // Show the errorString somewhere and let the user try again.
+                        } else {
+                            // Hooray! Let them use the app now.
+                            println("Hooray! Logged in now.")
+                        }
+                    })
+                    
+                } else {
+                    // The login failed. Check error to see why.
+                    var userMain = PFUser()
+                    userMain.username = settings.fbId
+                    userMain.password = settings.fbId
+                    
+                    // other fields can be set just like with PFObject
+                    userMain["fullName"] = settings.fbName
+                    userMain.signUpInBackgroundWithBlock {
+                        (succeeded: Bool, error: NSError?) -> Void in
+                        if let error = error {
+                            let errorString = error.userInfo?["error"] as? NSString
+                            println("Error : \(errorString)")
+                            // Show the errorString somewhere and let the user try again.
+                        } else {
+                            // Hooray! Let them use the app now.
+                            println("Hooray! Let them use the app now.")
+                            
+                            let installation = PFInstallation.currentInstallation()
+                            installation["user"] = PFUser.currentUser()
+                            installation.saveInBackgroundWithBlock({ (status:Bool, error:NSError?) -> Void in
+                                //code
+                            })
+                        }
+                    }
+                }
+            }
+            
+
+        }
+    }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        self.setupUser()
         
         if(segue.identifier == "showSignup") {
             
@@ -67,6 +141,8 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             
         }) { (error: NSError!) -> Void in
               println("error: \(error)")
+            
+            ProgressHUD.showError("\(error.localizedDescription)")
         }
 
         
@@ -87,8 +163,11 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         super.viewDidAppear(animated)
 
         self.fbLoginView.delegate = self
-        self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
+//        self.fbLoginView.readPermissions = ["basic_info","public_profile", "email", "user_friends", "user_birthday"]
+        
+        self.fbLoginView.readPermissions = ["email","public_profile","user_birthday"]
 
+        
         
         txtViewPrivacy.editable = true
         txtViewPrivacy.textColor = UIColor(red: 38/255.0, green: 182/255.0, blue: 218/255.0, alpha: 1.0)
@@ -253,6 +332,13 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
         
         
+//        FBRequestConnection.startWithGraphPath("me", completionHandler: { (connection: FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
+//            
+//            println("result  => \(result)")
+//            //code
+//        })
+        
+        
         cachedUserId = user.objectID
         var userSettings = UserSettings.loadUserSettings() as UserSettings
         
@@ -263,6 +349,19 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         if (gender == "male"){
             userSettings.userGender    = "M"
         }
+        
+        if var birthday = user.objectForKey("birthday")as? String{
+            var dob = birthday.componentsSeparatedByString("/")
+            
+            userSettings.userBirthday = "\(dob[2])\(dob[1])\(dob[0])"
+        }
+        else{
+            userSettings.userBirthday    = "19900101"
+        }
+
+        
+
+        
         
         var accessToken = FBSession.activeSession().accessTokenData.accessToken
 

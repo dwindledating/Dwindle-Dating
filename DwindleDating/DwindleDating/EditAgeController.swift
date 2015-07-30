@@ -25,9 +25,11 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
         var manager = ServiceManager()
         
         var rowFrom = pickerViewFrom.selectedRowInComponent(0)
+        rowFrom = rowFrom + 18
         let rowNumberFrom: NSNumber = rowFrom
 
         var rowTo = pickerViewTo.selectedRowInComponent(0)
+        rowTo = rowTo + 18
         let rowNumberTo: NSNumber = rowTo
 
         manager.editAgeFromRange(rowNumberFrom, andToRange: rowNumberTo, againstFacebookId:settings.fbId,  sucessBlock: { (isUpdated: Bool) -> Void in
@@ -59,7 +61,6 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     
@@ -67,8 +68,10 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
         super.viewDidAppear(animated)
         
         var settings = UserSettings.loadUserSettings()
+        println(settings.userAgeTo)
         var ageTo = (settings.userAgeTo as String).toInt()
-        if let ageToInt = ageTo {
+        if var ageToInt = ageTo {
+            ageToInt = ageToInt - 18
             pickerViewTo.selectRow(ageToInt, inComponent: 0, animated: true)
         }
         else
@@ -78,7 +81,10 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
 
         
         var ageFrom = (settings.userAgeFrom as String).toInt()
-        if let ageFromInt = ageFrom {
+        if var ageFromInt = ageFrom {
+            if (ageFromInt > 0){
+                ageFromInt = ageFromInt - 18
+            }
             pickerViewFrom.selectRow(ageFromInt, inComponent: 0, animated: true)
         }
         else
@@ -107,6 +113,17 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
     
     @IBAction func nextButtonPressed(sender: UIButton) {
         
+        let ageFrom : Int =  pickerViewFrom.selectedRowInComponent(0)
+        var ageFromStr = String(ageFrom)
+        
+        let ageto : Int =  pickerViewTo.selectedRowInComponent(0)
+        var ageToStr = String(ageto)
+        
+        if (ageFrom > ageto){
+            UIAlertView(title: "Invalid Range", message: "Please Select Valid Range" , delegate: nil, cancelButtonTitle: "Ok").show()
+            return
+        }
+
         self.updateUserAge()
 
         
@@ -123,11 +140,11 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
     
     // MARK : -Pickerview Delegate
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 80;
+        return 48;
     }
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        let x : Int = row
+        let x : Int = row + 18
         var title = String(x)
         return title
     }

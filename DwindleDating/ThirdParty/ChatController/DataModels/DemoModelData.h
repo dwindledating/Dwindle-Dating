@@ -61,6 +61,12 @@ static NSString * const kJSQDemoAvatarIdWoz = @"309-41802-93823";
 
 - (void)addVideoMediaMessage;
 
+- (void)clearChat;
 
+- (void)addMessages:(NSArray *)messages;
+
+- (void)appendMessagesAtTop:(NSArray *)messages;
+
+- (instancetype)initDemoDataWithMessages:(NSArray*)messages;
 
 @end

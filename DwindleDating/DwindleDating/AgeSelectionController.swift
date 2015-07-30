@@ -40,17 +40,18 @@ class AgeSelectionController: UIViewController ,UIPickerViewDataSource,UIPickerV
     
     @IBAction func nextButtonPressed(sender: UIButton) {
         
-        var gender :NSString = "M"
-        if(sender.tag == 1){
-            gender = "F"
-        }
-        
-        
-        let ageFrom : Int =  pickerViewFrom.selectedRowInComponent(0)
+        var ageFrom : Int =  pickerViewFrom.selectedRowInComponent(0)
+        ageFrom += 18
         var ageFromStr = String(ageFrom)
         
-        let ageto : Int =  pickerViewTo.selectedRowInComponent(0)
-        var ageToStr = String(ageto)
+        var ageTo : Int =  pickerViewTo.selectedRowInComponent(0)
+        ageTo += 18
+        var ageToStr = String(ageTo)
+        
+        if (ageFrom > ageTo){
+              UIAlertView(title: "Invalid Range", message: "Please Select Valid Range" , delegate: nil, cancelButtonTitle: "Ok").show()
+            return
+        }
         
         
         var settings = UserSettings.loadUserSettings()
@@ -73,11 +74,11 @@ class AgeSelectionController: UIViewController ,UIPickerViewDataSource,UIPickerV
     
     // MARK : -Pickerview Delegate
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 80;
+        return 48;
     }
 
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        let x : Int = row
+        let x : Int = row + 18
         var title = String(x)
         return title
     }

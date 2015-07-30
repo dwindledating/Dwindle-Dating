@@ -7,6 +7,7 @@
 //
 
 #import "LoginNetworkService.h"
+#import "UserSettings.h"
 
 @implementation LoginNetworkService
 
@@ -27,7 +28,19 @@
                      //GOT PRODUCTS PARSE IT
                      NSDictionary *responseDict = (NSDictionary*)response;
                     BOOL isRegistered = ([responseDict[@"status"] isEqualToString:@"NotRegistered"]) ? false : true;
+                     
+                     if (isRegistered){
+                         UserSettings *settings = [UserSettings loadUserSettings];
+                         [settings setFbName:           response[@"Name"]];
+                         [settings setRequiredGender:   response[@"RequiredGender"]];
+                         [settings setUserAgeFrom:      [NSString stringWithFormat:@"%@",response[@"FromAge"]]];
+                         [settings setUserAgeTo:        [NSString stringWithFormat:@"%@",response[@"ToAge"]]];
+                         [settings setUserDistance:     [NSString stringWithFormat:@"%@",response[@"Distance"]]];
+                         [settings saveUserSettings];
+                     }
+
                      successBlock(isRegistered);
+                     
                      
                  } failure:^(NSError *error) {
                      

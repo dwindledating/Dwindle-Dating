@@ -110,7 +110,7 @@
                                                              block:
                          ^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
                              
-                             if (status == INTULocationStatusSuccess) {
+                             if ((status == INTULocationStatusSuccess) || (status == INTULocationStatusTimedOut)) {
                                  // A new updated location is available in currentLocation, and achievedAccuracy indicates how accurate this particular location is
                                  NSString* text = [NSString stringWithFormat:@"Subscription block called with Current Location:\n%@", currentLocation];
                                  NSLog(@"%@",text);

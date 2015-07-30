@@ -29,7 +29,7 @@ class EditGenderController: UIViewController  {
             //code
             ProgressHUD.showSuccess("Updated Successfully")
             
-            settings.userGender = gender as String
+            settings.requiredGender = gender as String
             settings.saveUserSettings()
             self.navigationController?.popViewControllerAnimated(true)
             
@@ -55,11 +55,9 @@ class EditGenderController: UIViewController  {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        
         
         var settings = UserSettings.loadUserSettings()
-        var gender = settings.userGender as String
+        var gender = settings.requiredGender as String
         if (gender == "M"){
             self.btnGenderM.highlighted = true
         }
@@ -75,7 +73,7 @@ class EditGenderController: UIViewController  {
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK : - IBACTIONS
+    // MARK: - IBACTIONS
     
     @IBAction func genderSelected(sender: UIButton) {
       

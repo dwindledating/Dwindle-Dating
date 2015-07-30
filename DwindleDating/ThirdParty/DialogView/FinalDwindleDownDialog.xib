@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2" customClass="FinalDwindleDownDialog">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="19">
+                    <rect key="frame" x="0.0" y="80" width="320" height="405"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="30">
+                            <rect key="frame" x="20" y="337" width="130" height="35"/>
+                            <color key="backgroundColor" red="0.94117647058823528" green="0.0" blue="0.31372549019607843" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="130" id="TYc-3k-ZTJ"/>
+                                <constraint firstAttribute="height" constant="35" id="cMJ-5i-fPc"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                            <state key="normal" title="Matches">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonPressed:" destination="2" eventType="touchUpInside" id="TQK-Xt-HHP"/>
+                            </connections>
+                        </button>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="demo_avatar_jobs" translatesAutoresizingMaskIntoConstraints="NO" id="wrt-y1-g3l">
+                            <rect key="frame" x="50" y="32" width="220" height="220"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="220" id="7RR-po-2xf"/>
+                                <constraint firstAttribute="height" constant="220" id="zgq-D4-Eu6"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meet Your Match!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gvP-uo-hqX">
+                            <rect key="frame" x="92" y="261" width="136" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Continue the conversation anytime under your Matches tab in the Main Menu." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OZr-uj-Oy8">
+                            <rect key="frame" x="20" y="283" width="280" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="31">
+                            <rect key="frame" x="170" y="337" width="130" height="35"/>
+                            <color key="backgroundColor" red="0.054901960780000002" green="0.50980392159999999" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="130" id="6Vz-xi-Vc0"/>
+                                <constraint firstAttribute="height" constant="35" id="yVq-g0-7z1"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                            <state key="normal" title="Play Again">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonPressed:" destination="2" eventType="touchUpInside" id="gGZ-hB-dTI"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.86274509803921573" green="0.91764705882352937" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="wrt-y1-g3l" firstAttribute="centerX" secondItem="gvP-uo-hqX" secondAttribute="centerX" id="6hl-wQ-0Nb"/>
+                        <constraint firstItem="31" firstAttribute="centerX" secondItem="OZr-uj-Oy8" secondAttribute="centerX" constant="75" id="7pg-RM-sj0"/>
+                        <constraint firstItem="31" firstAttribute="top" secondItem="OZr-uj-Oy8" secondAttribute="bottom" constant="20" id="7rl-Wc-Cf2"/>
+                        <constraint firstItem="30" firstAttribute="top" secondItem="OZr-uj-Oy8" secondAttribute="bottom" constant="20" id="N23-dL-zyc"/>
+                        <constraint firstItem="OZr-uj-Oy8" firstAttribute="top" secondItem="gvP-uo-hqX" secondAttribute="bottom" constant="1" id="N4F-bz-mBt"/>
+                        <constraint firstItem="gvP-uo-hqX" firstAttribute="leading" secondItem="19" secondAttribute="leading" constant="92" id="WbH-fW-h1a"/>
+                        <constraint firstItem="gvP-uo-hqX" firstAttribute="top" secondItem="wrt-y1-g3l" secondAttribute="bottom" constant="9" id="ZZp-iS-f2A"/>
+                        <constraint firstAttribute="centerY" secondItem="wrt-y1-g3l" secondAttribute="centerY" constant="60.5" id="e8z-Pd-KRe"/>
+                        <constraint firstItem="OZr-uj-Oy8" firstAttribute="centerX" secondItem="gvP-uo-hqX" secondAttribute="centerX" id="k3N-RO-ldX"/>
+                        <constraint firstAttribute="trailing" secondItem="gvP-uo-hqX" secondAttribute="trailing" constant="92" id="kCO-C5-Wve"/>
+                        <constraint firstAttribute="trailing" secondItem="OZr-uj-Oy8" secondAttribute="trailing" constant="20" id="lmB-zg-wjC"/>
+                        <constraint firstAttribute="centerX" secondItem="wrt-y1-g3l" secondAttribute="centerX" id="me9-Vu-SW2"/>
+                        <constraint firstAttribute="width" secondItem="wrt-y1-g3l" secondAttribute="height" multiplier="16:11" id="qIb-UI-xfI"/>
+                        <constraint firstItem="30" firstAttribute="centerX" secondItem="OZr-uj-Oy8" secondAttribute="centerX" constant="-75" id="uea-df-tH2"/>
+                        <constraint firstItem="OZr-uj-Oy8" firstAttribute="leading" secondItem="19" secondAttribute="leading" constant="20" id="woq-jT-Qk0"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstItem="19" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="9m8-OK-7IP"/>
+                <constraint firstAttribute="centerY" secondItem="19" secondAttribute="centerY" constant="1" id="XTy-Av-Jnz"/>
+                <constraint firstItem="19" firstAttribute="top" secondItem="2" secondAttribute="top" constant="80" id="aYs-gn-c1X"/>
+                <constraint firstAttribute="centerX" secondItem="19" secondAttribute="centerX" id="dZW-EF-e4x"/>
+                <constraint firstAttribute="trailing" secondItem="19" secondAttribute="trailing" id="upP-mm-rqi"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <connections>
+                <outlet property="btnMatches" destination="30" id="XDg-hW-irq"/>
+                <outlet property="btnPlayAgain" destination="31" id="D0g-NU-z3G"/>
+                <outlet property="containerView" destination="19" id="20"/>
+                <outlet property="ivMatchPhoto" destination="wrt-y1-g3l" id="cjy-LQ-gZ5"/>
+            </connections>
+            <point key="canvasLocation" x="280" y="209"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="demo_avatar_jobs" width="80" height="80"/>
+    </resources>
+</document>

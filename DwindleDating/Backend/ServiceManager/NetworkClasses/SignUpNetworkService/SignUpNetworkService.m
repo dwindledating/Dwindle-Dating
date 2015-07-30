@@ -12,6 +12,8 @@
 
 
 -(void) signupWithFacebookId:(NSString*)fbId
+                    fullName:(NSString*)fullName
+                         dob:(NSString*)dob
                       gender:(NSString*)gender
               requiredGender:(NSString*)reqGender
                      fromAge:(NSString*)fromAge
@@ -26,6 +28,8 @@
     
     
     NSDictionary *params = @{@"fb_id":fbId,
+                             @"user_name":fullName,
+                             @"dob":dob,
                              @"user_gender":gender,
                              @"req_gender":reqGender,
                              @"req_from_age":fromAge,
@@ -48,8 +52,6 @@
                        failureBlock (error);
                        
                    }];
-    
-    
     
 }
 

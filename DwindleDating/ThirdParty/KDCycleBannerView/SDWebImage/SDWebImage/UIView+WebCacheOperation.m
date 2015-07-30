@@ -45,6 +45,15 @@ static char loadOperationKey;
         }
         [operationDictionary removeObjectForKey:key];
     }
+    
+    
+    
+    for (UIView *v in self.subviews) {
+        if ([v isKindOfClass:[UIActivityIndicatorView class]]){
+            [v removeFromSuperview];
+        }
+    }
+    
 }
 
 - (void)sd_removeImageLoadOperationWithKey:(NSString *)key {

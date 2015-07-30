@@ -31,6 +31,7 @@
 + (void)dismiss;
 
 + (void)show:(NSString *)status;
++ (void)show:(NSString *)status withSpin:(BOOL)shouldSpin;
 + (void)show:(NSString *)status Interaction:(BOOL)Interaction;
 
 + (void)showSuccess:(NSString *)status;

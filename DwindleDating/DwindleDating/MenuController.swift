@@ -17,7 +17,7 @@ MFMessageComposeViewControllerDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true , animated: false)
+        self.navigationController?.setNavigationBarHidden(true , animated: true)
     }
     
     override func viewDidLoad() {

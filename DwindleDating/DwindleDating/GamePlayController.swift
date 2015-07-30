@@ -9,6 +9,17 @@
 import UIKit
 //import corelocation
 
+extension Array {
+    func shuffled() -> [T] {
+        var list = self
+        for i in 0..<(list.count - 1) {
+            let j = Int(arc4random_uniform(UInt32(list.count - i))) + i
+            swap(&list[i], &list[j])
+        }
+        return list
+    }
+}
+
 //, KDCycleBannerViewDelegate
 class GamePlayController: JSQMessagesViewController,
 UIActionSheetDelegate,
@@ -36,6 +47,9 @@ SocketIODelegate {
     var playerOther4 : Player!
     var socketIO     :SocketIO?
     
+    var randomPlayers:[String]! = []
+    
+    
     @IBOutlet weak var galleryHeightConstraint : NSLayoutConstraint?
     
     @IBOutlet var imagesViewContainer : UIView!
@@ -45,34 +59,71 @@ SocketIODelegate {
     
     
     
+    func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
+        switch buttonIndex{
+        case 0:
+            println("1st")
+            if (alertView.tag == 1){
+                self.performSkipPressed()
+            }
+            else{
+                self.navigationController?.popViewControllerAnimated(true)
+            }
+
+        case 1:
+            println("2nd")
+        default:
+            println("error")
+        }
+    }
+
+    
+    func showAlertWithDelay(shouldPop: Bool){
+        let alert: UIAlertView = UIAlertView()
+        if (!shouldPop){
+            alert.tag = 1;
+        }
+        
+        alert.delegate = self
+        
+        alert.title = "Quit Game"
+        alert.message = "This will end your current game, are you sure?"
+        alert.addButtonWithTitle("Yes")
+        alert.addButtonWithTitle("Cancel")
+        alert.show()
+    }
+    
+    func showBackAlertFromSkip(shouldPop: Bool){
+        self.hideKeyboard()
+        let delay = 0.5 * Double(NSEC_PER_SEC)
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue()) {
+            self.showAlertWithDelay(shouldPop)
+        }
+
+    }
+
+    override func navigationShouldPopOnBackButton() -> Bool {
+        //ASK AGAIN IF USER WANTS TO QUIT THE GAME
+        // IF YES THEN pop it
+        self.showBackAlertFromSkip(true)
+        return false
+    }
+
+
+    func performSkipPressed(){
+        var isConnected:Bool = self.socketIO!.isConnected;
+        if (isConnected){
+            self.socketIO?.sendEvent("skip", withData:[])
+        }
+        self.resetGameViews()
+    }
     
     func skipPressed(sender: UIBarButtonItem){
-
-        self.socketIO?.sendEvent("loggedout", withData:[])
-        
+        self.showBackAlertFromSkip(false)
     }
     
-    func closePressed(sender: UIBarButtonItem){
-        
-        
-        
-    }
-    
-    
-    // MARK: - Scroller Stuff - KDCycleBannerView DELEGATE
-    
-//    func placeHolderImageOfBannerView(bannerView: KDCycleBannerView!, atIndex index: UInt) -> UIImage! {
-//        let img = UIImage(named:"image1.png")!
-//        return img
-//    }
-//    
-//    func placeHolderImageOfZeroBannerView() -> UIImage! {
-//        let img = UIImage(named:"image1.png")!
-//        return img
-//    }
-    
-    
-    // MARK : KDCycleBannerView DataSource
+    // MARK:- KDCycleBannerView DataSource
     func numberOfKDCycleBannerView(bannerView: KDCycleBannerView!) -> [AnyObject]! {
        
         var imagesList:AnyObject = []
@@ -95,7 +146,6 @@ SocketIODelegate {
         return imagesList as! [AnyObject]
     }
     
-    
     func contentModeForImageIndex(index: UInt) -> UIViewContentMode {
         return UIViewContentMode.ScaleAspectFit;
     }
@@ -112,6 +162,7 @@ SocketIODelegate {
         var btn = self.getPlayerButtonAgainstId(deleteUserFbId)
         btn.selected = false
         btn.enabled = false
+        btn.setImage(nil, forState: UIControlState.Normal)
 
     }
 
@@ -127,20 +178,34 @@ SocketIODelegate {
         
     }
 
-    
-    
+    func handleFinalDwindleDown (){
+
+        //Close Keyboard
+        self.hideKeyboard()
+
+        let button = self.getPlayerButtonAgainstId(playerOpponent.fbId) as? RoundButtonView
+        let dp = button?.imageForState(UIControlState.Normal)
+
+        let dialog = FinalDwindleDownDialog.loadWithNib() as? FinalDwindleDownDialog
+//        let dp = UIImage(named: "demo_avatar_woz")
+        dialog?.showWithImage(dp, successBlock: { (index: Int32) -> Void in
+            //Open Matches Listing
+            dialog?.dismissView(true)
+            println("Selected Option: \(index)")
+            if (index == 0){
+                self.performSegueWithIdentifier("pushMatchListing", sender: nil)
+            }
+            else{
+                // Restart Game
+                self.socketIO?.sendEvent("restartGamePlay", withData: [])
+                self.resetGameViews()
+            }
+        })
+
+    }
     
     func handleDwindleDown(respDict:[String:AnyObject]){
         
-        
-//        let string = "{\"name\": \"John\", \"age\": 35, \"children\": [\"Jack\", \"Jill\"]}"
-//        let respStr = "{\"DwindleDown\":{\"DeletedUser\":{\"fb_id\":\"DDDD\"},\"User1\":{\"fb_id\":\"637824466345948\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/637824466345948/image11.png\"},\"User2\":{\"fb_id\":\"A\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/A/Purple-Colored-MacBook-Keyboard.jpg\"},\"OtherUser1\":{\"fb_id\":\"1427619287531895\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/1427619287531895/3.png\"},\"OtherUser2\":{\"fb_id\":\"10153221085360955\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/10153221085360955/3.jpg\"},\"OtherUser4\":{\"fb_id\":\"AAA\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/AAA/Purple-Colored-MacBook-Keyboard.jpg\"}}}"
-//        
-//        
-//        let respDict:AnyObject = self.JSONParseDictionary(respStr)
-        
-//        let roomUserInfoDict: AnyObject =  self.JSONParseDictionary(dataStr)
-//        let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
 
         let ddDict:[String:AnyObject] = (respDict["DwindleDown"] as? Dictionary<String,AnyObject>)!
 
@@ -151,6 +216,20 @@ SocketIODelegate {
                 //        1. Delete User
                 self.handleDeleteUser(ddDict as [String : AnyObject])
             }
+            else if (key == "DwindleCount"){
+                var dCount = ddDict["DwindleCount"] as! Int
+                println("DwindleCount => \(dCount)")
+                
+                if (dCount == 4){
+                    //ProgressHUD.showSuccess("Congratulations you have found your dwindle match")
+                    self.handleFinalDwindleDown()
+                }
+                else{
+                    
+                    ProgressHUD.showSuccess("Round \(dCount) Complete! Additional photo unlocked, tap above to view")
+                }
+
+            }
             else{
                 //        2. Add picture to Remaining Users
                 self.handleAddUser(ddDict as [String : AnyObject], key: key)
@@ -158,19 +237,8 @@ SocketIODelegate {
             
         }
 
-        
-//        let deleteUserDict:AnyObject = (ddDict["DeletedUser"] as? Dictionary<String,AnyObject>)!
-//        let deleteUserFbId:String = (deleteUserDict["fb_id"] as? String)!
-//        println("DeleteUserFbId => \(deleteUserFbId))")
-        
-        
-//{\"DwindleDown\":{\"DeletedUser\":{\"fb_id\":\"DDDD\"},\"User1\":{\"fb_id\":\"637824466345948\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/637824466345948/image11.png\"},\"User2\":{\"fb_id\":\"A\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/A/Purple-Colored-MacBook-Keyboard.jpg\"},\"OtherUser1\":{\"fb_id\":\"1427619287531895\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/1427619287531895/3.png\"},\"OtherUser2\":{\"fb_id\":\"10153221085360955\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/10153221085360955/3.jpg\"},\"OtherUser4\":{\"fb_id\":\"AAA\",\"pic_path\":\"http://52.11.98.82:3000/uploadedImages/AAA/Purple-Colored-MacBook-Keyboard.jpg\"}}}
-        
-        
     }
 
-    
-    
     func getPlayerButtonAgainstId(fbId:String)-> RoundButtonView{
         
         if(btn1.playerId == fbId){
@@ -213,9 +281,71 @@ SocketIODelegate {
     
     // MARK: - HANDLE UI - DwindleDown
     
-    func setPlayerImages(){
-
+    func resetGameViews(){
         
+        self.hideKeyboard()
+        self.title = "Finding Match"
+        ProgressHUD.show("Finding match")
+
+        playersDict.removeAll(keepCapacity: false)
+        
+        btn1.playerId = ""
+        btn2.playerId = ""
+        btn3.playerId = ""
+        btn4.playerId = ""
+        btn5.playerId = ""
+        
+        btn1.enabled = true
+        btn2.enabled = true
+        btn3.enabled = true
+        btn4.enabled = true
+        btn5.enabled = true
+
+        btn1.selected = true
+        btn2.selected = true
+        btn3.selected = true
+        btn4.selected = true
+        btn5.selected = true
+        
+        
+        btn1.sd_cancelImageLoadForState(UIControlState.Normal)
+        btn2.sd_cancelImageLoadForState(UIControlState.Normal)
+        btn3.sd_cancelImageLoadForState(UIControlState.Normal)
+        btn4.sd_cancelImageLoadForState(UIControlState.Normal)
+        btn5.sd_cancelImageLoadForState(UIControlState.Normal)
+        
+        btn1.setImage(nil, forState: UIControlState.Normal)
+        btn2.setImage(nil, forState: UIControlState.Normal)
+        btn3.setImage(nil, forState: UIControlState.Normal)
+        btn4.setImage(nil, forState: UIControlState.Normal)
+        btn5.setImage(nil, forState: UIControlState.Normal)
+        
+        self.playerMain = nil
+        self.playerOpponent = nil
+        self.playerOther1 = nil
+        self.playerOther2 = nil
+        self.playerOther3 = nil
+        self.playerOther4 = nil
+        
+        self.demoData.clearChat()
+        self.collectionView.reloadData()
+        
+    }
+    
+    func randomInt(min: Int, max:Int) -> Int {
+        return min + Int(arc4random_uniform(UInt32(max - min + 1)))
+    }
+    
+    func getPlayerIdRandomly() -> String{
+        
+//        let random = Int(arc4random_uniform(UInt32(randomPlayers.count - i))) + i
+        let rIndex = self.randomInt(0, max: randomPlayers.count-1)
+        let playerId: String = randomPlayers[rIndex]
+        randomPlayers.removeAtIndex(rIndex)
+        return playerId
+    }
+    
+    func setPlayerImages(){
         
         playersDict["main"] = self.playerMain
         playersDict["opponent"] = self.playerOpponent
@@ -224,46 +354,72 @@ SocketIODelegate {
         playersDict["other3"] = self.playerOther3
         playersDict["other4"] = self.playerOther4
         
+        // Create method that will have all player's id
+        // it will then assign 1 id to 1 user 
+        // and remove it from list
         
-        btn1.playerId = self.playerOpponent.fbId
-        btn2.playerId = self.playerOther1.fbId
-        btn3.playerId = self.playerOther2.fbId
-        btn4.playerId = self.playerOther3.fbId
-        btn5.playerId = self.playerOther4.fbId
         
-        btn1.sd_setImageWithURL(self.playerOpponent.imgPath, forState:.Normal)
-        btn2.sd_setImageWithURL(self.playerOther1.imgPath, forState:.Normal)
-        btn3.sd_setImageWithURL(self.playerOther2.imgPath, forState:.Normal)
-        btn4.sd_setImageWithURL(self.playerOther3.imgPath, forState:.Normal)
-        btn5.sd_setImageWithURL(self.playerOther4.imgPath, forState:.Normal)
+        btn1.playerId = self.getPlayerIdRandomly()
+        btn2.playerId = self.getPlayerIdRandomly()
+        btn3.playerId = self.getPlayerIdRandomly()
+        btn4.playerId = self.getPlayerIdRandomly()
+        btn5.playerId = self.getPlayerIdRandomly()
         
-        println("PlayerOpponent = \(self.playerOpponent.imgPath)")
-        println("PlayerOther1 = \(self.playerOther1.imgPath)")
-        println("PlayerOther2 = \(self.playerOther2.imgPath)")
-        println("PlayerOther3 = \(self.playerOther3.imgPath)")
-        println("PlayerOther4 = \(self.playerOther4.imgPath)")
+        var player = self.getPlayerAgainstId(btn1.playerId)
+        btn1.sd_setImageWithURL(player.imgPath, forState:.Normal)
+        
+        player = self.getPlayerAgainstId(btn2.playerId)
+        btn2.sd_setImageWithURL(player.imgPath, forState:.Normal)
+        
+        player = self.getPlayerAgainstId(btn3.playerId)
+        btn3.sd_setImageWithURL(player.imgPath, forState:.Normal)
+        
+        player = self.getPlayerAgainstId(btn4.playerId)
+        btn4.sd_setImageWithURL(player.imgPath, forState:.Normal)
+        
+        player = self.getPlayerAgainstId(btn5.playerId)
+        btn5.sd_setImageWithURL(player.imgPath, forState:.Normal)
         
     }
     
-    
-    
-    
     // MARK: - HANDLE UI - OpenGallery
-
-    
     func hideKeyboard(){
 
-        if(self.inputToolbar.contentView.textView.isFirstResponder()){
+//        if(self.inputToolbar.contentView.textView.isFirstResponder()){
             self.inputToolbar.contentView.textView.resignFirstResponder()
+//        self.hideKeyboardForcefully()
+        
+//        }
+    }
+    
+    func shouldOpenGallery(sender:AnyObject) -> Bool{
+        var button = sender as? RoundButtonView
+        
+        if let playerId = button?.playerId{
+            
+            if (playerId == ""){
+                return false
+            }
         }
+        else{
+            return false
+        }
+
+        return true
     }
     
     @IBAction func openImageGallery(sender: AnyObject) {
 
         //Close Keyboard
         self.hideKeyboard()
+
+        if(!self.shouldOpenGallery(sender)){
+            return
+        }
+        
         
         var button = sender as? UIButton
+        
         println("tagId\(button?.tag)")
         
         if var prevButton = galleryOpenerButton{
@@ -293,6 +449,7 @@ SocketIODelegate {
             galleryHeightConstraint!.constant = 0
         }
         
+        
         UIView.animateWithDuration(0.5) {
             self.view.needsUpdateConstraints()
             self.view.layoutIfNeeded()
@@ -305,7 +462,6 @@ SocketIODelegate {
     
     // MARK: - Utilty Methods
     
- 
     func JSONParseArray(jsonString: String) -> [AnyObject] {
         if let data = jsonString.dataUsingEncoding(NSUTF8StringEncoding) {
             if let array = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: nil)  as? [AnyObject] {
@@ -324,63 +480,18 @@ SocketIODelegate {
         return [String: AnyObject]()
     }
     
-    // MARK: -   WEBSERVICE
-    
-    func gamePlay(){
-        var settings = UserSettings.loadUserSettings()
-        
-        ProgressHUD.show("Commencing Game...")
-        
-        var manager = ServiceManager()
-        
-        
-        manager.getGamePlayUsersAgainstFacebookId(settings.fbId, sucessBlock: { (allPlayers:[NSObject: AnyObject]!) -> Void in
-            
-            var data:NSDictionary = allPlayers as NSDictionary
-            println("players \(data)")
-            
-            // code
-            self.playerMain      = data["MainPlayer"] as? Player
-            self.playerOpponent  = data["OpponentPlayer"] as? Player
-            
-            var otherData = data["Others"] as! NSArray
-            self.playerOther1 = otherData[0] as? Player
-            self.playerOther2 = otherData[1] as? Player
-            self.playerOther3 = otherData[2] as? Player
-            
-            ProgressHUD.showSuccess("Game Commenced Succesfully")
-            
-            
-            
-            println("PlayerMain = \(self.playerMain.fbId)")
-            println("PlayerOpponent = \(self.playerOpponent.fbId)")
-            println("PlayerOther1 = \(self.playerOther1.fbId)")
-            println("PlayerOther2 = \(self.playerOther2.fbId)")
-            println("PlayerOther3 = \(self.playerOther3.fbId)")
-            
-            //Open Socket
-            
-            self.startGame()
-            
-            }) { (error: NSError!) -> Void in
-                // code
-                ProgressHUD.showError("Game Commencing Failed")
-        }
-        
-    }
- 
-    
-    
     // MARK: - SOCKETS
+    
+    func releaseSockets(){
+        self.socketIO?.delegate = nil;
+        self.socketIO = nil
+    }
     
     func initSocketConnection(){
         
         // create socket.io client instance
         
         self.socketIO = SocketIO(delegate: self)
-        //var settings = UserSettings.loadUserSettings()
-        
-        //self.socketIO?.setResourceName(settings.fbId)
         
         var properties = [NSHTTPCookieDomain:"52.11.98.82",
                           NSHTTPCookiePath:"/",
@@ -395,20 +506,16 @@ SocketIODelegate {
         self.socketIO?.cookies = cookies
         
         self.socketIO?.connectToHost("52.11.98.82", onPort: 3000)
-
+        
     }
     
     
     func startGame(){
         
-//        self.handleDwindleDown([:])
-//        return
-
-        ProgressHUD.show("Commencing Game...")
+        ProgressHUD.show("Starting Game...")
         self.initSocketConnection();
         
     }
-    
     
     func sendChat(message:String){
         self.socketIO?.sendEvent("sendchat", withData: [message])
@@ -416,18 +523,12 @@ SocketIODelegate {
     
     // MARK: -   SOCKET DELEGATES
     
-    
-    
-    
     func socketIODidConnect(socket: SocketIO!) {
         println("socket.io connected.")
         
         var settings = UserSettings.loadUserSettings()
-        ProgressHUD.show("Joining User...")
+        ProgressHUD.show("Finding match")
         var manager = ServiceManager()
-        
-        
-        
         
         manager.getUserLocation({ (location: CLLocation!) -> Void in
             //code
@@ -442,14 +543,11 @@ SocketIODelegate {
         
     }
     
-    
-    
     func socketIO(socket: SocketIO!, didReceiveMessage packet: SocketIOPacket!) {
         //code
         println("PacketName \(packet.name)")
         
     }
-    
     
     func socketIO(socket: SocketIO!, didReceiveEvent packet: SocketIOPacket!) {
         //code
@@ -468,10 +566,13 @@ SocketIODelegate {
             let roomUserInfoDict: AnyObject =  self.JSONParseDictionary(dataStr)
             let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
 
-
-            
             self.playerMain      =  Player(dict: roomUserInfoDict["MainUser"]! as? Dictionary)
             self.playerOpponent  = Player(dict: roomUserInfoDict["SecondUser"]! as? Dictionary)
+
+            let secondUserDict: [String: String] = roomUserInfoDict["SecondUser"] as! NSDictionary as! [String : String]
+            let name = secondUserDict["user_name"]
+            println("second user name\(name)")
+            self.title = secondUserDict["user_name"]
             
             var otherData:AnyObject = roomUserInfoDict["OtherUsers"] as! NSArray
             self.playerOther1 = Player(dict: otherData[0]! as? Dictionary)
@@ -479,7 +580,15 @@ SocketIODelegate {
             self.playerOther3 = Player(dict: otherData[2]! as? Dictionary)
             self.playerOther4 = Player(dict: otherData[3]! as? Dictionary)
 
-            ProgressHUD.showSuccess("Game Commenced Succesfully")
+            randomPlayers.append(self.playerOpponent.fbId)
+            randomPlayers.append(self.playerOther1.fbId)
+            randomPlayers.append(self.playerOther2.fbId)
+            randomPlayers.append(self.playerOther3.fbId)
+            randomPlayers.append(self.playerOther4.fbId)
+            randomPlayers.shuffled()
+            
+            
+            ProgressHUD.showSuccess("Game Started. Say Hello!")
             
             self.setPlayerImages()
             
@@ -494,14 +603,22 @@ SocketIODelegate {
             //["updatechat","A","Hi"]
 
             let responseArr:AnyObject =  packet.dataAsJSON()
-            var _senderId:String = (responseArr[1] as? String)!
+            
+            var _senderId:String = ""
+            if let tmpSenderId = responseArr[1]  as? String! {
+                _senderId = tmpSenderId
+            }
             var _message:String = (responseArr[2] as? String)!
-            if (_senderId == self.playerOpponent.fbId){
-                self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
+           
+            if let tmpPlayer = self.playerOpponent{
+                if let tmpPlayerId = self.playerOpponent.fbId{
+                    if (_senderId == self.playerOpponent.fbId){
+                        self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
+                    }
+                }
             }
             
         }
-        
         else if (packet.name == "dwindledown"){
             println("\n \(packet.name) data as string looks like \(packet.data)")
 
@@ -516,37 +633,78 @@ SocketIODelegate {
             
             println("\n UserAdded data as string looks like \(packet.data)")
         }
+        else if (packet.name == "disconnectResponse"){
+            
+            println("\n disconnectResponse data as string looks like \(packet.data)")
+            ProgressHUD.showError("The other user has left the game. Connecting to new users.")
+            let delay = 3.5 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                self.resetGameViews()
+            }
+        }
+        else if (packet.name == "skip"){
+            
+            println("\n Skip data as string looks like \(packet.data)")
+        }
+        else if (packet.name == "skipchat"){
+            
+            println("\n Skipchat data as string looks like \(packet.data)")
+            ProgressHUD.showError("The other user has left the game. Connecting to new users.")
+            let delay = 3.5 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                self.resetGameViews()
+            }
 
-
+//            self.resetGameViews()
+        }
+        else if (packet.name == "loggedoutResponse"){
+            ProgressHUD.showError("The other user has left the game. Connecting to new users.")
+            let delay = 3.5 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                self.resetGameViews()
+            }
+        }
 
     }
     
-    
     func socketIO(socket: SocketIO!, onError error: NSError!) {
         //
-        
+        println("GAMEPLAY CHAT => socket onError with error \(error.localizedDescription)");
         var errorCode = error.code as Int
         if (errorCode == -8) { //SocketIOUnauthorized
             println("not authorized");
         } else {
             println("onError()\(error)");
         }
-
+//        self.releaseSockets()
     }
-    
     
     func socketIODidDisconnect(socket: SocketIO!, disconnectedWithError error: NSError!) {
         //code
         
-        println("socket.io disconnected. did error occur? \(error)");
+        println("GAMEPLAY CHAT => socket.io disconnected. did error occur \(error)");
         var state:UIApplicationState  = UIApplication.sharedApplication().applicationState
         if (state == UIApplicationState.Background) {//UIApplicationStateBackground
             println("Application is in background and SIO disconnected.");
         }
+        
+        if (error.code == 57){
+            ProgressHUD.showError("You are disconnected. Please check your internet connection")
 
+            let delay = 3.5 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                self.navigationController?.popViewControllerAnimated(true)
+            }
+
+        }
+        self.releaseSockets()
+        
 
     }
-
     
         // MARK: -   VIEW LIFE CYCLE
     func initContentView(){
@@ -557,15 +715,9 @@ SocketIODelegate {
         
         // Message Controller Stuff
         
-        /**
-        *  You MUST set your senderId and display name
-        */
-        
         var settings = UserSettings.loadUserSettings()
-//        settings.fbId
-        
-        self.senderId = settings.fbId //"053496-4509-289"//kJSQDemoAvatarIdSquires;
-        self.senderDisplayName = settings.fbId // "Jesse Squires"// kJSQDemoAvatarDisplayNameSquires;
+        self.senderId = settings.fbId
+        self.senderDisplayName = settings.fbName
         
         self.demoData = DemoModelData()
         
@@ -583,16 +735,38 @@ SocketIODelegate {
     
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        let delay = 1.5 * Double(NSEC_PER_SEC)
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue()) {
+            ProgressHUD.dismiss()
+        }
+
+
+        super.viewDidDisappear(animated)
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-    }
+        ProgressHUD.dismiss()
+        
+        if let socket = self.socketIO{
+            var isConnected:Bool = self.socketIO!.isConnected;
+            if (isConnected){
+                println("loggedout Called");
+                self.socketIO?.sendEvent("loggedout", withData:[])
+                self.releaseSockets()
+            }
 
+        }
+        
+        super.viewWillDisappear(animated)
+        
+    }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -604,10 +778,10 @@ SocketIODelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.title = "Chat Controller"
+        self.title = "Finding Match"
         self.initContentView()
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style:UIBarButtonItemStyle.Bordered , target: self, action: "skipPressed:")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style:UIBarButtonItemStyle.Plain , target: self, action: "skipPressed:")
 
     }
     
@@ -630,13 +804,12 @@ SocketIODelegate {
         scrollToBottomAnimated(true)
         var newMessage : JSQMessage ;
 
-        newMessage = JSQMessage(senderId: _senderId, displayName: _displayName, text: _message)
+        newMessage = JSQMessage(senderId: _senderId, displayName: " ", text: _message)
         JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
         self.demoData.messages.addObject(newMessage)
         self.finishReceivingMessageAnimated(true)
         
     }
-    
     
     //============================================================================================\\
     //============================================================================================\\
@@ -663,55 +836,55 @@ SocketIODelegate {
         self.finishSendingMessageAnimated(true);
         
         self.sendChat(text)
-        
-        
+//        self.handleFinalDwindleDown()
+
     }
-    
-    
     
     override func didPressAccessoryButton(sender: UIButton!) {
         
         
-        var sheet = UIActionSheet(title: "Quick messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Send Template Message 1", "Send Template Message 2");
+        var sheet = UIActionSheet(title: "Quick messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles:
+            "What actor would best play the role of you?",
+            "You can live anyplace in the world, where?",
+            "Have you had any success with dating apps?",
+            "What's the worst job you've ever had?     ",
+            "What movie title describes your sex life?",
+            "Drink with anyone throughout history, who?",
+            "What about you surprises people the most?",
+            "  Do you have any nicknames?                      ",
+            "What's the worst part about modern dating?",
+            "You're cooking me dinner, what's the menu?");
         
-        //    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Media messages"
-        //    delegate:self
-        //    cancelButtonTitle:@"Cancel"
-        //    destructiveButtonTitle:nil
-        //    otherButtonTitles:@"Send photo", @"Send location", @"Send video", nil];
         sheet.showFromToolbar(self.inputToolbar);
     }
-    
-    
     
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == actionSheet.cancelButtonIndex) {
             return;
         }
+        let sampleMessagesArr = ["What actor would best play the role of you?",
+                                "You can live anyplace in the world, where?",
+                                "Have you had any success with dating apps?",
+                                "What's the worst job you've ever had?",
+                                "What movie title describes your sex life?",
+                                "Drink with anyone throughout history, who?",
+                                "What about you surprises people the most?",
+                                "Do you have any nicknames?",
+                                "What's the worst part about modern dating?",
+                                "You're cooking me dinner, what's the menu?"]
         
-        switch (buttonIndex) {
-        case 1:
-//            self.demoData.addPhotoMediaMessage();
-            self.demoData.sendTextMessage("Sample text message 1");
-            break;
-            
-        case 2:
-            self.demoData.sendTextMessage("Sample text message 2");
-            //var weakView = self.collectionView as UICollectionView;
-            //self.demoData.addLocationMediaMessageCompletion({ () -> Void in
-             //   weakView.reloadData();
-            //});
-            
-            break;
-            
-        default:
-            
-            break;
-            
-        }
+        let text = sampleMessagesArr[buttonIndex-1]
+        
         
         JSQSystemSoundPlayer.jsq_playMessageSentSound();
+        
+        var message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: NSDate(), text: text)
+        
+        self.demoData.messages.addObject(message);
+        
         self.finishSendingMessageAnimated(true);
+        
+        self.sendChat(text)
     }
     
     //============================================================================================\\

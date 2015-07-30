@@ -11,6 +11,8 @@
 @interface SignUpNetworkService : NetworkBaseService
 
 -(void) signupWithFacebookId:(NSString*)fbId
+                    fullName:(NSString*)fullName
+                         dob:(NSString*)dob
                       gender:(NSString*)gender
               requiredGender:(NSString*)reqGender
                      fromAge:(NSString*)fromAge
@@ -19,5 +21,4 @@
                       images:(NSArray*)imagesArr
                  sucessBlock:(void (^)(BOOL isRegistered))successBlock
                      failure:(void (^)(NSError *error))failureBlock;
-
 @end

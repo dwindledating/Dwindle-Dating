@@ -11,10 +11,16 @@ import UIKit
 
 class TermsController: UIViewController  {
 
+    @IBOutlet var webView :    UIWebView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        var path = NSBundle.mainBundle().pathForResource("TermsandConditions", ofType: "html")
+        var url = NSURL(fileURLWithPath: path!)
+        var request = NSURLRequest(URL: url!)
+        webView.loadRequest(request)
     }
     
     
