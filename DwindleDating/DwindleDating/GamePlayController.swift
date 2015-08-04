@@ -6,6 +6,15 @@
 //  Copyright (c) 2015 infinione. All rights reserved.
 //
 
+
+//TODO:
+//Add a boolean isOpponentFound
+//Run a timer for 15 secs
+//On player found set flag isOpponentFound to true
+//Timer will call a method and check the value of flag 
+//if its true then ignore else show an alert and call back button pressed 
+
+
 import UIKit
 //import corelocation
 
@@ -46,6 +55,7 @@ SocketIODelegate {
     var playerOther3 : Player!
     var playerOther4 : Player!
     var socketIO     :SocketIO?
+    var isPlayerFound : Bool?
     
     var randomPlayers:[String]! = []
     
@@ -58,6 +68,27 @@ SocketIODelegate {
     var demoData: DemoModelData!
     
     
+    
+    func handleNoMatchFound (){
+
+        let delay = 10 * Double(NSEC_PER_SEC)
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue()) {
+            
+            if (self.isPlayerFound == false){
+                // not found popout
+                ProgressHUD.showError("No match found around your area. Please try again later.")
+                let delay = 3.5 * Double(NSEC_PER_SEC)
+                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                dispatch_after(time, dispatch_get_main_queue()) {
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+
+            }
+            
+//            self.resetGameViews()
+        }
+    }
     
     func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
         switch buttonIndex{
@@ -358,7 +389,6 @@ SocketIODelegate {
         // it will then assign 1 id to 1 user 
         // and remove it from list
         
-        
         btn1.playerId = self.getPlayerIdRandomly()
         btn2.playerId = self.getPlayerIdRandomly()
         btn3.playerId = self.getPlayerIdRandomly()
@@ -526,6 +556,8 @@ SocketIODelegate {
     func socketIODidConnect(socket: SocketIO!) {
         println("socket.io connected.")
         
+        
+        
         var settings = UserSettings.loadUserSettings()
         ProgressHUD.show("Finding match")
         var manager = ServiceManager()
@@ -534,10 +566,20 @@ SocketIODelegate {
             //code
             println("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
             self.socketIO?.sendEvent("Play", withData: [settings.fbId,location.coordinate.longitude,location.coordinate.latitude])
+            self.isPlayerFound = false
+            self.handleNoMatchFound()
             
             }, failure: { (error:NSError!) -> Void in
             //code
                     println("Error Message =>\(error.localizedDescription)")
+                ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
+                let delay = 3.5 * Double(NSEC_PER_SEC)
+                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                dispatch_after(time, dispatch_get_main_queue()) {
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+
+                
         })
         
         
@@ -557,6 +599,7 @@ SocketIODelegate {
         
         if (packet.name == "startgame") {
             
+            self.isPlayerFound = true
             
             println("\n startgame data as string looks like \(packet.data)")
 
