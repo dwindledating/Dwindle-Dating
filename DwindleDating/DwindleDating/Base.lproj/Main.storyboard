@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A7T-DZ-deN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A7T-DZ-deN">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Datasource-->
         <scene sceneID="uQO-Q2-X4o">
             <objects>
                 <viewController id="9PC-Jy-jIe" customClass="ViewController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
@@ -478,7 +479,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wLG-SN-0NQ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="V0y-ao-t2c">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menuBg" translatesAutoresizingMaskIntoConstraints="NO" id="rhb-gx-k0g">
@@ -495,6 +496,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="z9h-6I-FcW" id="coq-Oo-LxN">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nbt-q9-fDJ" customClass="RoundImageView" customModule="DwindleDating" customModuleProvider="target">
@@ -723,9 +725,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iEt-54-BYR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6073.5" y="2100"/>
+            <point key="canvasLocation" x="6073" y="2266"/>
         </scene>
-        <!--Match Chat Controller-->
+        <!--Datasource-->
         <scene sceneID="Qyo-eT-Ov3">
             <objects>
                 <viewController id="q6t-0B-EgM" customClass="MatchChatController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
@@ -734,7 +736,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Xco-Cx-7sh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="J8k-8P-Nl8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Q6R-wz-4yo" customClass="JSQMessagesCollectionView">
@@ -828,7 +830,7 @@
             </objects>
             <point key="canvasLocation" x="7135.5" y="2120.25"/>
         </scene>
-        <!--Game Play Controller-->
+        <!--Datasource-->
         <scene sceneID="7Bg-Uf-KSb">
             <objects>
                 <viewController id="2HK-xn-oal" customClass="GamePlayController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
@@ -837,7 +839,7 @@
                         <viewControllerLayoutGuide type="bottom" id="pSi-O3-qz4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="yPO-9R-yaP">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hzr-aQ-Mv2" userLabel="PictureContainerView">
@@ -2222,7 +2224,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ZRJ-R9-lrb"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ZcX-4s-Pbp">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hLz-Ri-g2b">
@@ -2302,7 +2304,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ovT-j2-LtI"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eoO-7M-fp7">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleAspectFit" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b0t-fJ-4EX">
@@ -3066,9 +3068,9 @@
         <image name="signupBg" width="375" height="667"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="pei-dO-3bt"/>
+        <segue reference="d24-cx-jfv"/>
+        <segue reference="1NX-cT-MOl"/>
         <segue reference="kLh-Ty-0xR"/>
-        <segue reference="z1b-rf-zfl"/>
-        <segue reference="aa2-bj-gFG"/>
-        <segue reference="zfu-PM-57A"/>
     </inferredMetricsTieBreakers>
 </document>

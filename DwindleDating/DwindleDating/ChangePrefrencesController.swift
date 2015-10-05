@@ -51,7 +51,7 @@ class ChangePrefrencesController: UIViewController,UITableViewDelegate,UITableVi
     //MARK: - TableView Delegate
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell_ : UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("identifier") as? UITableViewCell
+        var cell_ : UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("identifier") 
         if(cell_ == nil)
         {
             cell_ = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "identifier")

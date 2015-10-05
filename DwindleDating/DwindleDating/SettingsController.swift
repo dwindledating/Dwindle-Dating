@@ -39,7 +39,7 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
     //MARK: - Alert Stuff
     
     func removeUser(){
-        println("removeUser")
+        print("removeUser")
         FBSession.activeSession().closeAndClearTokenInformation()
         var settings = UserSettings.loadUserSettings()
         settings.removeUserSettings()
@@ -75,13 +75,13 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
     func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
         switch buttonIndex{
         case 0:
-            println("1st")
+            print("1st")
         case 1:
-            println("2nd")
+            print("2nd")
         case 2:
-            println("3rd")
+            print("3rd")
         default:
-            println("error")
+            print("error")
         }
         
     }
@@ -102,7 +102,7 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
     //MARK: - TableView Delegate
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        var cell_ : UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("identifier") as? UITableViewCell
+        var cell_ : UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("identifier") 
         if(cell_ == nil)
         {
             cell_ = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "identifier")

@@ -48,7 +48,9 @@ class MatchChatController: JSQMessagesViewController ,
         var img = UIImage(named:"demo_avatar_jobs")!
         img = img.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
 
-        var btnProfileImg: RoundButtonView = RoundButtonView.buttonWithType(UIButtonType.Custom) as! RoundButtonView
+        
+        
+        let btnProfileImg: RoundButtonView = RoundButtonView(type: UIButtonType.Custom)
         btnProfileImg.sd_setBackgroundImageWithURL(imgUrl, forState: UIControlState.Normal)
 //        btnProfileImg.setImage(img, forState: UIControlState.Normal)
         btnProfileImg.addTarget(self, action: Selector("openImageGallery:"), forControlEvents: UIControlEvents.TouchUpInside)
@@ -57,7 +59,7 @@ class MatchChatController: JSQMessagesViewController ,
         frame.size = CGSizeMake(44, 44)
         btnProfileImg.frame = frame
         
-        var barButton = UIBarButtonItem(customView: btnProfileImg)
+        let barButton = UIBarButtonItem(customView: btnProfileImg)
         self.navigationItem.rightBarButtonItem = barButton
         
     }
@@ -78,7 +80,7 @@ class MatchChatController: JSQMessagesViewController ,
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        self.collectionView.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();
+        self.collectionView!.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();
         self.startChat()
         
     }
@@ -109,11 +111,11 @@ class MatchChatController: JSQMessagesViewController ,
         self.demoData = DemoModelData()
         
         if (!NSUserDefaults.incomingAvatarSetting()){
-            self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
+            self.collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
         }
         
         if (!NSUserDefaults.outgoingAvatarSetting()) {
-            self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+            self.collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
         }
         
 
@@ -129,7 +131,7 @@ class MatchChatController: JSQMessagesViewController ,
         
         self.jsq_configureMessagesViewController();
         self.jsq_registerForNotifications(true);
-        self.inputToolbar.contentView.leftBarButtonItem = nil;
+        self.inputToolbar!.contentView!.leftBarButtonItem = nil;
         
     }
     
@@ -145,7 +147,7 @@ class MatchChatController: JSQMessagesViewController ,
         
         var imagesList:AnyObject = []
 
-        if var gallery = self.galleryImages{
+        if let gallery = self.galleryImages{
             imagesList = (self.galleryImages as NSArray as? [NSURL])!
         }
         else{
@@ -170,9 +172,9 @@ class MatchChatController: JSQMessagesViewController ,
             socket.on("connect", callback: { (args:[AnyObject]!) -> Void in
                 //code
   
-                println ("Connected");
-                var settings = UserSettings.loadUserSettings()
-                println("My FBID: \(settings.fbId) Wants to connect with :\(self.toUserId) with status: \(self.status)")
+                print ("Connected");
+                let settings = UserSettings.loadUserSettings()
+                print("My FBID: \(settings.fbId) Wants to connect with :\(self.toUserId) with status: \(self.status)")
                 
                 socket.emit("chat", args: [settings.fbId,self.toUserId,self.status])
                 ProgressHUD.show("Getting Chat History")
@@ -184,80 +186,92 @@ class MatchChatController: JSQMessagesViewController ,
                 //code
                 
                 
-                var response = args[0] as! String
+                let response = args[0] as! String
                 let data = response.dataUsingEncoding(NSUTF8StringEncoding)
 
-                var err: NSError?
-                var responseDict = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
-                if(err != nil) {
-                    println("JSON Error \(err!.localizedDescription)")
-                }
+                let responseDict: NSDictionary!
+                do{
+                    responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
 
-                //SET TOTAL PAGES COUNT
-                self.paginationCountTotal = responseDict["TotalPages"] as! Int
-                if (self.paginationCountTotal > 1){
-                    self.showLoadEarlierMessagesHeader = true
-                }
-                //SET CHAT
-                var messages = responseDict["Chat"] as! [AnyObject]
-                messages = messages.reverse()
-                self.demoData.addMessages(messages)
-                self.collectionView.reloadData()
-                ProgressHUD.showSuccess("")
-                self.scrollToBottomAnimated(true)
-                //SET PICTURES
+                    //SET TOTAL PAGES COUNT
+                    self.paginationCountTotal = responseDict["TotalPages"] as! Int
+                    if (self.paginationCountTotal > 1){
+                        self.showLoadEarlierMessagesHeader = true
+                    }
+                    //SET CHAT
+                    var messages = responseDict["Chat"] as! [AnyObject]
+                    messages = messages.reverse()
+                    self.demoData.addMessages(messages)
+                    self.collectionView!.reloadData()
+                    ProgressHUD.showSuccess("")
+                    self.scrollToBottomAnimated(true)
+                    //SET PICTURES
+                    
+                    let pictures = responseDict["Pictures"] as! NSDictionary
+                    self.galleryImages = []
+                    self.galleryImages.append(NSURL(string: (pictures["Picture1"] as? String)!)!)
+                    self.galleryImages.append(NSURL(string: (pictures["Picture2"] as? String)!)!)
+                    self.galleryImages.append(NSURL(string: (pictures["Picture3"] as? String)!)!)
+                    self.galleryImages.append(NSURL(string: (pictures["Picture4"] as? String)!)!)
+                    self.galleryImages.append(NSURL(string: (pictures["Picture5"] as? String)!)!)
+                    
+                    self.addNavigationProfileButton(self.galleryImages[0])
 
-                var pictures = responseDict["Pictures"] as! NSDictionary
-                self.galleryImages = []
-                self.galleryImages.append(NSURL(string: (pictures["Picture1"] as? String)!)!)
-                self.galleryImages.append(NSURL(string: (pictures["Picture2"] as? String)!)!)
-                self.galleryImages.append(NSURL(string: (pictures["Picture3"] as? String)!)!)
-                self.galleryImages.append(NSURL(string: (pictures["Picture4"] as? String)!)!)
-                self.galleryImages.append(NSURL(string: (pictures["Picture5"] as? String)!)!)
                 
-                self.addNavigationProfileButton(self.galleryImages[0])
+                }catch let err as NSError {
+
+                    print("JSON Error \(err.localizedDescription)")
+                }
 
             })
             
             socket.on("getChatLogForPageResult", callback: { (args:[AnyObject]!) -> Void in
               
-                var response = args[0] as! String
+                let response = args[0] as! String
                 let data = response.dataUsingEncoding(NSUTF8StringEncoding)
                 
-                var err: NSError?
-                var responseDict = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
-                if(err != nil) {
-                    println("JSON Error \(err!.localizedDescription)")
-                }
+                let responseDict: NSDictionary!
+                do{
+                    responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
                 
+                    print("getChatLogForPageResult\(responseDict)")
+                    let messages = responseDict["Chat"] as! [AnyObject]
+                    self.demoData.appendMessagesAtTop(messages)
+                    self.collectionView!.reloadData()
+                    ProgressHUD.showSuccess("")
+                    
+                    //SET CurrentPage COUNT
+                    self.paginationCountCurrent = responseDict["PageCount"] as! Int
+                    if (self.paginationCountCurrent >= self.paginationCountTotal){
+                        self.showLoadEarlierMessagesHeader = false
+                    }
 
-                println("getChatLogForPageResult\(responseDict)")
-                var messages = responseDict["Chat"] as! [AnyObject]
-//                messages = messages.reverse()
-                self.demoData.appendMessagesAtTop(messages)
-                self.collectionView.reloadData()
-                ProgressHUD.showSuccess("")
-
-                //SET CurrentPage COUNT
-                self.paginationCountCurrent = responseDict["PageCount"] as! Int
-                if (self.paginationCountCurrent >= self.paginationCountTotal){
-                    self.showLoadEarlierMessagesHeader = false
+                }catch let err as NSError {
+                    print("JSON Error \(err.localizedDescription)")
                 }
+
+
                 
                 
             })
             
             socket.on("updatechat", callback: { (args:[AnyObject]!) -> Void in
                 //code
-                println ("updatechat\(args)");
+                print ("updatechat\(args)");
                 
                 var response = args as! Array<String>
 
                 var _senderId:String = ""
-                if let tmpSenderId = response[0] as? String {
+                if let tmpSenderId:String = response[0] {
                     _senderId = tmpSenderId
                 }
-                var _message:String = (response[1] as? String)!
+                
+                var _message:String = ""
+                if let tmpMessage:String = response[1] {
+                     _message = tmpMessage
+                }
+
+                
 
                 if let tmpPlayerId = self.toUserId{
                     if (_senderId == self.toUserId){
@@ -268,7 +282,7 @@ class MatchChatController: JSQMessagesViewController ,
             
             socket.on("disconnect", callback: { (args:[AnyObject]!) -> Void in
                 //code
-                println ("disconnect\(args)");
+                print ("disconnect\(args)");
 
             
             })
@@ -290,20 +304,20 @@ class MatchChatController: JSQMessagesViewController ,
     // MARK: - HANDLE UI - OpenGallery
     func hideKeyboard(){
         
-        if(self.inputToolbar.contentView.textView.isFirstResponder()){
-            self.inputToolbar.contentView.textView.resignFirstResponder()
+        if(self.inputToolbar!.contentView!.textView!.isFirstResponder()){
+            self.inputToolbar!.contentView!.textView!.resignFirstResponder()
         }
     }
     
     func openProfile(){
         
-        println("openProfile")
+        print("openProfile")
         
     }
     
     @IBAction func openImageGallery(sender: AnyObject) {
         
-        println("openImageGallery")
+        print("openImageGallery")
         
         self.hideKeyboard()
         
@@ -360,8 +374,8 @@ class MatchChatController: JSQMessagesViewController ,
     
         if (self.showLoadEarlierMessagesHeader && kind == UICollectionElementKindSectionHeader){
 
-            var header:JSQMessagesLoadEarlierHeaderView = collectionView.dequeueLoadEarlierMessagesViewHeaderForIndexPath(indexPath)
-            header.loadButton.setTitleColor(UIColor.jsq_messageBubbleGreenColorDwindleDating(), forState: UIControlState.Normal)
+            let header:JSQMessagesLoadEarlierHeaderView = collectionView.dequeueLoadEarlierMessagesViewHeaderForIndexPath(indexPath)
+            header.loadButton!.setTitleColor(UIColor.jsq_messageBubbleGreenColorDwindleDating(), forState: UIControlState.Normal)
             return header;
         }
         
@@ -483,7 +497,7 @@ class MatchChatController: JSQMessagesViewController ,
         *  Show a timestamp for every 3rd message
         */
         if (indexPath.item % 3 == 0) {
-            var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
+            let message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
             return JSQMessagesTimestampFormatter.sharedFormatter().attributedTimestampForDate(message.date)
         }
         
@@ -503,7 +517,7 @@ class MatchChatController: JSQMessagesViewController ,
         }
         
         if (indexPath.item - 1 > 0) {
-            var previousMessage: JSQMessage = self.demoData.messages[indexPath.item - 1] as! JSQMessage;
+            let previousMessage: JSQMessage = self.demoData.messages[indexPath.item - 1] as! JSQMessage;
             if (previousMessage.senderId == message.senderId) {
                 return nil;
             }
@@ -536,14 +550,14 @@ class MatchChatController: JSQMessagesViewController ,
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         if let textView = cell.textView {
-            var message = self.demoData.messages[indexPath.item] as! JSQMessage
+            let message = self.demoData.messages[indexPath.item] as! JSQMessage
             if message.senderId == self.senderId {
                 textView.textColor = UIColor.whiteColor()
             } else {
                 textView.textColor = UIColor.blackColor()
             }
             
-            let attributes : [NSObject:AnyObject] = [NSForegroundColorAttributeName:textView.textColor, NSUnderlineStyleAttributeName: 1]
+            let attributes  = [NSForegroundColorAttributeName:textView.textColor!, NSUnderlineStyleAttributeName: 1]
             textView.linkTextAttributes = attributes
             
             //        cell.textView.linkTextAttributes = [NSForegroundColorAttributeName: cell.textView.textColor,
@@ -591,7 +605,7 @@ class MatchChatController: JSQMessagesViewController ,
         }
         
         if (indexPath.item - 1 > 0) {
-            var previousMessage :JSQMessage = self.demoData.messages[indexPath.item - 1] as! JSQMessage;
+            let previousMessage :JSQMessage = self.demoData.messages[indexPath.item - 1] as! JSQMessage;
             if (previousMessage.senderId == currentMessage.senderId) {
                 return 0.0;
             }
@@ -615,25 +629,25 @@ class MatchChatController: JSQMessagesViewController ,
     // MARK: - Responding to collection view tap events
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, header headerView: JSQMessagesLoadEarlierHeaderView!, didTapLoadEarlierMessagesButton sender: UIButton!) {
-        println("Load earlier messages!");
+        print("Load earlier messages!");
 
         
         ProgressHUD.show("Loading earlier messages")
-        var settings = UserSettings.loadUserSettings()
+        let settings = UserSettings.loadUserSettings()
         self.socketIO?.emit("getChatLogForPage", args: [settings.fbId,self.toUserId,self.paginationCountCurrent+1])
         
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, didTapAvatarImageView avatarImageView: UIImageView!, atIndexPath indexPath: NSIndexPath!) {
-        println("Tapped avatar!");
+        print("Tapped avatar!");
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, didTapMessageBubbleAtIndexPath indexPath: NSIndexPath!) {
-        println("Tapped message bubble!");
+        print("Tapped message bubble!");
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, didTapCellAtIndexPath indexPath: NSIndexPath!, touchLocation: CGPoint) {
-        println("Tapped cell at %@!", NSStringFromCGPoint(touchLocation));
+        print("Tapped cell at %@!", NSStringFromCGPoint(touchLocation));
     }
     
     

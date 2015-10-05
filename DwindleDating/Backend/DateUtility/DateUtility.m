@@ -184,26 +184,26 @@ NSString *const AppDateFomat = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 //        
 //    }
     
-    NSDate *today = [NSDate date];
-    double timeInSeconds = 0;
-    int numberOfDays = 0;
-    timeInSeconds = [DateUtility differenceBetween:date2 andOtherDate:today];
-    
-    numberOfDays = timeInSeconds/86400;
-    
-    NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
-    [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-    
-    
-    if (numberOfDays <= 0) {
-        [theDateFormatter setDateFormat:@"hh:mm a"];
-        [theDateFormatter setLocale:[NSLocale currentLocale]];
-    }
-    else {
-        [theDateFormatter setDateFormat:@"dd-MM-yyyy"];
-    }
-    NSString *dateStr =  [theDateFormatter stringFromDate:date2];	
-    return dateStr;
+//    NSDate *today = [NSDate date];
+//    double timeInSeconds = 0;
+//    int numberOfDays = 0;
+//    timeInSeconds = [DateUtility differenceBetween:date2 andOtherDate:today];
+//    
+//    numberOfDays = timeInSeconds/86400;
+//    
+//    NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
+//    [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+//    
+//    
+//    if (numberOfDays <= 0) {
+//        [theDateFormatter setDateFormat:@"hh:mm a"];
+//        [theDateFormatter setLocale:[NSLocale currentLocale]];
+//    }
+//    else {
+//        [theDateFormatter setDateFormat:@"dd-MM-yyyy"];
+//    }
+//    NSString *dateStr =  [theDateFormatter stringFromDate:date2];	
+//    return dateStr;
     
 }
 

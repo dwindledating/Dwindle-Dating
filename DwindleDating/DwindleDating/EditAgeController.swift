@@ -68,8 +68,8 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
         super.viewDidAppear(animated)
         
         var settings = UserSettings.loadUserSettings()
-        println(settings.userAgeTo)
-        var ageTo = (settings.userAgeTo as String).toInt()
+        print(settings.userAgeTo)
+        var ageTo = Int(settings.userAgeTo as String)
         if var ageToInt = ageTo {
             ageToInt = ageToInt - 18
             pickerViewTo.selectRow(ageToInt, inComponent: 0, animated: true)
@@ -80,7 +80,7 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
         }
 
         
-        var ageFrom = (settings.userAgeFrom as String).toInt()
+        var ageFrom = Int(settings.userAgeFrom as String)
         if var ageFromInt = ageFrom {
             if (ageFromInt > 0){
                 ageFromInt = ageFromInt - 18

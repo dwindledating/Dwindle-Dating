@@ -18,7 +18,7 @@ class PrivacyPolicy: UIViewController  {
         // Do any additional setup after loading the view, typically from a nib.
         var path = NSBundle.mainBundle().pathForResource("PrivacyPolicy", ofType: "html")
         var url = NSURL(fileURLWithPath: path!)
-        var request = NSURLRequest(URL: url!)
+        var request = NSURLRequest(URL: url)
         webView.loadRequest(request)
 
     }

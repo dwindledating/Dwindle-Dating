@@ -52,17 +52,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         if application.respondsToSelector("registerUserNotificationSettings:") {
-            let userNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound
-            let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+            
+            let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+            
+//            if settings.types.contains(.Alert) {
+//                // stuff
+//            }
+//            let userNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound
+//            let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+            //UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
-        } else {
-            let types = UIRemoteNotificationType.Badge | UIRemoteNotificationType.Alert | UIRemoteNotificationType.Sound
-
-            application.registerForRemoteNotificationTypes(types)
-//            application.registerForRemoteNotifications()
-
         }
+//        else {
+//            let types = UIUserNotificationType.Alert.union([UIUserNotificationType.Badge, UIUserNotificationType.Alert , UIUserNotificationType.Sound])
+//            
+//
+//            application.registerUserNotificationSettings(types)
+////            application.registerForRemoteNotifications()
+//
+//        }
     }
     
    
@@ -81,9 +90,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         if error.code == 3010 {
-            println("Push notifications are not supported in the iOS Simulator.")
+            print("Push notifications are not supported in the iOS Simulator.")
         } else {
-            println("application:didFailToRegisterForRemoteNotificationsWithError: %@", error)
+            print("application:didFailToRegisterForRemoteNotificationsWithError: %@", error)
         }
         
     }
@@ -103,11 +112,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Override point for customization after application launch.
 //            var family = "Helvetica Neue"
-//            println("\(family)")
+//            print("\(family)")
 //            
 //            for name in UIFont.fontNamesForFamilyName(family as String)
 //            {
-//                println("   \(name)")
+//                print("   \(name)")
 //            }
         
         
@@ -125,9 +134,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         application.setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
         
-        println(screenWidth,screenHeight)
+        print(screenWidth,screenHeight)
         
-        var navigationBarAppearace = UINavigationBar.appearance()
+        let navigationBarAppearace = UINavigationBar.appearance()
         
         navigationBarAppearace.barTintColor = UIColor(red: 0/255.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
         navigationBarAppearace.barStyle = UIBarStyle.Default
@@ -141,9 +150,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         //code
-        var wasHandled:Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication)
+        let wasHandled:Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication)
         return wasHandled
     }
     

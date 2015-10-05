@@ -36,7 +36,7 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
             
             var data:NSDictionary = pictures as NSDictionary
             self.userPicturesDict = data
-            println("pictures \(data)")
+            print("pictures \(data)")
             
             // code
 //            let urlPath: String =
@@ -154,12 +154,12 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
         var manager = ServiceManager()
         
         manager.updateUserPictureAgainstFacebookId(settings.fbId, andPictureName: picName, withImage: imagesArr, sucessBlock: { (isUpdated:Bool) -> Void in
-            println("isUpdated: \(isUpdated)")
+            print("isUpdated: \(isUpdated)")
             ProgressHUD.showSuccess("Updated Successfully")
             
             }) { (error: NSError!) -> Void in
                 ProgressHUD.showError("Update Failed")
-                println("error: \(error)")
+                print("error: \(error)")
         }
 
     }
@@ -178,7 +178,7 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
     @IBAction func openImagePicker(sender: UIButton) {
         
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
-            println("Button capture")
+            print("Button capture")
             
             var imgPicker = UIImagePickerController()
             imgPicker.delegate = self
@@ -195,8 +195,8 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
     
     // MARK : - IMAGE PICKER DELEGATE METHODS
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
-        
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         
         picker.dismissViewControllerAnimated(true, completion: { () -> Void in
             
