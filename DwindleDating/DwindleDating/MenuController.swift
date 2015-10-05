@@ -58,7 +58,7 @@ MFMessageComposeViewControllerDelegate {
     
     @IBAction func shareButtonPressed(sender: AnyObject) {
    
-        var sheet = UIActionSheet(title: "Share via", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Message", "Email");
+        let sheet = UIActionSheet(title: "Share via", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Message", "Email");
         sheet.showFromRect(sender.frame, inView: self.view, animated: true)
         
 //        sheet.showFromToolbar(self.inputToolbar);
@@ -69,7 +69,7 @@ MFMessageComposeViewControllerDelegate {
     // MARK :- SMS STUFF
     
     func performSMSAction(){
-        var messageVC = MFMessageComposeViewController()
+        let messageVC = MFMessageComposeViewController()
         
         messageVC.body = "Enter a message";
         messageVC.recipients = [""]
@@ -80,15 +80,16 @@ MFMessageComposeViewControllerDelegate {
     
     
     func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
-        switch (result.value) {
-        case MessageComposeResultCancelled.value:
-            println("Message was cancelled")
+        
+        switch (result.rawValue) {
+        case MessageComposeResultCancelled.rawValue:
+            print("Message was cancelled")
             self.dismissViewControllerAnimated(true, completion: nil)
-        case MessageComposeResultFailed.value:
-            println("Message failed")
+        case MessageComposeResultFailed.rawValue:
+            print("Message failed")
             self.dismissViewControllerAnimated(true, completion: nil)
-        case MessageComposeResultSent.value:
-            println("Message was sent")
+        case MessageComposeResultSent.rawValue:
+            print("Message was sent")
             self.dismissViewControllerAnimated(true, completion: nil)
         default:
             break;
@@ -98,10 +99,10 @@ MFMessageComposeViewControllerDelegate {
     // MARK :- EMAIL STUFF
     
     func performEmailAction(){
-        var emailTitle = "Dwindle Dating"//NSLocalizedString("aboutus_email_subject", comment: "Contact Us")
-        var messageBody = "Hi, I would like to..."//NSLocalizedString("aboutus_email_message", comment: "Hi, I would like to...")
-        var toRecipents = [""]
-        var mc: MFMailComposeViewController = MFMailComposeViewController()
+        let emailTitle = "Dwindle Dating"//NSLocalizedString("aboutus_email_subject", comment: "Contact Us")
+        let messageBody = "Hi, I would like to..."//NSLocalizedString("aboutus_email_message", comment: "Hi, I would like to...")
+        let toRecipents = [""]
+        let mc: MFMailComposeViewController = MFMailComposeViewController()
         
         if (MFMailComposeViewController.canSendMail()) {
             mc.mailComposeDelegate = self
@@ -116,14 +117,14 @@ MFMessageComposeViewControllerDelegate {
     
     func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result:
         MFMailComposeResult, error: NSError!) {
-            switch result.value {
-            case MFMailComposeResultCancelled.value:
+            switch result.rawValue {
+            case MFMailComposeResultCancelled.rawValue:
                 NSLog("Mail cancelled")
-            case MFMailComposeResultSaved.value:
+            case MFMailComposeResultSaved.rawValue:
                 UIAlertView(title: "", message: NSLocalizedString("email_saved", comment: "The composition of this email has been saved.") , delegate: nil, cancelButtonTitle: NSLocalizedString("email_cancelbtn", comment: "Ok")).show()
-            case MFMailComposeResultSent.value:
+            case MFMailComposeResultSent.rawValue:
                 UIAlertView(title: "", message: NSLocalizedString("email_sent", comment: "The composition of this email has been sent."), delegate: nil, cancelButtonTitle: NSLocalizedString("email_cancelbtn", comment: "Ok")).show()
-            case MFMailComposeResultFailed.value:
+            case MFMailComposeResultFailed.rawValue:
                 UIAlertView(title: "", message: NSLocalizedString("email_notsent", comment: "Mail sent failure")+": \(error.localizedDescription)", delegate: nil, cancelButtonTitle: NSLocalizedString("email_cancelbtn", comment: "Ok")).show()
                 NSLog("Mail sent failure: %@", [error.localizedDescription])
             default:
@@ -144,13 +145,13 @@ MFMessageComposeViewControllerDelegate {
         switch (buttonIndex) {
         case 0:
             //cancel
-            println("0")
+            print("0")
             
             break;
             
         case 1:
             //email
-                println("1")
+                print("1")
                 self.performSMSAction()
             break;
             

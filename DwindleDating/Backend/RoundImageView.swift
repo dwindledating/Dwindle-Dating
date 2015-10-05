@@ -20,8 +20,8 @@ import UIKit
         self.layer.borderWidth = borderWidth!
         self.layer.masksToBounds = true
         
-        println(NSStringFromCGRect(self.bounds))
-        println(NSStringFromCGRect(self.frame))
+        print(NSStringFromCGRect(self.bounds))
+        print(NSStringFromCGRect(self.frame))
         
     }
     

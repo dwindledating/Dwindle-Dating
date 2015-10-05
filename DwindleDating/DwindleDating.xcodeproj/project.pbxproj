@@ -1433,7 +1433,8 @@
 		458D3C871A68442100A0BD6B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = infinione;
 				TargetAttributes = {
 					458D3C8E1A68442100A0BD6B = {
@@ -1848,6 +1849,7 @@
 				INFOPLIST_FILE = "DwindleDating copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.infinione.dwindledating;
 				PRODUCT_NAME = "DwindleDating copy";
 				PROVISIONING_PROFILE = "9189fda0-90f4-41b0-a087-f6d3031a0388";
 				SWIFT_OBJC_BRIDGING_HEADER = ThirdParty/FacebookBridge/FacebookBridge.h;
@@ -1867,6 +1869,7 @@
 				INFOPLIST_FILE = "DwindleDating copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.infinione.dwindledating;
 				PRODUCT_NAME = "DwindleDating copy";
 				PROVISIONING_PROFILE = "9189fda0-90f4-41b0-a087-f6d3031a0388";
 				SWIFT_OBJC_BRIDGING_HEADER = ThirdParty/FacebookBridge/FacebookBridge.h;
@@ -1877,7 +1880,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1896,6 +1898,7 @@
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1926,7 +1929,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1978,6 +1980,7 @@
 				INFOPLIST_FILE = DwindleDating/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.infinione.dwindledating;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = ThirdParty/FacebookBridge/FacebookBridge.h;
 			};
@@ -1996,6 +1999,7 @@
 				INFOPLIST_FILE = DwindleDating/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.infinione.dwindledating;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = ThirdParty/FacebookBridge/FacebookBridge.h;
 			};

@@ -57,7 +57,7 @@ class EditDistanceController: UIViewController ,UIPickerViewDataSource,UIPickerV
         super.viewDidAppear(animated)
 
         var settings = UserSettings.loadUserSettings()
-        var distance = (settings.userDistance as String).toInt()
+        let distance = Int(settings.userDistance as String)
         if var distanceInt = distance {
             distanceInt = (distanceInt - 1) / 5
             pickerViewDistance.selectRow(distanceInt, inComponent: 0, animated: true)

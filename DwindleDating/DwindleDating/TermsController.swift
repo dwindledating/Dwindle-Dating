@@ -19,7 +19,7 @@ class TermsController: UIViewController  {
         
         var path = NSBundle.mainBundle().pathForResource("TermsandConditions", ofType: "html")
         var url = NSURL(fileURLWithPath: path!)
-        var request = NSURLRequest(URL: url!)
+        var request = NSURLRequest(URL: url)
         webView.loadRequest(request)
     }
     

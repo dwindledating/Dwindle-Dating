@@ -6,11 +6,20 @@
 //  Copyright (c) 2015 infinione. All rights reserved.
 //
 
+
+//TODO:
+//Add a boolean isOpponentFound
+//Run a timer for 15 secs
+//On player found set flag isOpponentFound to true
+//Timer will call a method and check the value of flag 
+//if its true then ignore else show an alert and call back button pressed 
+
+
 import UIKit
 //import corelocation
 
 extension Array {
-    func shuffled() -> [T] {
+    func shuffled() -> [Element] {
         var list = self
         for i in 0..<(list.count - 1) {
             let j = Int(arc4random_uniform(UInt32(list.count - i))) + i
@@ -46,6 +55,7 @@ SocketIODelegate {
     var playerOther3 : Player!
     var playerOther4 : Player!
     var socketIO     :SocketIO?
+    var isPlayerFound : Bool?
     
     var randomPlayers:[String]! = []
     
@@ -59,10 +69,31 @@ SocketIODelegate {
     
     
     
+    func handleNoMatchFound (){
+
+        let delay = 10 * Double(NSEC_PER_SEC)
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue()) {
+            
+            if (self.isPlayerFound == false){
+                // not found popout
+                ProgressHUD.showError("No match found around your area. Please try again later.")
+                let delay = 3.5 * Double(NSEC_PER_SEC)
+                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                dispatch_after(time, dispatch_get_main_queue()) {
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+
+            }
+            
+//            self.resetGameViews()
+        }
+    }
+    
     func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
         switch buttonIndex{
         case 0:
-            println("1st")
+            print("1st")
             if (alertView.tag == 1){
                 self.performSkipPressed()
             }
@@ -71,9 +102,9 @@ SocketIODelegate {
             }
 
         case 1:
-            println("2nd")
+            print("2nd")
         default:
-            println("error")
+            print("error")
         }
     }
 
@@ -112,7 +143,7 @@ SocketIODelegate {
 
 
     func performSkipPressed(){
-        var isConnected:Bool = self.socketIO!.isConnected;
+        let isConnected:Bool = self.socketIO!.isConnected;
         if (isConnected){
             self.socketIO?.sendEvent("skip", withData:[])
         }
@@ -157,9 +188,9 @@ SocketIODelegate {
 
         let deleteUserDict:AnyObject = (response["DeletedUser"] as? Dictionary<String,AnyObject>)!
         let deleteUserFbId:String = (deleteUserDict["fb_id"] as? String)!
-        println("DeleteUserFbId => \(deleteUserFbId))")
+        print("DeleteUserFbId => \(deleteUserFbId))")
         
-        var btn = self.getPlayerButtonAgainstId(deleteUserFbId)
+        let btn = self.getPlayerButtonAgainstId(deleteUserFbId)
         btn.selected = false
         btn.enabled = false
         btn.setImage(nil, forState: UIControlState.Normal)
@@ -172,7 +203,7 @@ SocketIODelegate {
         let userFbId:String = (userDict["fb_id"] as? String)!
         let userImgPath:String = (userDict["pic_path"] as? String)!
         
-        var player = self.getPlayerAgainstId(userFbId)
+        let player = self.getPlayerAgainstId(userFbId)
         player.addImageUrlToGallery(userImgPath)
         
         
@@ -183,15 +214,15 @@ SocketIODelegate {
         //Close Keyboard
         self.hideKeyboard()
 
-        let button = self.getPlayerButtonAgainstId(playerOpponent.fbId) as? RoundButtonView
-        let dp = button?.imageForState(UIControlState.Normal)
+        let button: RoundButtonView = self.getPlayerButtonAgainstId(playerOpponent.fbId)
+        let dp = button.imageForState(UIControlState.Normal)
 
         let dialog = FinalDwindleDownDialog.loadWithNib() as? FinalDwindleDownDialog
 //        let dp = UIImage(named: "demo_avatar_woz")
         dialog?.showWithImage(dp, successBlock: { (index: Int32) -> Void in
             //Open Matches Listing
             dialog?.dismissView(true)
-            println("Selected Option: \(index)")
+            print("Selected Option: \(index)")
             if (index == 0){
                 self.performSegueWithIdentifier("pushMatchListing", sender: nil)
             }
@@ -217,8 +248,8 @@ SocketIODelegate {
                 self.handleDeleteUser(ddDict as [String : AnyObject])
             }
             else if (key == "DwindleCount"){
-                var dCount = ddDict["DwindleCount"] as! Int
-                println("DwindleCount => \(dCount)")
+                let dCount = ddDict["DwindleCount"] as! Int
+                print("DwindleCount => \(dCount)")
                 
                 if (dCount == 4){
                     //ProgressHUD.showSuccess("Congratulations you have found your dwindle match")
@@ -265,7 +296,7 @@ SocketIODelegate {
         if var tmpPlayersDict = playersDict{
 
                 for (key, value) in playersDict {
-                    var player  = playersDict[key] as? Player
+                    let player  = playersDict[key] as? Player
                     if (player?.fbId == fbId){
                         playerRequested = player
                         break
@@ -328,7 +359,7 @@ SocketIODelegate {
         self.playerOther4 = nil
         
         self.demoData.clearChat()
-        self.collectionView.reloadData()
+        self.collectionView!.reloadData()
         
     }
     
@@ -358,7 +389,6 @@ SocketIODelegate {
         // it will then assign 1 id to 1 user 
         // and remove it from list
         
-        
         btn1.playerId = self.getPlayerIdRandomly()
         btn2.playerId = self.getPlayerIdRandomly()
         btn3.playerId = self.getPlayerIdRandomly()
@@ -386,7 +416,7 @@ SocketIODelegate {
     func hideKeyboard(){
 
 //        if(self.inputToolbar.contentView.textView.isFirstResponder()){
-            self.inputToolbar.contentView.textView.resignFirstResponder()
+            self.inputToolbar!.contentView!.textView!.resignFirstResponder()
 //        self.hideKeyboardForcefully()
         
 //        }
@@ -420,23 +450,23 @@ SocketIODelegate {
         
         var button = sender as? UIButton
         
-        println("tagId\(button?.tag)")
+        print("tagId\(button?.tag)")
         
-        if var prevButton = galleryOpenerButton{
+        if let prevButton = galleryOpenerButton{
             if (prevButton.isEqual(button)){
-                println("Same Button")
+                print("Same Button")
             }
             else{
                 galleryOpenerButton.tag = 0
                 galleryOpenerButton = button as? RoundButtonView
-                println("Different Button")
+                print("Different Button")
             }
         }
         else{
             // cacheId is nil
             
             galleryOpenerButton = button as? RoundButtonView
-            println("Setting Button")
+            print("Setting Button")
         }
 
         
@@ -464,18 +494,35 @@ SocketIODelegate {
     
     func JSONParseArray(jsonString: String) -> [AnyObject] {
         if let data = jsonString.dataUsingEncoding(NSUTF8StringEncoding) {
-            if let array = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: nil)  as? [AnyObject] {
-                return array
+            
+
+            let arrayResp: [AnyObject]!
+            do{
+                arrayResp = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as! [AnyObject]
+                return arrayResp
+
+            }catch let err as NSError {
+                print("JSON Error \(err.localizedDescription)")
             }
+            
+            
         }
         return [AnyObject]()
     }
 
     func JSONParseDictionary(jsonString: String) -> [String: AnyObject] {
         if let data = jsonString.dataUsingEncoding(NSUTF8StringEncoding) {
-            if let dictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: nil)  as? [String: AnyObject] {
+            
+            let dictionary: [String: AnyObject]!
+            do{
+                dictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))  as! [String: AnyObject]
                 return dictionary
             }
+            catch let err as NSError{
+                print("JSON Error \(err.localizedDescription)")
+            }
+
+            
         }
         return [String: AnyObject]()
     }
@@ -493,15 +540,15 @@ SocketIODelegate {
         
         self.socketIO = SocketIO(delegate: self)
         
-        var properties = [NSHTTPCookieDomain:"52.11.98.82",
+        let properties = [NSHTTPCookieDomain:"52.11.98.82",
                           NSHTTPCookiePath:"/",
                           NSHTTPCookieName:"auth",
                           NSHTTPCookieValue:"56cdea636acdf132"]
         
     
 
-        var cookie:NSHTTPCookie = NSHTTPCookie(properties: properties)!
-        var cookies = [cookie]
+        let cookie:NSHTTPCookie = NSHTTPCookie(properties: properties)!
+        let cookies = [cookie]
         
         self.socketIO?.cookies = cookies
         
@@ -524,20 +571,32 @@ SocketIODelegate {
     // MARK: -   SOCKET DELEGATES
     
     func socketIODidConnect(socket: SocketIO!) {
-        println("socket.io connected.")
+        print("socket.io connected.")
         
-        var settings = UserSettings.loadUserSettings()
+        
+        
+        let settings = UserSettings.loadUserSettings()
         ProgressHUD.show("Finding match")
-        var manager = ServiceManager()
+        let manager = ServiceManager()
         
         manager.getUserLocation({ (location: CLLocation!) -> Void in
             //code
-            println("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
+            print("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
             self.socketIO?.sendEvent("Play", withData: [settings.fbId,location.coordinate.longitude,location.coordinate.latitude])
+            self.isPlayerFound = false
+            self.handleNoMatchFound()
             
             }, failure: { (error:NSError!) -> Void in
             //code
-                    println("Error Message =>\(error.localizedDescription)")
+                    print("Error Message =>\(error.localizedDescription)")
+                ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
+                let delay = 3.5 * Double(NSEC_PER_SEC)
+                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                dispatch_after(time, dispatch_get_main_queue()) {
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+
+                
         })
         
         
@@ -545,20 +604,21 @@ SocketIODelegate {
     
     func socketIO(socket: SocketIO!, didReceiveMessage packet: SocketIOPacket!) {
         //code
-        println("PacketName \(packet.name)")
+        print("PacketName \(packet.name)")
         
     }
     
     func socketIO(socket: SocketIO!, didReceiveEvent packet: SocketIOPacket!) {
         //code
-        println("PacketName \(packet.name)")
+        print("PacketName \(packet.name)")
         
 
         
         if (packet.name == "startgame") {
             
+            self.isPlayerFound = true
             
-            println("\n startgame data as string looks like \(packet.data)")
+            print("\n startgame data as string looks like \(packet.data)")
 
             let responseArr:AnyObject =  packet.dataAsJSON()
             let dataStr: String = responseArr[1] as! String
@@ -571,7 +631,7 @@ SocketIODelegate {
 
             let secondUserDict: [String: String] = roomUserInfoDict["SecondUser"] as! NSDictionary as! [String : String]
             let name = secondUserDict["user_name"]
-            println("second user name\(name)")
+            print("second user name\(name)")
             self.title = secondUserDict["user_name"]
             
             var otherData:AnyObject = roomUserInfoDict["OtherUsers"] as! NSArray
@@ -592,13 +652,13 @@ SocketIODelegate {
             
             self.setPlayerImages()
             
-            println("\n RoomName ==>  \(roomName)")
+            print("\n RoomName ==>  \(roomName)")
             
             self.socketIO?.sendEvent("addUser", withData: [roomName])
         
         }
         else if (packet.name == "updatechat"){
-            println("\n \(packet.name) data as string looks like \(packet.data)")
+            print("\n \(packet.name) data as string looks like \(packet.data)")
             
             //["updatechat","A","Hi"]
 
@@ -620,7 +680,7 @@ SocketIODelegate {
             
         }
         else if (packet.name == "dwindledown"){
-            println("\n \(packet.name) data as string looks like \(packet.data)")
+            print("\n \(packet.name) data as string looks like \(packet.data)")
 
             let responseArr:AnyObject =  packet.dataAsJSON()
             let dataStr: String = responseArr[1] as! String
@@ -631,11 +691,11 @@ SocketIODelegate {
         }
         else if (packet.name == "useradded"){
             
-            println("\n UserAdded data as string looks like \(packet.data)")
+            print("\n UserAdded data as string looks like \(packet.data)")
         }
         else if (packet.name == "disconnectResponse"){
             
-            println("\n disconnectResponse data as string looks like \(packet.data)")
+            print("\n disconnectResponse data as string looks like \(packet.data)")
             ProgressHUD.showError("The other user has left the game. Connecting to new users.")
             let delay = 3.5 * Double(NSEC_PER_SEC)
             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
@@ -645,11 +705,11 @@ SocketIODelegate {
         }
         else if (packet.name == "skip"){
             
-            println("\n Skip data as string looks like \(packet.data)")
+            print("\n Skip data as string looks like \(packet.data)")
         }
         else if (packet.name == "skipchat"){
             
-            println("\n Skipchat data as string looks like \(packet.data)")
+            print("\n Skipchat data as string looks like \(packet.data)")
             ProgressHUD.showError("The other user has left the game. Connecting to new users.")
             let delay = 3.5 * Double(NSEC_PER_SEC)
             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
@@ -672,12 +732,12 @@ SocketIODelegate {
     
     func socketIO(socket: SocketIO!, onError error: NSError!) {
         //
-        println("GAMEPLAY CHAT => socket onError with error \(error.localizedDescription)");
+        print("GAMEPLAY CHAT => socket onError with error \(error.localizedDescription)");
         var errorCode = error.code as Int
         if (errorCode == -8) { //SocketIOUnauthorized
-            println("not authorized");
+            print("not authorized");
         } else {
-            println("onError()\(error)");
+            print("onError()\(error)");
         }
 //        self.releaseSockets()
     }
@@ -685,10 +745,10 @@ SocketIODelegate {
     func socketIODidDisconnect(socket: SocketIO!, disconnectedWithError error: NSError!) {
         //code
         
-        println("GAMEPLAY CHAT => socket.io disconnected. did error occur \(error)");
-        var state:UIApplicationState  = UIApplication.sharedApplication().applicationState
+        print("GAMEPLAY CHAT => socket.io disconnected. did error occur \(error)");
+        let state:UIApplicationState  = UIApplication.sharedApplication().applicationState
         if (state == UIApplicationState.Background) {//UIApplicationStateBackground
-            println("Application is in background and SIO disconnected.");
+            print("Application is in background and SIO disconnected.");
         }
         
         if (error.code == 57){
@@ -715,18 +775,18 @@ SocketIODelegate {
         
         // Message Controller Stuff
         
-        var settings = UserSettings.loadUserSettings()
+        let settings = UserSettings.loadUserSettings()
         self.senderId = settings.fbId
         self.senderDisplayName = settings.fbName
         
         self.demoData = DemoModelData()
         
         if (!NSUserDefaults.incomingAvatarSetting()){
-            self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
+            self.collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
         }
         
         if (!NSUserDefaults.outgoingAvatarSetting()) {
-            self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+            self.collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
         }
         
         self.showLoadEarlierMessagesHeader = false
@@ -755,9 +815,9 @@ SocketIODelegate {
         ProgressHUD.dismiss()
         
         if let socket = self.socketIO{
-            var isConnected:Bool = self.socketIO!.isConnected;
+            let isConnected:Bool = self.socketIO!.isConnected;
             if (isConnected){
-                println("loggedout Called");
+                print("loggedout Called");
                 self.socketIO?.sendEvent("loggedout", withData:[])
                 self.releaseSockets()
             }
@@ -770,7 +830,7 @@ SocketIODelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.collectionView.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();
+        self.collectionView!.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();
         self.startGame()
     }
     
@@ -829,7 +889,7 @@ SocketIODelegate {
         */
         JSQSystemSoundPlayer.jsq_playMessageSentSound();
         
-        var message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
+        let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
         
         self.demoData.messages.addObject(message);
         
@@ -843,7 +903,7 @@ SocketIODelegate {
     override func didPressAccessoryButton(sender: UIButton!) {
         
         
-        var sheet = UIActionSheet(title: "Quick messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles:
+        let sheet = UIActionSheet(title: "Quick messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles:
             "What actor would best play the role of you?",
             "You can live anyplace in the world, where?",
             "Have you had any success with dating apps?",
@@ -855,7 +915,7 @@ SocketIODelegate {
             "What's the worst part about modern dating?",
             "You're cooking me dinner, what's the menu?");
         
-        sheet.showFromToolbar(self.inputToolbar);
+        sheet.showFromToolbar(self.inputToolbar!);
     }
     
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
@@ -878,7 +938,7 @@ SocketIODelegate {
         
         JSQSystemSoundPlayer.jsq_playMessageSentSound();
         
-        var message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: NSDate(), text: text)
+        let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: NSDate(), text: text)
         
         self.demoData.messages.addObject(message);
         
@@ -906,7 +966,7 @@ SocketIODelegate {
         *  Otherwise, return your previously created bubble image data objects.
         */
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
+        let message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         if (message.senderId == self.senderId) {
             return self.demoData.outgoingBubbleImageData;
         }
@@ -963,7 +1023,7 @@ SocketIODelegate {
         *  Show a timestamp for every 3rd message
         */
         if (indexPath.item % 3 == 0) {
-            var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
+            let message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
             return JSQMessagesTimestampFormatter.sharedFormatter().attributedTimestampForDate(message.date)
         }
         
@@ -973,7 +1033,7 @@ SocketIODelegate {
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
+        let message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         
         /**
         *  iOS7-style sender name labels
@@ -983,7 +1043,7 @@ SocketIODelegate {
         }
         
         if (indexPath.item - 1 > 0) {
-            var previousMessage: JSQMessage = self.demoData.messages[indexPath.item - 1]as! JSQMessage;
+            let previousMessage: JSQMessage = self.demoData.messages[indexPath.item - 1]as! JSQMessage;
             if (previousMessage.senderId == message.senderId) {
                 return nil;
             }
@@ -1016,14 +1076,14 @@ SocketIODelegate {
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         if let textView = cell.textView {
-            var message = self.demoData.messages[indexPath.item] as! JSQMessage
+            let message = self.demoData.messages[indexPath.item] as! JSQMessage
             if message.senderId == self.senderId {
                 textView.textColor = UIColor.whiteColor()
             } else {
                 textView.textColor = UIColor.blackColor()
             }
             
-            let attributes : [NSObject:AnyObject] = [NSForegroundColorAttributeName:textView.textColor, NSUnderlineStyleAttributeName: 1]
+            let attributes = [NSForegroundColorAttributeName:textView.textColor!, NSUnderlineStyleAttributeName: 1]
             textView.linkTextAttributes = attributes
             
             //        cell.textView.linkTextAttributes = [NSForegroundColorAttributeName: cell.textView.textColor,
@@ -1064,14 +1124,14 @@ SocketIODelegate {
         *  iOS7-style sender name labels
         */
         
-        var currentMessage :JSQMessage = self.demoData.messages[indexPath.item] as! JSQMessage;
+        let currentMessage :JSQMessage = self.demoData.messages[indexPath.item] as! JSQMessage;
         
         if (currentMessage.senderId == self.senderId) {
             return 0.0;
         }
         
         if (indexPath.item - 1 > 0) {
-            var previousMessage :JSQMessage = self.demoData.messages[indexPath.item - 1] as! JSQMessage;
+            let previousMessage :JSQMessage = self.demoData.messages[indexPath.item - 1] as! JSQMessage;
             if (previousMessage.senderId == currentMessage.senderId) {
                 return 0.0;
             }
@@ -1095,20 +1155,20 @@ SocketIODelegate {
     // MARK: - Responding to collection view tap events
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, header headerView: JSQMessagesLoadEarlierHeaderView!, didTapLoadEarlierMessagesButton sender: UIButton!) {
-        println("Load earlier messages!");
+        print("Load earlier messages!");
         
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, didTapAvatarImageView avatarImageView: UIImageView!, atIndexPath indexPath: NSIndexPath!) {
-        println("Tapped avatar!");
+        print("Tapped avatar!");
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, didTapMessageBubbleAtIndexPath indexPath: NSIndexPath!) {
-        println("Tapped message bubble!");
+        print("Tapped message bubble!");
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, didTapCellAtIndexPath indexPath: NSIndexPath!, touchLocation: CGPoint) {
-        println("Tapped cell at %@!", NSStringFromCGPoint(touchLocation));
+        print("Tapped cell at %@!", NSStringFromCGPoint(touchLocation));
     }
     
     

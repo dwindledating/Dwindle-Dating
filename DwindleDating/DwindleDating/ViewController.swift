@@ -24,7 +24,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         var currentUser = PFUser.currentUser()
         if currentUser != nil {
             // Do stuff with the user
-            println("PFUserId => \(currentUser?.username)")
+            print("PFUserId => \(currentUser?.username)")
             
         } else {
             // Show the signup or login screen
@@ -49,12 +49,12 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
                     installation.saveInBackgroundWithBlock({ (status:Bool, error:NSError?) -> Void in
                         //code
                         if let error = error {
-                            let errorString = error.userInfo?["error"] as? NSString
-                            println("Error in Login : \(errorString)")
+                            let errorString = error.userInfo["error"] as? NSString
+                            print("Error in Login : \(errorString)")
                             // Show the errorString somewhere and let the user try again.
                         } else {
                             // Hooray! Let them use the app now.
-                            println("Hooray! Logged in now.")
+                            print("Hooray! Logged in now.")
                         }
                     })
                     
@@ -69,12 +69,12 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
                     userMain.signUpInBackgroundWithBlock {
                         (succeeded: Bool, error: NSError?) -> Void in
                         if let error = error {
-                            let errorString = error.userInfo?["error"] as? NSString
-                            println("Error : \(errorString)")
+                            let errorString = error.userInfo["error"] as? NSString
+                            print("Error : \(errorString)")
                             // Show the errorString somewhere and let the user try again.
                         } else {
                             // Hooray! Let them use the app now.
-                            println("Hooray! Let them use the app now.")
+                            print("Hooray! Let them use the app now.")
                             
                             let installation = PFInstallation.currentInstallation()
                             installation["user"] = PFUser.currentUser()
@@ -113,9 +113,9 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     
     func signIn(fbId: String){
 
-        println(" ========================= ")
-        println(" =======Signing IN======== ")
-        println(" ========================= ")
+        print(" ========================= ")
+        print(" =======Signing IN======== ")
+        print(" ========================= ")
 
 //        self.pushSignUpController()
 //        self.pushMenuController()
@@ -126,7 +126,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         var manager = ServiceManager()
 
         manager.loginWithFacebookId(fbId, sucessBlock:{ (isRegistered:Bool) -> Void in
-            println("isRegistered: \(isRegistered)")
+            print("isRegistered: \(isRegistered)")
 
             self.cachedUserId = nil
             if (isRegistered){
@@ -140,7 +140,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             }
             
         }) { (error: NSError!) -> Void in
-              println("error: \(error)")
+              print("error: \(error)")
             
             ProgressHUD.showError("\(error.localizedDescription)")
         }
@@ -253,7 +253,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         charIndex = layoutManager.characterIndexForPoint(location, inTextContainer: textView!.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
         
         if charIndex < textView!.textStorage.length {
-            println(charIndex)
+            print(charIndex)
 
             var range = NSRange(location: 0, length: 98)
 
@@ -261,11 +261,11 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             influenceAttributes  = textView!.attributedText?.attributesAtIndex(charIndex, effectiveRange: &range)
             if let privacyTag: AnyObject = influenceAttributes?["privacyTag"] {
                 self.performSegueWithIdentifier("showPrivacyPolicyController", sender: self)                
-                println("Privacy tag it is")
+                print("Privacy tag it is")
                 
             }
             else if let termsTag: AnyObject = influenceAttributes?["termsTag"] {
-                println("Terms tag it is")
+                print("Terms tag it is")
                 self.performSegueWithIdentifier("showTermsController", sender: self)
             }
             
@@ -309,12 +309,12 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     
     // Facebook Delegate Methods
     func fbDialogLogin(tokenstr: String! ,  expirationDate: NSDate){
-         println("User: \(tokenstr)")
+         print("User: \(tokenstr)")
     }
 
     
     func loginViewShowingLoggedInUser(loginView : FBLoginView!) {
-        println("User Logged In")
+        print("User Logged In")
         fbLoginView.hidden = true
     }
     
@@ -334,7 +334,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
 //        FBRequestConnection.startWithGraphPath("me", completionHandler: { (connection: FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
 //            
-//            println("result  => \(result)")
+//            print("result  => \(result)")
 //            //code
 //        })
         
@@ -374,12 +374,12 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     }
     
     func loginViewShowingLoggedOutUser(loginView : FBLoginView!) {
-        println("User Logged Out")
+        print("User Logged Out")
         fbLoginView.hidden = false
     }
     
     func loginView(loginView : FBLoginView!, handleError:NSError) {
-        println("Error: \(handleError.localizedDescription)")
+        print("Error: \(handleError.localizedDescription)")
     }
     
     override func didReceiveMemoryWarning() {

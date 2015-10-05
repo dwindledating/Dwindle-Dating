@@ -79,18 +79,18 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
             return
         }
         
-        println("validate all images\(self.validateAllImages())")
+        print("validate all images\(self.validateAllImages())")
         var settings = UserSettings.loadUserSettings()
 
-        println("User FBID \(settings.fbId)")
-        println("User FBNAME \(settings.fbName)")
-        println("User DOB \(settings.userBirthday)")
-        println("User Gender \(settings.userGender)")
-        println("Required Gender \(settings.requiredGender)")
-        println("User Distance \(settings.userDistance)")
-        println("From Age \(settings.userAgeFrom)")
-        println("to Age \(settings.userAgeTo)")
-        println("to distance \(settings.userDistance)")
+        print("User FBID \(settings.fbId)")
+        print("User FBNAME \(settings.fbName)")
+        print("User DOB \(settings.userBirthday)")
+        print("User Gender \(settings.userGender)")
+        print("Required Gender \(settings.requiredGender)")
+        print("User Distance \(settings.userDistance)")
+        print("From Age \(settings.userAgeFrom)")
+        print("to Age \(settings.userAgeTo)")
+        print("to distance \(settings.userDistance)")
         
         var imagesArr = [UIImage]()
         
@@ -114,13 +114,13 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
                 distance: settings.userDistance,
                 images: imagesArr,
                 sucessBlock: { (isRegistered:Bool) -> Void in
-                    println("isRegistered: \(isRegistered)")
+                    print("isRegistered: \(isRegistered)")
                     ProgressHUD.showSuccess("Registered Successfully")
                     self.performSegueWithIdentifier("showMenuController", sender: nil)
                     
                 }) { (error: NSError!) -> Void in
                     ProgressHUD.showError("Registeration Failed")
-                    println("error: \(error)")
+                    print("error: \(error)")
             }
 
     }
@@ -139,9 +139,9 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
     @IBAction func openImagePicker(sender: UIButton) {
         
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
-            println("Button capture")
+            print("Button capture")
             
-            var imgPicker = UIImagePickerController()
+            let imgPicker = UIImagePickerController()
             imgPicker.delegate = self
             imgPicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
             imgPicker.mediaTypes =  [kUTTypeImage as String]//[kUTTypeImage]
@@ -155,13 +155,13 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
 
 
     // MARK : - IMAGE PICKER DELEGATE METHODS
-
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         
         
         picker.dismissViewControllerAnimated(true, completion: { () -> Void in
 
-            var img = info[UIImagePickerControllerEditedImage] as! UIImage //2
+            let img = info[UIImagePickerControllerEditedImage] as! UIImage //2
             self.btnOpener?.setImage(img, forState: UIControlState.Normal)
             
         })
