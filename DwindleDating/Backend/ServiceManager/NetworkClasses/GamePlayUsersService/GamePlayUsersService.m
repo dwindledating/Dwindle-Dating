@@ -58,22 +58,13 @@
                                  NSDictionary *allPlayers = @{@"MainPlayer":mainPlayer,
                                                               @"OpponentPlayer":opponentPlayer,
                                                               @"Others":otherUsersArr};
-                                 
-                                 
                                  successBlock(allPlayers);
                              }
-                             
                              
                          } failure:^(NSError *error) {
                              
                              failureBlock (error);
                          }];
-
-            
-            
-            
-            
-            
         }
         else {
             // An error occurred, which causes the subscription to cancel automatically (this block will not execute again unless it is used to start a new subscription).
@@ -93,7 +84,6 @@
             }
         }
     }];
-
 }
 
 
@@ -141,10 +131,6 @@
                                  failureBlock(error);
                              }
                          }];
-    
-    
-    
-    
-    
 }
+
 @end

@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 infinione. All rights reserved.
 //
 
-
 //TODO:
 //Add a boolean isOpponentFound
 //Run a timer for 15 secs
@@ -18,17 +17,6 @@
 import UIKit
 //import corelocation
 
-extension Array {
-    func shuffled() -> [Element] {
-        var list = self
-        for i in 0..<(list.count - 1) {
-            let j = Int(arc4random_uniform(UInt32(list.count - i))) + i
-            swap(&list[i], &list[j])
-        }
-        return list
-    }
-}
-
 //, KDCycleBannerViewDelegate
 class GamePlayController: JSQMessagesViewController,
 UIActionSheetDelegate,
@@ -36,7 +24,6 @@ KDCycleBannerViewDataource,
 KDCycleBannerViewDelegate,
 SocketIODelegate {
 
-    
     @IBOutlet var scroller : KDCycleBannerView!
     
     @IBOutlet weak var btn1: RoundButtonView!
@@ -67,8 +54,6 @@ SocketIODelegate {
     var galleryOpenerButton : RoundButtonView!
     var demoData: DemoModelData!
     
-    
-    
     func handleNoMatchFound (){
 
         let delay = 10 * Double(NSEC_PER_SEC)
@@ -81,7 +66,7 @@ SocketIODelegate {
                 let delay = 3.5 * Double(NSEC_PER_SEC)
                 let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                 dispatch_after(time, dispatch_get_main_queue()) {
-                    self.navigationController?.popViewControllerAnimated(true)
+//                    self.navigationController?.popViewControllerAnimated(true)
                 }
 
             }
@@ -143,10 +128,13 @@ SocketIODelegate {
 
 
     func performSkipPressed(){
-        let isConnected:Bool = self.socketIO!.isConnected;
-        if (isConnected){
-            self.socketIO?.sendEvent("skip", withData:[])
+        
+//        let isConnected:Bool = self.socketIO?.isConnected
+        
+        if let socket = self.socketIO where socket.isConnected == true {
+            socket.sendEvent("skip", withData:[])
         }
+        
         self.resetGameViews()
     }
     
@@ -494,7 +482,6 @@ SocketIODelegate {
     
     func JSONParseArray(jsonString: String) -> [AnyObject] {
         if let data = jsonString.dataUsingEncoding(NSUTF8StringEncoding) {
-            
 
             let arrayResp: [AnyObject]!
             do{
@@ -504,8 +491,6 @@ SocketIODelegate {
             }catch let err as NSError {
                 print("JSON Error \(err.localizedDescription)")
             }
-            
-            
         }
         return [AnyObject]()
     }
@@ -521,13 +506,11 @@ SocketIODelegate {
             catch let err as NSError{
                 print("JSON Error \(err.localizedDescription)")
             }
-
-            
         }
         return [String: AnyObject]()
     }
     
-    // MARK: - SOCKETS
+    // MARK: - SOCKETS & SOCKET SocketIODelegate
     
     func releaseSockets(){
         self.socketIO?.delegate = nil;
@@ -540,7 +523,7 @@ SocketIODelegate {
         
         self.socketIO = SocketIO(delegate: self)
         
-        let properties = [NSHTTPCookieDomain:"52.11.98.82",
+        let properties = [NSHTTPCookieDomain:"159.203.245.103",
                           NSHTTPCookiePath:"/",
                           NSHTTPCookieName:"auth",
                           NSHTTPCookieValue:"56cdea636acdf132"]
@@ -552,7 +535,7 @@ SocketIODelegate {
         
         self.socketIO?.cookies = cookies
         
-        self.socketIO?.connectToHost("52.11.98.82", onPort: 3000)
+        self.socketIO?.connectToHost("159.203.245.103", onPort: 3000)
         
     }
     
@@ -561,14 +544,11 @@ SocketIODelegate {
         
         ProgressHUD.show("Starting Game...")
         self.initSocketConnection();
-        
     }
     
     func sendChat(message:String){
         self.socketIO?.sendEvent("sendchat", withData: [message])
     }
-    
-    // MARK: -   SOCKET DELEGATES
     
     func socketIODidConnect(socket: SocketIO!) {
         print("socket.io connected.")
@@ -582,7 +562,7 @@ SocketIODelegate {
         manager.getUserLocation({ (location: CLLocation!) -> Void in
             //code
             print("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
-            self.socketIO?.sendEvent("Play", withData: [settings.fbId,location.coordinate.longitude,location.coordinate.latitude])
+            self.socketIO?.sendEvent("Play", withData: [settings.fbId,location.coordinate.longitude,location.coordinate.latitude, 0])
             self.isPlayerFound = false
             self.handleNoMatchFound()
             
@@ -646,7 +626,6 @@ SocketIODelegate {
             randomPlayers.append(self.playerOther3.fbId)
             randomPlayers.append(self.playerOther4.fbId)
             randomPlayers.shuffled()
-            
             
             ProgressHUD.showSuccess("Game Started. Say Hello!")
             
@@ -733,7 +712,7 @@ SocketIODelegate {
     func socketIO(socket: SocketIO!, onError error: NSError!) {
         //
         print("GAMEPLAY CHAT => socket onError with error \(error.localizedDescription)");
-        var errorCode = error.code as Int
+        let errorCode = error.code as Int
         if (errorCode == -8) { //SocketIOUnauthorized
             print("not authorized");
         } else {
@@ -759,11 +738,8 @@ SocketIODelegate {
             dispatch_after(time, dispatch_get_main_queue()) {
                 self.navigationController?.popViewControllerAnimated(true)
             }
-
         }
         self.releaseSockets()
-        
-
     }
     
         // MARK: -   VIEW LIFE CYCLE
@@ -771,7 +747,6 @@ SocketIODelegate {
         // Scroll Initialization
         scroller.autoPlayTimeInterval = 0;
         scroller.continuous = true;
-        
         
         // Message Controller Stuff
         
@@ -801,8 +776,6 @@ SocketIODelegate {
         dispatch_after(time, dispatch_get_main_queue()) {
             ProgressHUD.dismiss()
         }
-
-
         super.viewDidDisappear(animated)
     }
     
@@ -814,15 +787,11 @@ SocketIODelegate {
     override func viewWillDisappear(animated: Bool) {
         ProgressHUD.dismiss()
         
-        if let socket = self.socketIO{
-            let isConnected:Bool = self.socketIO!.isConnected;
-            if (isConnected){
-                print("loggedout Called");
-                self.socketIO?.sendEvent("loggedout", withData:[])
-                self.releaseSockets()
-            }
-
-        }
+//        if let socket = self.socketIO where socket.isConnected == true {
+//                print("loggedout Called");
+//                socket.sendEvent("loggedout", withData:[])
+//                self.releaseSockets()
+//        }
         
         super.viewWillDisappear(animated)
         

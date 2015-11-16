@@ -16,9 +16,7 @@ class MatchChatController: JSQMessagesViewController ,
     
     @IBOutlet var imagesViewContainer : UIView!
     
-    
-    
-    var socketIO     :SIOSocket?
+    var socketIO: SIOSocket?
     var demoData: DemoModelData!
     var galleryImages: Array<NSURL>!
 
@@ -166,7 +164,7 @@ class MatchChatController: JSQMessagesViewController ,
     func initSocketConnection(){
     
         
-        SIOSocket.socketWithHost("http://52.11.98.82:3000/Chat", response: { (socket: SIOSocket!) -> Void in
+        SIOSocket.socketWithHost("http://159.203.245.103:3000/Chat", response: { (socket: SIOSocket!) -> Void in
             //code
             self.socketIO = socket 
             socket.on("connect", callback: { (args:[AnyObject]!) -> Void in
@@ -283,8 +281,6 @@ class MatchChatController: JSQMessagesViewController ,
             socket.on("disconnect", callback: { (args:[AnyObject]!) -> Void in
                 //code
                 print ("disconnect\(args)");
-
-            
             })
         })
         

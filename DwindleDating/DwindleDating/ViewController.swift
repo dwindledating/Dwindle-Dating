@@ -21,11 +21,9 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     func shouldSetupUser() -> Bool{
         var status:  Bool = false
         
-        var currentUser = PFUser.currentUser()
-        if currentUser != nil {
+        if let currentUser = PFUser.currentUser() {
             // Do stuff with the user
-            print("PFUserId => \(currentUser?.username)")
-            
+            print("PFUserId => \(currentUser.username)")
         } else {
             // Show the signup or login screen
             status = true
@@ -38,7 +36,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
         if (self.shouldSetupUser()){
 
-            var settings = UserSettings.loadUserSettings()
+            let settings = UserSettings.loadUserSettings()
             
             PFUser.logInWithUsernameInBackground(settings.fbId, password:settings.fbId) {
                 (user: PFUser?, error: NSError?) -> Void in
@@ -60,7 +58,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
                     
                 } else {
                     // The login failed. Check error to see why.
-                    var userMain = PFUser()
+                    let userMain = PFUser()
                     userMain.username = settings.fbId
                     userMain.password = settings.fbId
                     
@@ -96,17 +94,15 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
         if(segue.identifier == "showSignup") {
             
-            var signupVC = (segue.destinationViewController as! SignupController)
+            let signupVC = segue.destinationViewController as! SignupController
             
             //Set Profile Image
-            let urlPath: String = "http://graph.facebook.com/"  + UserSettings.loadUserSettings().fbId + "/picture?type=large"
-            var url: NSURL = NSURL(string: urlPath)!
+            let urlPath: String = "http://graph.facebook.com/" + UserSettings.loadUserSettings().fbId + "/picture?type=large"
+            let url: NSURL = NSURL(string: urlPath)!
             signupVC.userImgUrl = url
             
             //Set Welcome Message
             signupVC.userName = UserSettings.loadUserSettings().fbName
-            
-            
         }
     }
     
@@ -123,7 +119,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
 
         ProgressHUD.show("Signing in...")
 
-        var manager = ServiceManager()
+        let manager = ServiceManager()
 
         manager.loginWithFacebookId(fbId, sucessBlock:{ (isRegistered:Bool) -> Void in
             print("isRegistered: \(isRegistered)")
@@ -144,9 +140,6 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             
             ProgressHUD.showError("\(error.localizedDescription)")
         }
-
-        
-        
     }
     
     func pushSignUpController(){
@@ -157,7 +150,6 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         performSegueWithIdentifier("showMenu", sender: nil)
     }
     
-    
     override func viewDidAppear(animated: Bool) {
     
         super.viewDidAppear(animated)
@@ -166,15 +158,12 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
 //        self.fbLoginView.readPermissions = ["basic_info","public_profile", "email", "user_friends", "user_birthday"]
         
         self.fbLoginView.readPermissions = ["email","public_profile","user_birthday"]
-
-        
         
         txtViewPrivacy.editable = true
         txtViewPrivacy.textColor = UIColor(red: 38/255.0, green: 182/255.0, blue: 218/255.0, alpha: 1.0)
         txtViewPrivacy.font = UIFont(name: "HelveticaNeue-CondensedBold", size: 11.0)
         txtViewPrivacy.editable = false
         txtViewPrivacy.backgroundColor = UIColor.clearColor()
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -261,16 +250,14 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             influenceAttributes  = textView!.attributedText?.attributesAtIndex(charIndex, effectiveRange: &range)
             if let privacyTag: AnyObject = influenceAttributes?["privacyTag"] {
                 self.performSegueWithIdentifier("showPrivacyPolicyController", sender: self)                
-                print("Privacy tag it is")
+                print("Privacy tag it is \(privacyTag)")
                 
             }
             else if let termsTag: AnyObject = influenceAttributes?["termsTag"] {
-                print("Terms tag it is")
+                print("Terms tag it is \(termsTag)")
                 self.performSegueWithIdentifier("showTermsController", sender: self)
             }
-            
         }
-        
     }
     
     // MARK: - Scroller Stuff - KDCycleBannerView DELEGATE
@@ -301,10 +288,6 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         return UIViewContentMode.ScaleAspectFit;
     }
     
-    
-    
-    
-    
     // MARK: - your text goes here
     
     // Facebook Delegate Methods
@@ -321,10 +304,8 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     func loginViewFetchedUserInfo(loginView : FBLoginView!, user: FBGraphUser) {
         //fbLoginView.alpha = 0
         
-        if var cachedId = cachedUserId{
-            if (cachedUserId == user.objectID){
+        if let cachedId = cachedUserId where cachedId == user.objectID {
                 return;
-            }
         }
         else{
             // cacheId is nil
@@ -340,17 +321,16 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
         
         cachedUserId = user.objectID
-        var userSettings = UserSettings.loadUserSettings() as UserSettings
-        
+        let userSettings = UserSettings.loadUserSettings() as UserSettings
         
         userSettings.userGender    = "F"
 
-        var gender = user.objectForKey("gender") as! String
+        let gender = user.objectForKey("gender") as! String
         if (gender == "male"){
             userSettings.userGender    = "M"
         }
         
-        if var birthday = user.objectForKey("birthday")as? String{
+        if let birthday = user.objectForKey("birthday")as? String{
             var dob = birthday.componentsSeparatedByString("/")
             
             userSettings.userBirthday = "\(dob[2])\(dob[1])\(dob[0])"
@@ -359,18 +339,14 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             userSettings.userBirthday    = "19900101"
         }
 
+        let accessToken = FBSession.activeSession().accessTokenData.accessToken
+        print(accessToken)
         
-
-        
-        
-        var accessToken = FBSession.activeSession().accessTokenData.accessToken
-
         userSettings.fbId    = user.objectID
         userSettings.fbName  = user.name
         userSettings.saveUserSettings()
         
         self.signIn(userSettings.fbId)
-        
     }
     
     func loginViewShowingLoggedOutUser(loginView : FBLoginView!) {

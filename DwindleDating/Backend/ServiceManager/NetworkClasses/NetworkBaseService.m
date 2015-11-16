@@ -9,7 +9,7 @@
 #import "NetworkBaseService.h"
 #import "AFHTTPRequestOperationManager.h"
 
-NSString *const kApp_BaseUrl = @"http://52.11.98.82:3000/";
+NSString *const kApp_BaseUrl = @"http://159.203.245.103:3000/";
 
 @implementation NetworkBaseService
 
