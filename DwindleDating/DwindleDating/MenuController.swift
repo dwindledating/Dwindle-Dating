@@ -18,12 +18,19 @@ MFMessageComposeViewControllerDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true , animated: true)
+        
+        
+        let dwindleSocket = DwindleSocketClient.sharedInstance
+        dwindleSocket.EventHandler(true) { (socketClient: SocketIOClient) -> Void in
+            
+            if socketClient.status == .Connected { // We are save to proceed
+                print("Hmmmmmmmm")
+            }
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -43,15 +50,12 @@ MFMessageComposeViewControllerDelegate {
     
     @IBAction func playButtonPressed(sender: AnyObject) {
 
-        
         performSegueWithIdentifier("showGamePlayController", sender: nil)
 
-        
     }
     
     @IBAction func matchButtonPressed(sender: AnyObject) {
    
-        
         performSegueWithIdentifier("showMatchListController", sender: nil)
         
     }
@@ -79,7 +83,7 @@ MFMessageComposeViewControllerDelegate {
     }
     
     
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
         
         switch (result.rawValue) {
         case MessageComposeResultCancelled.rawValue:
@@ -101,7 +105,7 @@ MFMessageComposeViewControllerDelegate {
     func performEmailAction(){
         let emailTitle = "Dwindle Dating"//NSLocalizedString("aboutus_email_subject", comment: "Contact Us")
         let messageBody = "Hi, I would like to..."//NSLocalizedString("aboutus_email_message", comment: "Hi, I would like to...")
-        let toRecipents = [""]
+//        let toRecipents = [""]
         let mc: MFMailComposeViewController = MFMailComposeViewController()
         
         if (MFMailComposeViewController.canSendMail()) {
@@ -114,9 +118,9 @@ MFMessageComposeViewControllerDelegate {
         }
 
     }
-    
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result:
-        MFMailComposeResult, error: NSError!) {
+        
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result:
+        MFMailComposeResult, error: NSError?) {
             switch result.rawValue {
             case MFMailComposeResultCancelled.rawValue:
                 NSLog("Mail cancelled")
@@ -125,17 +129,14 @@ MFMessageComposeViewControllerDelegate {
             case MFMailComposeResultSent.rawValue:
                 UIAlertView(title: "", message: NSLocalizedString("email_sent", comment: "The composition of this email has been sent."), delegate: nil, cancelButtonTitle: NSLocalizedString("email_cancelbtn", comment: "Ok")).show()
             case MFMailComposeResultFailed.rawValue:
-                UIAlertView(title: "", message: NSLocalizedString("email_notsent", comment: "Mail sent failure")+": \(error.localizedDescription)", delegate: nil, cancelButtonTitle: NSLocalizedString("email_cancelbtn", comment: "Ok")).show()
-                NSLog("Mail sent failure: %@", [error.localizedDescription])
+                UIAlertView(title: "", message: NSLocalizedString("email_notsent", comment: "Mail sent failure")+": \(error!.localizedDescription)", delegate: nil, cancelButtonTitle: NSLocalizedString("email_cancelbtn", comment: "Ok")).show()
+                NSLog("Mail sent failure: %@", [error!.localizedDescription])
             default:
                 break
             }
             self.dismissViewControllerAnimated(true, completion: nil)
     }
 
-    
-    
-    
     
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == actionSheet.cancelButtonIndex) {

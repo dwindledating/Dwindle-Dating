@@ -27,6 +27,8 @@ public protocol DwindleSocketDelegate : NSObjectProtocol {
 
 class DwindleSocketClient {
    
+    static let sharedInstance = DwindleSocketClient()
+    
     private static let coki = NSHTTPCookie(properties: [NSHTTPCookieDomain:"159.203.245.103",
         NSHTTPCookiePath:"/",
         NSHTTPCookieName:"auth",
@@ -46,34 +48,34 @@ class DwindleSocketClient {
     private var isGamePlayerController = false
     
     weak private var delegate: DwindleSocketDelegate?
-
     
     init() {
-        
         addHandlers()
         self.socket.connect()
     }
- 
+    
     func addHandlers() {
         // Our socket handlers go here
-        
         self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
     }
     
-    func sendEvent(eventName: String, data: AnyObject) {
-        let ack:OnAckCallback = self.socket.emitWithAck(eventName, data)
+    func sendEvent(eventName: String, data: [AnyObject], var ack:OnAckCallback) {
+        
+        
+        let k=self.socket.emitWithAck(eventName, withItems: data)
+        ack = k
         print(ack)
         
+        
         if (delegate != nil) {
-            
+            // We will decide later what to do here.
         }
     }
     
-    func EventHandler(isGamePlay: Bool) -> SocketIOClient {
+    func EventHandler(isGamePlay: Bool, socket:(SocketIOClient)->Void) {
         
         isGamePlayerController = isGamePlay
-        
-        return self.socket
+        socket(self.socket)
     }
     
     

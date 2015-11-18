@@ -22,8 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setupUser() -> Void{
         
     }
-
-
     func registerForPushNotifications(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject:AnyObject]?){
         
         //Setup
@@ -143,9 +141,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         navigationBarAppearace.tintColor = UIColor.whiteColor()
         navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]  // Title's text color
-
-        
-
         return true
     }
 

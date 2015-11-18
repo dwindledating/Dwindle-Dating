@@ -163,6 +163,34 @@ class MatchChatController: JSQMessagesViewController ,
     
     func initSocketConnection(){
     
+        let dwindleSocket = DwindleSocketClient.sharedInstance
+        dwindleSocket.EventHandler(true) { (socketClient: SocketIOClient) -> Void in
+            
+            if socketClient.status == .Connected { // We are save to proceed
+                print("Hmmmmmmmm")
+                
+                socketClient.on("getChatLog", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                })
+                
+                socketClient.on("getChatLogForPageResult", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                })
+                
+                socketClient.on("updatechat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                })
+                
+                socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                })
+                
+                socketClient.onAny({ (SocketAnyEvent) -> Void in
+                    
+                })
+            }
+        }
+        
         
         SIOSocket.socketWithHost("http://159.203.245.103:3000/Chat", response: { (socket: SIOSocket!) -> Void in
             //code
@@ -178,7 +206,6 @@ class MatchChatController: JSQMessagesViewController ,
                 ProgressHUD.show("Getting Chat History")
                 
             })
-
             
             socket.on("getChatLog", callback: { (args:[AnyObject]!) -> Void in
                 //code
@@ -290,7 +317,6 @@ class MatchChatController: JSQMessagesViewController ,
         
         ProgressHUD.show("Opening Chat...")
         self.initSocketConnection();
-        
     }
     
     func sendChat(message:String){

@@ -47,6 +47,8 @@ SocketIODelegate {
     var randomPlayers:[String]! = []
     
     
+    let dwindleSocket = DwindleSocketClient.sharedInstance
+    
     @IBOutlet weak var galleryHeightConstraint : NSLayoutConstraint?
     
     @IBOutlet var imagesViewContainer : UIView!
@@ -519,6 +521,34 @@ SocketIODelegate {
     
     func initSocketConnection(){
         
+        dwindleSocket.EventHandler(true) { (socketClient: SocketIOClient) -> Void in
+            
+            if socketClient.status == .Connected { // We are save to proceed
+                print("Hmmmmmmmm")
+                
+                socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                })
+                
+                socketClient.on("getChatLogForPageResult", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                })
+                
+                socketClient.on("updatechat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                })
+                
+                socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                })
+                
+                socketClient.onAny({ (SocketAnyEvent) -> Void in
+                    
+                })
+            }
+        }
+
+        
         // create socket.io client instance
         
         self.socketIO = SocketIO(delegate: self)
@@ -536,7 +566,6 @@ SocketIODelegate {
         self.socketIO?.cookies = cookies
         
         self.socketIO?.connectToHost("159.203.245.103", onPort: 3000)
-        
     }
     
     
@@ -548,13 +577,10 @@ SocketIODelegate {
     
     func sendChat(message:String){
         self.socketIO?.sendEvent("sendchat", withData: [message])
+        self.sendgamePlayEvent()
     }
     
-    func socketIODidConnect(socket: SocketIO!) {
-        print("socket.io connected.")
-        
-        
-        
+    func sendgamePlayEvent() {
         let settings = UserSettings.loadUserSettings()
         ProgressHUD.show("Finding match")
         let manager = ServiceManager()
@@ -562,24 +588,33 @@ SocketIODelegate {
         manager.getUserLocation({ (location: CLLocation!) -> Void in
             //code
             print("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
-            self.socketIO?.sendEvent("Play", withData: [settings.fbId,location.coordinate.longitude,location.coordinate.latitude, 0])
+            
+            let data = [settings.fbId,location.coordinate.longitude,location.coordinate.latitude, 0]
+            
+            self.socketIO?.sendEvent("Play", withData: data)
+            
+            self.dwindleSocket.sendEvent("Play", data: data as [AnyObject], ack: { (timeoutAfter, callback) -> Void in
+                print(callback)
+            })
+            
             self.isPlayerFound = false
             self.handleNoMatchFound()
             
             }, failure: { (error:NSError!) -> Void in
-            //code
-                    print("Error Message =>\(error.localizedDescription)")
+                //code
+                print("Error Message =>\(error.localizedDescription)")
                 ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
                 let delay = 3.5 * Double(NSEC_PER_SEC)
                 let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                 dispatch_after(time, dispatch_get_main_queue()) {
                     self.navigationController?.popViewControllerAnimated(true)
                 }
-
-                
         })
-        
-        
+    }
+    
+    func socketIODidConnect(socket: SocketIO!) {
+        print("socket.io connected.")
+        self.sendgamePlayEvent()
     }
     
     func socketIO(socket: SocketIO!, didReceiveMessage packet: SocketIOPacket!) {
@@ -591,8 +626,6 @@ SocketIODelegate {
     func socketIO(socket: SocketIO!, didReceiveEvent packet: SocketIOPacket!) {
         //code
         print("PacketName \(packet.name)")
-        
-
         
         if (packet.name == "startgame") {
             
