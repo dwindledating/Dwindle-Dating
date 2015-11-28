@@ -20,6 +20,9 @@ Main functions of this class will be
 
 */
 
+//Older server address
+//52.89.24.195
+
 public protocol DwindleSocketDelegate : NSObjectProtocol {
     func socketDidConnet(socket: SocketIOClient)
     func socketDidDisConnect()
@@ -29,14 +32,14 @@ class DwindleSocketClient {
    
     static let sharedInstance = DwindleSocketClient()
     
-    private static let coki = NSHTTPCookie(properties: [NSHTTPCookieDomain:"159.203.245.103",
+    private static let coki = NSHTTPCookie(properties: [NSHTTPCookieDomain:"52.89.24.195",
         NSHTTPCookiePath:"/",
         NSHTTPCookieName:"auth",
         NSHTTPCookieValue:"56cdea636acdf132"])!
     
-    private let socket = SocketIOClient(socketURL: "159.203.245.103:3000",
+    private let socket = SocketIOClient(socketURL: "52.89.24.195:3000",
         options: [
-            SocketIOClientOption.Log(true),
+            SocketIOClientOption.Log(false),
             SocketIOClientOption.ForcePolling(true),
             SocketIOClientOption.Reconnects(true),
             SocketIOClientOption.VoipEnabled(true),
@@ -50,8 +53,8 @@ class DwindleSocketClient {
     weak private var delegate: DwindleSocketDelegate?
     
     init() {
-        addHandlers()
         self.socket.connect()
+        addHandlers()
     }
     
     func addHandlers() {
@@ -60,7 +63,6 @@ class DwindleSocketClient {
     }
     
     func sendEvent(eventName: String, data: [AnyObject], var ack:OnAckCallback) {
-        
         
         let k=self.socket.emitWithAck(eventName, withItems: data)
         ack = k

@@ -361,6 +361,8 @@
 		5CDF1A891BF8A58500BB7033 /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A641BF8A58500BB7033 /* SwiftRegex.swift */; };
 		5CDF1A8A1BF8A58500BB7033 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A651BF8A58500BB7033 /* WebSocket.swift */; };
 		5CDF1A8B1BF8A58500BB7033 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A651BF8A58500BB7033 /* WebSocket.swift */; };
+		5CF2852C1C09DC0900F41178 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E80F01B01507000781CB8 /* Bolts.framework */; };
+		5CF2852F1C09DD9C00F41178 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E80F01B01507000781CB8 /* Bolts.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -690,6 +692,7 @@
 				455E80DF1B01495A00781CB8 /* AudioToolbox.framework in Frameworks */,
 				451BC6541AE6E65D003E1C2D /* CFNetwork.framework in Frameworks */,
 				451BC6551AE6E65D003E1C2D /* Foundation.framework in Frameworks */,
+				5CF2852F1C09DD9C00F41178 /* Bolts.framework in Frameworks */,
 				451BC6571AE6E65D003E1C2D /* libicucore.dylib in Frameworks */,
 				45DB79991AF661F500458F2B /* CoreLocation.framework in Frameworks */,
 				455E80DD1B0148EB00781CB8 /* Parse.framework in Frameworks */,
@@ -713,6 +716,7 @@
 				4598E4FE1AE15AC600FC7EC7 /* libicucore.dylib in Frameworks */,
 				45AC7AAF1B0A73DE0032E46B /* SystemConfiguration.framework in Frameworks */,
 				45AEF4B31A876580003BAF17 /* QuartzCore.framework in Frameworks */,
+				5CF2852C1C09DC0900F41178 /* Bolts.framework in Frameworks */,
 				455E80DC1B0148EB00781CB8 /* Parse.framework in Frameworks */,
 				45AC7AB11B0A73DE0032E46B /* MobileCoreServices.framework in Frameworks */,
 				45AC7AAD1B0A737E0032E46B /* libsqlite3.dylib in Frameworks */,
@@ -1529,6 +1533,9 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = infinione;
 				TargetAttributes = {
+					451BC5E91AE6E65D003E1C2D = {
+						DevelopmentTeam = Q5SFELAH9E;
+					};
 					458D3C8E1A68442100A0BD6B = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = A9TU7DANHA;
@@ -1974,7 +1981,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThirdParty/FacebookSDK",
@@ -1983,9 +1991,9 @@
 				INFOPLIST_FILE = "DwindleDating copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.infinione.dwindledating;
+				PRODUCT_BUNDLE_IDENTIFIER = de.coeus.dwindledating;
 				PRODUCT_NAME = "DwindleDating copy";
-				PROVISIONING_PROFILE = "9189fda0-90f4-41b0-a087-f6d3031a0388";
+				PROVISIONING_PROFILE = "3417d13e-b31f-40e3-ab93-0b764e8cbcdf";
 				SWIFT_OBJC_BRIDGING_HEADER = ThirdParty/FacebookBridge/FacebookBridge.h;
 			};
 			name = Debug;
@@ -1994,7 +2002,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThirdParty/FacebookSDK",
@@ -2003,9 +2012,9 @@
 				INFOPLIST_FILE = "DwindleDating copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.infinione.dwindledating;
+				PRODUCT_BUNDLE_IDENTIFIER = de.coeus.dwindledating;
 				PRODUCT_NAME = "DwindleDating copy";
-				PROVISIONING_PROFILE = "9189fda0-90f4-41b0-a087-f6d3031a0388";
+				PROVISIONING_PROFILE = "3417d13e-b31f-40e3-ab93-0b764e8cbcdf";
 				SWIFT_OBJC_BRIDGING_HEADER = ThirdParty/FacebookBridge/FacebookBridge.h;
 			};
 			name = Release;

@@ -28,7 +28,7 @@
 #import "UIViewController+BackButtonHandler.h"
 #import "FinalDwindleDownDialog.h"
 
-NSString *const BFTaskMultipleExceptionsException = @"BFMultipleExceptionsException";
+//NSString *const BFTaskMultipleExceptionsException = @"BFMultipleExceptionsException";
 
 
 #endif

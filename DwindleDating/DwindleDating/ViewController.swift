@@ -321,6 +321,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
         
         cachedUserId = user.objectID
+        
         let userSettings = UserSettings.loadUserSettings() as UserSettings
         
         userSettings.userGender    = "F"
@@ -342,8 +343,17 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         let accessToken = FBSession.activeSession().accessTokenData.accessToken
         print(accessToken)
         
-        userSettings.fbId    = user.objectID
-        userSettings.fbName  = user.name
+        if TARGET_OS_SIMULATOR == 1 { // it is female
+            userSettings.userGender    = "F"
+            userSettings.fbId    = "1404004156590579" //user.objectID
+            userSettings.fbName  = "Melanie Biggs" //user.name
+        }
+        else {
+            userSettings.userGender    = "M"
+            userSettings.fbId    = "1427619287531895" //user.objectID
+            userSettings.fbName  = "Jake Gelyana"
+        }
+        
         userSettings.saveUserSettings()
         
         self.signIn(userSettings.fbId)

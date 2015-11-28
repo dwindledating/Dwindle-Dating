@@ -10,17 +10,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Bolts/BFAppLinkResolving.h>
-
-/*!
- A reference implementation for an App Link resolver that uses a hidden UIWebView
- to parse the HTML containing App Link metadata.
- */
-@interface BFWebViewAppLinkResolver : NSObject <BFAppLinkResolving>
-
-/*!
- Gets the instance of a BFWebViewAppLinkResolver.
- */
-+ (instancetype)sharedInstance;
-
-@end
+#if __has_feature(objc_generics) || __has_extension(objc_generics)
+#  define BF_GENERIC(type) <type>
+#else
+#  define BF_GENERIC(type)
+#  define BFGenericType id
+#endif

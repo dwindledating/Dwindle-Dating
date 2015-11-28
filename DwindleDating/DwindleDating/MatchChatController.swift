@@ -192,7 +192,7 @@ class MatchChatController: JSQMessagesViewController ,
         }
         
         
-        SIOSocket.socketWithHost("http://159.203.245.103:3000/Chat", response: { (socket: SIOSocket!) -> Void in
+        SIOSocket.socketWithHost("http://52.89.24.195:3000/Chat", response: { (socket: SIOSocket!) -> Void in
             //code
             self.socketIO = socket 
             socket.on("connect", callback: { (args:[AnyObject]!) -> Void in

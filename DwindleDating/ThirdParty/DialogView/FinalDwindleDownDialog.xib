@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -15,7 +16,8 @@
                     <rect key="frame" x="0.0" y="80" width="320" height="405"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="30">
-                            <rect key="frame" x="20" y="337" width="130" height="35"/>
+                            <rect key="frame" x="20" y="336" width="130" height="35"/>
+                            <animations/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.0" blue="0.31372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="130" id="TYc-3k-ZTJ"/>
@@ -35,25 +37,29 @@
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="demo_avatar_jobs" translatesAutoresizingMaskIntoConstraints="NO" id="wrt-y1-g3l">
                             <rect key="frame" x="50" y="32" width="220" height="220"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="220" id="7RR-po-2xf"/>
                                 <constraint firstAttribute="height" constant="220" id="zgq-D4-Eu6"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meet Your Match!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gvP-uo-hqX">
-                            <rect key="frame" x="92" y="261" width="136" height="21"/>
+                            <rect key="frame" x="92" y="261" width="136" height="20.5"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Continue the conversation anytime under your Matches tab in the Main Menu." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OZr-uj-Oy8">
-                            <rect key="frame" x="20" y="283" width="280" height="34"/>
+                            <rect key="frame" x="20" y="282" width="280" height="33.5"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="31">
-                            <rect key="frame" x="170" y="337" width="130" height="35"/>
+                            <rect key="frame" x="170" y="335.5" width="130" height="35"/>
+                            <animations/>
                             <color key="backgroundColor" red="0.054901960780000002" green="0.50980392159999999" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="130" id="6Vz-xi-Vc0"/>
@@ -72,6 +78,7 @@
                             </connections>
                         </button>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" red="0.86274509803921573" green="0.91764705882352937" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="wrt-y1-g3l" firstAttribute="centerX" secondItem="gvP-uo-hqX" secondAttribute="centerX" id="6hl-wQ-0Nb"/>
@@ -92,6 +99,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <animations/>
             <constraints>
                 <constraint firstItem="19" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="9m8-OK-7IP"/>
                 <constraint firstAttribute="centerY" secondItem="19" secondAttribute="centerY" constant="1" id="XTy-Av-Jnz"/>

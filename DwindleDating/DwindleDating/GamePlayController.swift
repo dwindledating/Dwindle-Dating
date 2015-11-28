@@ -58,7 +58,7 @@ SocketIODelegate {
     
     func handleNoMatchFound (){
 
-        let delay = 10 * Double(NSEC_PER_SEC)
+        let delay = 100 * Double(NSEC_PER_SEC)
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
         dispatch_after(time, dispatch_get_main_queue()) {
             
@@ -521,51 +521,49 @@ SocketIODelegate {
     
     func initSocketConnection(){
         
-        dwindleSocket.EventHandler(true) { (socketClient: SocketIOClient) -> Void in
-            
-            if socketClient.status == .Connected { // We are save to proceed
-                print("Hmmmmmmmm")
-                
-                socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
-                })
-                
-                socketClient.on("getChatLogForPageResult", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
-                })
-                
-                socketClient.on("updatechat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
-                })
-                
-                socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
-                })
-                
-                socketClient.onAny({ (SocketAnyEvent) -> Void in
-                    
-                })
-            }
-        }
+//        dwindleSocket.EventHandler(true) { (socketClient: SocketIOClient) -> Void in
+//            
+//            if socketClient.status == .Connected { // We are save to proceed
+//                print("Hmmmmmmmm")
+//                
+//                socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+//                    print("startgame \(data)")
+//                })
+//                
+//                socketClient.on("getChatLogForPageResult", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+//                    print("getChatLogForPageResult \(data)")
+//                })
+//                
+//                socketClient.on("updatechat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+//                    print("updatechat \(data)")
+//                })
+//                
+//                socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+//                    print("disconnect \(data)")
+//                })
+//                
+//                socketClient.onAny({ (SocketAnyEvent) -> Void in
+//                    print("onAny \(SocketAnyEvent)")
+//                })
+//            }
+//        }
 
         
         // create socket.io client instance
         
         self.socketIO = SocketIO(delegate: self)
         
-        let properties = [NSHTTPCookieDomain:"159.203.245.103",
+        let properties = [NSHTTPCookieDomain:"52.89.24.195",
                           NSHTTPCookiePath:"/",
                           NSHTTPCookieName:"auth",
                           NSHTTPCookieValue:"56cdea636acdf132"]
         
-    
-
         let cookie:NSHTTPCookie = NSHTTPCookie(properties: properties)!
         let cookies = [cookie]
         
         self.socketIO?.cookies = cookies
         
-        self.socketIO?.connectToHost("159.203.245.103", onPort: 3000)
+        self.socketIO?.connectToHost("52.89.24.195", onPort: 3000)
     }
     
     
@@ -576,7 +574,13 @@ SocketIODelegate {
     }
     
     func sendChat(message:String){
+        
         self.socketIO?.sendEvent("sendchat", withData: [message])
+        
+//        dwindleSocket.sendEvent("sendchat", data: [message]) { (timeoutAfter, callback) -> Void in
+//            print(callback)
+//        }
+        
         self.sendgamePlayEvent()
     }
     
@@ -593,9 +597,9 @@ SocketIODelegate {
             
             self.socketIO?.sendEvent("Play", withData: data)
             
-            self.dwindleSocket.sendEvent("Play", data: data as [AnyObject], ack: { (timeoutAfter, callback) -> Void in
-                print(callback)
-            })
+//            self.dwindleSocket.sendEvent("Play", data: data as [AnyObject], ack: { (timeoutAfter, callback) -> Void in
+//                print(callback)
+//            })
             
             self.isPlayerFound = false
             self.handleNoMatchFound()
