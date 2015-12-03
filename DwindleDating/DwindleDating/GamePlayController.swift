@@ -540,7 +540,7 @@ SocketIODelegate {
         
         self.socketIO = SocketIO(delegate: self)
         
-        let properties = [NSHTTPCookieDomain:"52.11.98.82",
+        let properties = [NSHTTPCookieDomain:"52.89.24.195",
                           NSHTTPCookiePath:"/",
                           NSHTTPCookieName:"auth",
                           NSHTTPCookieValue:"56cdea636acdf132"]
@@ -552,7 +552,7 @@ SocketIODelegate {
         
         self.socketIO?.cookies = cookies
         
-        self.socketIO?.connectToHost("52.11.98.82", onPort: 3000)
+        self.socketIO?.connectToHost("52.89.24.195", onPort: 3000)
         
     }
     
@@ -821,11 +821,9 @@ SocketIODelegate {
                 self.socketIO?.sendEvent("loggedout", withData:[])
                 self.releaseSockets()
             }
-
         }
         
         super.viewWillDisappear(animated)
-        
     }
     
     override func viewDidAppear(animated: Bool) {

@@ -166,7 +166,7 @@ class MatchChatController: JSQMessagesViewController ,
     func initSocketConnection(){
     
         
-        SIOSocket.socketWithHost("http://52.11.98.82:3000/Chat", response: { (socket: SIOSocket!) -> Void in
+        SIOSocket.socketWithHost("http://52.89.24.195:3000/Chat", response: { (socket: SIOSocket!) -> Void in
             //code
             self.socketIO = socket 
             socket.on("connect", callback: { (args:[AnyObject]!) -> Void in
