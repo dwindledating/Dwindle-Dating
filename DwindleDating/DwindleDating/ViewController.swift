@@ -11,14 +11,15 @@ import Parse
 
 class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewDataource, KDCycleBannerViewDelegate {
 
+    @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lbldescription: UILabel!
     @IBOutlet var scroller : KDCycleBannerView!
     @IBOutlet var fbLoginView : FBLoginView!
     @IBOutlet var txtViewPrivacy : UITextView!
     
     var cachedUserId : String!
 
-    
-    func shouldSetupUser() -> Bool{
+    func shouldSetupUser() -> Bool {
         var status:  Bool = false
         
         var currentUser = PFUser.currentUser()
@@ -58,7 +59,8 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
                         }
                     })
                     
-                } else {
+                }
+                else {
                     // The login failed. Check error to see why.
                     var userMain = PFUser()
                     userMain.username = settings.fbId
@@ -72,7 +74,8 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
                             let errorString = error.userInfo["error"] as? NSString
                             print("Error : \(errorString)")
                             // Show the errorString somewhere and let the user try again.
-                        } else {
+                        }
+                        else {
                             // Hooray! Let them use the app now.
                             print("Hooray! Let them use the app now.")
                             
@@ -105,13 +108,11 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             
             //Set Welcome Message
             signupVC.userName = UserSettings.loadUserSettings().fbName
-            
-            
         }
     }
     
     
-    func signIn(fbId: String){
+    func signIn(fbId: String) {
 
         print(" ========================= ")
         print(" =======Signing IN======== ")
@@ -144,19 +145,27 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             
             ProgressHUD.showError("\(error.localizedDescription)")
         }
-
-        
-        
     }
     
-    func pushSignUpController(){
+    func pushSignUpController() {
          performSegueWithIdentifier("showSignup", sender: nil)
     }
     
-    func pushMenuController(){
+    func pushMenuController() {
         performSegueWithIdentifier("showMenu", sender: nil)
     }
+    //MARK: View life cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        self.initContentView()
+    }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
     
     override func viewDidAppear(animated: Bool) {
     
@@ -166,37 +175,18 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
 //        self.fbLoginView.readPermissions = ["basic_info","public_profile", "email", "user_friends", "user_birthday"]
         
         self.fbLoginView.readPermissions = ["email","public_profile","user_birthday"]
-
-        
         
         txtViewPrivacy.editable = true
-        txtViewPrivacy.textColor = UIColor(red: 38/255.0, green: 182/255.0, blue: 218/255.0, alpha: 1.0)
-        txtViewPrivacy.font = UIFont(name: "HelveticaNeue-CondensedBold", size: 11.0)
+        txtViewPrivacy.textColor = UIColor.whiteColor()
+        txtViewPrivacy.font = UIFont(name: "Gadugi", size: 12.0)
         txtViewPrivacy.editable = false
         txtViewPrivacy.backgroundColor = UIColor.clearColor()
-        
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        self.initContentView()
-    }
-    
-    
-
     
     func initContentView(){
         // Scroll Initialization
             scroller.autoPlayTimeInterval = 2;
             scroller.continuous = false;
-        
         //Add gesture
         
         var tapGesture = UITapGestureRecognizer(target: self, action: "textTapped:")
@@ -298,12 +288,52 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     
     
     func contentModeForImageIndex(index: UInt) -> UIViewContentMode {
-        return UIViewContentMode.ScaleAspectFit;
+        return UIViewContentMode.ScaleToFill;
     }
     
+    // MARK : KDCycleBannerView Delegate
     
+    func cycleBannerView(bannerView: KDCycleBannerView!, didScrollToIndex index: UInt) {
+        updateTitleOnBannerChange(index)
+    }
     
-    
+    var currentIndex:UInt = 4
+    func updateTitleOnBannerChange(index:UInt) {
+        
+        if currentIndex != index {
+            currentIndex = index
+        }
+        else {
+            print("didScrollToIndex: \(index)")
+            return
+        }
+        
+        var title = ""
+        var description = ""
+        
+        switch currentIndex {
+        case 0:
+            title = "Personality Comes First"
+            description = "Start a Dwindle Date based on your preferences. Your match is unknown, but one of five photos shown."
+            break
+        case 1:
+            title = "Make Them Fall For You"
+            description = "Have a real conversation and photos will Dwindle Down as your chat progresses, bringing you a step closer to your match."
+            break
+        case 2:
+            title = "Keep It Up & See More"
+            description = "Additional photos are unlocked for those that remain after each Dwindle Down."
+            break
+        case 3:
+            title = "Meet Your Match!"
+            description = "Make it to the end and your true identities will be revealed. Keep chatting anytime through the Dwindle Dating app."
+            break
+        default: break
+            
+        }
+        lblTitle.text = title
+        lbldescription.text = description
+    }
     
     // MARK: - your text goes here
     
@@ -312,7 +342,6 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
          print("User: \(tokenstr)")
     }
 
-    
     func loginViewShowingLoggedInUser(loginView : FBLoginView!) {
         print("User Logged In")
         fbLoginView.hidden = true
@@ -321,16 +350,14 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     func loginViewFetchedUserInfo(loginView : FBLoginView!, user: FBGraphUser) {
         //fbLoginView.alpha = 0
         
-        if var cachedId = cachedUserId{
-            if (cachedUserId == user.objectID){
+        if var cachedId = cachedUserId {
+            if (cachedUserId == user.objectID) {
                 return;
             }
         }
         else{
             // cacheId is nil
         }
-        
-        
         
 //        FBRequestConnection.startWithGraphPath("me", completionHandler: { (connection: FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
 //            
@@ -358,10 +385,6 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         else{
             userSettings.userBirthday    = "19900101"
         }
-
-        
-
-        
         
         var accessToken = FBSession.activeSession().accessTokenData.accessToken
 

@@ -159,7 +159,6 @@ class MatchChatController: JSQMessagesViewController ,
     func contentModeForImageIndex(index: UInt) -> UIViewContentMode {
         return UIViewContentMode.ScaleAspectFit;
     }
-
     
     // MARK:- SOCKETS
     

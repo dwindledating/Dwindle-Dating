@@ -319,6 +319,8 @@
 		52D91F0B1B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D91F091B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift */; };
 		52F83B681B56562A00C6B371 /* LocationByClient.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 52F83B671B56562A00C6B371 /* LocationByClient.gpx */; };
 		52F83B691B56562A00C6B371 /* LocationByClient.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 52F83B671B56562A00C6B371 /* LocationByClient.gpx */; };
+		5C967F311C107D14000BB724 /* gadugi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C967F2F1C107D14000BB724 /* gadugi.ttf */; };
+		5C967F321C107D14000BB724 /* gadugib.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C967F301C107D14000BB724 /* gadugib.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -608,6 +610,8 @@
 		52D91F021B2B894E00D32DD3 /* FinalDwindleDownDialog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FinalDwindleDownDialog.xib; sourceTree = "<group>"; };
 		52D91F091B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DwindleDatingSwiftBridge.swift; sourceTree = "<group>"; };
 		52F83B671B56562A00C6B371 /* LocationByClient.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LocationByClient.gpx; sourceTree = "<group>"; };
+		5C967F2F1C107D14000BB724 /* gadugi.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gadugi.ttf; sourceTree = "<group>"; };
+		5C967F301C107D14000BB724 /* gadugib.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gadugib.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -702,6 +706,7 @@
 			isa = PBXGroup;
 			children = (
 				454DC0871B1C2EAC00B979D0 /* PrivacyPolicy.html */,
+				5C967F2E1C107D14000BB724 /* Fonts */,
 				454DC0881B1C2EAC00B979D0 /* TermsandConditions.html */,
 			);
 			path = Resources;
@@ -1390,6 +1395,15 @@
 			path = DialogView;
 			sourceTree = "<group>";
 		};
+		5C967F2E1C107D14000BB724 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				5C967F2F1C107D14000BB724 /* gadugi.ttf */,
+				5C967F301C107D14000BB724 /* gadugib.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1512,6 +1526,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C967F321C107D14000BB724 /* gadugib.ttf in Resources */,
 				458D3C9A1A68442100A0BD6B /* Main.storyboard in Resources */,
 				458D3C9F1A68442100A0BD6B /* LaunchScreen.xib in Resources */,
 				45C497441ADD87BC00031269 /* LocationByAli.gpx in Resources */,
@@ -1521,6 +1536,7 @@
 				45A2BA071AF94B7E0077C332 /* LocationByYunasHome.gpx in Resources */,
 				455DB33D1A99D3AA00CEAEA2 /* JSQMessagesViewController.xib in Resources */,
 				45A2BA041AF905780077C332 /* LocationByYunasOffice.gpx in Resources */,
+				5C967F311C107D14000BB724 /* gadugi.ttf in Resources */,
 				52D91F071B2B894E00D32DD3 /* FinalDwindleDownDialog.xib in Resources */,
 				455DB3331A99D3AA00CEAEA2 /* JSQMessagesAssets.bundle in Resources */,
 				455DB3581A99D3AA00CEAEA2 /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
