@@ -178,9 +178,6 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         self.initContentView()
     }
     
-    
-
-    
     func initContentView(){
         // Scroll Initialization
             scroller.autoPlayTimeInterval = 2;
@@ -344,9 +341,9 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         print(accessToken)
         
         if TARGET_OS_SIMULATOR == 1 { // it is female
-            userSettings.userGender    = "F"
-            userSettings.fbId    = "1404004156590579" //user.objectID
-            userSettings.fbName  = "Melanie Biggs" //user.name
+            userSettings.userGender    = "M"
+            userSettings.fbId    = "10155784063690510" //user.objectID
+            userSettings.fbName  = "Muhammad Yunus" //user.name
         }
         else {
             userSettings.userGender    = "M"
@@ -354,6 +351,8 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             userSettings.fbName  = "Jake Gelyana"
         }
         
+//        userSettings.fbId    = user.objectID
+//        userSettings.fbName  = user.name
         userSettings.saveUserSettings()
         
         self.signIn(userSettings.fbId)

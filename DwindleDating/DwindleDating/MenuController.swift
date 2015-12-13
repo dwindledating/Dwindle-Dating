@@ -16,6 +16,7 @@ MFMailComposeViewControllerDelegate,
 MFMessageComposeViewControllerDelegate {
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true , animated: true)
         
@@ -24,7 +25,7 @@ MFMessageComposeViewControllerDelegate {
         dwindleSocket.EventHandler(true) { (socketClient: SocketIOClient) -> Void in
             
             if socketClient.status == .Connected { // We are save to proceed
-                print("Hmmmmmmmm")
+                print("MenuController. Socket connected")
             }
         }
     }

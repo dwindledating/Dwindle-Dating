@@ -32,12 +32,12 @@ class DwindleSocketClient {
    
     static let sharedInstance = DwindleSocketClient()
     
-    private static let coki = NSHTTPCookie(properties: [NSHTTPCookieDomain:"52.89.24.195",
+    private static let coki = NSHTTPCookie(properties: [NSHTTPCookieDomain:"159.203.245.103",
         NSHTTPCookiePath:"/",
         NSHTTPCookieName:"auth",
         NSHTTPCookieValue:"56cdea636acdf132"])!
     
-    private let socket = SocketIOClient(socketURL: "52.89.24.195:3000",
+    private let socket = SocketIOClient(socketURL: "159.203.245.103:3000",
         options: [
             SocketIOClientOption.Log(false),
             SocketIOClientOption.ForcePolling(true),
@@ -62,12 +62,9 @@ class DwindleSocketClient {
         self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
     }
     
-    func sendEvent(eventName: String, data: [AnyObject], var ack:OnAckCallback) {
+    func sendEvent(eventName: String, data: [AnyObject]) {
         
-        let k=self.socket.emitWithAck(eventName, withItems: data)
-        ack = k
-        print(ack)
-        
+        self.socket.emit(eventName, withItems: data)
         
         if (delegate != nil) {
             // We will decide later what to do here.
@@ -80,5 +77,7 @@ class DwindleSocketClient {
         socket(self.socket)
     }
     
-    
+    func status()->SocketIOClientStatus {
+        return socket.status
+    }
 }
