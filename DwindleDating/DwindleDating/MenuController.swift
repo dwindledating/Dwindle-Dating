@@ -16,22 +16,39 @@ MFMailComposeViewControllerDelegate,
 MFMessageComposeViewControllerDelegate {
     
     override func viewWillAppear(animated: Bool) {
-        
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true , animated: true)
-        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         let dwindleSocket = DwindleSocketClient.sharedInstance
         dwindleSocket.EventHandler(true) { (socketClient: SocketIOClient) -> Void in
             
             if socketClient.status == .Connected { // We are save to proceed
                 print("MenuController. Socket connected")
+                
+                // User got event from one of his match.
+                socketClient.on("message_from_matches_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    print ("message_from_matches_screen: \(data)");
+                })
+                
+                // User got play event from other user. This could be a push message as well.
+                socketClient.on("message_from_play_screen", callback: { (data:[AnyObject], ac:SocketAckEmitter) -> Void in
+                    print ("message_from_play_screen: \(data)");
+                })
+                
+                // User has made a play request but switched screen.
+                socketClient.on("message_game_started", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    print ("message_game_started: \(data)");
+                })
+                
+                socketClient.on("APNS Response", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    print ("APNS Response: \(data)");
+                })
             }
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
     }
     
     override func didReceiveMemoryWarning() {

@@ -24,7 +24,7 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
             return nil
         }
         else{
-            return navC.viewControllers[noOfViewControllers - 2] as? UIViewController
+            return navC.viewControllers[noOfViewControllers - 2]
         }
     }
     
@@ -39,7 +39,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
             return false
         }
         
-        
         return true
     }
     
@@ -47,8 +46,8 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         
         
         ProgressHUD.show("Loading Matches")
-        var settings = UserSettings.loadUserSettings()
-        var manager = ServiceManager()
+        let settings = UserSettings.loadUserSettings()
+        let manager = ServiceManager()
         
         manager.getMathchesForUser(settings.fbId, sucessBlock: { (_matchesArr:[AnyObject]!) -> Void in
             //code

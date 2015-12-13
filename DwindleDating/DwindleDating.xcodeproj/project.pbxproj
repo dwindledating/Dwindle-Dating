@@ -319,6 +319,10 @@
 		52D91F0B1B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D91F091B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift */; };
 		52F83B681B56562A00C6B371 /* LocationByClient.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 52F83B671B56562A00C6B371 /* LocationByClient.gpx */; };
 		52F83B691B56562A00C6B371 /* LocationByClient.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 52F83B671B56562A00C6B371 /* LocationByClient.gpx */; };
+		5C04855D1C1D8AB800AC8350 /* LocationByAnas.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 5C04855C1C1D8AB800AC8350 /* LocationByAnas.gpx */; };
+		5C04855E1C1D8AB800AC8350 /* LocationByAnas.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 5C04855C1C1D8AB800AC8350 /* LocationByAnas.gpx */; };
+		5C0485601C1D990100AC8350 /* LocationByCase4.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 5C04855F1C1D990100AC8350 /* LocationByCase4.gpx */; };
+		5C0485611C1D990100AC8350 /* LocationByCase4.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 5C04855F1C1D990100AC8350 /* LocationByCase4.gpx */; };
 		5CDF1A4A1BF89BE800BB7033 /* DwindleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A491BF89BE800BB7033 /* DwindleExtensions.swift */; };
 		5CDF1A4B1BF89BE800BB7033 /* DwindleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A491BF89BE800BB7033 /* DwindleExtensions.swift */; };
 		5CDF1A501BF8A54800BB7033 /* DwindleSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A4F1BF8A54800BB7033 /* DwindleSocketClient.swift */; };
@@ -652,6 +656,8 @@
 		52D91F021B2B894E00D32DD3 /* FinalDwindleDownDialog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FinalDwindleDownDialog.xib; sourceTree = "<group>"; };
 		52D91F091B2B9B4900D32DD3 /* DwindleDatingSwiftBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DwindleDatingSwiftBridge.swift; sourceTree = "<group>"; };
 		52F83B671B56562A00C6B371 /* LocationByClient.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LocationByClient.gpx; sourceTree = "<group>"; };
+		5C04855C1C1D8AB800AC8350 /* LocationByAnas.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LocationByAnas.gpx; sourceTree = "<group>"; };
+		5C04855F1C1D990100AC8350 /* LocationByCase4.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LocationByCase4.gpx; sourceTree = "<group>"; };
 		5CDF1A491BF89BE800BB7033 /* DwindleExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DwindleExtensions.swift; sourceTree = "<group>"; };
 		5CDF1A4F1BF8A54800BB7033 /* DwindleSocketClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DwindleSocketClient.swift; path = Backend/DwindleSocketClient.swift; sourceTree = "<group>"; };
 		5CDF1A531BF8A58500BB7033 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
@@ -1293,11 +1299,13 @@
 				455E80DB1B0148EB00781CB8 /* Parse.framework */,
 				4598E4FD1AE15AC600FC7EC7 /* libicucore.dylib */,
 				45C497431ADD87BC00031269 /* LocationByAli.gpx */,
+				5C04855C1C1D8AB800AC8350 /* LocationByAnas.gpx */,
 				52F83B671B56562A00C6B371 /* LocationByClient.gpx */,
 				455E80D81AFE8CD800781CB8 /* LocationByHassan.gpx */,
 				45A2BA031AF905780077C332 /* LocationByYunasOffice.gpx */,
 				455E80F01B01507000781CB8 /* Bolts.framework */,
 				45A2BA061AF94B7E0077C332 /* LocationByYunasHome.gpx */,
+				5C04855F1C1D990100AC8350 /* LocationByCase4.gpx */,
 				45AEF4B21A876580003BAF17 /* QuartzCore.framework */,
 			);
 			name = Frameworks;
@@ -1590,6 +1598,7 @@
 				451BC65E1AE6E65D003E1C2D /* ProgressHUD.bundle in Resources */,
 				52F83B691B56562A00C6B371 /* LocationByClient.gpx in Resources */,
 				451BC65F1AE6E65D003E1C2D /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
+				5C0485611C1D990100AC8350 /* LocationByCase4.gpx in Resources */,
 				45A2BA081AF94B7E0077C332 /* LocationByYunasHome.gpx in Resources */,
 				451BC6601AE6E65D003E1C2D /* JSQMessagesViewController.xib in Resources */,
 				45A2BA051AF905780077C332 /* LocationByYunasOffice.gpx in Resources */,
@@ -1597,6 +1606,7 @@
 				451BC6611AE6E65D003E1C2D /* JSQMessagesAssets.bundle in Resources */,
 				451BC6621AE6E65D003E1C2D /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
 				455E80DA1AFE8CD800781CB8 /* LocationByHassan.gpx in Resources */,
+				5C04855E1C1D8AB800AC8350 /* LocationByAnas.gpx in Resources */,
 				451BC6641AE6E65D003E1C2D /* JSQMessages.strings in Resources */,
 				451BC6651AE6E65D003E1C2D /* Images.xcassets in Resources */,
 				451BC6671AE6E65D003E1C2D /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
@@ -1617,6 +1627,7 @@
 				45A1524A1AD7B31B002C4D1C /* ProgressHUD.bundle in Resources */,
 				52F83B681B56562A00C6B371 /* LocationByClient.gpx in Resources */,
 				455DB35D1A99D3AA00CEAEA2 /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
+				5C0485601C1D990100AC8350 /* LocationByCase4.gpx in Resources */,
 				45A2BA071AF94B7E0077C332 /* LocationByYunasHome.gpx in Resources */,
 				455DB33D1A99D3AA00CEAEA2 /* JSQMessagesViewController.xib in Resources */,
 				45A2BA041AF905780077C332 /* LocationByYunasOffice.gpx in Resources */,
@@ -1624,6 +1635,7 @@
 				455DB3331A99D3AA00CEAEA2 /* JSQMessagesAssets.bundle in Resources */,
 				455DB3581A99D3AA00CEAEA2 /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
 				455E80D91AFE8CD800781CB8 /* LocationByHassan.gpx in Resources */,
+				5C04855D1C1D8AB800AC8350 /* LocationByAnas.gpx in Resources */,
 				455DB3341A99D3AA00CEAEA2 /* JSQMessages.strings in Resources */,
 				458D3C9C1A68442100A0BD6B /* Images.xcassets in Resources */,
 				455DB3511A99D3AA00CEAEA2 /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,

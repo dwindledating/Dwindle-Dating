@@ -329,6 +329,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         }
         
         if let birthday = user.objectForKey("birthday")as? String{
+            
             var dob = birthday.componentsSeparatedByString("/")
             
             userSettings.userBirthday = "\(dob[2])\(dob[1])\(dob[0])"
@@ -341,8 +342,8 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         print(accessToken)
         
         if TARGET_OS_SIMULATOR == 1 { // it is female
-            userSettings.userGender    = "M"
-            userSettings.fbId    = "10155784063690510" //user.objectID
+            userSettings.userGender    = "F"
+            userSettings.fbId    = "696284960499030" //"10155784063690510" //user.objectID
             userSettings.fbName  = "Muhammad Yunus" //user.name
         }
         else {

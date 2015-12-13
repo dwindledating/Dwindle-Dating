@@ -669,6 +669,12 @@ SocketIODelegate {
                     self.handleNoMatchFound()
                 })
                 
+                socketClient.on("message_user_isBusy", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                   
+                    print("message_user_isBusy: \(data)")
+                    
+                })
+                
                 socketClient.on("message_push_notification_send", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
                     ProgressHUD.dismiss()
@@ -701,6 +707,10 @@ SocketIODelegate {
                     })
                 })
                 
+                socketClient.on("message_from_matches_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    print("message_from_matches_screen: \(data)")
+                })
+                
                 socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     print("disconnect \(data)")
                     
@@ -720,7 +730,6 @@ SocketIODelegate {
                             self.navigationController?.popViewControllerAnimated(true)
                         }
 //                    }
-
                 })
                 
                 socketClient.onAny({ (SocketAnyEvent) -> Void in
@@ -1023,7 +1032,6 @@ SocketIODelegate {
         self.initContentView()
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style:UIBarButtonItemStyle.Plain , target: self, action: "skipPressed:")
-
     }
     
     override func didReceiveMemoryWarning() {

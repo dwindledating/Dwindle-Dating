@@ -16,6 +16,7 @@ class MatchChatController: JSQMessagesViewController ,
     
     @IBOutlet var imagesViewContainer : UIView!
     
+    let dwindleSocket = DwindleSocketClient.sharedInstance
     var socketIO: SIOSocket?
     var demoData: DemoModelData!
     var galleryImages: Array<NSURL>!
@@ -37,16 +38,12 @@ class MatchChatController: JSQMessagesViewController ,
     
     func receiveMessagePressed(sender: UIBarButtonItem){
         
-        
     }
     
     func addNavigationProfileButton(imgUrl:NSURL){
-    
         
         var img = UIImage(named:"demo_avatar_jobs")!
         img = img.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-
-        
         
         let btnProfileImg: RoundButtonView = RoundButtonView(type: UIButtonType.Custom)
         btnProfileImg.sd_setBackgroundImageWithURL(imgUrl, forState: UIControlState.Normal)
@@ -69,10 +66,8 @@ class MatchChatController: JSQMessagesViewController ,
     
     override func viewWillDisappear(animated: Bool) {
         ProgressHUD.dismiss()
-        self.socketIO?.emit("loggedout")
+//        self.socketIO?.emit("loggedout")
         super.viewWillDisappear(animated)
-        
-        
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -80,28 +75,22 @@ class MatchChatController: JSQMessagesViewController ,
 
         self.collectionView!.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();
         self.startChat()
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        if let userName = self.toUserName{
-            self.title = self.toUserName
-        }else
-        {
+        if let userName = self.toUserName {
+            self.title = userName
+        } else {
             self.title = self.toUserId
         }
-        
-        
-
-        
         
         /**
         *  You MUST set your senderId and display name
         */
-        var settings = UserSettings.loadUserSettings()
+        let settings = UserSettings.loadUserSettings()
         self.senderId = settings.fbId//kJSQDemoAvatarIdSquires;
         self.senderDisplayName = " "//settings.fbName// kJSQDemoAvatarDisplayNameSquires;
         
@@ -118,11 +107,6 @@ class MatchChatController: JSQMessagesViewController ,
         
 
 //        self.collectionView.collectionViewLayout.springinessEnabled = false;
-        
-
-        
-        
-        
         
 //        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "demo_avatar_jobs"), style: UIBarButtonItemStyle.Bordered, target: self, action: "receiveMessagePressed:")
         
@@ -145,11 +129,11 @@ class MatchChatController: JSQMessagesViewController ,
         
         var imagesList:AnyObject = []
 
-        if let gallery = self.galleryImages{
+        if let gallery = self.galleryImages {
             imagesList = (self.galleryImages as NSArray as? [NSURL])!
         }
         else{
-            let imagesList   = [UIImage(named:"signup_01")!]
+            imagesList   = [UIImage(named:"signup_01")!]
         }
         return imagesList as! [AnyObject]
     }
@@ -158,159 +142,247 @@ class MatchChatController: JSQMessagesViewController ,
         return UIViewContentMode.ScaleAspectFit;
     }
 
-    
     // MARK:- SOCKETS
     
     func initSocketConnection(){
     
-        let dwindleSocket = DwindleSocketClient.sharedInstance
+//        SIOSocket.socketWithHost("http://159.203.245.103:3000/Chat", response: { (socket: SIOSocket!) -> Void in
+//            //code
+//            self.socketIO = socket
+//            socket.on("connect", callback: { (args:[AnyObject]!) -> Void in
+//                //code
+//                
+//                print ("Connected");
+//                let settings = UserSettings.loadUserSettings()
+//                print("My FBID: \(settings.fbId) Wants to connect with :\(self.toUserId) with status: \(self.status)")
+//                
+//                socket.emit("chat", args: [settings.fbId,self.toUserId,self.status])
+//                ProgressHUD.show("Getting Chat History")
+//                
+//            })
+//            
+//            socket.on("getChatLog", callback: { (args:[AnyObject]!) -> Void in
+//                //code
+//                
+//                let response = args[0] as! String
+//                let data = response.dataUsingEncoding(NSUTF8StringEncoding)
+//                
+//                let responseDict: NSDictionary!
+//                do{
+//                    responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+//                    
+//                    //SET TOTAL PAGES COUNT
+//                    self.paginationCountTotal = responseDict["TotalPages"] as! Int
+//                    if (self.paginationCountTotal > 1){
+//                        self.showLoadEarlierMessagesHeader = true
+//                    }
+//                    //SET CHAT
+//                    var messages = responseDict["Chat"] as! [AnyObject]
+//                    messages = messages.reverse()
+//                    self.demoData.addMessages(messages)
+//                    self.collectionView!.reloadData()
+//                    ProgressHUD.showSuccess("")
+//                    self.scrollToBottomAnimated(true)
+//                    //SET PICTURES
+//                    
+//                    let pictures = responseDict["Pictures"] as! NSDictionary
+//                    self.galleryImages = []
+//                    self.galleryImages.append(NSURL(string: (pictures["Picture1"] as? String)!)!)
+//                    self.galleryImages.append(NSURL(string: (pictures["Picture2"] as? String)!)!)
+//                    self.galleryImages.append(NSURL(string: (pictures["Picture3"] as? String)!)!)
+//                    self.galleryImages.append(NSURL(string: (pictures["Picture4"] as? String)!)!)
+//                    self.galleryImages.append(NSURL(string: (pictures["Picture5"] as? String)!)!)
+//                    
+//                    self.addNavigationProfileButton(self.galleryImages[0])
+//                    
+//                    
+//                }catch let err as NSError {
+//                    print("JSON Error \(err.localizedDescription)")
+//                }
+//                
+//            })
+//            
+//            socket.on("getChatLogForPageResult", callback: { (args:[AnyObject]!) -> Void in
+//                
+//                let response = args[0] as! String
+//                let data = response.dataUsingEncoding(NSUTF8StringEncoding)
+//                
+//                let responseDict: NSDictionary!
+//                do{
+//                    responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+//                    
+//                    print("getChatLogForPageResult\(responseDict)")
+//                    let messages = responseDict["Chat"] as! [AnyObject]
+//                    self.demoData.appendMessagesAtTop(messages)
+//                    self.collectionView!.reloadData()
+//                    ProgressHUD.showSuccess("")
+//                    
+//                    //SET CurrentPage COUNT
+//                    self.paginationCountCurrent = responseDict["PageCount"] as! Int
+//                    if (self.paginationCountCurrent >= self.paginationCountTotal){
+//                        self.showLoadEarlierMessagesHeader = false
+//                    }
+//                    
+//                }catch let err as NSError {
+//                    print("JSON Error \(err.localizedDescription)")
+//                }
+//            })
+//            
+//            socket.on("updatechat", callback: { (args:[AnyObject]!) -> Void in
+//                //code
+//                print ("updatechat\(args)");
+//                
+//                var response = args as! Array<String>
+//                
+//                var _senderId:String = ""
+//                if let tmpSenderId:String = response[0] {
+//                    _senderId = tmpSenderId
+//                }
+//                
+//                var _message:String = ""
+//                if let tmpMessage:String = response[1] {
+//                    _message = tmpMessage
+//                }
+//                if let tmpPlayerId = self.toUserId{
+//                    if (_senderId == self.toUserId){
+//                        self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
+//                    }
+//                }
+//            })
+//            
+//            socket.on("disconnect", callback: { (args:[AnyObject]!) -> Void in
+//                //code
+//                print ("disconnect\(args)");
+//            })
+//        })
+//        return
+        
         dwindleSocket.EventHandler(true) { (socketClient: SocketIOClient) -> Void in
             
             if socketClient.status == .Connected { // We are save to proceed
-                print("Hmmmmmmmm")
+                print("MatchesChatController dwinlde socket is connected.")
                 
-                socketClient.on("getChatLog", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                let settings = UserSettings.loadUserSettings()
+                print("My FBID: \(settings.fbId) Wants to connect with :\(self.toUserId) with status: \(self.status)")
+                
+                self.dwindleSocket.sendEvent("chat", data: [settings.fbId,self.toUserId,self.status])
+                ProgressHUD.show("Getting Chat History")
+                
+                socketClient.on("getChatLog", callback: { (args:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
+                    let response = args[0] as! String
+                    let data = response.dataUsingEncoding(NSUTF8StringEncoding)
+                    
+                    let responseDict: NSDictionary!
+                    do{
+                        responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                        
+                        //SET TOTAL PAGES COUNT
+                        self.paginationCountTotal = responseDict["TotalPages"] as! Int
+                        if (self.paginationCountTotal > 1){
+                            self.showLoadEarlierMessagesHeader = true
+                        }
+                        //SET CHAT
+                        var messages = responseDict["Chat"] as! [AnyObject]
+                        messages = messages.reverse()
+                        self.demoData.addMessages(messages)
+                        self.collectionView!.reloadData()
+                        ProgressHUD.showSuccess("")
+                        self.scrollToBottomAnimated(true)
+                        //SET PICTURES
+                        
+                        let pictures = responseDict["Pictures"] as! NSDictionary
+                        self.galleryImages = []
+                        self.galleryImages.append(NSURL(string: (pictures["Picture1"] as? String)!)!)
+                        self.galleryImages.append(NSURL(string: (pictures["Picture2"] as? String)!)!)
+                        self.galleryImages.append(NSURL(string: (pictures["Picture3"] as? String)!)!)
+                        self.galleryImages.append(NSURL(string: (pictures["Picture4"] as? String)!)!)
+                        self.galleryImages.append(NSURL(string: (pictures["Picture5"] as? String)!)!)
+                        
+                        self.addNavigationProfileButton(self.galleryImages[0])
+                        
+                        
+                    }catch let err as NSError {
+                        print("JSON Error \(err.localizedDescription)")
+                    }
                 })
                 
-                socketClient.on("getChatLogForPageResult", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                socketClient.on("getChatLogForPageResult", callback: { (args:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
+                    let response = args[0] as! String
+                    let data = response.dataUsingEncoding(NSUTF8StringEncoding)
+                    
+                    let responseDict: NSDictionary!
+                    do{
+                        responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                        
+                        print("getChatLogForPageResult: \(responseDict)")
+                        let messages = responseDict["Chat"] as! [AnyObject]
+                        self.demoData.appendMessagesAtTop(messages)
+                        self.collectionView!.reloadData()
+                        ProgressHUD.showSuccess("")
+                        
+                        //SET CurrentPage COUNT
+                        self.paginationCountCurrent = responseDict["PageCount"] as! Int
+                        if (self.paginationCountCurrent >= self.paginationCountTotal){
+                            self.showLoadEarlierMessagesHeader = false
+                        }
+                        
+                    }catch let err as NSError {
+                        print("JSON Error: \(err.localizedDescription)")
+                    }
                 })
                 
-                socketClient.on("updatechat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                socketClient.on("updatechat_chatlog", callback: { (args:[AnyObject], ack:SocketAckEmitter) -> Void in
+                   
+                    print ("updatechat_chatlog: \(args)");
                     
+                    var response = args as! Array<String>
+                    
+                    var _senderId:String = ""
+                    if let tmpSenderId:String = response[0] {
+                        _senderId = tmpSenderId
+                    }
+                    
+                    var _message:String = ""
+                    if let tmpMessage:String = response[1] {
+                        _message = tmpMessage
+                    }
+                    if let tmpPlayerId = self.toUserId where tmpPlayerId == _senderId {
+                        
+                        self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
+                    }
+                })
+                
+                socketClient.on("updaterooms_chatlog", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    print ("updaterooms_chatlog: \(data)");
+                })
+                
+                socketClient.on("message_from_play_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    print ("message_from_play_screen: \(data)");
+                })
+                
+                // User has made a play request but switched screen.
+                socketClient.on("message_game_started", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    print ("MatchesController:message_game_started: \(data)");
                 })
                 
                 socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
+                    print ("disconnect: \(data)");
                 })
                 
                 socketClient.onAny({ (SocketAnyEvent) -> Void in
                     
+                    print("MatchChatController: \(SocketAnyEvent)")
+                    
+                    if SocketAnyEvent.event == "error" {
+                        print("Error: \(SocketAnyEvent.items)")
+                    }
+                    
                 })
             }
         }
-        
-        
-        SIOSocket.socketWithHost("http://159.203.245.103:3000/Chat", response: { (socket: SIOSocket!) -> Void in
-            //code
-            self.socketIO = socket 
-            socket.on("connect", callback: { (args:[AnyObject]!) -> Void in
-                //code
-  
-                print ("Connected");
-                let settings = UserSettings.loadUserSettings()
-                print("My FBID: \(settings.fbId) Wants to connect with :\(self.toUserId) with status: \(self.status)")
-                
-                socket.emit("chat", args: [settings.fbId,self.toUserId,self.status])
-                ProgressHUD.show("Getting Chat History")
-                
-            })
-            
-            socket.on("getChatLog", callback: { (args:[AnyObject]!) -> Void in
-                //code
-                
-                
-                let response = args[0] as! String
-                let data = response.dataUsingEncoding(NSUTF8StringEncoding)
-
-                let responseDict: NSDictionary!
-                do{
-                    responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
-
-                    //SET TOTAL PAGES COUNT
-                    self.paginationCountTotal = responseDict["TotalPages"] as! Int
-                    if (self.paginationCountTotal > 1){
-                        self.showLoadEarlierMessagesHeader = true
-                    }
-                    //SET CHAT
-                    var messages = responseDict["Chat"] as! [AnyObject]
-                    messages = messages.reverse()
-                    self.demoData.addMessages(messages)
-                    self.collectionView!.reloadData()
-                    ProgressHUD.showSuccess("")
-                    self.scrollToBottomAnimated(true)
-                    //SET PICTURES
-                    
-                    let pictures = responseDict["Pictures"] as! NSDictionary
-                    self.galleryImages = []
-                    self.galleryImages.append(NSURL(string: (pictures["Picture1"] as? String)!)!)
-                    self.galleryImages.append(NSURL(string: (pictures["Picture2"] as? String)!)!)
-                    self.galleryImages.append(NSURL(string: (pictures["Picture3"] as? String)!)!)
-                    self.galleryImages.append(NSURL(string: (pictures["Picture4"] as? String)!)!)
-                    self.galleryImages.append(NSURL(string: (pictures["Picture5"] as? String)!)!)
-                    
-                    self.addNavigationProfileButton(self.galleryImages[0])
-
-                
-                }catch let err as NSError {
-
-                    print("JSON Error \(err.localizedDescription)")
-                }
-
-            })
-            
-            socket.on("getChatLogForPageResult", callback: { (args:[AnyObject]!) -> Void in
-              
-                let response = args[0] as! String
-                let data = response.dataUsingEncoding(NSUTF8StringEncoding)
-                
-                let responseDict: NSDictionary!
-                do{
-                    responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
-                
-                    print("getChatLogForPageResult\(responseDict)")
-                    let messages = responseDict["Chat"] as! [AnyObject]
-                    self.demoData.appendMessagesAtTop(messages)
-                    self.collectionView!.reloadData()
-                    ProgressHUD.showSuccess("")
-                    
-                    //SET CurrentPage COUNT
-                    self.paginationCountCurrent = responseDict["PageCount"] as! Int
-                    if (self.paginationCountCurrent >= self.paginationCountTotal){
-                        self.showLoadEarlierMessagesHeader = false
-                    }
-
-                }catch let err as NSError {
-                    print("JSON Error \(err.localizedDescription)")
-                }
-
-
-                
-                
-            })
-            
-            socket.on("updatechat", callback: { (args:[AnyObject]!) -> Void in
-                //code
-                print ("updatechat\(args)");
-                
-                var response = args as! Array<String>
-
-                var _senderId:String = ""
-                if let tmpSenderId:String = response[0] {
-                    _senderId = tmpSenderId
-                }
-                
-                var _message:String = ""
-                if let tmpMessage:String = response[1] {
-                     _message = tmpMessage
-                }
-
-                
-
-                if let tmpPlayerId = self.toUserId{
-                    if (_senderId == self.toUserId){
-                        self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
-                    }
-                }
-            })
-            
-            socket.on("disconnect", callback: { (args:[AnyObject]!) -> Void in
-                //code
-                print ("disconnect\(args)");
-            })
-        })
-        
     }
     
     func startChat(){
@@ -320,7 +392,9 @@ class MatchChatController: JSQMessagesViewController ,
     }
     
     func sendChat(message:String){
-        self.socketIO?.emit("sendchat", args:[message])
+//        self.socketIO?.emit("sendchat", args:[message])
+        
+        self.dwindleSocket.sendEvent("sendchat_chatlog", data: [message])
     }
     
     // MARK: - HANDLE UI - OpenGallery
@@ -656,8 +730,8 @@ class MatchChatController: JSQMessagesViewController ,
         
         ProgressHUD.show("Loading earlier messages")
         let settings = UserSettings.loadUserSettings()
-        self.socketIO?.emit("getChatLogForPage", args: [settings.fbId,self.toUserId,self.paginationCountCurrent+1])
-        
+//        self.socketIO?.emit("getChatLogForPage", args: [settings.fbId,self.toUserId,self.paginationCountCurrent+1])
+        self.dwindleSocket.sendEvent("getChatLogForPage", data: [settings.fbId,self.toUserId,self.paginationCountCurrent+1])
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, didTapAvatarImageView avatarImageView: UIImageView!, atIndexPath indexPath: NSIndexPath!) {
