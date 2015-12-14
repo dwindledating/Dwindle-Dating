@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A7T-DZ-deN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A7T-DZ-deN">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -529,8 +529,7 @@
                                                             <exclude reference="otz-k1-ajL"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="65" y="7" width="130" height="27"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="otz-k1-ajL"/>
                                                         </mask>
@@ -550,8 +549,7 @@
                                                             <exclude reference="ghI-jA-0AM"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="65" y="34" width="250" height="38"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="ghI-jA-0AM"/>
                                                         </mask>
@@ -573,8 +571,7 @@
                                                             <exclude reference="UhU-7c-jIR"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="203" y="8" width="112" height="26"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="UhU-7c-jIR"/>
                                                         </mask>
@@ -725,12 +722,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iEt-54-BYR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6073" y="2266"/>
+            <point key="canvasLocation" x="5652" y="2120.25"/>
         </scene>
         <!--Datasource-->
         <scene sceneID="Qyo-eT-Ov3">
             <objects>
-                <viewController id="q6t-0B-EgM" customClass="MatchChatController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MatchChatController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="q6t-0B-EgM" customClass="MatchChatController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y0a-PG-xDX"/>
                         <viewControllerLayoutGuide type="bottom" id="Xco-Cx-7sh"/>
@@ -828,12 +825,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tUO-aX-eCt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7135.5" y="2120.25"/>
+            <point key="canvasLocation" x="6360" y="2120.25"/>
         </scene>
         <!--Datasource-->
         <scene sceneID="7Bg-Uf-KSb">
             <objects>
-                <viewController id="2HK-xn-oal" customClass="GamePlayController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GamePlayController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="2HK-xn-oal" customClass="GamePlayController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sAe-of-czU"/>
                         <viewControllerLayoutGuide type="bottom" id="pSi-O3-qz4"/>
@@ -995,6 +992,9 @@
                                 <color key="backgroundColor" red="0.1529411765" green="0.76078431369999999" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewLayout key="collectionViewLayout" id="wqK-3P-7Pq" customClass="JSQMessagesCollectionViewFlowLayout"/>
                                 <cells/>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="54" width="400" height="655.5"/>
+                                </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="2HK-xn-oal" id="zoX-oT-dXz"/>
                                     <outlet property="delegate" destination="2HK-xn-oal" id="5La-QJ-4XF"/>
@@ -1018,7 +1018,8 @@
                                         <exclude reference="HNw-QQ-75w"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="54" width="400" height="0.0"/>
                                     <mask key="constraints">
                                         <include reference="HNw-QQ-75w"/>
                                     </mask>
@@ -1031,7 +1032,6 @@
                         </subviews>
                         <color key="backgroundColor" red="0.81568627450980391" green="0.83921568627450982" blue="0.85490196078431369" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="Git-m8-lh1" firstAttribute="top" secondItem="dq5-bY-goq" secondAttribute="bottom" id="5Vj-jR-ijv"/>
                             <constraint firstItem="hzr-aQ-Mv2" firstAttribute="leading" secondItem="yPO-9R-yaP" secondAttribute="leading" id="7hd-1R-dvn"/>
                             <constraint firstAttribute="trailing" secondItem="Git-m8-lh1" secondAttribute="trailing" id="E0d-1Y-jWI"/>
                             <constraint firstItem="hzr-aQ-Mv2" firstAttribute="top" secondItem="sAe-of-czU" secondAttribute="bottom" id="Fvu-8E-V6f"/>
@@ -1055,7 +1055,6 @@
                                 <exclude reference="dq5-bY-goq"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="5Vj-jR-ijv"/>
                                 <exclude reference="f5g-gs-2i8"/>
                                 <exclude reference="WIP-5i-c9V"/>
                                 <exclude reference="hre-NY-AZm"/>
@@ -1071,7 +1070,6 @@
                                 <include reference="dq5-bY-goq"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="5Vj-jR-ijv"/>
                                 <include reference="f5g-gs-2i8"/>
                                 <include reference="WIP-5i-c9V"/>
                                 <include reference="hre-NY-AZm"/>
@@ -1413,7 +1411,7 @@
         <!--Signup Controller-->
         <scene sceneID="1Et-Ru-z1N">
             <objects>
-                <viewController id="JUb-rj-9b7" customClass="SignupController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignupController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JUb-rj-9b7" customClass="SignupController" customModule="DwindleDating" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="INf-Yx-dwV"/>
                         <viewControllerLayoutGuide type="bottom" id="KFq-og-nIg"/>
@@ -3068,9 +3066,9 @@
         <image name="signupBg" width="375" height="667"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="pei-dO-3bt"/>
-        <segue reference="d24-cx-jfv"/>
         <segue reference="1NX-cT-MOl"/>
-        <segue reference="kLh-Ty-0xR"/>
+        <segue reference="pei-dO-3bt"/>
+        <segue reference="MHF-kP-5rI"/>
+        <segue reference="z1b-rf-zfl"/>
     </inferredMetricsTieBreakers>
 </document>

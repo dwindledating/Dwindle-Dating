@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Array {
+public extension Array {
     
     func shuffled() -> [Element] {
         var elements = self
@@ -19,5 +19,40 @@ extension Array {
             }
         }
         return elements
+    }
+}
+
+// MARK: - NSStringFromClass
+public extension NSObject {
+    
+    public class var nameOfClass: String {
+        return NSStringFromClass(self).componentsSeparatedByString(".").last!
+    }
+    
+    public var nameOfClass: String{
+        return NSStringFromClass(self.dynamicType).componentsSeparatedByString(".").last!
+    }
+}
+
+public extension UIViewController {
+    
+    func isViewControllerinNavigationStack(controller:UIViewController)-> Bool {
+        
+        var exist = false
+        
+        if let nav = controller.navigationController where nav.viewControllers.contains(controller) == true {
+            exist = true
+        }
+        return exist
+    }
+    
+    func pushControllerInStack(controller:UIViewController, animated:Bool) {
+        
+        if isViewControllerinNavigationStack(controller) {
+            self.navigationController?.popToViewController(controller, animated: false)
+        }
+        else {
+            self.navigationController?.pushViewController(controller, animated: animated)
+        }
     }
 }

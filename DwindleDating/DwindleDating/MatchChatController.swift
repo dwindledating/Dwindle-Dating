@@ -16,6 +16,7 @@ class MatchChatController: JSQMessagesViewController ,
     
     @IBOutlet var imagesViewContainer : UIView!
     
+    var isComingFromPlayScreen = false
     let dwindleSocket = DwindleSocketClient.sharedInstance
     var socketIO: SIOSocket?
     var demoData: DemoModelData!
@@ -32,10 +33,8 @@ class MatchChatController: JSQMessagesViewController ,
     
     @IBOutlet var scroller : KDCycleBannerView!
 
-    
     @IBOutlet weak var galleryHeightConstraint : NSLayoutConstraint?
 
-    
     func receiveMessagePressed(sender: UIBarButtonItem){
         
     }
@@ -56,7 +55,6 @@ class MatchChatController: JSQMessagesViewController ,
         
         let barButton = UIBarButtonItem(customView: btnProfileImg)
         self.navigationItem.rightBarButtonItem = barButton
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -114,7 +112,6 @@ class MatchChatController: JSQMessagesViewController ,
         self.jsq_configureMessagesViewController();
         self.jsq_registerForNotifications(true);
         self.inputToolbar!.contentView!.leftBarButtonItem = nil;
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -360,6 +357,34 @@ class MatchChatController: JSQMessagesViewController ,
                 
                 socketClient.on("message_from_play_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     print ("message_from_play_screen: \(data)");
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
+                        let message = data[0] as! String
+                        
+                        self.view.makeToast(message, duration: 2.0, position: ToastPosition.Top, title: "", image: nil, style: nil, completion: { (didTap) -> Void in
+                            
+                            if didTap {
+                                
+                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                    
+                                    let playController = AppDelegate().playController
+                                    playController.isComingFromOtherScreen = true
+                                    
+                                    // For multiple pushing same controller on stack
+                                    
+                                    self.pushControllerInStack(playController, animated: true)
+                                    
+//                                    if self.isViewControllerinNavigationStack(playController) {
+//                                        self.navigationController?.popToViewController(playController, animated: false)
+//                                    }
+//                                    else {
+//                                        self.navigationController?.pushViewController(playController, animated: true)
+//                                    }
+                                })
+                            }
+                        })
+                    })
                 })
                 
                 // User has made a play request but switched screen.

@@ -60,16 +60,16 @@ MFMessageComposeViewControllerDelegate {
     // MARK : - IBActions
     
     @IBAction func settingButtonPressed(sender: UIButton) {
-        
         performSegueWithIdentifier("showSettingsController", sender: nil)
-        
     }
 
     
     @IBAction func playButtonPressed(sender: AnyObject) {
 
-        performSegueWithIdentifier("showGamePlayController", sender: nil)
+//        performSegueWithIdentifier("showGamePlayController", sender: nil)
 
+        self.navigationController?.pushViewController(AppDelegate().playController, animated: true)
+        
     }
     
     @IBAction func matchButtonPressed(sender: AnyObject) {
@@ -84,7 +84,6 @@ MFMessageComposeViewControllerDelegate {
         sheet.showFromRect(sender.frame, inView: self.view, animated: true)
         
 //        sheet.showFromToolbar(self.inputToolbar);
-        
     }
     
     
@@ -99,7 +98,6 @@ MFMessageComposeViewControllerDelegate {
         
         self.presentViewController(messageVC, animated: false, completion: nil)
     }
-    
     
     func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
         

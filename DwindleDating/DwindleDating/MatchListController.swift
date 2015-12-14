@@ -17,7 +17,7 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     // MARK:- WEB SERVICE
     
-    func backViewController() -> UIViewController?{
+    func backViewController() -> UIViewController? {
         let navC = self.navigationController!
         let noOfViewControllers = navC.viewControllers.count
         if (noOfViewControllers < 2){
@@ -54,7 +54,7 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
             
             
             if let matches = self.matchesArr{
-                self.matchesArr.removeAllObjects()
+                matches.removeAllObjects()
             }
             self.matchesArr = NSMutableArray(array: _matchesArr)
             self.tableview.reloadData()
@@ -153,22 +153,31 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView .deselectRowAtIndexPath(indexPath, animated: true)
         
-            self.performSegueWithIdentifier("showMatchChatController", sender: indexPath)
-
+//        self.performSegueWithIdentifier("showMatchChatController", sender: indexPath)
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        let match = matchesArr[indexPath.row] as! Match
+        
+        let matchControl = AppDelegate().matchChatController
+        matchControl.isComingFromPlayScreen = false
+        matchControl.toUserId = match.fbId
+        matchControl.toUserName = match.name
+        matchControl.status = match.status
+        self.navigationController?.pushViewController(matchControl, animated: true)
+        
     }
-    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if(segue.identifier == "showMatchChatController") {
             self.navigationController?.setNavigationBarHidden(false, animated: false)
 
-            var indexPath: NSIndexPath = sender as! NSIndexPath;
+            let indexPath: NSIndexPath = sender as! NSIndexPath;
             
-            var match = matchesArr[indexPath.row] as! Match
+            let match = matchesArr[indexPath.row] as! Match
 
-            var matchControl = (segue.destinationViewController as! MatchChatController)
-            
+            let matchControl = (segue.destinationViewController as! MatchChatController)
             
             matchControl.toUserId = match.fbId
             matchControl.toUserName = match.name

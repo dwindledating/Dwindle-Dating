@@ -17,6 +17,9 @@ import Parse
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
+    private(set) var playController: GamePlayController!
+    private(set) var matchChatController: MatchChatController!
+    
     var window: UIWindow?
 
     func setupUser() -> Void{
@@ -117,7 +120,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                print("   \(name)")
 //            }
         
-        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        playController = storyboard.instantiateViewControllerWithIdentifier(GamePlayController.nameOfClass) as! GamePlayController
+        matchChatController = storyboard.instantiateViewControllerWithIdentifier(MatchChatController.nameOfClass) as! MatchChatController
 
         self.registerForPushNotifications(application, didFinishLaunchingWithOptions: launchOptions)
         

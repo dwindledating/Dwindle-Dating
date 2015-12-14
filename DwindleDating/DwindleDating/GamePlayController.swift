@@ -32,6 +32,7 @@ SocketIODelegate {
     @IBOutlet weak var btn4: RoundButtonView!
     @IBOutlet weak var btn5: RoundButtonView!
     
+    var isComingFromOtherScreen = false
     
     var playersDict:[String:AnyObject]! = [:]
     
@@ -147,20 +148,18 @@ SocketIODelegate {
     func numberOfKDCycleBannerView(bannerView: KDCycleBannerView!) -> [AnyObject]! {
        
         var imagesList:AnyObject = []
-        var selectedPlayer: Player!
+        var selectedPlayer: Player?
         
-        if var tmpOpener = galleryOpenerButton{
-            selectedPlayer = self.getPlayerAgainstId(galleryOpenerButton.playerId)
+        if let tmpOpener = galleryOpenerButton{
+            selectedPlayer = self.getPlayerAgainstId(tmpOpener.playerId)
         }
         
-        if var tmpSelectedPlayer = selectedPlayer{
-
-            imagesList = (selectedPlayer.galleryImages as NSArray as? [NSURL])!
-            
+        if let tmpSelectedPlayer = selectedPlayer{
+            imagesList = (tmpSelectedPlayer.galleryImages as NSArray as? [NSURL])!
         }
         else{
             // is nil
-                let imagesList   = [UIImage(named:"signup_01")!]
+            imagesList   = [UIImage(named:"signup_01")!]
         }
         
         return imagesList as! [AnyObject]
@@ -183,7 +182,6 @@ SocketIODelegate {
         btn.selected = false
         btn.enabled = false
         btn.setImage(nil, forState: UIControlState.Normal)
-
     }
 
     func handleAddUser(response:[String:AnyObject], key:String){
@@ -248,13 +246,11 @@ SocketIODelegate {
                     
                     ProgressHUD.showSuccess("Round \(dCount) Complete! Additional photo unlocked, tap above to view")
                 }
-
             }
             else{
                 //        2. Add picture to Remaining Users
                 self.handleAddUser(ddDict as [String : AnyObject], key: key)
             }
-            
         }
 
     }
@@ -414,7 +410,8 @@ SocketIODelegate {
     }
     
     func shouldOpenGallery(sender:AnyObject) -> Bool{
-        var button = sender as? RoundButtonView
+       
+        let button = sender as? RoundButtonView
         
         if let playerId = button?.playerId{
             
@@ -539,7 +536,9 @@ SocketIODelegate {
 //        
 //        return
         
-        self.sendgamePlayEvent("Play")
+        if isComingFromOtherScreen == false {
+            self.sendgamePlayEvent("Play")
+        }
         
         dwindleSocket.EventHandler(true) { (socketClient: SocketIOClient) -> Void in
             
@@ -605,7 +604,7 @@ SocketIODelegate {
                     let _message:String = (responseArr[1] as? String)!
                     
                     if let tmpPlayer = self.playerOpponent,
-                        let tmpPlayerId = tmpPlayer.fbId where tmpPlayerId == _senderId
+                       let tmpPlayerId = tmpPlayer.fbId where tmpPlayerId == _senderId
                     {
                         self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
                     }
@@ -709,7 +708,41 @@ SocketIODelegate {
                 
                 socketClient.on("message_from_matches_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     print("message_from_matches_screen: \(data)")
+                    
+                    // This message is for Matches screen. So we will open MatchChatController from here
+                    // We will open Matches screen from here. I will present matches controller over play controller. Animation will be push like animation.
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                      
+                        let message = data[0] as! String
+                        
+                        self.view.makeToast(message, duration: 2.0, position: ToastPosition.Top, title: "", image: nil, style: nil, completion: { (didTap) -> Void in
+                            
+                            if didTap {
+                                
+                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                    
+                                    let matchControl = AppDelegate().matchChatController
+                                    matchControl.isComingFromPlayScreen = true
+                                    matchControl.toUserId = data[1] as! String
+                                    matchControl.toUserName = data[3] as! String
+                                    matchControl.status = data[4] as! String
+                                    
+                                    // For multiple pushing same controller on stack
+                                    self.pushControllerInStack(matchControl, animated: true)
+                                    
+//                                    if self.isViewControllerinNavigationStack(matchControl) {
+//                                        self.navigationController?.popToViewController(matchControl, animated: false)
+//                                    }
+//                                    else {
+//                                        self.navigationController?.pushViewController(matchControl, animated: true)
+//                                    }
+                                })
+                            }
+                        })
+                    })
                 })
+                
                 
                 socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     print("disconnect \(data)")

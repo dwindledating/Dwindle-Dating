@@ -323,6 +323,10 @@
 		5C04855E1C1D8AB800AC8350 /* LocationByAnas.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 5C04855C1C1D8AB800AC8350 /* LocationByAnas.gpx */; };
 		5C0485601C1D990100AC8350 /* LocationByCase4.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 5C04855F1C1D990100AC8350 /* LocationByCase4.gpx */; };
 		5C0485611C1D990100AC8350 /* LocationByCase4.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 5C04855F1C1D990100AC8350 /* LocationByCase4.gpx */; };
+		5C328D281C1DF8F400247674 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C328D271C1DF8F400247674 /* Toast.swift */; };
+		5C328D291C1DF8F400247674 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C328D271C1DF8F400247674 /* Toast.swift */; };
+		5C328D2B1C1E00E200247674 /* DwindleEventBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C328D2A1C1E00E200247674 /* DwindleEventBinding.swift */; };
+		5C328D2C1C1E00E200247674 /* DwindleEventBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C328D2A1C1E00E200247674 /* DwindleEventBinding.swift */; };
 		5CDF1A4A1BF89BE800BB7033 /* DwindleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A491BF89BE800BB7033 /* DwindleExtensions.swift */; };
 		5CDF1A4B1BF89BE800BB7033 /* DwindleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A491BF89BE800BB7033 /* DwindleExtensions.swift */; };
 		5CDF1A501BF8A54800BB7033 /* DwindleSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A4F1BF8A54800BB7033 /* DwindleSocketClient.swift */; };
@@ -658,6 +662,8 @@
 		52F83B671B56562A00C6B371 /* LocationByClient.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LocationByClient.gpx; sourceTree = "<group>"; };
 		5C04855C1C1D8AB800AC8350 /* LocationByAnas.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LocationByAnas.gpx; sourceTree = "<group>"; };
 		5C04855F1C1D990100AC8350 /* LocationByCase4.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LocationByCase4.gpx; sourceTree = "<group>"; };
+		5C328D271C1DF8F400247674 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		5C328D2A1C1E00E200247674 /* DwindleEventBinding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DwindleEventBinding.swift; path = Backend/Models/DwindleEventBinding.swift; sourceTree = "<group>"; };
 		5CDF1A491BF89BE800BB7033 /* DwindleExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DwindleExtensions.swift; sourceTree = "<group>"; };
 		5CDF1A4F1BF8A54800BB7033 /* DwindleSocketClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DwindleSocketClient.swift; path = Backend/DwindleSocketClient.swift; sourceTree = "<group>"; };
 		5CDF1A531BF8A58500BB7033 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
@@ -766,6 +772,7 @@
 				4561928C1B113CB0003A339E /* Match */,
 				45148B481ADF845700DE232C /* Player.h */,
 				5CDF1A491BF89BE800BB7033 /* DwindleExtensions.swift */,
+				5C328D2A1C1E00E200247674 /* DwindleEventBinding.swift */,
 				45148B491ADF845700DE232C /* Player.m */,
 				457CAB6C1B1B86ED0068D474 /* Chat */,
 			);
@@ -1376,6 +1383,7 @@
 		45C99D721A69D1DF00AC0DFC /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				5C328D261C1DF8F400247674 /* Toast */,
 				5CDF1A521BF8A58500BB7033 /* SocketIOClientSwift */,
 				52D91EFD1B2B894E00D32DD3 /* DialogView */,
 				52D91EE11B2B2D7500D32DD3 /* NavigationHandler */,
@@ -1466,6 +1474,14 @@
 				52D91F021B2B894E00D32DD3 /* FinalDwindleDownDialog.xib */,
 			);
 			path = DialogView;
+			sourceTree = "<group>";
+		};
+		5C328D261C1DF8F400247674 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				5C328D271C1DF8F400247674 /* Toast.swift */,
+			);
+			path = Toast;
 			sourceTree = "<group>";
 		};
 		5CDF1A521BF8A58500BB7033 /* SocketIOClientSwift */ = {
@@ -1660,6 +1676,7 @@
 				451BC5ED1AE6E65D003E1C2D /* JSQMessagesComposerTextView.m in Sources */,
 				451BC5EE1AE6E65D003E1C2D /* ServiceManager.m in Sources */,
 				451BC5EF1AE6E65D003E1C2D /* JSQMessagesAvatarImageFactory.m in Sources */,
+				5C328D291C1DF8F400247674 /* Toast.swift in Sources */,
 				451BC5F01AE6E65D003E1C2D /* INTULocationManager.m in Sources */,
 				451BC5F11AE6E65D003E1C2D /* SettingsController.swift in Sources */,
 				451BC5F21AE6E65D003E1C2D /* JSQMessagesCollectionViewFlowLayout.m in Sources */,
@@ -1790,6 +1807,7 @@
 				5CDF1A671BF8A58500BB7033 /* SocketAckEmitter.swift in Sources */,
 				451BC64F1AE6E65D003E1C2D /* JSQMessage.m in Sources */,
 				451BC6501AE6E65D003E1C2D /* UIView+WebCacheOperation.m in Sources */,
+				5C328D2C1C1E00E200247674 /* DwindleEventBinding.swift in Sources */,
 				5263AE6A1B28BE2D00543EF7 /* SRWebSocket.m in Sources */,
 				451BC6511AE6E65D003E1C2D /* AppDelegate.swift in Sources */,
 				5CDF1A811BF8A58500BB7033 /* SocketPacket.swift in Sources */,
@@ -1808,6 +1826,7 @@
 				455DB3541A99D3AA00CEAEA2 /* JSQMessagesComposerTextView.m in Sources */,
 				4591A78D1ACE6D3D001DED1C /* ServiceManager.m in Sources */,
 				455DB33E1A99D3AA00CEAEA2 /* JSQMessagesAvatarImageFactory.m in Sources */,
+				5C328D281C1DF8F400247674 /* Toast.swift in Sources */,
 				45C497411ADD410C00031269 /* INTULocationManager.m in Sources */,
 				45EB7F671A73C24D006ECAD2 /* SettingsController.swift in Sources */,
 				455DB3431A99D3AA00CEAEA2 /* JSQMessagesCollectionViewFlowLayout.m in Sources */,
@@ -1938,6 +1957,7 @@
 				5CDF1A661BF8A58500BB7033 /* SocketAckEmitter.swift in Sources */,
 				455DB3481A99D3AA00CEAEA2 /* JSQMessage.m in Sources */,
 				4572910A1A71AE4A00FD5251 /* UIView+WebCacheOperation.m in Sources */,
+				5C328D2B1C1E00E200247674 /* DwindleEventBinding.swift in Sources */,
 				5263AE691B28BE2D00543EF7 /* SRWebSocket.m in Sources */,
 				458D3C951A68442100A0BD6B /* AppDelegate.swift in Sources */,
 				5CDF1A801BF8A58500BB7033 /* SocketPacket.swift in Sources */,
