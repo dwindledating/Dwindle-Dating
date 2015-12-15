@@ -347,9 +347,9 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             userSettings.fbName  = "Muhammad Yunus" //user.name
         }
         else {
-            userSettings.userGender    = "M"
-            userSettings.fbId    = "1427619287531895" //user.objectID
-            userSettings.fbName  = "Jake Gelyana"
+            userSettings.userGender    = "F"
+            userSettings.fbId    = "696284960499030" //user.objectID
+            userSettings.fbName  = "Muhammad Yunus"
         }
         
 //        userSettings.fbId    = user.objectID

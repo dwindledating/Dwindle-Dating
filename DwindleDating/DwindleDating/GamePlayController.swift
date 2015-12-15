@@ -33,6 +33,7 @@ SocketIODelegate {
     @IBOutlet weak var btn5: RoundButtonView!
     
     var isComingFromOtherScreen = false
+    var gameInProgress = false
     
     var playersDict:[String:AnyObject]! = [:]
     
@@ -130,7 +131,6 @@ SocketIODelegate {
     func performSkipPressed(){
         
 //        let isConnected:Bool = (self.socketIO?.isConnected)!
-//        
 //        if let socket = self.socketIO where socket.isConnected == true {
 //            socket.sendEvent("skip", withData:[])
 //        }
@@ -141,7 +141,8 @@ SocketIODelegate {
     }
     
     func skipPressed(sender: UIBarButtonItem){
-        self.showBackAlertFromSkip(false)
+        self.navigationController?.popViewControllerAnimated(true)
+//        self.showBackAlertFromSkip(false)
     }
     
     // MARK:- KDCycleBannerView DataSource
@@ -161,7 +162,6 @@ SocketIODelegate {
             // is nil
             imagesList   = [UIImage(named:"signup_01")!]
         }
-        
         return imagesList as! [AnyObject]
     }
     
@@ -198,7 +198,8 @@ SocketIODelegate {
 
         //Close Keyboard
         self.hideKeyboard()
-
+        self.gameInProgress = false
+        
         let button: RoundButtonView = self.getPlayerButtonAgainstId(playerOpponent.fbId)
         let dp = button.imageForState(UIControlState.Normal)
 
@@ -212,9 +213,6 @@ SocketIODelegate {
                 self.performSegueWithIdentifier("pushMatchListing", sender: nil)
             }
             else{
-                // Restart Game
-//                self.socketIO?.sendEvent("restartGamePlay", withData: [])
-                
                 self.dwindleSocket.sendEvent("restartGamePlay", data: [])
                 
                 self.resetGameViews()
@@ -234,12 +232,14 @@ SocketIODelegate {
                 //        1. Delete User
                 self.handleDeleteUser(ddDict as [String : AnyObject])
             }
-            else if (key == "DwindleCount"){
+            else if (key == "DwindleCount") {
+                
                 let dCount = ddDict["DwindleCount"] as! Int
                 print("DwindleCount => \(dCount)")
                 
                 if (dCount == 4){
                     //ProgressHUD.showSuccess("Congratulations you have found your dwindle match")
+                    
                     self.handleFinalDwindleDown()
                 }
                 else{
@@ -248,7 +248,7 @@ SocketIODelegate {
                 }
             }
             else{
-                //        2. Add picture to Remaining Users
+//        2. Add picture to Remaining Users
                 self.handleAddUser(ddDict as [String : AnyObject], key: key)
             }
         }
@@ -536,7 +536,7 @@ SocketIODelegate {
 //        
 //        return
         
-        if isComingFromOtherScreen == false {
+        if isComingFromOtherScreen == false && self.gameInProgress == false {
             self.sendgamePlayEvent("Play")
         }
         
@@ -549,6 +549,7 @@ SocketIODelegate {
                     
                     print("startgame: \(data)")
                     
+                    self.gameInProgress = true
                     self.isPlayerFound = true
                     
                     let responseArr:[AnyObject] =  data
@@ -627,7 +628,7 @@ SocketIODelegate {
                 
                 socketClient.on("disconnectResponse", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-                    print("\n disconnectResponse: \(data)")
+                    print("disconnectResponse: \(data)")
                     ProgressHUD.showError("The other user has left the game. Connecting to new users.")
                     let delay = 3.5 * Double(NSEC_PER_SEC)
                     let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
@@ -642,7 +643,7 @@ SocketIODelegate {
                 
                 socketClient.on("skipchat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-                    print("\n Skipchat: \(data)")
+                    print("Skipchat: \(data)")
                     ProgressHUD.showError("The other user has left the game. Connecting to new users.")
                     let delay = 3.5 * Double(NSEC_PER_SEC)
                     let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
@@ -659,6 +660,11 @@ SocketIODelegate {
                     dispatch_after(time, dispatch_get_main_queue()) {
                         self.resetGameViews()
                     }
+                })
+                
+                socketClient.on("message_no_online_user", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    print("message_no_online_user: \(data)")
+                    self.handleNoMatchFound()
                 })
                 
                 socketClient.on("message_not_found", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -720,31 +726,26 @@ SocketIODelegate {
                             
                             if didTap {
                                 
+                                let settings = UserSettings.loadUserSettings()
+                                self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
+                                
                                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                     
-                                    let matchControl = AppDelegate().matchChatController
-                                    matchControl.isComingFromPlayScreen = true
-                                    matchControl.toUserId = data[1] as! String
-                                    matchControl.toUserName = data[3] as! String
-                                    matchControl.status = data[4] as! String
                                     
-                                    // For multiple pushing same controller on stack
-                                    self.pushControllerInStack(matchControl, animated: true)
-                                    
-//                                    if self.isViewControllerinNavigationStack(matchControl) {
-//                                        self.navigationController?.popToViewController(matchControl, animated: false)
-//                                    }
-//                                    else {
-//                                        self.navigationController?.pushViewController(matchControl, animated: true)
-//                                    }
+                                    let matchControler = AppDelegate.sharedAppDelegat().matchChatController
+                                    matchControler.isComingFromPlayScreen = true
+                                    matchControler.toUserId = data[1] as! String
+                                    matchControler.toUserName = data[3] as! String
+                                    matchControler.status = data[4] as! String
+                                    self.pushControllerInStack(matchControler, animated: true)
                                 })
                             }
                         })
                     })
                 })
                 
-                
                 socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
                     print("disconnect \(data)")
                     
                     print("GAMEPLAY CHAT => socket.io disconnected. did error occur \(data)");
@@ -787,6 +788,11 @@ SocketIODelegate {
     }
     
     func startGame(){
+        
+        if self.gameInProgress {
+            // Already busy in playing
+            return
+        }
         
         ProgressHUD.show("Starting Game...")
         self.initSocketConnection();
@@ -997,7 +1003,8 @@ SocketIODelegate {
     }
     
         // MARK: -   VIEW LIFE CYCLE
-    func initContentView(){
+    func initContentView() {
+        
         // Scroll Initialization
         scroller.autoPlayTimeInterval = 0;
         scroller.continuous = true;
@@ -1041,12 +1048,7 @@ SocketIODelegate {
     override func viewWillDisappear(animated: Bool) {
         ProgressHUD.dismiss()
         
-//        if let socket = self.socketIO where socket.isConnected == true {
-//                print("loggedout Called");
-//                socket.sendEvent("loggedout", withData:[])
-//                self.releaseSockets()
-//        }
-        
+        isComingFromOtherScreen = false
         super.viewWillDisappear(animated)
     }
     

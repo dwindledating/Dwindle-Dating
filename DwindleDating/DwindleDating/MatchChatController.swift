@@ -64,7 +64,6 @@ class MatchChatController: JSQMessagesViewController ,
     
     override func viewWillDisappear(animated: Bool) {
         ProgressHUD.dismiss()
-//        self.socketIO?.emit("loggedout")
         super.viewWillDisappear(animated)
     }
 
@@ -103,7 +102,6 @@ class MatchChatController: JSQMessagesViewController ,
             self.collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
         }
         
-
 //        self.collectionView.collectionViewLayout.springinessEnabled = false;
         
 //        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "demo_avatar_jobs"), style: UIBarButtonItemStyle.Bordered, target: self, action: "receiveMessagePressed:")
@@ -366,21 +364,14 @@ class MatchChatController: JSQMessagesViewController ,
                             
                             if didTap {
                                 
+                                let settings = UserSettings.loadUserSettings()
+                                self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
+                                
                                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                     
-                                    let playController = AppDelegate().playController
+                                    let playController = AppDelegate.sharedAppDelegat().playController
                                     playController.isComingFromOtherScreen = true
-                                    
-                                    // For multiple pushing same controller on stack
-                                    
                                     self.pushControllerInStack(playController, animated: true)
-                                    
-//                                    if self.isViewControllerinNavigationStack(playController) {
-//                                        self.navigationController?.popToViewController(playController, animated: false)
-//                                    }
-//                                    else {
-//                                        self.navigationController?.pushViewController(playController, animated: true)
-//                                    }
                                 })
                             }
                         })
@@ -433,7 +424,6 @@ class MatchChatController: JSQMessagesViewController ,
     func openProfile(){
         
         print("openProfile")
-        
     }
     
     @IBAction func openImageGallery(sender: AnyObject) {
@@ -442,7 +432,7 @@ class MatchChatController: JSQMessagesViewController ,
         
         self.hideKeyboard()
         
-        var galleryOpenerButton = sender as? UIButton
+        let galleryOpenerButton = sender as? UIButton
         
         if (galleryOpenerButton!.tag == 0){
             galleryOpenerButton!.tag = 1
@@ -530,7 +520,7 @@ class MatchChatController: JSQMessagesViewController ,
         */
         JSQSystemSoundPlayer.jsq_playMessageSentSound();
         
-        var message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
+        let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
         
         self.demoData.messages.addObject(message);
         
@@ -561,7 +551,7 @@ class MatchChatController: JSQMessagesViewController ,
         *  Otherwise, return your previously created bubble image data objects.
         */
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
+        let message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         if (message.senderId == self.senderId) {
             return self.demoData.outgoingBubbleImageData;
         }
@@ -592,7 +582,7 @@ class MatchChatController: JSQMessagesViewController ,
         *  Override the defaults in `viewDidLoad`
         */
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
+        let message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         
         if (message.senderId == self.senderId) {
             if (!NSUserDefaults.outgoingAvatarSetting()) {
@@ -628,7 +618,7 @@ class MatchChatController: JSQMessagesViewController ,
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
+        let message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         
         /**
         *  iOS7-style sender name labels
@@ -719,7 +709,7 @@ class MatchChatController: JSQMessagesViewController ,
         *  iOS7-style sender name labels
         */
         
-        var currentMessage :JSQMessage = self.demoData.messages[indexPath.item] as! JSQMessage;
+        let currentMessage :JSQMessage = self.demoData.messages[indexPath.item] as! JSQMessage;
         
         if (currentMessage.senderId == self.senderId) {
             return 0.0;

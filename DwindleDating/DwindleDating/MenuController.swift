@@ -15,40 +15,111 @@ UIActionSheetDelegate,
 MFMailComposeViewControllerDelegate,
 MFMessageComposeViewControllerDelegate {
     
+    let dwindleSocket = DwindleSocketClient.sharedInstance
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true , animated: true)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
-        let dwindleSocket = DwindleSocketClient.sharedInstance
+        if dwindleSocket.status() == .Connected {
+            let settings = UserSettings.loadUserSettings()
+            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
+        }
+        
+//        let dwindleSocket = DwindleSocketClient.sharedInstance
         dwindleSocket.EventHandler(true) { (socketClient: SocketIOClient) -> Void in
             
-            if socketClient.status == .Connected { // We are save to proceed
+            socketClient.on("connect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                 print("MenuController. Socket connected")
+                
+                let settings = UserSettings.loadUserSettings()
+                self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
                 
                 // User got event from one of his match.
                 socketClient.on("message_from_matches_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     print ("message_from_matches_screen: \(data)");
-                })
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
+                        let message = data[0] as! String
+                        
+                        self.view.makeToast(message, duration: 2.0, position: ToastPosition.Top, title: "", image: nil, style: nil, completion: { (didTap) -> Void in
+                            
+                            if didTap {
+                                
+                                let settings = UserSettings.loadUserSettings()
+                                self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
+                                
+                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                    
+                                    self.navigationController?.setNavigationBarHidden(false, animated: false)
+                                    
+                                    let matchControler = AppDelegate.sharedAppDelegat().matchChatController
+                                    matchControler.isComingFromPlayScreen = true
+                                    matchControler.toUserId = data[1] as! String
+                                    matchControler.toUserName = data[3] as! String
+                                    matchControler.status = data[4] as! String
+                                    self.pushControllerInStack(matchControler, animated: true)
+                                })
+                            }
+                        })
+                    })                })
                 
                 // User got play event from other user. This could be a push message as well.
                 socketClient.on("message_from_play_screen", callback: { (data:[AnyObject], ac:SocketAckEmitter) -> Void in
+                    
                     print ("message_from_play_screen: \(data)");
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
+                        let message = data[0] as! String
+                        
+                        self.view.makeToast(message, duration: 2.0, position: ToastPosition.Top, title: "", image: nil, style: nil, completion: { (didTap) -> Void in
+                            
+                            if didTap {
+                                
+                                let settings = UserSettings.loadUserSettings()
+                                self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
+                                
+                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                    
+                                    let playController = AppDelegate.sharedAppDelegat().playController
+                                    playController.isComingFromOtherScreen = true
+                                    self.pushControllerInStack(playController, animated: true)
+                                })
+                            }
+                        })
+                    })
                 })
                 
                 // User has made a play request but switched screen.
                 socketClient.on("message_game_started", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     print ("message_game_started: \(data)");
+                    
+                    let playController = AppDelegate.sharedAppDelegat().playController
+                    playController.isComingFromOtherScreen = false
+                    playController.gameInProgress = false
+                    self.pushControllerInStack(playController, animated: true)
                 })
                 
                 socketClient.on("APNS Response", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     print ("APNS Response: \(data)");
                 })
-            }
+                
+                socketClient.onAny({ (SocketAnyEvent) -> Void in
+                    print ("MenuController -> onAny: \(SocketAnyEvent)");
+                    
+                    if SocketAnyEvent.event == "error" {
+                        print("MenuController->Error \(SocketAnyEvent.items)")
+                    }
+                })
+                
+            })
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
     
     override func didReceiveMemoryWarning() {
@@ -66,16 +137,17 @@ MFMessageComposeViewControllerDelegate {
     
     @IBAction func playButtonPressed(sender: AnyObject) {
 
-//        performSegueWithIdentifier("showGamePlayController", sender: nil)
-
-        self.navigationController?.pushViewController(AppDelegate().playController, animated: true)
+//      performSegueWithIdentifier("showGamePlayController", sender: nil)
         
+        let playController = AppDelegate.sharedAppDelegat().playController
+        playController.isComingFromOtherScreen = false
+        playController.gameInProgress = false
+        
+        self.pushControllerInStack(playController, animated: true)
     }
     
     @IBAction func matchButtonPressed(sender: AnyObject) {
-   
         performSegueWithIdentifier("showMatchListController", sender: nil)
-        
     }
     
     @IBAction func shareButtonPressed(sender: AnyObject) {

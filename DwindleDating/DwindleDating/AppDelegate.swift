@@ -16,12 +16,15 @@ import Parse
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
     private(set) var playController: GamePlayController!
     private(set) var matchChatController: MatchChatController!
-    
     var window: UIWindow?
 
+    class func sharedAppDelegat() -> AppDelegate {
+        let appdelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        return appdelegate
+    }
+    
     func setupUser() -> Void{
         
     }
@@ -82,11 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        installation["user"] = PFUser.currentUser()
         installation.saveInBackgroundWithBlock { (status: Bool, error:NSError?) -> Void in
             //code
-            
-    
-            
         }
-
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {

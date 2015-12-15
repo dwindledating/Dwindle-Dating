@@ -143,7 +143,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
                 cell_?.backgroundColor = UIColor.clearColor()
                 
             }
-
         }
         
         return cell_!
@@ -159,13 +158,12 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         
         let match = matchesArr[indexPath.row] as! Match
         
-        let matchControl = AppDelegate().matchChatController
-        matchControl.isComingFromPlayScreen = false
-        matchControl.toUserId = match.fbId
-        matchControl.toUserName = match.name
-        matchControl.status = match.status
-        self.navigationController?.pushViewController(matchControl, animated: true)
-        
+        let matchControler = AppDelegate.sharedAppDelegat().matchChatController
+        matchControler.isComingFromPlayScreen = false
+        matchControler.toUserId = match.fbId
+        matchControler.toUserName = match.name
+        matchControler.status = match.status
+        self.navigationController?.pushViewController(matchControler, animated: true)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
