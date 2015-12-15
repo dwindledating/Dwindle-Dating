@@ -141,8 +141,7 @@ SocketIODelegate {
     }
     
     func skipPressed(sender: UIBarButtonItem){
-        self.navigationController?.popViewControllerAnimated(true)
-//        self.showBackAlertFromSkip(false)
+        self.showBackAlertFromSkip(false)
     }
     
     // MARK:- KDCycleBannerView DataSource
@@ -169,7 +168,6 @@ SocketIODelegate {
         return UIViewContentMode.ScaleAspectFit;
     }
 
-    
     // MARK: - PlayersManagement - PLAYERS
     
     func handleDeleteUser(response:[String:AnyObject]){
@@ -540,14 +538,19 @@ SocketIODelegate {
             self.sendgamePlayEvent("Play")
         }
         
-        dwindleSocket.EventHandler(true) { (socketClient: SocketIOClient) -> Void in
+        if dwindleSocket.isGamePlayerControllerHandlerAdded == true {
+            print("isGamePlayerControllerHandlerAdded:We do not need to add handler again. This may be creating socket again. Without closing ealier one.")
+            return
+        }
+        
+        dwindleSocket.EventHandler(HandlerType.Play) { (socketClient: SocketIOClient) -> Void in
             
             if socketClient.status == .Connected { // We are save to proceed
                 print("GamePlay: Socket is connected. We will catch events here")
                 
                 socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-                    print("startgame: \(data)")
+//                    print("startgame: \(data)")
                     
                     self.gameInProgress = true
                     self.isPlayerFound = true
@@ -595,7 +598,7 @@ SocketIODelegate {
                 
                 socketClient.on("updatechat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-                    print("\n updatechat: \(data)")
+                    print("GamePlayController->updatechat: \(data)")
                     let responseArr:[AnyObject] =  data
                     
                     var _senderId:String = ""
@@ -613,7 +616,7 @@ SocketIODelegate {
                 
                 socketClient.on("dwindledown", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-                    print("\n dwindledown: \(data)")
+//                    print("\n dwindledown: \(data)")
                     
                     let responseArr: [AnyObject] =  data
                     let dataStr: String = responseArr[0] as! String
@@ -731,7 +734,6 @@ SocketIODelegate {
                                 
                                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                     
-                                    
                                     let matchControler = AppDelegate.sharedAppDelegat().matchChatController
                                     matchControler.isComingFromPlayScreen = true
                                     matchControler.toUserId = data[1] as! String
@@ -768,8 +770,6 @@ SocketIODelegate {
                 
                 socketClient.onAny({ (SocketAnyEvent) -> Void in
                     
-                    print("onAny:\n\n \(SocketAnyEvent)\n\nonAny")
-                    
                     if SocketAnyEvent.event == "error" {
                         
 //                        self.handleNoMatchFound()
@@ -777,7 +777,7 @@ SocketIODelegate {
                         print("GAMEPLAY CHAT => socket onError with error \(SocketAnyEvent.description)");
 //                        let errorCode = error.code as Int
 //                        if (errorCode == -8) { //SocketIOUnauthorized
-//               wq             print("not authorized");
+//                            print("not authorized");
 //                        } else {
 //                            print("onError()\(error)");
 //                        }
@@ -789,12 +789,13 @@ SocketIODelegate {
     
     func startGame(){
         
-        if self.gameInProgress {
+        if self.gameInProgress == true {
             // Already busy in playing
             return
         }
         
         ProgressHUD.show("Starting Game...")
+        
         self.initSocketConnection();
     }
     
@@ -872,7 +873,7 @@ SocketIODelegate {
             print("second user name\(name)")
             self.title = secondUserDict["user_name"]
             
-            var otherData:AnyObject = roomUserInfoDict["OtherUsers"] as! NSArray
+            let otherData:AnyObject = roomUserInfoDict["OtherUsers"] as! NSArray
             self.playerOther1 = Player(dict: otherData[0]! as? Dictionary)
             self.playerOther2 = Player(dict: otherData[1]! as? Dictionary)
             self.playerOther3 = Player(dict: otherData[2]! as? Dictionary)
@@ -905,16 +906,15 @@ SocketIODelegate {
             if let tmpSenderId = responseArr[1]  as? String! {
                 _senderId = tmpSenderId
             }
-            var _message:String = (responseArr[2] as? String)!
+            let _message:String = (responseArr[2] as? String)!
            
             if let tmpPlayer = self.playerOpponent{
-                if let tmpPlayerId = self.playerOpponent.fbId{
-                    if (_senderId == self.playerOpponent.fbId){
+                if let tmpPlayerId = tmpPlayer.fbId{
+                    if (_senderId == tmpPlayerId){
                         self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
                     }
                 }
             }
-            
         }
         else if (packet.name == "dwindledown") {
             print("\n \(packet.name) data as string looks like \(packet.data)")
@@ -953,7 +953,6 @@ SocketIODelegate {
             dispatch_after(time, dispatch_get_main_queue()) {
                 self.resetGameViews()
             }
-
 //            self.resetGameViews()
         }
         else if (packet.name == "loggedoutResponse"){

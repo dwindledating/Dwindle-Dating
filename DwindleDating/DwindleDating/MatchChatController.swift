@@ -252,15 +252,19 @@ class MatchChatController: JSQMessagesViewController ,
 //        })
 //        return
         
-        dwindleSocket.EventHandler(true) { (socketClient: SocketIOClient) -> Void in
+        if dwindleSocket.isMatchChatControllerHandlerAdded == true {
+            print("isMatchChatControllerHandlerAdded:We do not need to add handler again. This may be creating socket again. Without closing ealier one.")
+            return
+        }
+        
+        dwindleSocket.EventHandler(HandlerType.MatchChat) { (socketClient: SocketIOClient) -> Void in
             
             if socketClient.status == .Connected { // We are save to proceed
-                print("MatchesChatController dwinlde socket is connected.")
                 
                 let settings = UserSettings.loadUserSettings()
                 print("My FBID: \(settings.fbId) Wants to connect with :\(self.toUserId) with status: \(self.status)")
-                
                 self.dwindleSocket.sendEvent("chat", data: [settings.fbId,self.toUserId,self.status])
+
                 ProgressHUD.show("Getting Chat History")
                 
                 socketClient.on("getChatLog", callback: { (args:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -381,17 +385,19 @@ class MatchChatController: JSQMessagesViewController ,
                 // User has made a play request but switched screen.
                 socketClient.on("message_game_started", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     print ("MatchesController:message_game_started: \(data)");
+                    
+                    let playController = AppDelegate.sharedAppDelegat().playController
+                    playController.isComingFromOtherScreen = false
+                    playController.gameInProgress = false
+                    self.pushControllerInStack(playController, animated: true)
                 })
                 
                 socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
                     print ("disconnect: \(data)");
                 })
                 
                 socketClient.onAny({ (SocketAnyEvent) -> Void in
-                    
-                    print("MatchChatController: \(SocketAnyEvent)")
-                    
+
                     if SocketAnyEvent.event == "error" {
                         print("Error: \(SocketAnyEvent.items)")
                     }

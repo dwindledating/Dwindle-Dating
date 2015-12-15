@@ -26,8 +26,12 @@ MFMessageComposeViewControllerDelegate {
             self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
         }
         
-//        let dwindleSocket = DwindleSocketClient.sharedInstance
-        dwindleSocket.EventHandler(true) { (socketClient: SocketIOClient) -> Void in
+        if dwindleSocket.isMenuControllerHandlerAdded == true {
+            print("isMenuControllerHandlerAdded:We do not need to add handler again. This may be creating socket again. Without closing ealier one.")
+            return
+        }
+        
+        dwindleSocket.EventHandler(HandlerType.Menu) { (socketClient: SocketIOClient) -> Void in
             
             socketClient.on("connect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                 print("MenuController. Socket connected")
@@ -107,7 +111,6 @@ MFMessageComposeViewControllerDelegate {
                 })
                 
                 socketClient.onAny({ (SocketAnyEvent) -> Void in
-                    print ("MenuController -> onAny: \(SocketAnyEvent)");
                     
                     if SocketAnyEvent.event == "error" {
                         print("MenuController->Error \(SocketAnyEvent.items)")

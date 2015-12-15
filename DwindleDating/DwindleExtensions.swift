@@ -48,11 +48,14 @@ public extension UIViewController {
     
     func pushControllerInStack(controller:UIViewController, animated:Bool) {
         
-        if isViewControllerinNavigationStack(controller) {
-            self.navigationController?.popToViewController(controller, animated: false)
-        }
-        else {
-            self.navigationController?.pushViewController(controller, animated: animated)
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            
+            if self.isViewControllerinNavigationStack(controller) {
+                self.navigationController?.popToViewController(controller, animated: false)
+            }
+            else {
+                self.navigationController?.pushViewController(controller, animated: animated)
+            }
         }
     }
 }

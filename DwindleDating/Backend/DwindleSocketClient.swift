@@ -28,6 +28,12 @@ public protocol DwindleSocketDelegate : NSObjectProtocol {
     func socketDidDisConnect()
 }
 
+enum HandlerType:Int {
+    case Menu
+    case Play
+    case MatchChat
+}
+
 class DwindleSocketClient {
    
     static let sharedInstance = DwindleSocketClient()
@@ -39,7 +45,7 @@ class DwindleSocketClient {
     
     private let socket = SocketIOClient(socketURL: "159.203.245.103:3000",
         options: [
-            SocketIOClientOption.Log(false),
+            SocketIOClientOption.Log(true),
             SocketIOClientOption.ForcePolling(true),
             SocketIOClientOption.Reconnects(true),
             SocketIOClientOption.VoipEnabled(true),
@@ -48,32 +54,64 @@ class DwindleSocketClient {
         ]
     )
     
-    private var isGamePlayerController = false
+    private(set) var isMenuControllerHandlerAdded = false
+    private(set) var isGamePlayerControllerHandlerAdded = false
+    private(set) var isMatchChatControllerHandlerAdded = false
     
     weak private var delegate: DwindleSocketDelegate?
     
     init() {
+        
         self.socket.connect()
         addHandlers()
     }
     
     func addHandlers() {
         // Our socket handlers go here
-        self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
+        self.socket.onAny {
+            
+            print("Got event: \($0.event), with items: \($0.items)")
+            
+            if $0.event == "connect" {
+                let settings = UserSettings.loadUserSettings()
+                self.socket.emit("connect with socket", withItems: [settings.fbId])
+            }
+        }
+        
+//        self.socket.once("connect") { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+//            let settings = UserSettings.loadUserSettings()
+//            self.socket.emit("connect with socket", withItems: [settings.fbId])
+//        }
     }
     
     func sendEvent(eventName: String, data: [AnyObject]) {
         
-        self.socket.emit(eventName, withItems: data)
+        if self.socket.status == .Connected {
+            self.socket.emit(eventName, withItems: data)
+        }
         
         if (delegate != nil) {
             // We will decide later what to do here.
         }
     }
     
-    func EventHandler(isGamePlay: Bool, socket:(SocketIOClient)->Void) {
+    func EventHandler(type: HandlerType, socket:(SocketIOClient)->Void) {
         
-        isGamePlayerController = isGamePlay
+        if type == HandlerType.Menu {
+            isMenuControllerHandlerAdded = true
+        }
+        else if type == HandlerType.Play {
+            isGamePlayerControllerHandlerAdded = true
+        }
+        else if type == HandlerType.MatchChat {
+            isMatchChatControllerHandlerAdded = true
+        }
+    
+        socket(self.socket)
+    }
+    
+    func EventHandlerForMatches(socket:(SocketIOClient)->Void) {
+        
         socket(self.socket)
     }
     
