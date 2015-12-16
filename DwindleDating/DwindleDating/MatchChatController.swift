@@ -364,21 +364,19 @@ class MatchChatController: JSQMessagesViewController ,
                         
                         let message = data[0] as! String
                         
-                        self.view.makeToast(message, duration: 2.0, position: ToastPosition.Top, title: "", image: nil, style: nil, completion: { (didTap) -> Void in
+                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: message, linedBackground: AJLinedBackgroundTypeAnimated, hideAfter: 2.0, response: { () -> Void in
                             
-                            if didTap {
+                            let settings = UserSettings.loadUserSettings()
+                            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
+                            
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 
-                                let settings = UserSettings.loadUserSettings()
-                                self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
-                                
-                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                    
-                                    let playController = AppDelegate.sharedAppDelegat().playController
-                                    playController.isComingFromOtherScreen = true
-                                    self.pushControllerInStack(playController, animated: true)
-                                })
-                            }
+                                let playController = AppDelegate.sharedAppDelegat().playController
+                                playController.isComingFromOtherScreen = true
+                                self.pushControllerInStack(playController, animated: true)
+                            })
                         })
+                        
                     })
                 })
                 
@@ -401,7 +399,6 @@ class MatchChatController: JSQMessagesViewController ,
                     if SocketAnyEvent.event == "error" {
                         print("Error: \(SocketAnyEvent.items)")
                     }
-                    
                 })
             }
         }

@@ -141,7 +141,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
                 font = UIFont.systemFontOfSize(font!.pointSize)
                 cell_?.lblDetail.font = font
                 cell_?.backgroundColor = UIColor.clearColor()
-                
             }
         }
         

@@ -716,7 +716,8 @@ SocketIODelegate {
                 })
                 
                 socketClient.on("message_from_matches_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    print("message_from_matches_screen: \(data)")
+                    
+                    print ("message_from_matches_screen: \(data)");
                     
                     // This message is for Matches screen. So we will open MatchChatController from here
                     // We will open Matches screen from here. I will present matches controller over play controller. Animation will be push like animation.
@@ -725,23 +726,20 @@ SocketIODelegate {
                       
                         let message = data[0] as! String
                         
-                        self.view.makeToast(message, duration: 2.0, position: ToastPosition.Top, title: "", image: nil, style: nil, completion: { (didTap) -> Void in
+                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: message, linedBackground: AJLinedBackgroundTypeAnimated, hideAfter: 2.0, response: { () -> Void in
                             
-                            if didTap {
+                            let settings = UserSettings.loadUserSettings()
+                            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
+                            
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 
-                                let settings = UserSettings.loadUserSettings()
-                                self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
-                                
-                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                    
-                                    let matchControler = AppDelegate.sharedAppDelegat().matchChatController
-                                    matchControler.isComingFromPlayScreen = true
-                                    matchControler.toUserId = data[1] as! String
-                                    matchControler.toUserName = data[3] as! String
-                                    matchControler.status = data[4] as! String
-                                    self.pushControllerInStack(matchControler, animated: true)
-                                })
-                            }
+                                let matchControler = AppDelegate.sharedAppDelegat().matchChatController
+                                matchControler.isComingFromPlayScreen = true
+                                matchControler.toUserId = data[1] as! String
+                                matchControler.toUserName = data[3] as! String
+                                matchControler.status = data[4] as! String
+                                self.pushControllerInStack(matchControler, animated: true)
+                            })
                         })
                     })
                 })

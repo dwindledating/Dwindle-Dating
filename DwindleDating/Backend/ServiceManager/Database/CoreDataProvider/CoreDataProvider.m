@@ -149,6 +149,9 @@ static CoreDataProvider *instance = nil;
     [__managedObjectContext lock];
     //    [[[CoreDataProvider instance]managedObjectContext] reset];//to drop pending changes
     
+//    [__managedObjectContext performBlockAndWait:^{
+//    }];
+    
     NSArray *stores = [__persistentStoreCoordinator persistentStores];
     for(NSPersistentStore *store in stores) {
         [__persistentStoreCoordinator removePersistentStore:store error:nil];

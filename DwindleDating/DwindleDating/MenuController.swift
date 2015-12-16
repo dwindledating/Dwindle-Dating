@@ -47,27 +47,25 @@ MFMessageComposeViewControllerDelegate {
                         
                         let message = data[0] as! String
                         
-                        self.view.makeToast(message, duration: 2.0, position: ToastPosition.Top, title: "", image: nil, style: nil, completion: { (didTap) -> Void in
+                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: message, linedBackground: AJLinedBackgroundTypeAnimated, hideAfter: 2.0, response: { () -> Void in
                             
-                            if didTap {
+                            let settings = UserSettings.loadUserSettings()
+                            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
+                            
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 
-                                let settings = UserSettings.loadUserSettings()
-                                self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
+                                self.navigationController?.setNavigationBarHidden(false, animated: false)
                                 
-                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                    
-                                    self.navigationController?.setNavigationBarHidden(false, animated: false)
-                                    
-                                    let matchControler = AppDelegate.sharedAppDelegat().matchChatController
-                                    matchControler.isComingFromPlayScreen = true
-                                    matchControler.toUserId = data[1] as! String
-                                    matchControler.toUserName = data[3] as! String
-                                    matchControler.status = data[4] as! String
-                                    self.pushControllerInStack(matchControler, animated: true)
-                                })
-                            }
+                                let matchControler = AppDelegate.sharedAppDelegat().matchChatController
+                                matchControler.isComingFromPlayScreen = true
+                                matchControler.toUserId = data[1] as! String
+                                matchControler.toUserName = data[3] as! String
+                                matchControler.status = data[4] as! String
+                                self.pushControllerInStack(matchControler, animated: true)
+                            })
                         })
-                    })                })
+                    })
+                })
                 
                 // User got play event from other user. This could be a push message as well.
                 socketClient.on("message_from_play_screen", callback: { (data:[AnyObject], ac:SocketAckEmitter) -> Void in
@@ -78,20 +76,18 @@ MFMessageComposeViewControllerDelegate {
                         
                         let message = data[0] as! String
                         
-                        self.view.makeToast(message, duration: 2.0, position: ToastPosition.Top, title: "", image: nil, style: nil, completion: { (didTap) -> Void in
+                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: message, linedBackground: AJLinedBackgroundTypeAnimated, hideAfter: 2.0, response: { () -> Void in
+                          
+                            let settings = UserSettings.loadUserSettings()
+                            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
                             
-                            if didTap {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 
-                                let settings = UserSettings.loadUserSettings()
-                                self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
-                                
-                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                    
-                                    let playController = AppDelegate.sharedAppDelegat().playController
-                                    playController.isComingFromOtherScreen = true
-                                    self.pushControllerInStack(playController, animated: true)
-                                })
-                            }
+                                let playController = AppDelegate.sharedAppDelegat().playController
+                                playController.isComingFromOtherScreen = true
+                                self.pushControllerInStack(playController, animated: true)
+                            })
+                            
                         })
                     })
                 })
@@ -100,10 +96,13 @@ MFMessageComposeViewControllerDelegate {
                 socketClient.on("message_game_started", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     print ("message_game_started: \(data)");
                     
-                    let playController = AppDelegate.sharedAppDelegat().playController
-                    playController.isComingFromOtherScreen = false
-                    playController.gameInProgress = false
-                    self.pushControllerInStack(playController, animated: true)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    
+                        let playController = AppDelegate.sharedAppDelegat().playController
+                        playController.isComingFromOtherScreen = false
+                        playController.gameInProgress = false
+                        self.pushControllerInStack(playController, animated: true)
+                    })
                 })
                 
                 socketClient.on("APNS Response", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in

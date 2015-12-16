@@ -327,6 +327,8 @@
 		5C328D291C1DF8F400247674 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C328D271C1DF8F400247674 /* Toast.swift */; };
 		5C328D2B1C1E00E200247674 /* DwindleEventBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C328D2A1C1E00E200247674 /* DwindleEventBinding.swift */; };
 		5C328D2C1C1E00E200247674 /* DwindleEventBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C328D2A1C1E00E200247674 /* DwindleEventBinding.swift */; };
+		5C920FF71C214D01002E3233 /* AJNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C920FF61C214D01002E3233 /* AJNotificationView.m */; };
+		5C920FF81C214D01002E3233 /* AJNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C920FF61C214D01002E3233 /* AJNotificationView.m */; };
 		5CDF1A4A1BF89BE800BB7033 /* DwindleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A491BF89BE800BB7033 /* DwindleExtensions.swift */; };
 		5CDF1A4B1BF89BE800BB7033 /* DwindleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A491BF89BE800BB7033 /* DwindleExtensions.swift */; };
 		5CDF1A501BF8A54800BB7033 /* DwindleSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A4F1BF8A54800BB7033 /* DwindleSocketClient.swift */; };
@@ -664,6 +666,8 @@
 		5C04855F1C1D990100AC8350 /* LocationByCase4.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LocationByCase4.gpx; sourceTree = "<group>"; };
 		5C328D271C1DF8F400247674 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		5C328D2A1C1E00E200247674 /* DwindleEventBinding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DwindleEventBinding.swift; path = Backend/Models/DwindleEventBinding.swift; sourceTree = "<group>"; };
+		5C920FF51C214D01002E3233 /* AJNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJNotificationView.h; sourceTree = "<group>"; };
+		5C920FF61C214D01002E3233 /* AJNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJNotificationView.m; sourceTree = "<group>"; };
 		5CDF1A491BF89BE800BB7033 /* DwindleExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DwindleExtensions.swift; sourceTree = "<group>"; };
 		5CDF1A4F1BF8A54800BB7033 /* DwindleSocketClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DwindleSocketClient.swift; path = Backend/DwindleSocketClient.swift; sourceTree = "<group>"; };
 		5CDF1A531BF8A58500BB7033 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
@@ -1383,6 +1387,7 @@
 		45C99D721A69D1DF00AC0DFC /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				5C920FF41C214D01002E3233 /* AJNotificationView */,
 				5C328D261C1DF8F400247674 /* Toast */,
 				5CDF1A521BF8A58500BB7033 /* SocketIOClientSwift */,
 				52D91EFD1B2B894E00D32DD3 /* DialogView */,
@@ -1482,6 +1487,15 @@
 				5C328D271C1DF8F400247674 /* Toast.swift */,
 			);
 			path = Toast;
+			sourceTree = "<group>";
+		};
+		5C920FF41C214D01002E3233 /* AJNotificationView */ = {
+			isa = PBXGroup;
+			children = (
+				5C920FF51C214D01002E3233 /* AJNotificationView.h */,
+				5C920FF61C214D01002E3233 /* AJNotificationView.m */,
+			);
+			path = AJNotificationView;
 			sourceTree = "<group>";
 		};
 		5CDF1A521BF8A58500BB7033 /* SocketIOClientSwift */ = {
@@ -1672,6 +1686,7 @@
 				451BC5EB1AE6E65D003E1C2D /* LoginNetworkService.m in Sources */,
 				5CDF1A8B1BF8A58500BB7033 /* WebSocket.swift in Sources */,
 				451BC5EC1AE6E65D003E1C2D /* DDCustomSegue.m in Sources */,
+				5C920FF81C214D01002E3233 /* AJNotificationView.m in Sources */,
 				5CDF1A751BF8A58500BB7033 /* SocketEventHandler.swift in Sources */,
 				451BC5ED1AE6E65D003E1C2D /* JSQMessagesComposerTextView.m in Sources */,
 				451BC5EE1AE6E65D003E1C2D /* ServiceManager.m in Sources */,
@@ -1822,6 +1837,7 @@
 				4591A7911ACE7A71001DED1C /* LoginNetworkService.m in Sources */,
 				5CDF1A8A1BF8A58500BB7033 /* WebSocket.swift in Sources */,
 				45AEF4B11A8764F5003BAF17 /* DDCustomSegue.m in Sources */,
+				5C920FF71C214D01002E3233 /* AJNotificationView.m in Sources */,
 				5CDF1A741BF8A58500BB7033 /* SocketEventHandler.swift in Sources */,
 				455DB3541A99D3AA00CEAEA2 /* JSQMessagesComposerTextView.m in Sources */,
 				4591A78D1ACE6D3D001DED1C /* ServiceManager.m in Sources */,
