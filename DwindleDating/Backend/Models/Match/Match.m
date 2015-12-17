@@ -25,7 +25,6 @@
         if ([dict[@"MessageStatus"] isEqualToString:@"read"]){
             self.statusMessage = true;
         }
-        
     }
 
     return self;

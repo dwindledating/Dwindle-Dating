@@ -129,7 +129,6 @@ static CoreDataProvider *instance = nil;
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }    
-    
     return __persistentStoreCoordinator;
 }
 

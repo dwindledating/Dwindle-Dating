@@ -59,6 +59,10 @@ class MatchChatController: JSQMessagesViewController ,
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        let settings = UserSettings.loadUserSettings()
+        self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
+        
 //        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
@@ -84,13 +88,12 @@ class MatchChatController: JSQMessagesViewController ,
             self.title = self.toUserId
         }
         
-        /**
+        /*
         *  You MUST set your senderId and display name
         */
         let settings = UserSettings.loadUserSettings()
         self.senderId = settings.fbId//kJSQDemoAvatarIdSquires;
         self.senderDisplayName = " "//settings.fbName// kJSQDemoAvatarDisplayNameSquires;
-        
         
         self.demoData = DemoModelData()
         
@@ -125,7 +128,7 @@ class MatchChatController: JSQMessagesViewController ,
         var imagesList:AnyObject = []
 
         if let gallery = self.galleryImages {
-            imagesList = (self.galleryImages as NSArray as? [NSURL])!
+            imagesList = (gallery as NSArray as? [NSURL])!
         }
         else{
             imagesList   = [UIImage(named:"signup_01")!]
@@ -189,12 +192,10 @@ class MatchChatController: JSQMessagesViewController ,
 //                    self.galleryImages.append(NSURL(string: (pictures["Picture5"] as? String)!)!)
 //                    
 //                    self.addNavigationProfileButton(self.galleryImages[0])
-//                    
-//                    
+   
 //                }catch let err as NSError {
 //                    print("JSON Error \(err.localizedDescription)")
 //                }
-//                
 //            })
 //            
 //            socket.on("getChatLogForPageResult", callback: { (args:[AnyObject]!) -> Void in
@@ -222,7 +223,6 @@ class MatchChatController: JSQMessagesViewController ,
 //                    print("JSON Error \(err.localizedDescription)")
 //                }
 //            })
-//            
 //            socket.on("updatechat", callback: { (args:[AnyObject]!) -> Void in
 //                //code
 //                print ("updatechat\(args)");
@@ -233,7 +233,6 @@ class MatchChatController: JSQMessagesViewController ,
 //                if let tmpSenderId:String = response[0] {
 //                    _senderId = tmpSenderId
 //                }
-//                
 //                var _message:String = ""
 //                if let tmpMessage:String = response[1] {
 //                    _message = tmpMessage
@@ -244,7 +243,6 @@ class MatchChatController: JSQMessagesViewController ,
 //                    }
 //                }
 //            })
-//            
 //            socket.on("disconnect", callback: { (args:[AnyObject]!) -> Void in
 //                //code
 //                print ("disconnect\(args)");
@@ -253,6 +251,7 @@ class MatchChatController: JSQMessagesViewController ,
 //        return
         
         if dwindleSocket.isMatchChatControllerHandlerAdded == true {
+            
             print("isMatchChatControllerHandlerAdded:We do not need to add handler again. This may be creating socket again. Without closing ealier one.")
             return
         }
@@ -262,7 +261,9 @@ class MatchChatController: JSQMessagesViewController ,
             if socketClient.status == .Connected { // We are save to proceed
                 
                 let settings = UserSettings.loadUserSettings()
+                
                 print("My FBID: \(settings.fbId) Wants to connect with :\(self.toUserId) with status: \(self.status)")
+                
                 self.dwindleSocket.sendEvent("chat", data: [settings.fbId,self.toUserId,self.status])
 
                 ProgressHUD.show("Getting Chat History")
@@ -273,7 +274,8 @@ class MatchChatController: JSQMessagesViewController ,
                     let data = response.dataUsingEncoding(NSUTF8StringEncoding)
                     
                     let responseDict: NSDictionary!
-                    do{
+                    
+                    do {
                         responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
                         
                         //SET TOTAL PAGES COUNT
@@ -299,8 +301,6 @@ class MatchChatController: JSQMessagesViewController ,
                         self.galleryImages.append(NSURL(string: (pictures["Picture5"] as? String)!)!)
                         
                         self.addNavigationProfileButton(self.galleryImages[0])
-                        
-                        
                     }catch let err as NSError {
                         print("JSON Error \(err.localizedDescription)")
                     }
@@ -348,7 +348,6 @@ class MatchChatController: JSQMessagesViewController ,
                         _message = tmpMessage
                     }
                     if let tmpPlayerId = self.toUserId where tmpPlayerId == _senderId {
-                        
                         self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
                     }
                 })
@@ -358,30 +357,30 @@ class MatchChatController: JSQMessagesViewController ,
                 })
                 
                 socketClient.on("message_from_play_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    print ("message_from_play_screen: \(data)");
+                    print ("MatchesController:message_from_play_screen: \(data)");
                     
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        
-                        let message = data[0] as! String
-                        
-                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: message, linedBackground: AJLinedBackgroundTypeAnimated, hideAfter: 2.0, response: { () -> Void in
-                            
-                            let settings = UserSettings.loadUserSettings()
-                            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
-                            
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                
-                                let playController = AppDelegate.sharedAppDelegat().playController
-                                playController.isComingFromOtherScreen = true
-                                self.pushControllerInStack(playController, animated: true)
-                            })
-                        })
-                        
-                    })
+//                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                        
+//                        let message = data[0] as! String
+//                        
+//                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: message, linedBackground: AJLinedBackgroundTypeAnimated, hideAfter: 2.0, response: { () -> Void in
+//                            
+//                            let settings = UserSettings.loadUserSettings()
+//                            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
+//                            
+//                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                                
+//                                let playController = AppDelegate.sharedAppDelegat().playController
+//                                playController.isComingFromOtherScreen = true
+//                                self.pushControllerInStack(playController, animated: true)
+//                            })
+//                        })
+//                    })
                 })
                 
                 // User has made a play request but switched screen.
                 socketClient.on("message_game_started", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
                     print ("MatchesController:message_game_started: \(data)");
                     
                     let playController = AppDelegate.sharedAppDelegat().playController

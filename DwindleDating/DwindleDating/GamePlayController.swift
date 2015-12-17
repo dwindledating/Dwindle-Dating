@@ -616,8 +616,6 @@ SocketIODelegate {
                 
                 socketClient.on("dwindledown", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-//                    print("\n dwindledown: \(data)")
-                    
                     let responseArr: [AnyObject] =  data
                     let dataStr: String = responseArr[0] as! String
                     
@@ -673,7 +671,6 @@ SocketIODelegate {
                 socketClient.on("message_not_found", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
                     print("message_not_found: \(data)")
-                    
                     self.handleNoMatchFound()
                 })
                 
@@ -717,31 +714,31 @@ SocketIODelegate {
                 
                 socketClient.on("message_from_matches_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-                    print ("message_from_matches_screen: \(data)");
+                    print ("playGame:message_from_matches_screen: \(data)");
                     
                     // This message is for Matches screen. So we will open MatchChatController from here
                     // We will open Matches screen from here. I will present matches controller over play controller. Animation will be push like animation.
                     
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                      
-                        let message = data[0] as! String
-                        
-                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: message, linedBackground: AJLinedBackgroundTypeAnimated, hideAfter: 2.0, response: { () -> Void in
-                            
-                            let settings = UserSettings.loadUserSettings()
-                            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
-                            
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                
-                                let matchControler = AppDelegate.sharedAppDelegat().matchChatController
-                                matchControler.isComingFromPlayScreen = true
-                                matchControler.toUserId = data[1] as! String
-                                matchControler.toUserName = data[3] as! String
-                                matchControler.status = data[4] as! String
-                                self.pushControllerInStack(matchControler, animated: true)
-                            })
-                        })
-                    })
+//                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                      
+//                        let message = data[0] as! String
+//                        
+//                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: message, linedBackground: AJLinedBackgroundTypeAnimated, hideAfter: 2.0, response: { () -> Void in
+//                            
+//                            let settings = UserSettings.loadUserSettings()
+//                            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
+//                            
+//                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                                
+//                                let matchControler = AppDelegate.sharedAppDelegat().matchChatController
+//                                matchControler.isComingFromPlayScreen = true
+//                                matchControler.toUserId = data[1] as! String
+//                                matchControler.toUserName = data[3] as! String
+//                                matchControler.status = data[4] as! String
+//                                self.pushControllerInStack(matchControler, animated: true)
+//                            })
+//                        })
+//                    })
                 })
                 
                 socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -1040,6 +1037,11 @@ SocketIODelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        if self.gameInProgress == true {
+            let settings = UserSettings.loadUserSettings()
+            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {

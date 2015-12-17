@@ -49,9 +49,6 @@ MFMessageComposeViewControllerDelegate {
                         
                         AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: message, linedBackground: AJLinedBackgroundTypeAnimated, hideAfter: 2.0, response: { () -> Void in
                             
-                            let settings = UserSettings.loadUserSettings()
-                            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
-                            
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 
                                 self.navigationController?.setNavigationBarHidden(false, animated: false)
@@ -77,17 +74,13 @@ MFMessageComposeViewControllerDelegate {
                         let message = data[0] as! String
                         
                         AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: message, linedBackground: AJLinedBackgroundTypeAnimated, hideAfter: 2.0, response: { () -> Void in
-                          
-                            let settings = UserSettings.loadUserSettings()
-                            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
-                            
+                
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 
                                 let playController = AppDelegate.sharedAppDelegat().playController
                                 playController.isComingFromOtherScreen = true
                                 self.pushControllerInStack(playController, animated: true)
                             })
-                            
                         })
                     })
                 })
@@ -115,7 +108,6 @@ MFMessageComposeViewControllerDelegate {
                         print("MenuController->Error \(SocketAnyEvent.items)")
                     }
                 })
-                
             })
         }
     }
@@ -135,7 +127,6 @@ MFMessageComposeViewControllerDelegate {
     @IBAction func settingButtonPressed(sender: UIButton) {
         performSegueWithIdentifier("showSettingsController", sender: nil)
     }
-
     
     @IBAction func playButtonPressed(sender: AnyObject) {
 
@@ -143,7 +134,7 @@ MFMessageComposeViewControllerDelegate {
         
         let playController = AppDelegate.sharedAppDelegat().playController
         playController.isComingFromOtherScreen = false
-        playController.gameInProgress = false
+//        playController.gameInProgress =
         
         self.pushControllerInStack(playController, animated: true)
     }
@@ -159,7 +150,6 @@ MFMessageComposeViewControllerDelegate {
         
 //        sheet.showFromToolbar(self.inputToolbar);
     }
-    
     
     // MARK :- SMS STUFF
     
@@ -255,7 +245,6 @@ MFMessageComposeViewControllerDelegate {
         default:
             
             break;
-            
         }
         
 //        JSQSystemSoundPlayer.jsq_playMessageSentSound();
