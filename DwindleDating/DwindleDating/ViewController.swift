@@ -106,7 +106,6 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         }
     }
     
-    
     func signIn(fbId: String){
 
         print(" ========================= ")
@@ -185,7 +184,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
         //Add gesture
         
-        var tapGesture = UITapGestureRecognizer(target: self, action: "textTapped:")
+        let tapGesture = UITapGestureRecognizer(target: self, action: "textTapped:")
         txtViewPrivacy.addGestureRecognizer(tapGesture)
     
         let paragraph = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
@@ -194,26 +193,24 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         let textviewAttrString = NSMutableAttributedString()
         textviewAttrString.appendAttributedString(txtViewPrivacy.attributedText)
         textviewAttrString.addAttribute(NSFontAttributeName, value:myfont!, range: NSRange(location: 0, length: textviewAttrString.length))
-        var termsDict: Dictionary<String, AnyObject> = [
+        let termsDict: Dictionary<String, AnyObject> = [
             "termsTag": true,
             "NSUnderline": 1
         ]
         let termsString     = NSAttributedString(string: "Terms and Conditions", attributes: termsDict)
 
-        var privacyDict: Dictionary<String, AnyObject> = [
+        let privacyDict: Dictionary<String, AnyObject> = [
             "privacyTag": true,
             "NSUnderline": 1
         ]
         let privacyString   = NSAttributedString(string:"Privacy Policy",attributes: privacyDict)
         
-
-        
-        var range0: NSRange = (textviewAttrString.string as NSString).rangeOfString("{0}")
+        let range0: NSRange = (textviewAttrString.string as NSString).rangeOfString("{0}")
         if(range0.location != NSNotFound){
             textviewAttrString.replaceCharactersInRange(range0, withAttributedString: termsString)
         }
 
-        var range1: NSRange = (textviewAttrString.string as NSString).rangeOfString("{1}")
+        let range1: NSRange = (textviewAttrString.string as NSString).rangeOfString("{1}")
         if(range1.location != NSNotFound){
             textviewAttrString.replaceCharactersInRange(range1, withAttributedString: privacyString)
         }
@@ -222,7 +219,6 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         txtViewPrivacy!.selectable = false
     }
 
-    
     // MARK: - Privacy & TOC Handler
     
     func textTapped(recognizer: UITapGestureRecognizer) {
@@ -268,7 +264,6 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         let img = UIImage(named:"image1.png")!
         return img
     }
-    
     
     // MARK : KDCycleBannerView DataSource
     func numberOfKDCycleBannerView(bannerView: KDCycleBannerView!) -> [AnyObject]! {

@@ -43,7 +43,6 @@ SocketIODelegate {
     var playerOther2 : Player!
     var playerOther3 : Player!
     var playerOther4 : Player!
-    var socketIO     :SocketIO?
     var isPlayerFound : Bool?
     
     var randomPlayers:[String]! = []
@@ -68,13 +67,7 @@ SocketIODelegate {
             if (self.isPlayerFound == false){
                 // not found popout
                 ProgressHUD.showError("No match found around your area. Please try again later.")
-                let delay = 3.5 * Double(NSEC_PER_SEC)
-                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                dispatch_after(time, dispatch_get_main_queue()) {
-//                    self.navigationController?.popViewControllerAnimated(true)
-                }
             }
-//            self.resetGameViews()
         }
     }
     
@@ -95,9 +88,9 @@ SocketIODelegate {
             print("error")
         }
     }
-
     
     func showAlertWithDelay(shouldPop: Bool){
+        
         let alert: UIAlertView = UIAlertView()
         if (!shouldPop){
             alert.tag = 1;
@@ -113,6 +106,7 @@ SocketIODelegate {
     }
     
     func showBackAlertFromSkip(shouldPop: Bool){
+        
         self.hideKeyboard()
         let delay = 0.5 * Double(NSEC_PER_SEC)
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
@@ -130,13 +124,7 @@ SocketIODelegate {
 
     func performSkipPressed(){
         
-//        let isConnected:Bool = (self.socketIO?.isConnected)!
-//        if let socket = self.socketIO where socket.isConnected == true {
-//            socket.sendEvent("skip", withData:[])
-//        }
-        
         self.dwindleSocket.sendEvent("skip", data: [])
-        
         self.resetGameViews()
     }
     
@@ -216,15 +204,13 @@ SocketIODelegate {
                 self.resetGameViews()
             }
         })
-
     }
     
     func handleDwindleDown(respDict:[String:AnyObject]){
         
-
         let ddDict:[String:AnyObject] = (respDict["DwindleDown"] as? Dictionary<String,AnyObject>)!
 
-        for (key, value) in ddDict {
+        for (key, _) in ddDict {
             
             if (key == "DeletedUser"){
                 //        1. Delete User
@@ -250,49 +236,41 @@ SocketIODelegate {
                 self.handleAddUser(ddDict as [String : AnyObject], key: key)
             }
         }
-
     }
 
-    func getPlayerButtonAgainstId(fbId:String)-> RoundButtonView{
+    func getPlayerButtonAgainstId(fbId:String)-> RoundButtonView {
         
-        if(btn1.playerId == fbId){
+        if(btn1.playerId == fbId) {
             return btn1
         }
-        else if (btn2.playerId == fbId){
+        else if (btn2.playerId == fbId) {
             return btn2
         }
-        else if (btn3.playerId == fbId){
+        else if (btn3.playerId == fbId) {
             return btn3
         }
-        else if (btn4.playerId == fbId){
+        else if (btn4.playerId == fbId) {
             return btn4
         }
-        else
-        {
+        else {
             return btn5
         }
     }
     
-    func getPlayerAgainstId(fbId: String) -> Player?{
+    func getPlayerAgainstId(fbId: String) -> Player? {
 
         var playerRequested : Player? = nil
         
         if let tmpPlayersDict = playersDict {
-
-                for (key, value) in tmpPlayersDict {
-                    
-                    let player  = playersDict[key] as? Player
-                    if (player?.fbId == fbId){
-                        playerRequested = player
-                        break
-                    }
+            for (key, _) in tmpPlayersDict {
+                let player  = playersDict[key] as? Player
+                if (player?.fbId == fbId){
+                    playerRequested = player
+                    break
                 }
             }
-        else{
-            // is nil
         }
         return playerRequested
-        
     }
     
     // MARK: - HANDLE UI - DwindleDown
@@ -433,7 +411,7 @@ SocketIODelegate {
             return
         }
         
-        var button = sender as? UIButton
+        let button = sender as? UIButton
         
         print("tagId\(button?.tag)")
         
@@ -496,11 +474,11 @@ SocketIODelegate {
         if let data = jsonString.dataUsingEncoding(NSUTF8StringEncoding) {
             
             let dictionary: [String: AnyObject]!
-            do{
+            do {
                 dictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))  as! [String: AnyObject]
                 return dictionary
             }
-            catch let err as NSError{
+            catch let err as NSError {
                 print("JSON Error \(err.localizedDescription)")
             }
         }
@@ -508,31 +486,55 @@ SocketIODelegate {
     }
     
     // MARK: - SOCKETS & SOCKET SocketIODelegate
+
+    func startGame() {
+        
+        if self.gameInProgress == true {
+            // Already busy in playing
+            return
+        }
+        
+        ProgressHUD.show("Starting Game...")
+        
+        self.initSocketConnection();
+    }
     
-    func releaseSockets(){
-        self.socketIO?.delegate = nil;
-        self.socketIO = nil
+    func sendChat(message:String){
+        
+        self.dwindleSocket.sendEvent("sendchat", data: [message])
+    }
+    
+    func sendgamePlayEvent(event:String) {
+        
+        let settings = UserSettings.loadUserSettings()
+        ProgressHUD.show("Finding match")
+        let manager = ServiceManager()
+        
+        manager.getUserLocation({ (location: CLLocation!) -> Void in
+
+            print("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
+            
+            let data = [settings.fbId,location.coordinate.longitude,location.coordinate.latitude, self.pagination_user_count]
+            
+            self.dwindleSocket.sendEvent(event, data: data as [AnyObject])
+            
+            self.isPlayerFound = false
+            
+            }, failure: { (error:NSError!) -> Void in
+
+                print("Error Message =>\(error.localizedDescription)")
+                ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
+                let delay = 3.5 * Double(NSEC_PER_SEC)
+                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                dispatch_after(time, dispatch_get_main_queue()) {
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+        })
     }
     
     func initSocketConnection(){
         
         // create socket.io client instance
-        
-//        self.socketIO = SocketIO(delegate: self)
-//        
-//        let properties = [NSHTTPCookieDomain:"159.203.245.103",
-//            NSHTTPCookiePath:"/",
-//            NSHTTPCookieName:"auth",
-//            NSHTTPCookieValue:"56cdea636acdf132"]
-//        
-//        let cookie:NSHTTPCookie = NSHTTPCookie(properties: properties)!
-//        let cookies = [cookie]
-//        
-//        self.socketIO?.cookies = cookies
-//        
-//        self.socketIO?.connectToHost("159.203.245.103", onPort: 3000)
-//        
-//        return
         
         if isComingFromOtherScreen == false && self.gameInProgress == false {
             self.sendgamePlayEvent("Play")
@@ -546,11 +548,10 @@ SocketIODelegate {
         dwindleSocket.EventHandler(HandlerType.Play) { (socketClient: SocketIOClient) -> Void in
             
             if socketClient.status == .Connected { // We are save to proceed
+               
                 print("GamePlay: Socket is connected. We will catch events here")
                 
                 socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
-//                    print("startgame: \(data)")
                     
                     self.gameInProgress = true
                     self.isPlayerFound = true
@@ -599,6 +600,7 @@ SocketIODelegate {
                 socketClient.on("updatechat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
                     print("GamePlayController->updatechat: \(data)")
+                    
                     let responseArr:[AnyObject] =  data
                     
                     var _senderId:String = ""
@@ -608,8 +610,8 @@ SocketIODelegate {
                     let _message:String = (responseArr[1] as? String)!
                     
                     if let tmpPlayer = self.playerOpponent,
-                       let tmpPlayerId = tmpPlayer.fbId where tmpPlayerId == _senderId
-                    {
+                       let tmpPlayerId = tmpPlayer.fbId where tmpPlayerId == _senderId {
+                        
                         self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
                     }
                 })
@@ -624,12 +626,13 @@ SocketIODelegate {
                 })
                 
                 socketClient.on("useradded", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    print("\n UserAdded: \(data)")
+                    print("UserAdded: \(data)")
                 })
                 
                 socketClient.on("disconnectResponse", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
                     print("disconnectResponse: \(data)")
+                    
                     ProgressHUD.showError("The other user has left the game. Connecting to new users.")
                     let delay = 3.5 * Double(NSEC_PER_SEC)
                     let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
@@ -669,15 +672,12 @@ SocketIODelegate {
                 })
                 
                 socketClient.on("message_not_found", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
                     print("message_not_found: \(data)")
                     self.handleNoMatchFound()
                 })
                 
                 socketClient.on("message_user_isBusy", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                   
                     print("message_user_isBusy: \(data)")
-                    
                 })
                 
                 socketClient.on("message_push_notification_send", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -712,40 +712,10 @@ SocketIODelegate {
                     })
                 })
                 
-                socketClient.on("message_from_matches_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
-                    print ("playGame:message_from_matches_screen: \(data)");
-                    
-                    // This message is for Matches screen. So we will open MatchChatController from here
-                    // We will open Matches screen from here. I will present matches controller over play controller. Animation will be push like animation.
-                    
-//                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                      
-//                        let message = data[0] as! String
-//                        
-//                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: message, linedBackground: AJLinedBackgroundTypeAnimated, hideAfter: 2.0, response: { () -> Void in
-//                            
-//                            let settings = UserSettings.loadUserSettings()
-//                            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
-//                            
-//                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                                
-//                                let matchControler = AppDelegate.sharedAppDelegat().matchChatController
-//                                matchControler.isComingFromPlayScreen = true
-//                                matchControler.toUserId = data[1] as! String
-//                                matchControler.toUserName = data[3] as! String
-//                                matchControler.status = data[4] as! String
-//                                self.pushControllerInStack(matchControler, animated: true)
-//                            })
-//                        })
-//                    })
-                })
-                
                 socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
                     print("disconnect \(data)")
                     
-                    print("GAMEPLAY CHAT => socket.io disconnected. did error occur \(data)");
                     let state:UIApplicationState  = UIApplication.sharedApplication().applicationState
                     if (state == UIApplicationState.Background) {//UIApplicationStateBackground
                         print("Application is in background and SIO disconnected.");
@@ -782,221 +752,8 @@ SocketIODelegate {
         }
     }
     
-    func startGame(){
-        
-        if self.gameInProgress == true {
-            // Already busy in playing
-            return
-        }
-        
-        ProgressHUD.show("Starting Game...")
-        
-        self.initSocketConnection();
-    }
+    // MARK: -   VIEW LIFE CYCLE
     
-    func sendChat(message:String){
-        
-//        self.socketIO?.sendEvent("sendchat", withData: [message])
-        
-        self.dwindleSocket.sendEvent("sendchat", data: [message])
-        
-//        self.sendgamePlayEvent()
-    }
-    
-    func sendgamePlayEvent(event:String) {
-        
-        let settings = UserSettings.loadUserSettings()
-        ProgressHUD.show("Finding match")
-        let manager = ServiceManager()
-        
-        manager.getUserLocation({ (location: CLLocation!) -> Void in
-            //code
-            print("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
-            
-            let data = [settings.fbId,location.coordinate.longitude,location.coordinate.latitude, self.pagination_user_count]
-            
-//            self.socketIO?.sendEvent(event, withData: data)
-            
-            self.dwindleSocket.sendEvent(event, data: data as [AnyObject])
-            
-            self.isPlayerFound = false
-//            self.handleNoMatchFound()
-            
-            }, failure: { (error:NSError!) -> Void in
-                //code
-                print("Error Message =>\(error.localizedDescription)")
-                ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
-                let delay = 3.5 * Double(NSEC_PER_SEC)
-                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                dispatch_after(time, dispatch_get_main_queue()) {
-                    self.navigationController?.popViewControllerAnimated(true)
-                }
-        })
-    }
-    
-    func socketIODidConnect(socket: SocketIO!) {
-        print("socket.io connected.")
-        self.sendgamePlayEvent("Play")
-    }
-    
-    func socketIO(socket: SocketIO!, didReceiveMessage packet: SocketIOPacket!) {
-        //code
-        print("PacketName \(packet.name)")
-    }
-    
-    func socketIO(socket: SocketIO!, didReceiveEvent packet: SocketIOPacket!) {
-        //code
-        print("PacketName \(packet.name)")
-        
-        if (packet.name == "startgame") {
-            
-            self.isPlayerFound = true
-            
-            print("\n startgame data as string looks like \(packet.data)")
-
-            let responseArr:AnyObject =  packet.dataAsJSON()
-            let dataStr: String = responseArr[1] as! String
-            
-            let roomUserInfoDict: AnyObject =  self.JSONParseDictionary(dataStr)
-            let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
-
-            self.playerMain      =  Player(dict: roomUserInfoDict["MainUser"]! as? Dictionary)
-            self.playerOpponent  = Player(dict: roomUserInfoDict["SecondUser"]! as? Dictionary)
-
-            let secondUserDict: [String: String] = roomUserInfoDict["SecondUser"] as! NSDictionary as! [String : String]
-            let name = secondUserDict["user_name"]
-            print("second user name\(name)")
-            self.title = secondUserDict["user_name"]
-            
-            let otherData:AnyObject = roomUserInfoDict["OtherUsers"] as! NSArray
-            self.playerOther1 = Player(dict: otherData[0]! as? Dictionary)
-            self.playerOther2 = Player(dict: otherData[1]! as? Dictionary)
-            self.playerOther3 = Player(dict: otherData[2]! as? Dictionary)
-            self.playerOther4 = Player(dict: otherData[3]! as? Dictionary)
-
-            randomPlayers.append(self.playerOpponent.fbId)
-            randomPlayers.append(self.playerOther1.fbId)
-            randomPlayers.append(self.playerOther2.fbId)
-            randomPlayers.append(self.playerOther3.fbId)
-            randomPlayers.append(self.playerOther4.fbId)
-            randomPlayers.shuffled()
-            
-            ProgressHUD.showSuccess("Game Started. Say Hello!")
-            
-            self.setPlayerImages()
-            
-            print("\n RoomName ==>  \(roomName)")
-            let settings = UserSettings.loadUserSettings()
-            self.socketIO?.sendEvent("addUser", withData: [roomName, settings.fbId])
-        
-        }
-        else if (packet.name == "updatechat") {
-            print("\n \(packet.name) data as string looks like \(packet.data)")
-            
-            //["updatechat","A","Hi"]
-
-            let responseArr:AnyObject =  packet.dataAsJSON()
-            
-            var _senderId:String = ""
-            if let tmpSenderId = responseArr[1]  as? String! {
-                _senderId = tmpSenderId
-            }
-            let _message:String = (responseArr[2] as? String)!
-           
-            if let tmpPlayer = self.playerOpponent{
-                if let tmpPlayerId = tmpPlayer.fbId{
-                    if (_senderId == tmpPlayerId){
-                        self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
-                    }
-                }
-            }
-        }
-        else if (packet.name == "dwindledown") {
-            print("\n \(packet.name) data as string looks like \(packet.data)")
-
-            let responseArr:AnyObject =  packet.dataAsJSON()
-            let dataStr: String = responseArr[1] as! String
-            
-            let dwindledownDict: AnyObject =  self.JSONParseDictionary(dataStr)
-            self.handleDwindleDown(dwindledownDict as! [String : AnyObject])
-            
-        }
-        else if (packet.name == "useradded") {
-            
-            print("\n UserAdded data as string looks like \(packet.data)")
-        }
-        else if (packet.name == "disconnectResponse"){
-            
-            print("\n disconnectResponse data as string looks like \(packet.data)")
-            ProgressHUD.showError("The other user has left the game. Connecting to new users.")
-            let delay = 3.5 * Double(NSEC_PER_SEC)
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-            dispatch_after(time, dispatch_get_main_queue()) {
-                self.resetGameViews()
-            }
-        }
-        else if (packet.name == "skip"){
-            
-            print("\n Skip data as string looks like \(packet.data)")
-        }
-        else if (packet.name == "skipchat"){
-            
-            print("\n Skipchat data as string looks like \(packet.data)")
-            ProgressHUD.showError("The other user has left the game. Connecting to new users.")
-            let delay = 3.5 * Double(NSEC_PER_SEC)
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-            dispatch_after(time, dispatch_get_main_queue()) {
-                self.resetGameViews()
-            }
-//            self.resetGameViews()
-        }
-        else if (packet.name == "loggedoutResponse"){
-            ProgressHUD.showError("The other user has left the game. Connecting to new users.")
-            let delay = 3.5 * Double(NSEC_PER_SEC)
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-            dispatch_after(time, dispatch_get_main_queue()) {
-                self.resetGameViews()
-            }
-        }
-        else if (packet.name == "message_not_found") {
-            print("message_not_found \(packet.dataAsJSON)")
-        }
-    }
-    
-    func socketIO(socket: SocketIO!, onError error: NSError!) {
-        //
-        print("GAMEPLAY CHAT => socket onError with error \(error.localizedDescription)");
-        let errorCode = error.code as Int
-        if (errorCode == -8) { //SocketIOUnauthorized
-            print("not authorized");
-        } else {
-            print("onError()\(error)");
-        }
-//        self.releaseSockets()
-    }
-    
-    func socketIODidDisconnect(socket: SocketIO!, disconnectedWithError error: NSError!) {
-        //code
-        
-        print("GAMEPLAY CHAT => socket.io disconnected. did error occur \(error)");
-        let state:UIApplicationState  = UIApplication.sharedApplication().applicationState
-        if (state == UIApplicationState.Background) {//UIApplicationStateBackground
-            print("Application is in background and SIO disconnected.");
-        }
-        
-        if (error.code == 57){
-            ProgressHUD.showError("You are disconnected. Please check your internet connection")
-
-            let delay = 3.5 * Double(NSEC_PER_SEC)
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-            dispatch_after(time, dispatch_get_main_queue()) {
-                self.navigationController?.popViewControllerAnimated(true)
-            }
-        }
-        self.releaseSockets()
-    }
-    
-        // MARK: -   VIEW LIFE CYCLE
     func initContentView() {
         
         // Scroll Initialization
@@ -1022,10 +779,10 @@ SocketIODelegate {
         self.showLoadEarlierMessagesHeader = false
         self.jsq_configureMessagesViewController();
         self.jsq_registerForNotifications(true);
-    
     }
     
     override func viewDidDisappear(animated: Bool) {
+        
         let delay = 1.5 * Double(NSEC_PER_SEC)
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
         dispatch_after(time, dispatch_get_main_queue()) {
@@ -1035,6 +792,7 @@ SocketIODelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         
@@ -1045,6 +803,7 @@ SocketIODelegate {
     }
     
     override func viewWillDisappear(animated: Bool) {
+        
         ProgressHUD.dismiss()
         
         isComingFromOtherScreen = false
@@ -1099,7 +858,6 @@ SocketIODelegate {
     //============================================================================================\\
     //============================================================================================\\
     // MARK: -   JSQMessagesViewController method overrides
-    
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
         
@@ -1158,7 +916,6 @@ SocketIODelegate {
         
         let text = sampleMessagesArr[buttonIndex-1]
         
-        
         JSQSystemSoundPlayer.jsq_playMessageSentSound();
         
         let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: NSDate(), text: text)
@@ -1179,7 +936,6 @@ SocketIODelegate {
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
         return self.demoData.messages[indexPath.item] as! JSQMessageData
     }
-    
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
         /**
@@ -1253,7 +1009,6 @@ SocketIODelegate {
         return nil;
     }
     
-    
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
         
         let message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
@@ -1289,12 +1044,9 @@ SocketIODelegate {
     //============================================================================================\\
     // MARK: -  UICollectionView DataSource
     
-    
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: NSInteger) -> NSInteger {
         return self.demoData.messages.count;
     }
-    
-    
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell

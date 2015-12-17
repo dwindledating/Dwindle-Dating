@@ -529,8 +529,7 @@
                                                             <exclude reference="otz-k1-ajL"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="65" y="7" width="130" height="27"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="otz-k1-ajL"/>
                                                         </mask>
@@ -550,8 +549,7 @@
                                                             <exclude reference="ghI-jA-0AM"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="65" y="34" width="250" height="38"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="ghI-jA-0AM"/>
                                                         </mask>
@@ -573,8 +571,7 @@
                                                             <exclude reference="UhU-7c-jIR"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="203" y="8" width="112" height="26"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="UhU-7c-jIR"/>
                                                         </mask>
@@ -996,7 +993,7 @@
                                 <collectionViewLayout key="collectionViewLayout" id="wqK-3P-7Pq" customClass="JSQMessagesCollectionViewFlowLayout"/>
                                 <cells/>
                                 <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="0.0" y="54" width="320" height="655.5"/>
+                                    <rect key="frame" x="0.0" y="54" width="320" height="449"/>
                                 </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="2HK-xn-oal" id="zoX-oT-dXz"/>

@@ -45,22 +45,6 @@
             timestampString = "471993780.969623"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "845"
-            endingLineNumber = "845"
-            landmarkName = "socketIO(_:didReceiveMessage:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DwindleDating/GamePlayController.swift"
-            timestampString = "471993780.969623"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "679"
             endingLineNumber = "679"
             landmarkName = "initSocketConnection()"
@@ -109,41 +93,9 @@
             timestampString = "471993780.969623"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "970"
-            endingLineNumber = "970"
-            landmarkName = "socketIO(_:onError:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DwindleDating/GamePlayController.swift"
-            timestampString = "471993780.969623"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "632"
             endingLineNumber = "632"
             landmarkName = "initSocketConnection()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DwindleDating/GamePlayController.swift"
-            timestampString = "471993780.969623"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "984"
-            endingLineNumber = "984"
-            landmarkName = "socketIODidDisconnect(_:disconnectedWithError:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -368,6 +320,38 @@
             startingLineNumber = "287"
             endingLineNumber = "287"
             landmarkName = "initSocketConnection()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DwindleDating/AgeSelectionController.swift"
+            timestampString = "472047100.060923"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "nextButtonPressed(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ThirdParty/ChatController/JSQMessagesViewController/Model/JSQPhotoMediaItem.m"
+            timestampString = "472048374.083305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "-copyWithZone:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -119,29 +119,31 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     //MARK: - TableView Delegate
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell_ : MatchCell? = tableView.dequeueReusableCellWithIdentifier("matchIdentifier") as? MatchCell
-        var match = matchesArr[indexPath.row] as! Match
+        var cell_ =  tableView.dequeueReusableCellWithIdentifier("matchIdentifier", forIndexPath: indexPath) as? MatchCell
         
-        if(cell_ != nil)
-        {
-            cell_?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-            cell_?.imgViewProfile.borderWidth = 0;
-            cell_?.lblName.text     = match.name
-            cell_?.lblDetail.text   = match.text//matchDict["message"] as? String
-            cell_?.lblTime.text     = match.date//["time"] as? String
-            cell_?.imgViewProfile.sd_setImageWithURL(match.imgPath)
-            if (!match.statusMessage){
-                var font = cell_?.lblDetail.font
-                font = UIFont.boldSystemFontOfSize(font!.pointSize)
-                cell_?.lblDetail.font = font
-                cell_?.backgroundColor = UIColor(red: 228/255.0, green: 240.0/255.0, blue: 250/255.0, alpha: 1.0)
-            }
-            else{
-                var font = cell_?.lblDetail.font
-                font = UIFont.systemFontOfSize(font!.pointSize)
-                cell_?.lblDetail.font = font
-                cell_?.backgroundColor = UIColor.clearColor()
-            }
+        let match = matchesArr[indexPath.row] as! Match
+        
+        if(cell_ == nil) {
+            cell_ = MatchCell(style: UITableViewCellStyle.Default, reuseIdentifier: "matchIdentifier")
+        }
+        
+        cell_?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        cell_?.imgViewProfile.borderWidth = 0;
+        cell_?.lblName.text     = match.name
+        cell_?.lblDetail.text   = match.text//matchDict["message"] as? String
+        cell_?.lblTime.text     = match.date//["time"] as? String
+        cell_?.imgViewProfile.sd_setImageWithURL(match.imgPath)
+        if (!match.statusMessage){
+            var font = cell_?.lblDetail.font
+            font = UIFont.boldSystemFontOfSize(font!.pointSize)
+            cell_?.lblDetail.font = font
+            cell_?.backgroundColor = UIColor(red: 228/255.0, green: 240.0/255.0, blue: 250/255.0, alpha: 1.0)
+        }
+        else{
+            var font = cell_?.lblDetail.font
+            font = UIFont.systemFontOfSize(font!.pointSize)
+            cell_?.lblDetail.font = font
+            cell_?.backgroundColor = UIColor.clearColor()
         }
         
         return cell_!
@@ -150,8 +152,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView .deselectRowAtIndexPath(indexPath, animated: true)
-        
-//        self.performSegueWithIdentifier("showMatchChatController", sender: indexPath)
         
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         
@@ -184,6 +184,4 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
             self.navigationController?.setNavigationBarHidden(true, animated: true)
         }
     }
-    
-
 }

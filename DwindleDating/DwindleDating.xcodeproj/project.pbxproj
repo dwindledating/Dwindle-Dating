@@ -386,7 +386,6 @@
 		45174A351A77EE7C00F17584 /* MatchChatController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchChatController.swift; sourceTree = "<group>"; };
 		45174A371A77EEAC00F17584 /* GamePlayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePlayController.swift; sourceTree = "<group>"; };
 		451BC66D1AE6E65D003E1C2D /* DwindleDating copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DwindleDating copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		451BC66E1AE6E65E003E1C2D /* DwindleDating copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DwindleDating copy-Info.plist"; path = "/Users/air/yunas-air/iPhoneProjects/Infinione/iosGitCode/DwindleDating/dwindle_dating/DwindleDating/DwindleDating copy-Info.plist"; sourceTree = "<absolute>"; };
 		452DCD111A8F476700F624B4 /* RoundImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoundImageView.swift; path = Backend/RoundImageView.swift; sourceTree = "<group>"; };
 		454DC0871B1C2EAC00B979D0 /* PrivacyPolicy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PrivacyPolicy.html; sourceTree = "<group>"; };
 		454DC0881B1C2EAC00B979D0 /* TermsandConditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = TermsandConditions.html; sourceTree = "<group>"; };
@@ -1105,7 +1104,6 @@
 				458D3CA71A68442200A0BD6B /* DwindleDatingTests */,
 				459DD9E41AF81B8700BA2F81 /* Frameworks */,
 				458D3C901A68442100A0BD6B /* Products */,
-				451BC66E1AE6E65E003E1C2D /* DwindleDating copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
