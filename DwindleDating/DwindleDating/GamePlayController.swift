@@ -910,9 +910,9 @@ SocketIODelegate {
             self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
         }
         
-        if self.message_game_started == true {
-            self.setPlayerImages()
-        }
+//        if self.message_game_started == true {
+//            self.setPlayerImages()
+//        }
     }
     
     override func viewWillDisappear(animated: Bool) {

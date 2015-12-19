@@ -45,7 +45,7 @@ class DwindleSocketClient {
     
     private let socket = SocketIOClient(socketURL: "159.203.245.103:3000",
         options: [
-            SocketIOClientOption.Log(true),
+            SocketIOClientOption.Log(false),
             SocketIOClientOption.ForcePolling(true),
             SocketIOClientOption.Reconnects(true),
             SocketIOClientOption.VoipEnabled(true),
