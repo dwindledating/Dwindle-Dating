@@ -65,9 +65,6 @@ NSString *const kApp_BaseUrl = @"http://159.203.245.103:3000/";
         URLString = [NSString stringWithFormat:@"%@%@",kApp_BaseUrl,URLString];
     }
 
-    
-
-
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST"
                              URLString:URLString
                             parameters:params
