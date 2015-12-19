@@ -95,9 +95,7 @@ SocketIODelegate {
             
             let settings = UserSettings.loadUserSettings()
             self.dwindleSocket.sendEvent("leaveGame", data: [settings.fbId])
-            self.gameInProgress  = false
-            self.message_game_started = false
-            self.isComingFromOtherScreen = false
+            
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.resetGameViews()
                 self.navigationController?.popViewControllerAnimated(true)
@@ -556,6 +554,7 @@ SocketIODelegate {
         let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
         
         print("\n RoomName ==>  \(roomName)")
+        
         let secondUserDict = roomUserInfoDict["SecondUser"] as! NSDictionary
         let secondUserFbId = secondUserDict["fb_id"] as! String
         let settings = UserSettings.loadUserSettings()
