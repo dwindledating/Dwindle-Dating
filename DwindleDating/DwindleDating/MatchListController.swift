@@ -84,7 +84,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-//
         ProgressHUD.dismiss()
     }
 

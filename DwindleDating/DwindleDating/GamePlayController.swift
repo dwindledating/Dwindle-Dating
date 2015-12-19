@@ -339,7 +339,7 @@ SocketIODelegate {
         return playerId
     }
     
-    func setPlayerImages(){
+    func setPlayerImages() {
         
         playersDict["main"] = self.playerMain
         playersDict["opponent"] = self.playerOpponent
@@ -348,31 +348,33 @@ SocketIODelegate {
         playersDict["other3"] = self.playerOther3
         playersDict["other4"] = self.playerOther4
         
-        // Create method that will have all player's id
-        // it will then assign 1 id to 1 user 
-        // and remove it from list
-        
-        btn1.playerId = self.getPlayerIdRandomly()
-        btn2.playerId = self.getPlayerIdRandomly()
-        btn3.playerId = self.getPlayerIdRandomly()
-        btn4.playerId = self.getPlayerIdRandomly()
-        btn5.playerId = self.getPlayerIdRandomly()
-        
-        var player = self.getPlayerAgainstId(btn1.playerId)
-        btn1.sd_setImageWithURL(player?.imgPath, forState:.Normal)
-        
-        player = self.getPlayerAgainstId(btn2.playerId)
-        btn2.sd_setImageWithURL(player?.imgPath, forState:.Normal)
-        
-        player = self.getPlayerAgainstId(btn3.playerId)
-        btn3.sd_setImageWithURL(player?.imgPath, forState:.Normal)
-        
-        player = self.getPlayerAgainstId(btn4.playerId)
-        btn4.sd_setImageWithURL(player?.imgPath, forState:.Normal)
-        
-        player = self.getPlayerAgainstId(btn5.playerId)
-        btn5.sd_setImageWithURL(player?.imgPath, forState:.Normal)
-        
+        if self.isViewLoaded() {
+            
+            // Create method that will have all player's id
+            // it will then assign 1 id to 1 user
+            // and remove it from list
+            
+            btn1.playerId = self.getPlayerIdRandomly()
+            btn2.playerId = self.getPlayerIdRandomly()
+            btn3.playerId = self.getPlayerIdRandomly()
+            btn4.playerId = self.getPlayerIdRandomly()
+            btn5.playerId = self.getPlayerIdRandomly()
+            
+            var player = self.getPlayerAgainstId(btn1.playerId)
+            btn1.sd_setImageWithURL(player?.imgPath, forState:.Normal)
+            
+            player = self.getPlayerAgainstId(btn2.playerId)
+            btn2.sd_setImageWithURL(player?.imgPath, forState:.Normal)
+            
+            player = self.getPlayerAgainstId(btn3.playerId)
+            btn3.sd_setImageWithURL(player?.imgPath, forState:.Normal)
+            
+            player = self.getPlayerAgainstId(btn4.playerId)
+            btn4.sd_setImageWithURL(player?.imgPath, forState:.Normal)
+            
+            player = self.getPlayerAgainstId(btn5.playerId)
+            btn5.sd_setImageWithURL(player?.imgPath, forState:.Normal)
+        }
     }
     
     // MARK: - HANDLE UI - OpenGallery
@@ -487,11 +489,6 @@ SocketIODelegate {
 
     func startGame() {
         
-        if self.gameInProgress == true {
-            // Already busy in playing
-            return
-        }
-        
         self.initSocketConnection();
     }
     
@@ -530,9 +527,60 @@ SocketIODelegate {
     
     var message_game_started = false
     
+    func gameStartedWithParams(data:String) {
+        
+        self.gameInProgress = true
+        self.isPlayerFound = true
+        
+        let dataStr: String = data
+        
+        let roomUserInfoDict: AnyObject =  self.JSONParseDictionary(dataStr)
+        let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
+        
+        print("\n RoomName ==>  \(roomName)")
+        let secondUserDict = roomUserInfoDict["SecondUser"] as! NSDictionary
+        let secondUserFbId = secondUserDict["fb_id"] as! String
+        let settings = UserSettings.loadUserSettings()
+        
+        if self.dwindleSocket == nil {
+            self.dwindleSocket = DwindleSocketClient.sharedInstance
+        }
+        self.dwindleSocket.sendEvent("addUser", data: [roomName, settings.fbId, secondUserFbId])
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            
+            self.playerMain      =  Player(dict: roomUserInfoDict["MainUser"]! as? Dictionary)
+            self.playerOpponent  = Player(dict: roomUserInfoDict["SecondUser"]! as? Dictionary)
+            
+            let secondUserDict: [String: String] = roomUserInfoDict["SecondUser"] as! NSDictionary as! [String : String]
+            let name = secondUserDict["user_name"]
+            print("second user name\(name)")
+            self.title = secondUserDict["user_name"]
+            
+            let otherData:AnyObject = roomUserInfoDict["OtherUsers"] as! NSArray
+            self.playerOther1 = Player(dict: otherData[0]! as? Dictionary)
+            self.playerOther2 = Player(dict: otherData[1]! as? Dictionary)
+            self.playerOther3 = Player(dict: otherData[2]! as? Dictionary)
+            self.playerOther4 = Player(dict: otherData[3]! as? Dictionary)
+            
+            self.randomPlayers.append(self.playerOpponent.fbId)
+            self.randomPlayers.append(self.playerOther1.fbId)
+            self.randomPlayers.append(self.playerOther2.fbId)
+            self.randomPlayers.append(self.playerOther3.fbId)
+            self.randomPlayers.append(self.playerOther4.fbId)
+            self.randomPlayers.shuffled()
+            
+            ProgressHUD.dismiss()
+            
+            ProgressHUD.showSuccess("Game Started. Say Hello!")
+            
+            self.setPlayerImages()
+        })
+    }
+    
     func initSocketConnection(){
         
-        // create socket.io client instance        
+        // create socket.io client instance
         if isComingFromOtherScreen == false && self.gameInProgress == false && message_game_started == false {
             ProgressHUD.show("Starting Game...")
             self.sendgamePlayEvent("Play")
@@ -553,50 +601,10 @@ SocketIODelegate {
                 
                 socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-                    self.gameInProgress = true
-                    self.isPlayerFound = true
-                    
                     let responseArr:[AnyObject] =  data
                     let dataStr: String = responseArr[0] as! String
                     
-                    let roomUserInfoDict: AnyObject =  self.JSONParseDictionary(dataStr)
-                    let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
-                    
-                    print("\n RoomName ==>  \(roomName)")
-                    let secondUserDict = roomUserInfoDict["SecondUser"] as! NSDictionary
-                    let secondUserFbId = secondUserDict["fb_id"] as! String
-                    let settings = UserSettings.loadUserSettings()
-                    self.dwindleSocket.sendEvent("addUser", data: [roomName, settings.fbId, secondUserFbId])
-                    
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    
-                        self.playerMain      =  Player(dict: roomUserInfoDict["MainUser"]! as? Dictionary)
-                        self.playerOpponent  = Player(dict: roomUserInfoDict["SecondUser"]! as? Dictionary)
-                        
-                        let secondUserDict: [String: String] = roomUserInfoDict["SecondUser"] as! NSDictionary as! [String : String]
-                        let name = secondUserDict["user_name"]
-                        print("second user name\(name)")
-                        self.title = secondUserDict["user_name"]
-                        
-                        let otherData:AnyObject = roomUserInfoDict["OtherUsers"] as! NSArray
-                        self.playerOther1 = Player(dict: otherData[0]! as? Dictionary)
-                        self.playerOther2 = Player(dict: otherData[1]! as? Dictionary)
-                        self.playerOther3 = Player(dict: otherData[2]! as? Dictionary)
-                        self.playerOther4 = Player(dict: otherData[3]! as? Dictionary)
-                        
-                        self.randomPlayers.append(self.playerOpponent.fbId)
-                        self.randomPlayers.append(self.playerOther1.fbId)
-                        self.randomPlayers.append(self.playerOther2.fbId)
-                        self.randomPlayers.append(self.playerOther3.fbId)
-                        self.randomPlayers.append(self.playerOther4.fbId)
-                        self.randomPlayers.shuffled()
-
-                        ProgressHUD.dismiss()
-                        
-                        ProgressHUD.showSuccess("Game Started. Say Hello!")
-                        
-                        self.setPlayerImages()
-                    })
+                    self.gameStartedWithParams(dataStr)
                 })
                 
                 socketClient.on("updatechat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -803,6 +811,10 @@ SocketIODelegate {
             let settings = UserSettings.loadUserSettings()
             self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
         }
+        
+        if self.message_game_started == true {
+            self.setPlayerImages()
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -886,7 +898,6 @@ SocketIODelegate {
     }
     
     override func didPressAccessoryButton(sender: UIButton!) {
-        
         
         let sheet = UIActionSheet(title: "Quick messages", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles:
             "What actor would best play the role of you?",

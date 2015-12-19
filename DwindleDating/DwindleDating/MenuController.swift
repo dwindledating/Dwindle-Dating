@@ -98,6 +98,7 @@ MFMessageComposeViewControllerDelegate {
                             playController.gameInProgress = false
                             playController.message_game_started = true
                             self.pushControllerInStack(playController, animated: true)
+                            playController.gameStartedWithParams(data[3] as! String)
                         }
                     })
                 })

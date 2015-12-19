@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DwindleDating/GamePlayController.swift"
-            timestampString = "472083878.718526"
+            timestampString = "472215010.338356"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "730"
-            endingLineNumber = "730"
+            startingLineNumber = "738"
+            endingLineNumber = "738"
             landmarkName = "initSocketConnection()"
             landmarkType = "5">
          </BreakpointContent>

@@ -67,6 +67,12 @@ class MatchChatController: JSQMessagesViewController ,
     
     override func viewWillDisappear(animated: Bool) {
         ProgressHUD.dismiss()
+        
+        if dwindleSocket.status() == .Connected {
+            let settings = UserSettings.loadUserSettings()
+            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
+        }
+        
         super.viewWillDisappear(animated)
     }
 
