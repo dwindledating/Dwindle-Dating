@@ -667,6 +667,7 @@ SocketIODelegate {
                     let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                     dispatch_after(time, dispatch_get_main_queue()) {
                         self.resetGameViews()
+                        self.initSocketConnection()
                     }
                 })
                 
@@ -682,6 +683,7 @@ SocketIODelegate {
                     let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                     dispatch_after(time, dispatch_get_main_queue()) {
                         self.resetGameViews()
+                        self.initSocketConnection()
                     }
                 })
                 
@@ -706,10 +708,6 @@ SocketIODelegate {
                     self.handleNoMatchFound()
                 })
                 
-                socketClient.on("message_user_isBusy", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    print("message_user_isBusy: \(data)")
-                })
-                
                 socketClient.on("message_push_notification_send", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
                     ProgressHUD.dismiss()
@@ -719,7 +717,6 @@ SocketIODelegate {
                     let pageCount = data[4] as! Int
                     self.pagination_user_count = pageCount
                     self.show90SecTimer()
-                    
                 })
                 
                 socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -730,7 +727,6 @@ SocketIODelegate {
                     if (state == UIApplicationState.Background) {//UIApplicationStateBackground
                         print("Application is in background and SIO disconnected.");
                     }
-                    
 //                    if (error.code == 57){
 //                        
                         ProgressHUD.showError("You are disconnected. Please check your internet connection")
