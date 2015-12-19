@@ -595,7 +595,7 @@ SocketIODelegate {
         })
     }
     
-    func initSocketConnection(){
+    func initSocketConnection() {
         
         // create socket.io client instance
         if isComingFromOtherScreen == false && self.gameInProgress == false && message_game_started == false {
@@ -660,13 +660,28 @@ SocketIODelegate {
                     
                     print("disconnectResponse: \(data)")
                     
-                    ProgressHUD.showError("The other user has left the game. Connecting to new users.")
-                    let delay = 3.5 * Double(NSEC_PER_SEC)
-                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                    dispatch_after(time, dispatch_get_main_queue()) {
+                    let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                         self.resetGameViews()
                         self.initSocketConnection()
-                    }
+                    })
+                    
+                    let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                        self.resetGameViews()
+                        self.navigationController?.popToRootViewControllerAnimated(true)
+                    })
+                    
+                    alert.addAction(okAction)
+                    alert.addAction(noAction)
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    
+//                    ProgressHUD.showError("The other user has left the game. Connecting to new users.")
+//                    let delay = 3.5 * Double(NSEC_PER_SEC)
+//                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+//                    dispatch_after(time, dispatch_get_main_queue()) {
+//                    }
                 })
                 
                 socketClient.on("skip", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -675,25 +690,55 @@ SocketIODelegate {
                 
                 socketClient.on("skipchat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-                    print("Skipchat: \(data)")
-                    ProgressHUD.showError("The other user has left the game. Connecting to new users.")
-                    let delay = 3.5 * Double(NSEC_PER_SEC)
-                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                    dispatch_after(time, dispatch_get_main_queue()) {
+//                    print("Skipchat: \(data)")
+//                    ProgressHUD.showError("The other user has left the game. Connecting to new users.")
+//                    let delay = 3.5 * Double(NSEC_PER_SEC)
+//                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+//                    dispatch_after(time, dispatch_get_main_queue()) {
+//                    }
+                    
+                    let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                         self.resetGameViews()
                         self.initSocketConnection()
-                    }
+                    })
+                    
+                    let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                        self.resetGameViews()
+                        self.navigationController?.popToRootViewControllerAnimated(true)
+                    })
+                    
+                    alert.addAction(okAction)
+                    alert.addAction(noAction)
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
                 })
                 
                 socketClient.on("leaveGameResponse", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                  
-                    ProgressHUD.showError("The other user has left the game. Connecting to new users.")
-                    let delay = 3.5 * Double(NSEC_PER_SEC)
-                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                    dispatch_after(time, dispatch_get_main_queue()) {
+
+                    let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                         self.resetGameViews()
                         self.initSocketConnection()
-                    }
+                    })
+                    
+                    let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                        self.resetGameViews()
+                        self.navigationController?.popToRootViewControllerAnimated(true)
+                    })
+                    
+                    alert.addAction(okAction)
+                    alert.addAction(noAction)
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    
+//                    ProgressHUD.showError("The other user has left the game. Connecting to new users.")
+//                    let delay = 3.5 * Double(NSEC_PER_SEC)
+//                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+//                    dispatch_after(time, dispatch_get_main_queue()) {
+//                    }
                 })
                 
                 socketClient.on("message_no_online_user", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in

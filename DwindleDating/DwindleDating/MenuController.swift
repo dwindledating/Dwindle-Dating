@@ -22,7 +22,11 @@ MFMessageComposeViewControllerDelegate {
         self.navigationController?.setNavigationBarHidden(true , animated: true)
         
         if dwindleSocket.status() == .Connected {
+            
+            print("MenuController->We are changing status to loggedIn")
+            
             let settings = UserSettings.loadUserSettings()
+            
             self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
         }
         
@@ -41,6 +45,7 @@ MFMessageComposeViewControllerDelegate {
                 
                 // User got event from one of his match.
                 socketClient.on("message_from_matches_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
                     print ("message_from_matches_screen: \(data)");
                     
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
