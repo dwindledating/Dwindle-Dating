@@ -12,7 +12,6 @@ import UIKit
 import Parse
 
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -33,8 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Setup
         Parse.setApplicationId("HEQ0TQq0Qvqdy7BAGii05miGcVp5AcvGbnvdhxQd",
             clientKey: "nXBmYwFcFaWLnykLWFL2NQpY5XSLyC5MbnRrCUKc")
-
-
         
         // Register for Push Notitications
         if application.applicationState != UIApplicationState.Background {
@@ -59,23 +56,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
             
-//            if settings.types.contains(.Alert) {
-//                // stuff
-//            }
-//            let userNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound
-//            let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
-            //UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
         }
-//        else {
-//            let types = UIUserNotificationType.Alert.union([UIUserNotificationType.Badge, UIUserNotificationType.Alert , UIUserNotificationType.Sound])
-//            
-//
-//            application.registerUserNotificationSettings(types)
-////            application.registerForRemoteNotifications()
-//
-//        }
     }
     
    
@@ -106,18 +89,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
         }
     }
-
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        
-        // Override point for customization after application launch.
-//            var family = "Helvetica Neue"
-//            print("\(family)")
-//            
-//            for name in UIFont.fontNamesForFamilyName(family as String)
-//            {
-//                print("   \(name)")
-//            }
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         playController = storyboard.instantiateViewControllerWithIdentifier(GamePlayController.nameOfClass) as! GamePlayController
@@ -127,7 +100,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FBLoginView.self
         FBProfilePictureView.self
-        
         
         let screenSize: CGRect = UIScreen.mainScreen().bounds
         

@@ -553,6 +553,8 @@ SocketIODelegate {
     
     func gameStartedWithParams(data:String) {
         
+        endDate = NSDate()
+        
         self.gameInProgress = true
         self.isPlayerFound = true
         
@@ -720,30 +722,10 @@ SocketIODelegate {
                     
                     print("message_push_notification_send: \(data)")
                     
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        
-                        let message = "Preferences exist but all users are offline. Push notification has been sent to offline users. Do you want to play with other users?"
-                        
-                        let alert = UIAlertController(title: "", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-                        
-                        let yesAction = UIAlertAction(title: "YES", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                            
-                            let pageCount = data[4] as! Int
-                            self.pagination_user_count = pageCount
-                            
-                            self.sendgamePlayEvent("force play")
-                        })
-                        
-                        alert.addAction(yesAction)
-                        
-                        let noAction = UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
-                            self.handleNoMatchFound()
-                        })
-                        
-                        alert.addAction(noAction)
-                        
-                        self.presentViewController(alert, animated: true, completion: nil)
-                    })
+                    let pageCount = data[4] as! Int
+                    self.pagination_user_count = pageCount
+                    self.show90SecTimer()
+                    
                 })
                 
                 socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -784,6 +766,109 @@ SocketIODelegate {
                 })
             }
         }
+    }
+    
+    
+    //MARK: Timer func
+    
+    func showHUDForTime(time:Double, message: String, completion: ()->Void) {
+        
+        ProgressHUD.show(message, withSpin: false)
+        
+        let delay = time * Double(NSEC_PER_SEC)
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue()) {
+            ProgressHUD.dismiss()
+            completion()
+        }
+    }
+    
+    private var endDate = NSDate()
+    private var timer:NSTimer!
+    private let time:Int = 90
+    private var timerControl:DDHTimerControl?
+    private var waitingLabel: UILabel?
+    
+    func show90SecTimer() {
+        
+        timerControl = DDHTimerControl(type: DDHTimerType.EqualElements)
+        timerControl!.translatesAutoresizingMaskIntoConstraints = false
+        timerControl!.color = UIColor(red: 0/255.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
+        timerControl!.highlightColor = UIColor.redColor()
+        timerControl!.minutesOrSeconds = time
+        timerControl!.maxValue = time
+        timerControl!.titleLabel.text = "Sec"
+        timerControl!.userInteractionEnabled = false
+        
+        self.view.addSubview(timerControl!)
+        
+        let width = NSLayoutConstraint(item: timerControl!, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Width, multiplier: 0.5, constant: 0)
+        
+        let height = NSLayoutConstraint(item: timerControl!, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: timerControl!, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0)
+        
+        let centerX = NSLayoutConstraint(item: timerControl!, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+        let centerY = NSLayoutConstraint(item: timerControl!, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 0)
+        self.view.addConstraints([centerX, centerY, width, height])
+        
+        let msg = "Waiting for match to connect..."
+        
+        waitingLabel = UILabel()
+        waitingLabel!.text = msg
+        waitingLabel!.numberOfLines = 1
+        waitingLabel!.textAlignment = .Center
+        waitingLabel!.textColor = UIColor(red: 0/255.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
+        waitingLabel!.font = UIFont.systemFontOfSize(13)
+        waitingLabel!.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(waitingLabel!)
+        
+        let widthL = NSLayoutConstraint(item: waitingLabel!, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 10)
+        
+        let heightL = NSLayoutConstraint(item: waitingLabel!, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 21)
+        
+        let centerLX = NSLayoutConstraint(item: waitingLabel!, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+                
+        let centerLY = NSLayoutConstraint(item: waitingLabel!, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: timerControl!, attribute: NSLayoutAttribute.Bottom, multiplier: 1.0, constant: 10)
+        
+        self.view.addConstraints([centerLX, centerLY, heightL, widthL])
+        
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "changeTimer:", userInfo: nil, repeats: true)
+        
+        self.endDate = NSDate(timeIntervalSinceNow: Double(time))
+    }
+    
+    func changeTimer(timer:NSTimer) {
+        
+        let timeInterval = Int(self.endDate.timeIntervalSinceNow)
+        
+        if (timeInterval) == 0 {
+            
+            timer.invalidate()
+            self.timerControl?.removeFromSuperview()
+            self.waitingLabel?.removeFromSuperview()
+            self.timerControl = nil
+            self.waitingLabel = nil
+            
+            let message = "Preferences exist but all users are offline. Push notification has been sent to offline users. Do you want to play with other users?"
+            
+            let alert = UIAlertController(title: "", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let yesAction = UIAlertAction(title: "YES", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                
+                self.sendgamePlayEvent("force play")
+            })
+            
+            alert.addAction(yesAction)
+            
+            let noAction = UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
+                self.handleNoMatchFound()
+            })
+            
+            alert.addAction(noAction)
+            
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        
+        self.timerControl?.minutesOrSeconds = (timeInterval)
     }
     
     // MARK: -   VIEW LIFE CYCLE

@@ -28,6 +28,7 @@
 #import "UIViewController+BackButtonHandler.h"
 #import "FinalDwindleDownDialog.h"
 #import "AJNotificationView.h"
+#import "DDHTimerControl.h"
 
 //NSString *const BFTaskMultipleExceptionsException = @"BFMultipleExceptionsException";
 

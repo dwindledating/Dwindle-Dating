@@ -371,6 +371,8 @@
 		5CDF1A891BF8A58500BB7033 /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A641BF8A58500BB7033 /* SwiftRegex.swift */; };
 		5CDF1A8A1BF8A58500BB7033 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A651BF8A58500BB7033 /* WebSocket.swift */; };
 		5CDF1A8B1BF8A58500BB7033 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A651BF8A58500BB7033 /* WebSocket.swift */; };
+		5CE594001C25D6090096B62A /* DDHTimerControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE593FF1C25D6090096B62A /* DDHTimerControl.m */; };
+		5CE594011C25D6090096B62A /* DDHTimerControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE593FF1C25D6090096B62A /* DDHTimerControl.m */; };
 		5CF2852C1C09DC0900F41178 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E80F01B01507000781CB8 /* Bolts.framework */; };
 		5CF2852F1C09DD9C00F41178 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E80F01B01507000781CB8 /* Bolts.framework */; };
 /* End PBXBuildFile section */
@@ -688,6 +690,8 @@
 		5CDF1A631BF8A58500BB7033 /* SocketTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketTypes.swift; sourceTree = "<group>"; };
 		5CDF1A641BF8A58500BB7033 /* SwiftRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRegex.swift; sourceTree = "<group>"; };
 		5CDF1A651BF8A58500BB7033 /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
+		5CE593FE1C25D6090096B62A /* DDHTimerControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHTimerControl.h; sourceTree = "<group>"; };
+		5CE593FF1C25D6090096B62A /* DDHTimerControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHTimerControl.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1385,6 +1389,7 @@
 		45C99D721A69D1DF00AC0DFC /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				5CE593FD1C25D6090096B62A /* TimerControl */,
 				5C920FF41C214D01002E3233 /* AJNotificationView */,
 				5C328D261C1DF8F400247674 /* Toast */,
 				5CDF1A521BF8A58500BB7033 /* SocketIOClientSwift */,
@@ -1520,6 +1525,15 @@
 				5CDF1A651BF8A58500BB7033 /* WebSocket.swift */,
 			);
 			path = SocketIOClientSwift;
+			sourceTree = "<group>";
+		};
+		5CE593FD1C25D6090096B62A /* TimerControl */ = {
+			isa = PBXGroup;
+			children = (
+				5CE593FE1C25D6090096B62A /* DDHTimerControl.h */,
+				5CE593FF1C25D6090096B62A /* DDHTimerControl.m */,
+			);
+			path = TimerControl;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1801,6 +1815,7 @@
 				451BC6411AE6E65D003E1C2D /* Player.m in Sources */,
 				451BC6421AE6E65D003E1C2D /* AFNetworkReachabilityManager.m in Sources */,
 				52D91F041B2B894E00D32DD3 /* DialogView.m in Sources */,
+				5CE594011C25D6090096B62A /* DDHTimerControl.m in Sources */,
 				451BC6431AE6E65D003E1C2D /* AFURLRequestSerialization.m in Sources */,
 				451BC6441AE6E65D003E1C2D /* DistanceSelectionController.swift in Sources */,
 				451BC6451AE6E65D003E1C2D /* JSQMessagesBubbleImageFactory.m in Sources */,
@@ -1952,6 +1967,7 @@
 				45148B4A1ADF845700DE232C /* Player.m in Sources */,
 				4591A7691ACE6C09001DED1C /* AFNetworkReachabilityManager.m in Sources */,
 				52D91F031B2B894E00D32DD3 /* DialogView.m in Sources */,
+				5CE594001C25D6090096B62A /* DDHTimerControl.m in Sources */,
 				4591A76C1ACE6C09001DED1C /* AFURLRequestSerialization.m in Sources */,
 				4560D4021A73725100564860 /* DistanceSelectionController.swift in Sources */,
 				455DB33F1A99D3AA00CEAEA2 /* JSQMessagesBubbleImageFactory.m in Sources */,
@@ -2156,6 +2172,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThirdParty/FacebookSDK",
@@ -2174,6 +2191,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThirdParty/FacebookSDK",
