@@ -99,6 +99,7 @@ SocketIODelegate {
             self.message_game_started = false
             self.isComingFromOtherScreen = false
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.resetGameViews()
                 self.navigationController?.popViewControllerAnimated(true)
             })
         }
