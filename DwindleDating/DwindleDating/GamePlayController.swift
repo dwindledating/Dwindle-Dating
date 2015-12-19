@@ -318,7 +318,6 @@ SocketIODelegate {
         btn4.selected = true
         btn5.selected = true
         
-        
         btn1.sd_cancelImageLoadForState(UIControlState.Normal)
         btn2.sd_cancelImageLoadForState(UIControlState.Normal)
         btn3.sd_cancelImageLoadForState(UIControlState.Normal)
@@ -340,7 +339,6 @@ SocketIODelegate {
         
         self.demoData.clearChat()
         self.collectionView!.reloadData()
-        
     }
     
     func randomInt(min: Int, max:Int) -> Int {
@@ -365,7 +363,7 @@ SocketIODelegate {
         playersDict["other3"] = self.playerOther3
         playersDict["other4"] = self.playerOther4
         
-        if self.isViewLoaded() {
+        if self.isViewLoaded() && self.view.window != nil {
             
             // Create method that will have all player's id
             // it will then assign 1 id to 1 user
