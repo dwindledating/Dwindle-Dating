@@ -91,18 +91,42 @@ SocketIODelegate {
     
     func showAlertWithDelay(shouldPop: Bool){
         
-        let alert: UIAlertView = UIAlertView()
-        if (!shouldPop){
-            alert.tag = 1;
+        let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) { (action) -> Void in
+            
+            let settings = UserSettings.loadUserSettings()
+            self.dwindleSocket.sendEvent("event_change_isPlaying_flag", data: [settings.fbId])
+            self.gameInProgress  = false
+            self.message_game_started = false
+            self.isComingFromOtherScreen = false
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.navigationController?.popViewControllerAnimated(true)
+            })
         }
         
-        alert.delegate = self
+        let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (action) -> Void in
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.navigationController?.popViewControllerAnimated(true)
+            })
+        }
         
-        alert.title = "Quit Game"
-        alert.message = "This will end your current game, are you sure?"
-        alert.addButtonWithTitle("Yes")
-        alert.addButtonWithTitle("Cancel")
-        alert.show()
+        let alert = UIAlertController(title: "Quit Game", message: "This will end your current game, are you sure?", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+//        let alert: UIAlertView = UIAlertView()
+//        if (!shouldPop){
+//            alert.tag = 1;
+//        }
+//        
+//        alert.delegate = self
+//        
+//        alert.title = "Quit Game"
+//        alert.message = "This will end your current game, are you sure?"
+//        alert.addButtonWithTitle("Yes")
+//        alert.addButtonWithTitle("Cancel")
+//        alert.show()
     }
     
     func showBackAlertFromSkip(shouldPop: Bool){
