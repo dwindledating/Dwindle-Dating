@@ -68,7 +68,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
                 }else{
                     ProgressHUD.showError("\(error.localizedDescription)")
                 }
-
         }
     }
     

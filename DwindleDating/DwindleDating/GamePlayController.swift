@@ -49,7 +49,7 @@ SocketIODelegate {
     
     var pagination_user_count: Int = 0
     
-    let dwindleSocket = DwindleSocketClient.sharedInstance
+    var dwindleSocket:DwindleSocketClient!
     
     @IBOutlet weak var galleryHeightConstraint : NSLayoutConstraint?
     
@@ -432,7 +432,6 @@ SocketIODelegate {
             print("Setting Button")
         }
 
-        
         if (galleryOpenerButton!.tag == 0){
             galleryOpenerButton!.tag = 1
             galleryHeightConstraint!.constant = 275
@@ -441,7 +440,6 @@ SocketIODelegate {
             galleryOpenerButton!.tag = 0
             galleryHeightConstraint!.constant = 0
         }
-        
         
         UIView.animateWithDuration(0.5) {
             self.view.needsUpdateConstraints()
@@ -494,8 +492,6 @@ SocketIODelegate {
             return
         }
         
-        ProgressHUD.show("Starting Game...")
-        
         self.initSocketConnection();
     }
     
@@ -532,13 +528,17 @@ SocketIODelegate {
         })
     }
     
+    var message_game_started = false
+    
     func initSocketConnection(){
         
-        // create socket.io client instance
-        
-        if isComingFromOtherScreen == false && self.gameInProgress == false {
+        // create socket.io client instance        
+        if isComingFromOtherScreen == false && self.gameInProgress == false && message_game_started == false {
+            ProgressHUD.show("Starting Game...")
             self.sendgamePlayEvent("Play")
         }
+        
+        message_game_started = false
         
         if dwindleSocket.isGamePlayerControllerHandlerAdded == true {
             print("isGamePlayerControllerHandlerAdded:We do not need to add handler again. This may be creating socket again. Without closing ealier one.")
@@ -563,8 +563,10 @@ SocketIODelegate {
                     let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
                     
                     print("\n RoomName ==>  \(roomName)")
+                    let secondUserDict = roomUserInfoDict["SecondUser"] as! NSDictionary
+                    let secondUserFbId = secondUserDict["fb_id"] as! String
                     let settings = UserSettings.loadUserSettings()
-                    self.dwindleSocket.sendEvent("addUser", data: [roomName, settings.fbId])
+                    self.dwindleSocket.sendEvent("addUser", data: [roomName, settings.fbId, secondUserFbId])
                     
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
@@ -795,8 +797,9 @@ SocketIODelegate {
         
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        dwindleSocket = DwindleSocketClient.sharedInstance
         
-        if self.gameInProgress == true {
+        if self.gameInProgress == true || self.message_game_started == true {
             let settings = UserSettings.loadUserSettings()
             self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
         }
@@ -811,6 +814,7 @@ SocketIODelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
+        
         super.viewDidAppear(animated)
         self.pagination_user_count = 0
         self.collectionView!.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();

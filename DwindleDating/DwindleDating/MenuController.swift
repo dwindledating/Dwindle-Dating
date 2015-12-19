@@ -91,10 +91,14 @@ MFMessageComposeViewControllerDelegate {
                     
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
-                        let playController = AppDelegate.sharedAppDelegat().playController
-                        playController.isComingFromOtherScreen = false
-                        playController.gameInProgress = false
-                        self.pushControllerInStack(playController, animated: true)
+                        if self.navigationController?.topViewController?.nameOfClass != GamePlayController.nameOfClass {
+                            
+                            let playController = AppDelegate.sharedAppDelegat().playController
+                            playController.isComingFromOtherScreen = false
+                            playController.gameInProgress = false
+                            playController.message_game_started = true
+                            self.pushControllerInStack(playController, animated: true)
+                        }
                     })
                 })
                 

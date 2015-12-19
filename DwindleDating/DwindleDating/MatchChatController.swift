@@ -17,7 +17,7 @@ class MatchChatController: JSQMessagesViewController ,
     @IBOutlet var imagesViewContainer : UIView!
     
     var isComingFromPlayScreen = false
-    let dwindleSocket = DwindleSocketClient.sharedInstance
+    var dwindleSocket:DwindleSocketClient!
     var demoData: DemoModelData!
     var galleryImages: Array<NSURL>!
 
@@ -38,7 +38,7 @@ class MatchChatController: JSQMessagesViewController ,
         
     }
     
-    func addNavigationProfileButton(imgUrl:NSURL){
+    func addNavigationProfileButton(imgUrl:NSURL) {
         
         var img = UIImage(named:"demo_avatar_jobs")!
         img = img.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
@@ -59,9 +59,10 @@ class MatchChatController: JSQMessagesViewController ,
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        dwindleSocket = DwindleSocketClient.sharedInstance
+        
         let settings = UserSettings.loadUserSettings()
         self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
-        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -252,7 +253,6 @@ class MatchChatController: JSQMessagesViewController ,
                 socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     print ("disconnect: \(data)");
                 })
-                
                 socketClient.onAny({ (SocketAnyEvent) -> Void in
 
                     if SocketAnyEvent.event == "error" {
@@ -264,7 +264,7 @@ class MatchChatController: JSQMessagesViewController ,
     }
     
     func startChat(){
-        
+    
         ProgressHUD.show("Opening Chat...")
         self.initSocketConnection();
     }
