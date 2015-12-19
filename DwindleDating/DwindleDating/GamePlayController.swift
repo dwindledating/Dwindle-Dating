@@ -805,6 +805,7 @@ SocketIODelegate {
         
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
         dwindleSocket = DwindleSocketClient.sharedInstance
         
         if self.gameInProgress == true || self.message_game_started == true {

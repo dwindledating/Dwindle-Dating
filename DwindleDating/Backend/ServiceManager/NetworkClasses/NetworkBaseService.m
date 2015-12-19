@@ -47,9 +47,7 @@ NSString *const kApp_BaseUrl = @"http://159.203.245.103:3000/";
         
     }];
     [op start];
-    
 }
-
 
 
 -(void) uploadRequestWithUrl:(NSString*)URLString
