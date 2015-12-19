@@ -58,4 +58,15 @@ public extension UIViewController {
             }
         }
     }
+    
+    var viewIsLoaded:Bool {
+        
+        let isLoaded = false
+        
+        if let nav = self.navigationController where nav.topViewController == self {
+            
+        }
+        
+        return isLoaded
+    }
 }

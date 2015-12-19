@@ -727,7 +727,7 @@ SocketIODelegate {
                     if (state == UIApplicationState.Background) {//UIApplicationStateBackground
                         print("Application is in background and SIO disconnected.");
                     }
-//                    if (error.code == 57){
+//                    if (error.code == 57) {
 //                        
                         ProgressHUD.showError("You are disconnected. Please check your internet connection")
 

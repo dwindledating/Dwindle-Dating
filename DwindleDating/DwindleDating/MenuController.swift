@@ -98,7 +98,13 @@ MFMessageComposeViewControllerDelegate {
                             playController.gameInProgress = false
                             playController.message_game_started = true
                             self.pushControllerInStack(playController, animated: true)
-                            playController.gameStartedWithParams(data[3] as! String)
+                            
+                            let delay = 0.3 * Double(NSEC_PER_SEC)
+                            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                            dispatch_after(time, dispatch_get_main_queue()) {
+                                
+                                playController.gameStartedWithParams(data[3] as! String)
+                            }
                         }
                     })
                 })
