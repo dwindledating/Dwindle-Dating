@@ -94,7 +94,7 @@ SocketIODelegate {
         let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) { (action) -> Void in
             
             let settings = UserSettings.loadUserSettings()
-            self.dwindleSocket.sendEvent("event_change_isPlaying_flag", data: [settings.fbId])
+            self.dwindleSocket.sendEvent("leaveGame", data: [settings.fbId])
             self.gameInProgress  = false
             self.message_game_started = false
             self.isComingFromOtherScreen = false
@@ -114,19 +114,6 @@ SocketIODelegate {
         alert.addAction(yesAction)
         alert.addAction(noAction)
         self.presentViewController(alert, animated: true, completion: nil)
-        
-//        let alert: UIAlertView = UIAlertView()
-//        if (!shouldPop){
-//            alert.tag = 1;
-//        }
-//        
-//        alert.delegate = self
-//        
-//        alert.title = "Quit Game"
-//        alert.message = "This will end your current game, are you sure?"
-//        alert.addButtonWithTitle("Yes")
-//        alert.addButtonWithTitle("Cancel")
-//        alert.show()
     }
     
     func showBackAlertFromSkip(shouldPop: Bool){
@@ -224,7 +211,6 @@ SocketIODelegate {
             }
             else{
                 self.dwindleSocket.sendEvent("restartGamePlay", data: [])
-                
                 self.resetGameViews()
             }
         })
@@ -237,7 +223,7 @@ SocketIODelegate {
         for (key, _) in ddDict {
             
             if (key == "DeletedUser"){
-                //        1. Delete User
+//        1. Delete User
                 self.handleDeleteUser(ddDict as [String : AnyObject])
             }
             else if (key == "DwindleCount") {
@@ -303,8 +289,15 @@ SocketIODelegate {
         
         self.hideKeyboard()
         self.title = "Finding Match"
-        ProgressHUD.show("Finding match")
+        
+        if self.isViewLoaded() {
+            ProgressHUD.show("Finding match")
+        }
 
+        self.gameInProgress = false
+        self.isComingFromOtherScreen = false
+        self.message_game_started = false
+        
         playersDict.removeAll(keepCapacity: false)
         
         btn1.playerId = ""
@@ -692,13 +685,14 @@ SocketIODelegate {
                     }
                 })
                 
-                socketClient.on("loggedoutResponse", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                socketClient.on("leaveGameResponse", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                   
                     ProgressHUD.showError("The other user has left the game. Connecting to new users.")
                     let delay = 3.5 * Double(NSEC_PER_SEC)
                     let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                     dispatch_after(time, dispatch_get_main_queue()) {
                         self.resetGameViews()
+                        self.initSocketConnection()
                     }
                 })
                 
