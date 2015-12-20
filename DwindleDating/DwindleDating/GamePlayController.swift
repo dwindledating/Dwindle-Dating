@@ -289,7 +289,7 @@ SocketIODelegate {
         self.hideKeyboard()
         self.title = "Finding Match"
         
-        if self.isViewLoaded() {
+        if self.isViewLoaded() || self.view.window == nil {
             ProgressHUD.show("Finding match")
         }
 
@@ -362,7 +362,7 @@ SocketIODelegate {
         playersDict["other3"] = self.playerOther3
         playersDict["other4"] = self.playerOther4
         
-        if self.isViewLoaded() && self.view.window != nil {
+        if self.isViewLoaded() || self.view.window != nil {
             
             // Create method that will have all player's id
             // it will then assign 1 id to 1 user
@@ -397,7 +397,6 @@ SocketIODelegate {
 //        if(self.inputToolbar.contentView.textView.isFirstResponder()){
             self.inputToolbar!.contentView!.textView!.resignFirstResponder()
 //        self.hideKeyboardForcefully()
-        
 //        }
     }
     
@@ -543,8 +542,10 @@ SocketIODelegate {
     
     func gameStartedWithParams(data:String) {
         
-        if self.isViewLoaded() == false && self.view.window == nil {
-            print("Play screen is not loaed or front most")
+        print("self.viewIsLoaded: \(self.viewIsLoaded)")
+        
+        if self.isViewLoaded() == false || self.view.window == nil {
+            print("Play screen is not loaed or not front most")
             return
         }
         

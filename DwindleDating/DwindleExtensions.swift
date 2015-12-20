@@ -61,10 +61,10 @@ public extension UIViewController {
     
     var viewIsLoaded:Bool {
         
-        let isLoaded = false
+        var isLoaded = false
         
         if let nav = self.navigationController where nav.topViewController == self {
-            
+            isLoaded = true
         }
         
         return isLoaded
