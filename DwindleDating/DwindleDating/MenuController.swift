@@ -107,7 +107,7 @@ MFMessageComposeViewControllerDelegate {
                             let delay = 0.5 * Double(NSEC_PER_SEC)
                             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                             dispatch_after(time, dispatch_get_main_queue()) {
-                                print("Sending data to playcontroller")
+                                print("message_game_started->Sending data to playcontroller")
                                 playController.gameStartedWithParams(data[3] as! String)
                             }
                         }

@@ -543,6 +543,11 @@ SocketIODelegate {
     
     func gameStartedWithParams(data:String) {
         
+        if self.isViewLoaded() == false && self.view.window == nil {
+            print("Play screen is not loaed or front most")
+            return
+        }
+        
         endDate = NSDate()
         
         self.gameInProgress = true
@@ -617,6 +622,8 @@ SocketIODelegate {
                 print("GamePlay: Socket is connected. We will catch events here")
                 
                 socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                    print("PlayGame->startgame: \(data)")
                     
                     let responseArr:[AnyObject] =  data
                     let dataStr: String = responseArr[0] as! String
@@ -693,7 +700,8 @@ SocketIODelegate {
 //                    print("Skipchat: \(data)")
 //                    ProgressHUD.showError("The other user has left the game. Connecting to new users.")
 //                    let delay = 3.5 * Double(NSEC_PER_SEC)
-//                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+//                    let time =
+//                    dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
 //                    dispatch_after(time, dispatch_get_main_queue()) {
 //                    }
                     
