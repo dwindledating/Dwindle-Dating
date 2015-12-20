@@ -91,25 +91,40 @@ MFMessageComposeViewControllerDelegate {
                 })
                 
                 // User has made a play request but switched screen.
-                socketClient.on("message_game_started", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    print ("message_game_started: \(data)");
+                socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                    print ("startgame: \(data)");
                     
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
+                        let playController = AppDelegate.sharedAppDelegat().playController
+                        playController.gameInProgress = true
+                        
+                        let dataStr: String = data[0] as! String
+                        
+                        let roomUserInfoDict: AnyObject =  playController.JSONParseDictionary(dataStr)
+                        let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
+                        
+                        print("\n RoomName ==>  \(roomName)")
+                        
+                        let secondUserDict = roomUserInfoDict["SecondUser"] as! NSDictionary
+                        let secondUserFbId = secondUserDict["fb_id"] as! String
+                        let settings = UserSettings.loadUserSettings()
+                        
+                        self.dwindleSocket.sendEvent("addUser", data: [roomName, settings.fbId, secondUserFbId])
+                        
                         if self.navigationController?.topViewController?.nameOfClass != GamePlayController.nameOfClass {
-                            
-                            let playController = AppDelegate.sharedAppDelegat().playController
-                            playController.isComingFromOtherScreen = false
-                            playController.gameInProgress = false
-                            playController.message_game_started = true
                             self.pushControllerInStack(playController, animated: true)
                             
                             let delay = 0.5 * Double(NSEC_PER_SEC)
                             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                             dispatch_after(time, dispatch_get_main_queue()) {
                                 print("message_game_started->Sending data to playcontroller")
-                                playController.gameStartedWithParams(data[3] as! String)
+                                playController.gameStartedWithParams(dataStr)
                             }
+                        }
+                        else {
+                            playController.gameStartedWithParams(dataStr)
                         }
                     })
                 })

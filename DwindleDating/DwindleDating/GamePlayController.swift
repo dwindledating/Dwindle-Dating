@@ -71,30 +71,17 @@ SocketIODelegate {
         }
     }
     
-    func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
-        switch buttonIndex{
-        case 0:
-            print("1st")
-            if (alertView.tag == 1){
-                self.performSkipPressed()
-            }
-            else{
-                self.navigationController?.popViewControllerAnimated(true)
-            }
-
-        case 1:
-            print("2nd")
-        default:
-            print("error")
-        }
-    }
-    
-    func showAlertWithDelay(shouldPop: Bool){
+    func showAlertWithDelay(skip: Bool){
         
         let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) { (action) -> Void in
             
-            let settings = UserSettings.loadUserSettings()
-            self.dwindleSocket.sendEvent("leaveGame", data: [settings.fbId])
+            if skip {
+                self.dwindleSocket.sendEvent("skip", data: [])
+            }
+            else {
+                let settings = UserSettings.loadUserSettings()
+                self.dwindleSocket.sendEvent("leaveGame", data: [settings.fbId])
+            }
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.resetGameViews()
@@ -115,31 +102,25 @@ SocketIODelegate {
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func showBackAlertFromSkip(shouldPop: Bool){
+    func showBackAlertFromSkip(skip: Bool){
         
         self.hideKeyboard()
         let delay = 0.5 * Double(NSEC_PER_SEC)
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
         dispatch_after(time, dispatch_get_main_queue()) {
-            self.showAlertWithDelay(shouldPop)
+            self.showAlertWithDelay(skip)
         }
     }
 
     override func navigationShouldPopOnBackButton() -> Bool {
         //ASK AGAIN IF USER WANTS TO QUIT THE GAME
         // IF YES THEN pop it
-        self.showBackAlertFromSkip(true)
+        self.showBackAlertFromSkip(false)
         return false
-    }
-
-    func performSkipPressed(){
-        
-        self.dwindleSocket.sendEvent("skip", data: [])
-        self.resetGameViews()
     }
     
     func skipPressed(sender: UIBarButtonItem){
-        self.showBackAlertFromSkip(false)
+        self.showBackAlertFromSkip(true)
     }
     
     // MARK:- KDCycleBannerView DataSource
@@ -288,14 +269,9 @@ SocketIODelegate {
         
         self.hideKeyboard()
         self.title = "Finding Match"
-        
-        if self.isViewLoaded() || self.view.window == nil {
-            ProgressHUD.show("Finding match")
-        }
 
         self.gameInProgress = false
         self.isComingFromOtherScreen = false
-        self.message_game_started = false
         
         playersDict.removeAll(keepCapacity: false)
         
@@ -361,6 +337,11 @@ SocketIODelegate {
         playersDict["other2"] = self.playerOther2
         playersDict["other3"] = self.playerOther3
         playersDict["other4"] = self.playerOther4
+        
+        if self.isViewLoaded() == false || self.view.window == nil {
+            print("Play screen is not loaed or not front most")
+        }
+        
         
         if self.isViewLoaded() || self.view.window != nil {
             
@@ -538,78 +519,52 @@ SocketIODelegate {
         })
     }
     
-    var message_game_started = false
-    
     func gameStartedWithParams(data:String) {
         
         print("self.viewIsLoaded: \(self.viewIsLoaded)")
-        
-        if self.isViewLoaded() == false || self.view.window == nil {
-            print("Play screen is not loaed or not front most")
-            return
-        }
         
         endDate = NSDate()
         
         self.gameInProgress = true
         self.isPlayerFound = true
         
-        let dataStr: String = data
+        let dataStr = data
+        let roomUserInfoDict =  self.JSONParseDictionary(dataStr)
         
-        let roomUserInfoDict: AnyObject =  self.JSONParseDictionary(dataStr)
-        let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
+        self.playerMain      =  Player(dict: roomUserInfoDict["MainUser"]! as? Dictionary)
+        self.playerOpponent  = Player(dict: roomUserInfoDict["SecondUser"]! as? Dictionary)
         
-        print("\n RoomName ==>  \(roomName)")
+        let secondUserDict = roomUserInfoDict["SecondUser"] as! [String : String]
+        let name = secondUserDict["user_name"]
+        self.title = name
         
-        let secondUserDict = roomUserInfoDict["SecondUser"] as! NSDictionary
-        let secondUserFbId = secondUserDict["fb_id"] as! String
-        let settings = UserSettings.loadUserSettings()
+        let otherData:AnyObject = roomUserInfoDict["OtherUsers"] as! NSArray
+        self.playerOther1 = Player(dict: otherData[0]! as? Dictionary)
+        self.playerOther2 = Player(dict: otherData[1]! as? Dictionary)
+        self.playerOther3 = Player(dict: otherData[2]! as? Dictionary)
+        self.playerOther4 = Player(dict: otherData[3]! as? Dictionary)
         
-        if self.dwindleSocket == nil {
-            self.dwindleSocket = DwindleSocketClient.sharedInstance
-        }
-        self.dwindleSocket.sendEvent("addUser", data: [roomName, settings.fbId, secondUserFbId])
+        self.randomPlayers.append(self.playerOpponent.fbId)
+        self.randomPlayers.append(self.playerOther1.fbId)
+        self.randomPlayers.append(self.playerOther2.fbId)
+        self.randomPlayers.append(self.playerOther3.fbId)
+        self.randomPlayers.append(self.playerOther4.fbId)
+        self.randomPlayers.shuffled()
         
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            
-            self.playerMain      =  Player(dict: roomUserInfoDict["MainUser"]! as? Dictionary)
-            self.playerOpponent  = Player(dict: roomUserInfoDict["SecondUser"]! as? Dictionary)
-            
-            let secondUserDict: [String: String] = roomUserInfoDict["SecondUser"] as! NSDictionary as! [String : String]
-            let name = secondUserDict["user_name"]
-            print("second user name\(name)")
-            self.title = secondUserDict["user_name"]
-            
-            let otherData:AnyObject = roomUserInfoDict["OtherUsers"] as! NSArray
-            self.playerOther1 = Player(dict: otherData[0]! as? Dictionary)
-            self.playerOther2 = Player(dict: otherData[1]! as? Dictionary)
-            self.playerOther3 = Player(dict: otherData[2]! as? Dictionary)
-            self.playerOther4 = Player(dict: otherData[3]! as? Dictionary)
-            
-            self.randomPlayers.append(self.playerOpponent.fbId)
-            self.randomPlayers.append(self.playerOther1.fbId)
-            self.randomPlayers.append(self.playerOther2.fbId)
-            self.randomPlayers.append(self.playerOther3.fbId)
-            self.randomPlayers.append(self.playerOther4.fbId)
-            self.randomPlayers.shuffled()
-            
-            ProgressHUD.dismiss()
-            
-            ProgressHUD.showSuccess("Game Started. Say Hello!")
-            
-            self.setPlayerImages()
-        })
+        ProgressHUD.dismiss()
+        
+        ProgressHUD.showSuccess("Game Started. Say Hello!")
+        
+        self.setPlayerImages()
     }
     
     func initSocketConnection() {
         
         // create socket.io client instance
-        if isComingFromOtherScreen == false && self.gameInProgress == false && message_game_started == false {
+        if isComingFromOtherScreen == false && self.gameInProgress == false {
             ProgressHUD.show("Starting Game...")
             self.sendgamePlayEvent("Play")
         }
-        
-        message_game_started = false
         
         if dwindleSocket.isGamePlayerControllerHandlerAdded == true {
             print("isGamePlayerControllerHandlerAdded:We do not need to add handler again. This may be creating socket again. Without closing ealier one.")
@@ -622,15 +577,15 @@ SocketIODelegate {
                
                 print("GamePlay: Socket is connected. We will catch events here")
                 
-                socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
-                    print("PlayGame->startgame: \(data)")
-                    
-                    let responseArr:[AnyObject] =  data
-                    let dataStr: String = responseArr[0] as! String
-                    
-                    self.gameStartedWithParams(dataStr)
-                })
+//                socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+//                    
+//                    print("PlayGame->startgame: \(data)")
+//                    
+//                    let responseArr:[AnyObject] =  data
+//                    let dataStr: String = responseArr[0] as! String
+//                    
+//                    self.gameStartedWithParams(dataStr)
+//                })
                 
                 socketClient.on("updatechat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
@@ -743,11 +698,6 @@ SocketIODelegate {
                     
                     self.presentViewController(alert, animated: true, completion: nil)
                     
-//                    ProgressHUD.showError("The other user has left the game. Connecting to new users.")
-//                    let delay = 3.5 * Double(NSEC_PER_SEC)
-//                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-//                    dispatch_after(time, dispatch_get_main_queue()) {
-//                    }
                 })
                 
                 socketClient.on("message_no_online_user", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -959,14 +909,10 @@ SocketIODelegate {
         
         dwindleSocket = DwindleSocketClient.sharedInstance
         
-        if self.gameInProgress == true || self.message_game_started == true {
+        if self.gameInProgress == true {
             let settings = UserSettings.loadUserSettings()
             self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "playing"])
         }
-        
-//        if self.message_game_started == true {
-//            self.setPlayerImages()
-//        }
     }
     
     override func viewWillDisappear(animated: Bool) {
