@@ -95,31 +95,32 @@ MFMessageComposeViewControllerDelegate {
                     
                     print ("startgame: \(data)");
                     
+                    let playController = AppDelegate.sharedAppDelegat().playController
+                    playController.gameInProgress = true
+                    
+                    let dataStr: String = data[0] as! String
+                    
+                    let roomUserInfoDict: AnyObject =  playController.JSONParseDictionary(dataStr)
+                    let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
+                    
+                    print("\n RoomName ==>  \(roomName)")
+                    
+                    let secondUserDict = roomUserInfoDict["SecondUser"] as! NSDictionary
+                    let secondUserFbId = secondUserDict["fb_id"] as! String
+                    let settings = UserSettings.loadUserSettings()
+                    
+                    self.dwindleSocket.sendEvent("addUser", data: [roomName, settings.fbId, secondUserFbId])
+                    self.dwindleSocket.sendEvent("event_change_isPlaying_flag", data: [settings.fbId, 1])
+                    
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
-                        let playController = AppDelegate.sharedAppDelegat().playController
-                        playController.gameInProgress = true
-                        
-                        let dataStr: String = data[0] as! String
-                        
-                        let roomUserInfoDict: AnyObject =  playController.JSONParseDictionary(dataStr)
-                        let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
-                        
-                        print("\n RoomName ==>  \(roomName)")
-                        
-                        let secondUserDict = roomUserInfoDict["SecondUser"] as! NSDictionary
-                        let secondUserFbId = secondUserDict["fb_id"] as! String
-                        let settings = UserSettings.loadUserSettings()
-                        
-                        self.dwindleSocket.sendEvent("addUser", data: [roomName, settings.fbId, secondUserFbId])
-                        
                         if self.navigationController?.topViewController?.nameOfClass != GamePlayController.nameOfClass {
+                            
                             self.pushControllerInStack(playController, animated: true)
                             
                             let delay = 0.5 * Double(NSEC_PER_SEC)
                             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                             dispatch_after(time, dispatch_get_main_queue()) {
-                                print("message_game_started->Sending data to playcontroller")
                                 playController.gameStartedWithParams(dataStr)
                             }
                         }
@@ -165,8 +166,6 @@ MFMessageComposeViewControllerDelegate {
         
         let playController = AppDelegate.sharedAppDelegat().playController
         playController.isComingFromOtherScreen = false
-//        playController.gameInProgress =
-        
         self.pushControllerInStack(playController, animated: true)
     }
     

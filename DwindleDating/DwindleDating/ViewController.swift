@@ -303,9 +303,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             // cacheId is nil
         }
         
-        
-        
-//        FBRequestConnection.startWithGraphPath("me", completionHandler: { (connection: FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
+        //        FBRequestConnection.startWithGraphPath("me", completionHandler: { (connection: FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
 //            
 //            print("result  => \(result)")
 //            //code
@@ -338,14 +336,13 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         print(accessToken)
         
 //        if TARGET_OS_SIMULATOR == 1 { // it is female
-//            userSettings.userGender    = "F"
-//            userSettings.fbId    = "696284960499030" //"10155784063690510" //user.objectID
-//            userSettings.fbName  = "Muhammad Yunus" //user.name
+//            userSettings.userGender    = "M"
+//            userSettings.fbId    = "10153221085360955"
+//            userSettings.fbName  = "Muhammad Yunus"
 //        }
 //        else {
-//            userSettings.userGender    = "F"
-//            userSettings.fbId    = "696284960499030" //user.objectID
-//            userSettings.fbName  = "Muhammad Yunus"
+//            userSettings.fbId    = user.objectID
+//            userSettings.fbName  = user.name
 //        }
         
         userSettings.fbId    = user.objectID

@@ -164,7 +164,4 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
             view.addSubview(button)
         return view
     }
-    
-    
-    
 }

@@ -632,7 +632,7 @@ SocketIODelegate {
                     
                     let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
                         self.resetGameViews()
-                        self.navigationController?.popToRootViewControllerAnimated(true)
+                        self.navigationController?.popViewControllerAnimated(true)
                     })
                     
                     alert.addAction(okAction)
@@ -653,14 +653,6 @@ SocketIODelegate {
                 
                 socketClient.on("skipchat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-//                    print("Skipchat: \(data)")
-//                    ProgressHUD.showError("The other user has left the game. Connecting to new users.")
-//                    let delay = 3.5 * Double(NSEC_PER_SEC)
-//                    let time =
-//                    dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-//                    dispatch_after(time, dispatch_get_main_queue()) {
-//                    }
-                    
                     let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: UIAlertControllerStyle.Alert)
                     
                     let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
@@ -670,7 +662,7 @@ SocketIODelegate {
                     
                     let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
                         self.resetGameViews()
-                        self.navigationController?.popToRootViewControllerAnimated(true)
+                        self.navigationController?.popViewControllerAnimated(true)
                     })
                     
                     alert.addAction(okAction)
@@ -680,7 +672,7 @@ SocketIODelegate {
                 })
                 
                 socketClient.on("leaveGameResponse", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-
+                    
                     let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: UIAlertControllerStyle.Alert)
                     
                     let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
@@ -690,7 +682,7 @@ SocketIODelegate {
                     
                     let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
                         self.resetGameViews()
-                        self.navigationController?.popToRootViewControllerAnimated(true)
+                        self.navigationController?.popViewControllerAnimated(true)
                     })
                     
                     alert.addAction(okAction)
