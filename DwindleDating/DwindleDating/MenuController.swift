@@ -139,6 +139,7 @@ MFMessageComposeViewControllerDelegate {
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         if let apsUserInfo = AppDelegate.sharedAppDelegat().apsUserInfo {
@@ -167,7 +168,6 @@ MFMessageComposeViewControllerDelegate {
                         self.navigationController?.popViewControllerAnimated(true)
                     }
             })
-            
             AppDelegate.sharedAppDelegat().apsUserInfo = nil
         }
     }

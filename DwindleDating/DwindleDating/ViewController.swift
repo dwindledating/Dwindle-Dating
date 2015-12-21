@@ -276,9 +276,52 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         return imagesList
     }
     
-    
     func contentModeForImageIndex(index: UInt) -> UIViewContentMode {
         return UIViewContentMode.ScaleToFill;
+    }
+    
+    // MARK : KDCycleBannerView Delegate
+    
+    func cycleBannerView(bannerView: KDCycleBannerView!, didScrollToIndex index: UInt) {
+        updateTitleOnBannerChange(index)
+    }
+    
+    var currentIndex:UInt = 4
+    func updateTitleOnBannerChange(index:UInt) {
+        
+        if currentIndex != index {
+            currentIndex = index
+        }
+        else {
+            print("didScrollToIndex: \(index)")
+            return
+        }
+        
+        var title = ""
+        var description = ""
+        
+        switch currentIndex {
+        case 0:
+            title = "Personality Comes First"
+            description = "Start a Dwindle Date based on your preferences. Your match is unknown, but one of five photos shown."
+            break
+        case 1:
+            title = "Make Them Fall For You"
+            description = "Have a real conversation and photos will Dwindle Down as your chat progresses, bringing you a step closer to your match."
+            break
+        case 2:
+            title = "Keep It Up & See More"
+            description = "Additional photos are unlocked for those that remain after each Dwindle Down."
+            break
+        case 3:
+            title = "Meet Your Match!"
+            description = "Make it to the end and your true identities will be revealed. Keep chatting anytime through the Dwindle Dating app."
+            break
+        default: break
+            
+        }
+        lblTitle.text = title
+        lbldescription.text = description
     }
     
     // MARK: - your text goes here

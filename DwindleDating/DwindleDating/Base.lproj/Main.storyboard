@@ -279,24 +279,8 @@
                                 <exclude reference="U1I-1W-jCy"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="Imp-Js-sub"/>
-                                <exclude reference="NCL-Vo-zqb"/>
-                                <exclude reference="aXk-zZ-6mO"/>
-                                <exclude reference="3HQ-Ng-AcB"/>
-                                <exclude reference="CFY-o2-Dp2"/>
-                                <exclude reference="Vpz-Rf-foW"/>
-                                <exclude reference="gfT-LU-3TA"/>
-                                <exclude reference="wEy-kV-8es"/>
-                                <exclude reference="KZ6-0p-Egr"/>
-                                <exclude reference="eow-zj-8Mc"/>
-                                <exclude reference="etb-vm-r5X"/>
-                                <exclude reference="IhW-l9-Koz"/>
-                                <exclude reference="VM5-mr-TZC"/>
-                                <exclude reference="ks4-aY-Zwx"/>
-                                <exclude reference="8n1-mf-c9e"/>
-                                <exclude reference="PPM-yR-HBh"/>
-                                <exclude reference="XMy-i6-aSw"/>
-                                <exclude reference="mIB-ej-feV"/>
+                                <exclude reference="58a-KI-HIe"/>
+                                <exclude reference="Lg9-cE-5EK"/>
                                 <exclude reference="2dn-Zg-8ct"/>
                                 <exclude reference="CjH-bE-k6R"/>
                                 <exclude reference="Ebp-mp-F5C"/>
@@ -305,23 +289,39 @@
                                 <exclude reference="B7S-6q-L47"/>
                                 <exclude reference="TCJ-Ak-yaB"/>
                                 <exclude reference="gGb-xk-4kd"/>
+                                <exclude reference="8n1-mf-c9e"/>
+                                <exclude reference="PPM-yR-HBh"/>
+                                <exclude reference="XMy-i6-aSw"/>
+                                <exclude reference="mIB-ej-feV"/>
+                                <exclude reference="Yg2-1k-Z0T"/>
+                                <exclude reference="ytp-vE-Kxh"/>
+                                <exclude reference="yvm-GQ-86q"/>
                                 <exclude reference="09w-cM-B61"/>
                                 <exclude reference="Gle-4i-PWL"/>
                                 <exclude reference="MHp-uu-E8A"/>
                                 <exclude reference="jKB-rJ-qZn"/>
-                                <exclude reference="JEG-X7-f7o"/>
-                                <exclude reference="jUx-n9-1oX"/>
-                                <exclude reference="pb8-w9-Ru7"/>
-                                <exclude reference="ypu-Y1-vTP"/>
-                                <exclude reference="Yg2-1k-Z0T"/>
-                                <exclude reference="ytp-vE-Kxh"/>
-                                <exclude reference="yvm-GQ-86q"/>
                                 <exclude reference="0Yc-zd-MMG"/>
                                 <exclude reference="7jb-Fg-paC"/>
                                 <exclude reference="E93-VR-9fZ"/>
                                 <exclude reference="tQ6-Mw-3L3"/>
-                                <exclude reference="58a-KI-HIe"/>
-                                <exclude reference="Lg9-cE-5EK"/>
+                                <exclude reference="Imp-Js-sub"/>
+                                <exclude reference="NCL-Vo-zqb"/>
+                                <exclude reference="aXk-zZ-6mO"/>
+                                <exclude reference="3HQ-Ng-AcB"/>
+                                <exclude reference="CFY-o2-Dp2"/>
+                                <exclude reference="Vpz-Rf-foW"/>
+                                <exclude reference="gfT-LU-3TA"/>
+                                <exclude reference="wEy-kV-8es"/>
+                                <exclude reference="JEG-X7-f7o"/>
+                                <exclude reference="jUx-n9-1oX"/>
+                                <exclude reference="pb8-w9-Ru7"/>
+                                <exclude reference="ypu-Y1-vTP"/>
+                                <exclude reference="KZ6-0p-Egr"/>
+                                <exclude reference="eow-zj-8Mc"/>
+                                <exclude reference="etb-vm-r5X"/>
+                                <exclude reference="IhW-l9-Koz"/>
+                                <exclude reference="VM5-mr-TZC"/>
+                                <exclude reference="ks4-aY-Zwx"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -339,24 +339,8 @@
                                 <include reference="U1I-1W-jCy"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="Imp-Js-sub"/>
-                                <include reference="NCL-Vo-zqb"/>
-                                <include reference="aXk-zZ-6mO"/>
-                                <include reference="3HQ-Ng-AcB"/>
-                                <include reference="CFY-o2-Dp2"/>
-                                <include reference="Vpz-Rf-foW"/>
-                                <include reference="gfT-LU-3TA"/>
-                                <include reference="wEy-kV-8es"/>
-                                <include reference="KZ6-0p-Egr"/>
-                                <include reference="eow-zj-8Mc"/>
-                                <include reference="etb-vm-r5X"/>
-                                <include reference="IhW-l9-Koz"/>
-                                <include reference="VM5-mr-TZC"/>
-                                <include reference="ks4-aY-Zwx"/>
-                                <include reference="8n1-mf-c9e"/>
-                                <include reference="PPM-yR-HBh"/>
-                                <include reference="XMy-i6-aSw"/>
-                                <include reference="mIB-ej-feV"/>
+                                <include reference="58a-KI-HIe"/>
+                                <include reference="Lg9-cE-5EK"/>
                                 <include reference="2dn-Zg-8ct"/>
                                 <include reference="CjH-bE-k6R"/>
                                 <include reference="Ebp-mp-F5C"/>
@@ -365,23 +349,39 @@
                                 <include reference="B7S-6q-L47"/>
                                 <include reference="TCJ-Ak-yaB"/>
                                 <include reference="gGb-xk-4kd"/>
+                                <include reference="8n1-mf-c9e"/>
+                                <include reference="PPM-yR-HBh"/>
+                                <include reference="XMy-i6-aSw"/>
+                                <include reference="mIB-ej-feV"/>
+                                <include reference="Yg2-1k-Z0T"/>
+                                <include reference="ytp-vE-Kxh"/>
+                                <include reference="yvm-GQ-86q"/>
                                 <include reference="09w-cM-B61"/>
                                 <include reference="Gle-4i-PWL"/>
                                 <include reference="MHp-uu-E8A"/>
                                 <include reference="jKB-rJ-qZn"/>
-                                <include reference="JEG-X7-f7o"/>
-                                <include reference="jUx-n9-1oX"/>
-                                <include reference="pb8-w9-Ru7"/>
-                                <include reference="ypu-Y1-vTP"/>
-                                <include reference="Yg2-1k-Z0T"/>
-                                <include reference="ytp-vE-Kxh"/>
-                                <include reference="yvm-GQ-86q"/>
                                 <include reference="0Yc-zd-MMG"/>
                                 <include reference="7jb-Fg-paC"/>
                                 <include reference="E93-VR-9fZ"/>
                                 <include reference="tQ6-Mw-3L3"/>
-                                <include reference="58a-KI-HIe"/>
-                                <include reference="Lg9-cE-5EK"/>
+                                <include reference="Imp-Js-sub"/>
+                                <include reference="NCL-Vo-zqb"/>
+                                <include reference="aXk-zZ-6mO"/>
+                                <include reference="3HQ-Ng-AcB"/>
+                                <include reference="CFY-o2-Dp2"/>
+                                <include reference="Vpz-Rf-foW"/>
+                                <include reference="gfT-LU-3TA"/>
+                                <include reference="wEy-kV-8es"/>
+                                <include reference="JEG-X7-f7o"/>
+                                <include reference="jUx-n9-1oX"/>
+                                <include reference="pb8-w9-Ru7"/>
+                                <include reference="ypu-Y1-vTP"/>
+                                <include reference="KZ6-0p-Egr"/>
+                                <include reference="eow-zj-8Mc"/>
+                                <include reference="etb-vm-r5X"/>
+                                <include reference="IhW-l9-Koz"/>
+                                <include reference="VM5-mr-TZC"/>
+                                <include reference="ks4-aY-Zwx"/>
                             </mask>
                         </variation>
                     </view>
@@ -629,7 +629,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wLG-SN-0NQ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="V0y-ao-t2c">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menuBg" translatesAutoresizingMaskIntoConstraints="NO" id="rhb-gx-k0g">
@@ -883,7 +883,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Xco-Cx-7sh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="J8k-8P-Nl8">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Q6R-wz-4yo" customClass="JSQMessagesCollectionView">
@@ -986,7 +986,7 @@
                         <viewControllerLayoutGuide type="bottom" id="pSi-O3-qz4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="yPO-9R-yaP">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hzr-aQ-Mv2" userLabel="PictureContainerView">
@@ -1151,7 +1151,7 @@
                                 </connections>
                             </collectionView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uqj-g6-zxd" customClass="JSQMessagesInputToolbar">
-                                <rect key="frame" x="0.0" y="460" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="480" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="acy-Ld-zun"/>
                                 </constraints>
