@@ -20,7 +20,6 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
     @IBOutlet var btnPicture5       :   RoundButtonView!
     @IBOutlet var btnNext       :   UIButton!
     
-    
     var btnOpener : UIButton?
     
     func initContentView(){
@@ -32,9 +31,6 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
         self.btnPicture4.borderWidth = 3.0;
         self.btnPicture5.borderWidth = 3.0;
     }
-
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,10 +44,8 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
         // Dispose of any resources that can be recreated.
     }
     
-    
     // MARK : - WEBSERVICE
 
-    
     func validateAllImages () -> Bool{
         
         if ((btnPicture1.imageForState(UIControlState.Normal) != nil ) &&
@@ -67,20 +61,16 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
     
     
     func signup (){
-
-//        self.performSegueWithIdentifier("showMenuController", sender: nil)
-//
-//        return
         
         if(!self.validateAllImages()){
-            let myAlert: UIAlertController = UIAlertController(title: title, message: "Please provide all 5 images to proceed", preferredStyle: .Alert)
+            let myAlert = UIAlertController(title: title, message: "Please provide all 5 images to proceed", preferredStyle: .Alert)
             myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            self.presentViewController(myAlert, animated: true, completion: nil)
+            self.presentViewController(myAlert)
             return
         }
         
         print("validate all images\(self.validateAllImages())")
-        var settings = UserSettings.loadUserSettings()
+        let settings = UserSettings.loadUserSettings()
 
         print("User FBID \(settings.fbId)")
         print("User FBNAME \(settings.fbName)")
@@ -103,7 +93,7 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
 
         ProgressHUD.show("Uploading pictures...")
         
-        var manager = ServiceManager()
+        let manager = ServiceManager()
             manager.signupWithFacebookId(settings.fbId,
                 fullName: settings.fbName,
                 dob:settings.userBirthday,
@@ -122,7 +112,6 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
                     ProgressHUD.showError("Registeration Failed")
                     print("error: \(error)")
             }
-
     }
     
     // MARK : - IBActions
@@ -130,12 +119,8 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
     @IBAction func nextButtonPressed(sender: UIButton) {
         
         self.signup()
-        
     }
     
-    
-    
-
     @IBAction func openImagePicker(sender: UIButton) {
         
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
@@ -150,14 +135,11 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
             self.presentViewController(imgPicker, animated: true, completion: nil)
             btnOpener = sender
         }
-        
     }
-
 
     // MARK : - IMAGE PICKER DELEGATE METHODS
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        
         
         picker.dismissViewControllerAnimated(true, completion: { () -> Void in
 
@@ -166,6 +148,4 @@ class PictureSelectionController: UIViewController, UINavigationControllerDelega
             
         })
     }
-
-    
 }

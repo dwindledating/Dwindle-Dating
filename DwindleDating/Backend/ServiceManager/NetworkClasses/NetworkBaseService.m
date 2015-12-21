@@ -9,7 +9,7 @@
 #import "NetworkBaseService.h"
 #import "AFHTTPRequestOperationManager.h"
 
-NSString *const kApp_BaseUrl = @"http://52.89.24.195:3000/";
+NSString *const kApp_BaseUrl = @"http://159.203.245.103:3000/";
 
 @implementation NetworkBaseService
 
@@ -47,9 +47,7 @@ NSString *const kApp_BaseUrl = @"http://52.89.24.195:3000/";
         
     }];
     [op start];
-    
 }
-
 
 
 -(void) uploadRequestWithUrl:(NSString*)URLString
@@ -66,9 +64,6 @@ NSString *const kApp_BaseUrl = @"http://52.89.24.195:3000/";
     else{
         URLString = [NSString stringWithFormat:@"%@%@",kApp_BaseUrl,URLString];
     }
-
-    
-
 
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST"
                              URLString:URLString
@@ -162,7 +157,6 @@ NSString *const kApp_BaseUrl = @"http://52.89.24.195:3000/";
             }
             
             manager.requestSerializer = requestSerializer;
-        
         }
         
         [manager GET:url
@@ -172,9 +166,7 @@ NSString *const kApp_BaseUrl = @"http://52.89.24.195:3000/";
              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                  fail(error);
              }];
-    
     }
-    
 }
 
 

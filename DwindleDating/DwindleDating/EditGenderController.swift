@@ -22,8 +22,8 @@ class EditGenderController: UIViewController  {
         }
         
         ProgressHUD.show("Updating...")
-        var settings = UserSettings.loadUserSettings()
-        var manager = ServiceManager()
+        let settings = UserSettings.loadUserSettings()
+        let manager = ServiceManager()
 
         manager.editRequiredGender(gender as String, againstFacebookId: settings.fbId,  sucessBlock: { (isUpdated: Bool) -> Void in
             //code
@@ -33,39 +33,28 @@ class EditGenderController: UIViewController  {
             settings.saveUserSettings()
             self.navigationController?.popViewControllerAnimated(true)
             
-            
-            }) { (error:NSError!) -> Void in
-                //code
+            })
+            { (error:NSError!) -> Void in
                 ProgressHUD.showError("Update Failed")
         }
-        
     }
-    
-
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
         self.navigationItem.title = "Edit Gender"
-        
     }
-    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        var settings = UserSettings.loadUserSettings()
-        var gender = settings.requiredGender as String
+        let settings = UserSettings.loadUserSettings()
+        let gender = settings.requiredGender as String
         if (gender == "M"){
             self.btnGenderM.highlighted = true
         }
         else{
             self.btnGenderF.highlighted = true
         }
-        
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -76,9 +65,6 @@ class EditGenderController: UIViewController  {
     // MARK: - IBACTIONS
     
     @IBAction func genderSelected(sender: UIButton) {
-      
         self.updateRequiredGender(sender)
-        
     }
-    
 }

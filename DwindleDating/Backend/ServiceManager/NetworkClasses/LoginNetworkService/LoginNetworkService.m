@@ -47,8 +47,8 @@
                      failureBlock (error);
                  }];
     
-//    http://52.11.98.82:3000/login?fb_id=facebookID
-//    http://52.11.98.82:3000/login?fb_id=637824466345948
+//    http://159.203.245.103:3000/login?fb_id=facebookID
+//    http://159.203.245.103:3000/login?fb_id=637824466345948
     
 }
 

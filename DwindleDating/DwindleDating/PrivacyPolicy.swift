@@ -16,9 +16,9 @@ class PrivacyPolicy: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        var path = NSBundle.mainBundle().pathForResource("PrivacyPolicy", ofType: "html")
-        var url = NSURL(fileURLWithPath: path!)
-        var request = NSURLRequest(URL: url)
+        let path = NSBundle.mainBundle().pathForResource("PrivacyPolicy", ofType: "html")
+        let url = NSURL(fileURLWithPath: path!)
+        let request = NSURLRequest(URL: url)
         webView.loadRequest(request)
 
     }
