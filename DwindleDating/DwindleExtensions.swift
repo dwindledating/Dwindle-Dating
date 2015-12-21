@@ -62,11 +62,19 @@ public extension UIViewController {
     var viewIsLoaded:Bool {
         
         var isLoaded = false
-        
         if let nav = self.navigationController where nav.topViewController == self {
             isLoaded = true
         }
         
-        return isLoaded
+        return isLoaded //(self.isViewLoaded() == true && self.view.window != nil)
+    }
+    
+    func presentViewController(controler:UIViewController) {
+       
+        if self.viewIsLoaded {
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                self.presentViewController(controler, animated: true, completion: nil)
+            }
+        }
     }
 }

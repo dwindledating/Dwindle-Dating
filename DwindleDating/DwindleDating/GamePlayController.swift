@@ -73,7 +73,7 @@ SocketIODelegate {
     
     func showAlertWithDelay(skip: Bool){
         
-        let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) { (action) -> Void in
+        let yesAction = UIAlertAction(title: "Yes", style: .Default) { (action) -> Void in
             
             if skip {
                 self.dwindleSocket.sendEvent("skip", data: [])
@@ -89,17 +89,19 @@ SocketIODelegate {
             })
         }
         
-        let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (action) -> Void in
+        let noAction = UIAlertAction(title: "No", style: .Cancel) { (action) -> Void in
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.navigationController?.popViewControllerAnimated(true)
             })
         }
         
-        let alert = UIAlertController(title: "Quit Game", message: "This will end your current game, are you sure?", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Quit Game", message: "This will end your current game, are you sure?", preferredStyle: .Alert)
+        
         alert.addAction(yesAction)
         alert.addAction(noAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        
+        self.presentViewController(alert)
     }
     
     func showBackAlertFromSkip(skip: Bool){
@@ -314,6 +316,9 @@ SocketIODelegate {
         
         self.demoData.clearChat()
         self.collectionView!.reloadData()
+        
+        self.endDate = NSDate()
+        
     }
     
     func randomInt(min: Int, max:Int) -> Int {
@@ -341,7 +346,6 @@ SocketIODelegate {
         if self.isViewLoaded() == false || self.view.window == nil {
             print("Play screen is not loaed or not front most")
         }
-        
         
         if self.isViewLoaded() || self.view.window != nil {
             
@@ -613,14 +617,14 @@ SocketIODelegate {
                     
                     print("disconnectResponse: \(data)")
                     
-                    let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: UIAlertControllerStyle.Alert)
+                    let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: .Alert)
                     
-                    let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                    let okAction = UIAlertAction(title: "Yes", style: .Default, handler: { (action) -> Void in
                         self.resetGameViews()
                         self.initSocketConnection()
                     })
                     
-                    let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                    let noAction = UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
                         self.resetGameViews()
                         self.navigationController?.popViewControllerAnimated(true)
                     })
@@ -628,13 +632,7 @@ SocketIODelegate {
                     alert.addAction(okAction)
                     alert.addAction(noAction)
                     
-                    self.presentViewController(alert, animated: true, completion: nil)
-                    
-//                    ProgressHUD.showError("The other user has left the game. Connecting to new users.")
-//                    let delay = 3.5 * Double(NSEC_PER_SEC)
-//                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-//                    dispatch_after(time, dispatch_get_main_queue()) {
-//                    }
+                    self.presentViewController(alert)
                 })
                 
                 socketClient.on("skip", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -643,14 +641,14 @@ SocketIODelegate {
                 
                 socketClient.on("skipchat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-                    let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: UIAlertControllerStyle.Alert)
+                    let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: .Alert)
                     
-                    let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                    let okAction = UIAlertAction(title: "Yes", style: .Default, handler: { (action) -> Void in
                         self.resetGameViews()
                         self.initSocketConnection()
                     })
                     
-                    let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                    let noAction = UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
                         self.resetGameViews()
                         self.navigationController?.popViewControllerAnimated(true)
                     })
@@ -658,19 +656,19 @@ SocketIODelegate {
                     alert.addAction(okAction)
                     alert.addAction(noAction)
                     
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.presentViewController(alert)
                 })
                 
                 socketClient.on("leaveGameResponse", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-                    let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: UIAlertControllerStyle.Alert)
+                    let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: .Alert)
                     
-                    let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                    let okAction = UIAlertAction(title: "Yes", style: .Default, handler: { (action) -> Void in
                         self.resetGameViews()
                         self.initSocketConnection()
                     })
                     
-                    let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                    let noAction = UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
                         self.resetGameViews()
                         self.navigationController?.popViewControllerAnimated(true)
                     })
@@ -678,7 +676,7 @@ SocketIODelegate {
                     alert.addAction(okAction)
                     alert.addAction(noAction)
                     
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.presentViewController(alert)
                     
                 })
                 
@@ -824,9 +822,9 @@ SocketIODelegate {
             
             let message = "Preferences exist but all users are offline. Push notification has been sent to offline users. Do you want to play with other users?"
             
-            let alert = UIAlertController(title: "", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "", message: message, preferredStyle: .Alert)
             
-            let yesAction = UIAlertAction(title: "YES", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            let yesAction = UIAlertAction(title: "YES", style: .Default, handler: { (action) -> Void in
                 
                 self.sendgamePlayEvent("force play")
             })
@@ -839,7 +837,7 @@ SocketIODelegate {
             
             alert.addAction(noAction)
             
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.presentViewController(alert)
         }
         
         self.timerControl?.minutesOrSeconds = (timeInterval)

@@ -141,16 +141,12 @@ MFMessageComposeViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        if let apsUserInfo = AppDelegate.sharedAppDelegat().apsUserInfo,
-            let otherUserFbid = apsUserInfo["respondTo"] as? String
-        {
+        if let apsUserInfo = AppDelegate.sharedAppDelegat().apsUserInfo {
             
             // Suppose we have play event
-            
+            let otherUserFbid = apsUserInfo["anotherObjectId"] as! String
             let settings = UserSettings.loadUserSettings()
             let manager = ServiceManager()
-            
             manager.getUserLocation({ (location: CLLocation!) -> Void in
                 
                 print("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
@@ -158,6 +154,8 @@ MFMessageComposeViewControllerDelegate {
                 let data:[AnyObject] = [settings.fbId, otherUserFbid, location.coordinate.latitude,location.coordinate.longitude]
                 
                 self.dwindleSocket.sendEvent("apnsResponse", data: data)
+                
+                AppDelegate.sharedAppDelegat().apsUserInfo = nil
                 
                 }, failure: { (error:NSError!) -> Void in
                     
@@ -169,6 +167,8 @@ MFMessageComposeViewControllerDelegate {
                         self.navigationController?.popViewControllerAnimated(true)
                     }
             })
+            
+            AppDelegate.sharedAppDelegat().apsUserInfo = nil
         }
     }
     

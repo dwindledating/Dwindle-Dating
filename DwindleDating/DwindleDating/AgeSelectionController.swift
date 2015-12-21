@@ -51,7 +51,7 @@ class AgeSelectionController: UIViewController ,UIPickerViewDataSource,UIPickerV
             let okButton = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel, handler: nil)
             let alert = UIAlertController(title: "Invalid Range", message: "Please Select Valid Range", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(okButton)
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.presentViewController(alert)
 
             return
         }

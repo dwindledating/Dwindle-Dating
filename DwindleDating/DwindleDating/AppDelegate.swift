@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private(set) var playController: GamePlayController!
     private(set) var matchChatController: MatchChatController!
-    private(set) var apsUserInfo: [String:AnyObject]? = nil
+    var apsUserInfo: [String:AnyObject]? = nil
     
     var window: UIWindow?
     
@@ -137,8 +137,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        
-        self.apsUserInfo = ["test": "This is test of KVO"]
     }
 
     func applicationWillTerminate(application: UIApplication) {

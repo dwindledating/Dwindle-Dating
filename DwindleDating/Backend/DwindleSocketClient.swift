@@ -78,11 +78,6 @@ class DwindleSocketClient {
                 self.socket.emit("connect with socket", withItems: [settings.fbId])
             }
         }
-        
-//        self.socket.once("connect") { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-//            let settings = UserSettings.loadUserSettings()
-//            self.socket.emit("connect with socket", withItems: [settings.fbId])
-//        }
     }
     
     func sendEvent(eventName: String, data: [AnyObject]) {

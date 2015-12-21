@@ -57,10 +57,10 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
             PFUser.logOut()
         }
         
-        let myAlert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let myAlert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: actionHandler))
         myAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
-        self.presentViewController(myAlert, animated: true, completion: nil)
+        self.presentViewController(myAlert)
     }
 
     func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
