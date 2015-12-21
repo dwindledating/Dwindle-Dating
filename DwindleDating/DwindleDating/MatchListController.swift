@@ -9,7 +9,7 @@
 import UIKit
 
 
-class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataSource  {
+class MatchListController: BaseController,UITableViewDelegate,UITableViewDataSource  {
     
     @IBOutlet var tableview: UITableView!
     

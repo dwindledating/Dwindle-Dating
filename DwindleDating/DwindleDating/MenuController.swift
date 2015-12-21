@@ -10,7 +10,7 @@ import UIKit
 import MessageUI
 
 
-class MenuController: UIViewController ,
+class MenuController: BaseController ,
 UIActionSheetDelegate,
 MFMailComposeViewControllerDelegate,
 MFMessageComposeViewControllerDelegate {
@@ -137,6 +137,8 @@ MFMessageComposeViewControllerDelegate {
             })
         }
     }
+    
+    
     
     override func viewDidLoad() {
         
