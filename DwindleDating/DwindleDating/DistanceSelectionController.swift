@@ -39,24 +39,17 @@ class DistanceSelectionController: UIViewController ,UIPickerViewDataSource,UIPi
     
     @IBAction func nextButtonPressed(sender: UIButton) {
         
-        
         var distance : Int =  pickerViewDistance.selectedRowInComponent(0)
             distance = ((distance + 1) * 5)
-        var distanceStr = String(distance)
+        let distanceStr = String(distance)
         
-        
-        var settings = UserSettings.loadUserSettings()
+        let settings = UserSettings.loadUserSettings()
         
         settings.userDistance    = distanceStr
         settings.saveUserSettings()
         
         performSegueWithIdentifier("showPictureSelector", sender: nil)
-        
     }
-    
-    
-
-    
     
     // MARK : -Pickerview DataSource
     
@@ -64,31 +57,24 @@ class DistanceSelectionController: UIViewController ,UIPickerViewDataSource,UIPi
         return 2
     }
     
-    
-    // MARK : -Pickerview Delegate
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if (component == 1) { return 1}
-        
         return 10
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    // MARK : -Pickerview Delegate
+
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if (component == 1) { return "miles"}
         
-        var title = "  " + String(format: "%02d", ((row + 1) * 5))
+        let title = "  " + String(format: "%02d", ((row + 1) * 5))
         return title
     }
     
-//    - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
-  
     func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         if (component == 0){
             return 50
         }
         return 75
     }
-
-    
-    
-    
 }

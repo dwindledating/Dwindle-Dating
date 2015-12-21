@@ -27,24 +27,21 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
     func getUserPictures(){
         
         ProgressHUD.show("Loading pictures...")
-        var settings = UserSettings.loadUserSettings()
-        var manager = ServiceManager()
+        let settings = UserSettings.loadUserSettings()
+        let manager = ServiceManager()
         manager.getUserPicturesAgainstFacebookId(settings.fbId,  sucessBlock: { (pictures:[NSObject: AnyObject]!) -> Void in
-            //code
+        
             ProgressHUD.dismiss()
             
-            
-            var data:NSDictionary = pictures as NSDictionary
+            let data:NSDictionary = pictures as NSDictionary
             self.userPicturesDict = data
             print("pictures \(data)")
             
-            // code
-//            let urlPath: String =
-            var url1: NSURL = NSURL(string: (data["Pic1 Path"] as? String)!)!
-            var url2: NSURL = NSURL(string: (data["Pic2 Path"] as? String)!)!
-            var url3: NSURL = NSURL(string: (data["Pic3 Path"] as? String)!)!
-            var url4: NSURL = NSURL(string: (data["Pic4 Path"] as? String)!)!
-            var url5: NSURL = NSURL(string: (data["Pic5 Path"] as? String)!)!
+            let url1: NSURL = NSURL(string: (data["Pic1 Path"] as? String)!)!
+            let url2: NSURL = NSURL(string: (data["Pic2 Path"] as? String)!)!
+            let url3: NSURL = NSURL(string: (data["Pic3 Path"] as? String)!)!
+            let url4: NSURL = NSURL(string: (data["Pic4 Path"] as? String)!)!
+            let url5: NSURL = NSURL(string: (data["Pic5 Path"] as? String)!)!
             
             self.btnPicture1.sd_setImageWithURL(url1 , forState: .Normal)
             self.btnPicture2.sd_setImageWithURL(url2 , forState: .Normal)
@@ -55,12 +52,9 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
 //            self.btnPicture1.sd_setImageWithURL(url1, forState: UIControlState.Normal, placeholderImage: nil, options: SDWebImageOptions.ProgressiveDownload)
             
             }) { (error:NSError!) -> Void in
-            //code
             ProgressHUD.showError("Loading Failed")
         }
-
     }
-    
     
     func initContentView(){
         
@@ -72,9 +66,6 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
         
         self.getUserPictures()
     }
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -142,7 +133,7 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
         }
         
         SDImageCache.sharedImageCache().removeImageForKey(picUrl, fromDisk: true)
-        var settings = UserSettings.loadUserSettings()
+        let settings = UserSettings.loadUserSettings()
         
         var imagesArr = [UIImage]()
         
@@ -151,7 +142,7 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
         
         ProgressHUD.show("Updating picture")
         
-        var manager = ServiceManager()
+        let manager = ServiceManager()
         
         manager.updateUserPictureAgainstFacebookId(settings.fbId, andPictureName: picName, withImage: imagesArr, sucessBlock: { (isUpdated:Bool) -> Void in
             print("isUpdated: \(isUpdated)")
@@ -172,15 +163,12 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
 //        
 //    }
     
-    
-    
-    
     @IBAction func openImagePicker(sender: UIButton) {
         
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
             print("Button capture")
             
-            var imgPicker = UIImagePickerController()
+            let imgPicker = UIImagePickerController()
             imgPicker.delegate = self
             imgPicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
             imgPicker.mediaTypes =  [kUTTypeImage as String]//[kUTTypeImage]
@@ -192,20 +180,16 @@ class EditPicturesController: UIViewController, UINavigationControllerDelegate, 
         
     }
     
-    
     // MARK : - IMAGE PICKER DELEGATE METHODS
-    
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         
         picker.dismissViewControllerAnimated(true, completion: { () -> Void in
             
-            var img = info[UIImagePickerControllerEditedImage] as! UIImage //2
+            let img = info[UIImagePickerControllerEditedImage] as! UIImage //2
             self.btnOpener?.setImage(img, forState: UIControlState.Normal)
 //            self.btnOpener?.userInteractionEnabled = false
             self.updatePicture()
-            
-            
         })
     }
     

@@ -12,25 +12,28 @@ import UIKit
 import Parse
 
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    private(set) var playController: GamePlayController!
+    private(set) var matchChatController: MatchChatController!
+    var apsUserInfo: [String:AnyObject]? = nil
+    
     var window: UIWindow?
-
+    
+    class func sharedAppDelegat() -> AppDelegate {
+        let appdelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        return appdelegate
+    }
+    
     func setupUser() -> Void{
         
     }
-
-
     func registerForPushNotifications(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject:AnyObject]?){
         
         //Setup
         Parse.setApplicationId("HEQ0TQq0Qvqdy7BAGii05miGcVp5AcvGbnvdhxQd",
             clientKey: "nXBmYwFcFaWLnykLWFL2NQpY5XSLyC5MbnRrCUKc")
-
-
         
         // Register for Push Notitications
         if application.applicationState != UIApplicationState.Background {
@@ -55,37 +58,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
             
-//            if settings.types.contains(.Alert) {
-//                // stuff
-//            }
-//            let userNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound
-//            let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
-            //UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
         }
-//        else {
-//            let types = UIUserNotificationType.Alert.union([UIUserNotificationType.Badge, UIUserNotificationType.Alert , UIUserNotificationType.Sound])
-//            
-//
-//            application.registerUserNotificationSettings(types)
-////            application.registerForRemoteNotifications()
-//
-//        }
     }
     
-   
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
-//        installation["user"] = PFUser.currentUser()
-        installation.saveInBackgroundWithBlock { (status: Bool, error:NSError?) -> Void in
-            //code
-            
-    
-            
-        }
-
+        installation.saveInBackgroundWithBlock(nil)
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -98,54 +79,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
  
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        
         PFPush.handlePush(userInfo)
+        
         if application.applicationState == UIApplicationState.Inactive {
-//            PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
+
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayloadInBackground(userInfo, block: { (status:Bool, error:NSError?) -> Void in
-                //code
             })
         }
     }
-
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        // Override point for customization after application launch.
-//            var family = "Helvetica Neue"
-//            print("\(family)")
-//            
-//            for name in UIFont.fontNamesForFamilyName(family as String)
-//            {
-//                print("   \(name)")
-//            }
-        
-        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        playController = storyboard.instantiateViewControllerWithIdentifier(GamePlayController.nameOfClass) as! GamePlayController
+        matchChatController = storyboard.instantiateViewControllerWithIdentifier(MatchChatController.nameOfClass) as! MatchChatController
 
         self.registerForPushNotifications(application, didFinishLaunchingWithOptions: launchOptions)
         
         FBLoginView.self
         FBProfilePictureView.self
         
+        self.updateAppearance(application)
         
-        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        if let launchOption = launchOptions,
+            let userInfo = launchOption[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String:AnyObject],
+            let aps = userInfo["aps"] as? [String:AnyObject] {
+                // Application is launched because of Push notification.
+                print("aps: \(userInfo):\n\n\(aps)")
+                
+                apsUserInfo = userInfo
+        }
         
-        let screenWidth = screenSize.width;
-        let screenHeight = screenSize.height;
-
-        application.setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
-        
-        print(screenWidth,screenHeight)
-        
-        let navigationBarAppearace = UINavigationBar.appearance()
-        
-        navigationBarAppearace.barTintColor = UIColor(red: 0/255.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
-        navigationBarAppearace.barStyle = UIBarStyle.Default
-
-        navigationBarAppearace.tintColor = UIColor.whiteColor()
-        navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]  // Title's text color
-
-        
-
         return true
     }
 
@@ -178,6 +143,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    //MARK: UIAppearance
+    
+    private func updateAppearance(application:UIApplication) {
+        
+        application.setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
+        
+        let navigationBarAppearace = UINavigationBar.appearance()
+        
+        navigationBarAppearace.barTintColor = UIColor(red: 0/255.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
+        navigationBarAppearace.barStyle = UIBarStyle.Default
+        
+        navigationBarAppearace.tintColor = UIColor.whiteColor()
+        navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+    }
+    
+    private func handlePushNotification(payload: [NSObject : AnyObject]) {
+        
+    }
 }
 

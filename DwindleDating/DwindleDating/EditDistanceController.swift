@@ -11,25 +11,25 @@ import Foundation
 class EditDistanceController: UIViewController ,UIPickerViewDataSource,UIPickerViewDelegate {
     
     @IBOutlet var pickerViewDistance :  UIPickerView!
-    @IBOutlet var btnNext       :   UIButton!
+    @IBOutlet var btnNext            :  UIButton!
     
     
     func updateUserDistance(){
         
         ProgressHUD.show("Updating...")
-        var settings = UserSettings.loadUserSettings()
-        var manager = ServiceManager()
+        let settings = UserSettings.loadUserSettings()
+        let manager = ServiceManager()
         
         var row = pickerViewDistance.selectedRowInComponent(0)
             row = ((row + 1) * 5)
         let rowNumber: NSNumber = row
         
         manager.editDistance(rowNumber, againstFacebookId: settings.fbId, sucessBlock: { (isUpdated: Bool) -> Void in
-            //code
+            
                 ProgressHUD.showSuccess("Updated Successfully")
             
-                var distanceStr = String(row)
-                var settings = UserSettings.loadUserSettings()
+                let distanceStr = String(row)
+                let settings = UserSettings.loadUserSettings()
                 settings.userDistance    = distanceStr
                 settings.saveUserSettings()
                 
@@ -37,7 +37,6 @@ class EditDistanceController: UIViewController ,UIPickerViewDataSource,UIPickerV
             
             
             }) { (error:NSError!) -> Void in
-            //code
                 ProgressHUD.showError("Update Failed")
         }
         
@@ -52,11 +51,10 @@ class EditDistanceController: UIViewController ,UIPickerViewDataSource,UIPickerV
         super.viewWillAppear(animated)
     }
 
-    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        var settings = UserSettings.loadUserSettings()
+        let settings = UserSettings.loadUserSettings()
         let distance = Int(settings.userDistance as String)
         if var distanceInt = distance {
             distanceInt = (distanceInt - 1) / 5
@@ -66,10 +64,7 @@ class EditDistanceController: UIViewController ,UIPickerViewDataSource,UIPickerV
         {
             pickerViewDistance.selectRow(0, inComponent: 0, animated: true)
         }
-        
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +76,6 @@ class EditDistanceController: UIViewController ,UIPickerViewDataSource,UIPickerV
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     
     // MARK : - IBActions
     
@@ -96,21 +90,18 @@ class EditDistanceController: UIViewController ,UIPickerViewDataSource,UIPickerV
         return 2
     }
     
-    
-    // MARK : -Pickerview Delegate
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if (component == 1) { return 1}
-        
         return 10
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    // MARK : -Pickerview Delegate
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if (component == 1) { return "miles"}
-        var title = "  " + String(format: "%02d", ((row + 1) * 5))
+        let title = "  " + String(format: "%02d", ((row + 1) * 5))
         return title
     }
-    
-    //    - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
     
     func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         if (component == 0){

@@ -21,8 +21,8 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
     func updateUserAge(){
         
         ProgressHUD.show("Updating...")
-        var settings = UserSettings.loadUserSettings()
-        var manager = ServiceManager()
+        let settings = UserSettings.loadUserSettings()
+        let manager = ServiceManager()
         
         var rowFrom = pickerViewFrom.selectedRowInComponent(0)
         rowFrom = rowFrom + 18
@@ -36,25 +36,21 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
             //code
             ProgressHUD.showSuccess("Updated Successfully")
             
-            var rowFromStr = String(rowFrom)
-            var rowToStr = String(rowTo)
-            var settings = UserSettings.loadUserSettings()
+            let rowFromStr = String(rowFrom)
+            let rowToStr = String(rowTo)
+            let settings = UserSettings.loadUserSettings()
             settings.userAgeFrom    = rowFromStr
             settings.userAgeTo      = rowToStr
             settings.saveUserSettings()
             
             self.navigationController?.popViewControllerAnimated(true)
-            
-            
+        
             }) { (error:NSError!) -> Void in
                 //code
                 ProgressHUD.showError("Update Failed")
         }
-        
     }
 
-    
-    
     func initContentView(){
         btnNext.layer.cornerRadius = 5.0
     }
@@ -63,24 +59,21 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
         super.viewWillAppear(animated)
     }
 
-    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        var settings = UserSettings.loadUserSettings()
+        let settings = UserSettings.loadUserSettings()
         print(settings.userAgeTo)
-        var ageTo = Int(settings.userAgeTo as String)
+        let ageTo = Int(settings.userAgeTo as String)
         if var ageToInt = ageTo {
             ageToInt = ageToInt - 18
             pickerViewTo.selectRow(ageToInt, inComponent: 0, animated: true)
         }
-        else
-        {
+        else {
             pickerViewTo.selectRow(0, inComponent: 0, animated: true)
         }
-
         
-        var ageFrom = Int(settings.userAgeFrom as String)
+        let ageFrom = Int(settings.userAgeFrom as String)
         if var ageFromInt = ageFrom {
             if (ageFromInt > 0){
                 ageFromInt = ageFromInt - 18
@@ -91,10 +84,7 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
         {
             pickerViewFrom.selectRow(0, inComponent: 0, animated: true)
         }
-
-        
     }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,16 +98,12 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
         // Dispose of any resources that can be recreated.
     }
     
-    
     // MARK : - IBActions
     
     @IBAction func nextButtonPressed(sender: UIButton) {
         
         let ageFrom : Int =  pickerViewFrom.selectedRowInComponent(0)
-        var ageFromStr = String(ageFrom)
-        
         let ageto : Int =  pickerViewTo.selectedRowInComponent(0)
-        var ageToStr = String(ageto)
         
         if (ageFrom > ageto){
             UIAlertView(title: "Invalid Range", message: "Please Select Valid Range" , delegate: nil, cancelButtonTitle: "Ok").show()
@@ -125,11 +111,7 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
         }
 
         self.updateUserAge()
-
-        
     }
-    
-    
     
     // MARK : -Pickerview DataSource
     
@@ -137,19 +119,15 @@ class EditAgeController: UIViewController ,UIPickerViewDataSource,UIPickerViewDe
         return 1
     }
     
-    
-    // MARK : -Pickerview Delegate
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return 48;
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    // MARK : -Pickerview Delegate
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let x : Int = row + 18
-        var title = String(x)
+        let title = String(x)
         return title
     }
-    
-    
-    
-    
 }

@@ -32,16 +32,16 @@ class SignupController: UIViewController  {
         let font:UIFont? = UIFont(name: "HelveticaNeue-CondensedBold", size: 18.0)
         
         
-        var attrsWelcomeTxt =   [NSFontAttributeName : font!,
+        let attrsWelcomeTxt =   [NSFontAttributeName : font!,
             NSForegroundColorAttributeName: UIColor(red: 0.0/255.0, green: 149.0/255.0, blue: 191.0/255.0, alpha: 1.0)]
         
         let welcomeText = "\nWhat's cookin', good lookin'?"
-        var welcomeMsgAttributed = NSMutableAttributedString(string: welcomeText, attributes: attrsWelcomeTxt)
+        let welcomeMsgAttributed = NSMutableAttributedString(string: welcomeText, attributes: attrsWelcomeTxt)
         
 
 //        userName = "TEST"
         let username = userName + ""
-        var attrsName = [NSForegroundColorAttributeName: UIColor(red: 253.0/255.0, green: 0.0/255.0, blue: 80.0/255.0, alpha: 1.0),
+        let attrsName = [NSForegroundColorAttributeName: UIColor(red: 253.0/255.0, green: 0.0/255.0, blue: 80.0/255.0, alpha: 1.0),
             NSFontAttributeName : font!]
         
         let gString = NSMutableAttributedString(string: username, attributes:attrsName)
@@ -50,9 +50,6 @@ class SignupController: UIViewController  {
 
         lblWelcometxt.attributedText = gString
 
-        
-        
-        
         let img = UIImage(named:"matches")!
         imgViewProfile.borderWidth = 5.0
         imgViewProfile.sd_setImageWithURL(userImgUrl,
