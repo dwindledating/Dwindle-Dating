@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewDataource, KDCycleBannerViewDelegate {
+class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDataource, KDCycleBannerViewDelegate {
 
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lbldescription: UILabel!
@@ -150,6 +150,10 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         performSegueWithIdentifier("showMenu", sender: nil)
     }
     
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -172,7 +176,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         self.fbLoginView.readPermissions = ["email","public_profile","user_birthday"]
         
         txtViewPrivacy.editable = true
-        txtViewPrivacy.textColor = UIColor(red: 38/255.0, green: 182/255.0, blue: 218/255.0, alpha: 1.0)
+        txtViewPrivacy.textColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
         txtViewPrivacy.font = UIFont(name: "Gadugi", size: 12.0)
         txtViewPrivacy.editable = false
         txtViewPrivacy.backgroundColor = UIColor.clearColor()
