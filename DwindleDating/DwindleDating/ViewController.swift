@@ -11,12 +11,13 @@ import Parse
 
 class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewDataource, KDCycleBannerViewDelegate {
 
+    @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lbldescription: UILabel!
     @IBOutlet var scroller : KDCycleBannerView!
     @IBOutlet var fbLoginView : FBLoginView!
     @IBOutlet var txtViewPrivacy : UITextView!
     
     var cachedUserId : String!
-
     
     func shouldSetupUser() -> Bool{
         var status:  Bool = false
@@ -149,6 +150,18 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         performSegueWithIdentifier("showMenu", sender: nil)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        self.initContentView()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     override func viewDidAppear(animated: Bool) {
     
         super.viewDidAppear(animated)
@@ -160,21 +173,9 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
         txtViewPrivacy.editable = true
         txtViewPrivacy.textColor = UIColor(red: 38/255.0, green: 182/255.0, blue: 218/255.0, alpha: 1.0)
-        txtViewPrivacy.font = UIFont(name: "HelveticaNeue-CondensedBold", size: 11.0)
+        txtViewPrivacy.font = UIFont(name: "Gadugi", size: 12.0)
         txtViewPrivacy.editable = false
         txtViewPrivacy.backgroundColor = UIColor.clearColor()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        self.initContentView()
     }
     
     func initContentView(){
@@ -277,7 +278,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     
     
     func contentModeForImageIndex(index: UInt) -> UIViewContentMode {
-        return UIViewContentMode.ScaleAspectFit;
+        return UIViewContentMode.ScaleToFill;
     }
     
     // MARK: - your text goes here

@@ -329,6 +329,8 @@
 		5C328D2C1C1E00E200247674 /* DwindleEventBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C328D2A1C1E00E200247674 /* DwindleEventBinding.swift */; };
 		5C920FF71C214D01002E3233 /* AJNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C920FF61C214D01002E3233 /* AJNotificationView.m */; };
 		5C920FF81C214D01002E3233 /* AJNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C920FF61C214D01002E3233 /* AJNotificationView.m */; };
+		5CC9C44E1C289B1300AB5748 /* gadugi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5CC9C44C1C289B1300AB5748 /* gadugi.ttf */; };
+		5CC9C44F1C289B1300AB5748 /* gadugib.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5CC9C44D1C289B1300AB5748 /* gadugib.ttf */; };
 		5CDF1A4A1BF89BE800BB7033 /* DwindleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A491BF89BE800BB7033 /* DwindleExtensions.swift */; };
 		5CDF1A4B1BF89BE800BB7033 /* DwindleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A491BF89BE800BB7033 /* DwindleExtensions.swift */; };
 		5CDF1A501BF8A54800BB7033 /* DwindleSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDF1A4F1BF8A54800BB7033 /* DwindleSocketClient.swift */; };
@@ -669,6 +671,8 @@
 		5C328D2A1C1E00E200247674 /* DwindleEventBinding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DwindleEventBinding.swift; path = Backend/Models/DwindleEventBinding.swift; sourceTree = "<group>"; };
 		5C920FF51C214D01002E3233 /* AJNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJNotificationView.h; sourceTree = "<group>"; };
 		5C920FF61C214D01002E3233 /* AJNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJNotificationView.m; sourceTree = "<group>"; };
+		5CC9C44C1C289B1300AB5748 /* gadugi.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gadugi.ttf; sourceTree = "<group>"; };
+		5CC9C44D1C289B1300AB5748 /* gadugib.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gadugib.ttf; sourceTree = "<group>"; };
 		5CDF1A491BF89BE800BB7033 /* DwindleExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DwindleExtensions.swift; sourceTree = "<group>"; };
 		5CDF1A4F1BF8A54800BB7033 /* DwindleSocketClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DwindleSocketClient.swift; path = Backend/DwindleSocketClient.swift; sourceTree = "<group>"; };
 		5CDF1A531BF8A58500BB7033 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
@@ -790,6 +794,7 @@
 			isa = PBXGroup;
 			children = (
 				454DC0871B1C2EAC00B979D0 /* PrivacyPolicy.html */,
+				5CC9C44B1C289B1300AB5748 /* Fonts */,
 				454DC0881B1C2EAC00B979D0 /* TermsandConditions.html */,
 			);
 			path = Resources;
@@ -1501,6 +1506,15 @@
 			path = AJNotificationView;
 			sourceTree = "<group>";
 		};
+		5CC9C44B1C289B1300AB5748 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				5CC9C44C1C289B1300AB5748 /* gadugi.ttf */,
+				5CC9C44D1C289B1300AB5748 /* gadugib.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		5CDF1A521BF8A58500BB7033 /* SocketIOClientSwift */ = {
 			isa = PBXGroup;
 			children = (
@@ -1665,6 +1679,7 @@
 			files = (
 				458D3C9A1A68442100A0BD6B /* Main.storyboard in Resources */,
 				458D3C9F1A68442100A0BD6B /* LaunchScreen.xib in Resources */,
+				5CC9C44F1C289B1300AB5748 /* gadugib.ttf in Resources */,
 				45C497441ADD87BC00031269 /* LocationByAli.gpx in Resources */,
 				45A1524A1AD7B31B002C4D1C /* ProgressHUD.bundle in Resources */,
 				52F83B681B56562A00C6B371 /* LocationByClient.gpx in Resources */,
@@ -1683,6 +1698,7 @@
 				455DB3511A99D3AA00CEAEA2 /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
 				454DC0891B1C2EAC00B979D0 /* PrivacyPolicy.html in Resources */,
 				455DB3531A99D3AA00CEAEA2 /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
+				5CC9C44E1C289B1300AB5748 /* gadugi.ttf in Resources */,
 				454DC08B1B1C2EAC00B979D0 /* TermsandConditions.html in Resources */,
 				455DB35B1A99D3AA00CEAEA2 /* JSQMessagesToolbarContentView.xib in Resources */,
 			);
