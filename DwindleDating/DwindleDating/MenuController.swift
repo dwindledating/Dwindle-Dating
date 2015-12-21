@@ -22,11 +22,7 @@ MFMessageComposeViewControllerDelegate {
         self.navigationController?.setNavigationBarHidden(true , animated: true)
         
         if dwindleSocket.status() == .Connected {
-            
-            print("MenuController->We are changing status to loggedIn")
-            
             let settings = UserSettings.loadUserSettings()
-            
             self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
         }
         
@@ -36,16 +32,14 @@ MFMessageComposeViewControllerDelegate {
         }
         
         dwindleSocket.EventHandler(HandlerType.Menu) { (socketClient: SocketIOClient) -> Void in
-            
+        
             socketClient.on("connect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                print("MenuController. Socket connected")
                 
                 let settings = UserSettings.loadUserSettings()
                 self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
                 
                 // User got event from one of his match.
                 socketClient.on("message_from_matches_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
                     print ("message_from_matches_screen: \(data)");
                     
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -69,7 +63,7 @@ MFMessageComposeViewControllerDelegate {
                     })
                 })
                 
-                // User got play event from other user. This could be a push message as well.
+                // User got play event from other user. This could be an in app push message as well.
                 socketClient.on("message_from_play_screen", callback: { (data:[AnyObject], ac:SocketAckEmitter) -> Void in
                     
                     print ("message_from_play_screen: \(data)");
@@ -146,13 +140,42 @@ MFMessageComposeViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        if let apsUserInfo = AppDelegate.sharedAppDelegat().apsUserInfo,
+            let otherUserFbid = apsUserInfo["respondTo"] as? String
+        {
+            
+            // Suppose we have play event
+            
+            let settings = UserSettings.loadUserSettings()
+            let manager = ServiceManager()
+            
+            manager.getUserLocation({ (location: CLLocation!) -> Void in
+                
+                print("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
+                
+                let data:[AnyObject] = [settings.fbId, otherUserFbid, location.coordinate.latitude,location.coordinate.longitude]
+                
+                self.dwindleSocket.sendEvent("apnsResponse", data: data)
+                
+                }, failure: { (error:NSError!) -> Void in
+                    
+                    print("Error Message =>\(error.localizedDescription)")
+                    ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
+                    let delay = 3.5 * Double(NSEC_PER_SEC)
+                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                    dispatch_after(time, dispatch_get_main_queue()) {
+                        self.navigationController?.popViewControllerAnimated(true)
+                    }
+            })
+        }
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     
     // MARK : - IBActions
     

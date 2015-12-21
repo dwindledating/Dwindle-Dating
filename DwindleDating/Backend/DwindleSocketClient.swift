@@ -73,6 +73,7 @@ class DwindleSocketClient {
             print("Got event: \($0.event), with items: \($0.items)")
             
             if $0.event == "connect" {
+                
                 let settings = UserSettings.loadUserSettings()
                 self.socket.emit("connect with socket", withItems: [settings.fbId])
             }

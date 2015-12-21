@@ -501,9 +501,9 @@ SocketIODelegate {
 
             print("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
             
-            let data = [settings.fbId,location.coordinate.longitude,location.coordinate.latitude, self.pagination_user_count]
+            let data:[AnyObject] = [settings.fbId,location.coordinate.longitude,location.coordinate.latitude, self.pagination_user_count]
             
-            self.dwindleSocket.sendEvent(event, data: data as [AnyObject])
+            self.dwindleSocket.sendEvent(event, data: data)
             
             self.isPlayerFound = false
             
@@ -576,16 +576,6 @@ SocketIODelegate {
             if socketClient.status == .Connected { // We are save to proceed
                
                 print("GamePlay: Socket is connected. We will catch events here")
-                
-//                socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-//                    
-//                    print("PlayGame->startgame: \(data)")
-//                    
-//                    let responseArr:[AnyObject] =  data
-//                    let dataStr: String = responseArr[0] as! String
-//                    
-//                    self.gameStartedWithParams(dataStr)
-//                })
                 
                 socketClient.on("updatechat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     

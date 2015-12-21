@@ -335,18 +335,18 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
         print(accessToken)
         
-//        if TARGET_OS_SIMULATOR == 1 { // it is female
-//            userSettings.userGender    = "M"
-//            userSettings.fbId    = "10153221085360955"
-//            userSettings.fbName  = "Muhammad Yunus"
-//        }
-//        else {
-//            userSettings.fbId    = user.objectID
-//            userSettings.fbName  = user.name
-//        }
+        if TARGET_OS_SIMULATOR == 1 { // it is female
+            userSettings.userGender    = "M"
+            userSettings.fbId    = "10153221085360955"
+            userSettings.fbName  = "Muhammad Yunus"
+        }
+        else {
+            userSettings.fbId    = user.objectID
+            userSettings.fbName  = user.name
+        }
         
-        userSettings.fbId    = user.objectID
-        userSettings.fbName  = user.name
+//        userSettings.fbId    = user.objectID
+//        userSettings.fbName  = user.name
         userSettings.saveUserSettings()
         
         self.signIn(userSettings.fbId)

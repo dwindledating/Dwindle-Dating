@@ -17,8 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private(set) var playController: GamePlayController!
     private(set) var matchChatController: MatchChatController!
+    private(set) var apsUserInfo: [String:AnyObject]? = nil
+    
     var window: UIWindow?
-
+    
     class func sharedAppDelegat() -> AppDelegate {
         let appdelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return appdelegate
@@ -61,12 +63,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-   
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
-        installation.saveInBackgroundWithBlock { (status: Bool, error:NSError?) -> Void in
-        }
+        installation.saveInBackgroundWithBlock(nil)
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -79,11 +79,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
  
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        
         PFPush.handlePush(userInfo)
+        
         if application.applicationState == UIApplicationState.Inactive {
-//            PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
+
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayloadInBackground(userInfo, block: { (status:Bool, error:NSError?) -> Void in
-                //code
             })
         }
     }
@@ -99,22 +100,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBLoginView.self
         FBProfilePictureView.self
         
-        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        self.updateAppearance(application)
         
-        let screenWidth = screenSize.width;
-        let screenHeight = screenSize.height;
-
-        application.setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
+        if let launchOption = launchOptions,
+            let userInfo = launchOption[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String:AnyObject],
+            let aps = userInfo["aps"] as? [String:AnyObject] {
+                // Application is launched because of Push notification.
+                print("aps: \(userInfo):\n\n\(aps)")
+                
+                apsUserInfo = userInfo
+        }
         
-        print(screenWidth,screenHeight)
-        
-        let navigationBarAppearace = UINavigationBar.appearance()
-        
-        navigationBarAppearace.barTintColor = UIColor(red: 0/255.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
-        navigationBarAppearace.barStyle = UIBarStyle.Default
-
-        navigationBarAppearace.tintColor = UIColor.whiteColor()
-        navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]  // Title's text color
         return true
     }
 
@@ -141,12 +137,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        self.apsUserInfo = ["test": "This is test of KVO"]
     }
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    //MARK: UIAppearance
+    
+    private func updateAppearance(application:UIApplication) {
+        
+        application.setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
+        
+        let navigationBarAppearace = UINavigationBar.appearance()
+        
+        navigationBarAppearace.barTintColor = UIColor(red: 0/255.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
+        navigationBarAppearace.barStyle = UIBarStyle.Default
+        
+        navigationBarAppearace.tintColor = UIColor.whiteColor()
+        navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+    }
+    
+    private func handlePushNotification(payload: [NSObject : AnyObject]) {
+        
+    }
 }
 
