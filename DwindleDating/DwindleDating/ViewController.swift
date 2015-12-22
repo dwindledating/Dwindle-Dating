@@ -184,7 +184,7 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
     func initContentView(){
         // Scroll Initialization
             scroller.autoPlayTimeInterval = 2;
-            scroller.continuous = false;
+            scroller.continuous = true;
         
         //Add gesture
         

@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "549"
             endingLineNumber = "549"
-            landmarkName = "initSocketConnection()"
+            landmarkName = "gameStartedWithParams(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -95,7 +95,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "80"
             endingLineNumber = "80"
-            landmarkName = "handleNoMatchFound()"
+            landmarkName = "showAlertWithDelay(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -127,8 +127,40 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "520"
             endingLineNumber = "520"
-            landmarkName = "JSONParseDictionary(_:)"
+            landmarkName = "sendgamePlayEvent(_:)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DwindleDating.GamePlayController.(sendgamePlayEvent (DwindleDating.GamePlayController) -&gt; (Swift.String) -&gt; ()).(closure #2)"
+                  moduleName = "DwindleDating copy"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbookpro/Desktop/work/Infinione/DwindleDating/DwindleDating/DwindleDating/DwindleDating/DwindleDating/GamePlayController.swift"
+                  timestampString = "472426599.629674"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "520"
+                  endingLineNumber = "520"
+                  offsetFromSymbolStart = "884">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DwindleDating.GamePlayController.(sendgamePlayEvent (DwindleDating.GamePlayController) -&gt; (Swift.String) -&gt; ()).(closure #2).(closure #1)"
+                  moduleName = "DwindleDating copy"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbookpro/Desktop/work/Infinione/DwindleDating/DwindleDating/DwindleDating/DwindleDating/DwindleDating/GamePlayController.swift"
+                  timestampString = "472426599.6298"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "521"
+                  endingLineNumber = "521"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
