@@ -391,7 +391,7 @@
 		45174A331A77EE6700F17584 /* MatchListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchListController.swift; sourceTree = "<group>"; };
 		45174A351A77EE7C00F17584 /* MatchChatController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchChatController.swift; sourceTree = "<group>"; };
 		45174A371A77EEAC00F17584 /* GamePlayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePlayController.swift; sourceTree = "<group>"; };
-		451BC66D1AE6E65D003E1C2D /* DwindleDating copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DwindleDating copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		451BC66D1AE6E65D003E1C2D /* DwindleDating.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DwindleDating.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		452DCD111A8F476700F624B4 /* RoundImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoundImageView.swift; path = Backend/RoundImageView.swift; sourceTree = "<group>"; };
 		454DC0871B1C2EAC00B979D0 /* PrivacyPolicy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PrivacyPolicy.html; sourceTree = "<group>"; };
 		454DC0881B1C2EAC00B979D0 /* TermsandConditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = TermsandConditions.html; sourceTree = "<group>"; };
@@ -1126,7 +1126,7 @@
 			isa = PBXGroup;
 			children = (
 				458D3C8F1A68442100A0BD6B /* DwindleDating.app */,
-				451BC66D1AE6E65D003E1C2D /* DwindleDating copy.app */,
+				451BC66D1AE6E65D003E1C2D /* DwindleDating.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1573,7 +1573,7 @@
 			);
 			name = DevDwindleDating;
 			productName = DwindleDating;
-			productReference = 451BC66D1AE6E65D003E1C2D /* DwindleDating copy.app */;
+			productReference = 451BC66D1AE6E65D003E1C2D /* DwindleDating.app */;
 			productType = "com.apple.product-type.application";
 		};
 		458D3C8E1A68442100A0BD6B /* DwindleDating */ = {
@@ -2077,7 +2077,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.infinione.dwindledating;
-				PRODUCT_NAME = "DwindleDating copy";
+				PRODUCT_NAME = DwindleDating;
 				SWIFT_OBJC_BRIDGING_HEADER = ThirdParty/FacebookBridge/FacebookBridge.h;
 			};
 			name = Debug;
@@ -2096,7 +2096,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.infinione.dwindledating;
-				PRODUCT_NAME = "DwindleDating copy";
+				PRODUCT_NAME = DwindleDating;
 				SWIFT_OBJC_BRIDGING_HEADER = ThirdParty/FacebookBridge/FacebookBridge.h;
 			};
 			name = Release;
