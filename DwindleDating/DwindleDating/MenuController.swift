@@ -149,9 +149,11 @@ MFMessageComposeViewControllerDelegate {
     private func connectWithNetwork(connect:Bool) {
         
         if connect {
-            ProgressHUD.show("Connecting to network...", interaction: false)
+            self.view.userInteractionEnabled = false
+            ProgressHUD.show("Connecting to network...")
         }
         else {
+            self.view.userInteractionEnabled = true
             ProgressHUD.dismiss()
         }
     }

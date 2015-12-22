@@ -7,7 +7,7 @@
 
 #import "DialogView.h"
 
-typedef void (^RequestCompletion)(int option);
+typedef void (^RequestCompletion)(NSInteger option);
 
 @interface FinalDwindleDownDialog : DialogView
 @property (retain, nonatomic) IBOutlet UIButton *btnPlayAgain;
