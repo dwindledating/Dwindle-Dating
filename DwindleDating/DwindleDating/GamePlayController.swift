@@ -67,6 +67,12 @@ SocketIODelegate {
             if (self.isPlayerFound == false){
                 // not found popout
                 ProgressHUD.showError("No match found around your area. Please try again later.")
+                let delay = 3.5 * Double(NSEC_PER_SEC)
+                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                dispatch_after(time, dispatch_get_main_queue()) {
+                    self.resetGameViews()
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
             }
         }
     }
@@ -660,6 +666,10 @@ SocketIODelegate {
                 
                 socketClient.on("leaveGameResponse", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
+                    if self.view.window != nil {
+                        
+                    }
+                    
                     let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: .Alert)
                     
                     let okAction = UIAlertAction(title: "Yes", style: .Default, handler: { (action) -> Void in
@@ -838,9 +848,9 @@ SocketIODelegate {
                 self.presentViewController(alert)
             }
         }
-        
         self.timerControl?.minutesOrSeconds = (timeInterval)
     }
+    
     
     // MARK: -   VIEW LIFE CYCLE
     
