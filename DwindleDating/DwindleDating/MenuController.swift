@@ -152,7 +152,7 @@ MFMessageComposeViewControllerDelegate {
         
         if connect {
             
-            if self.isMovingToParentViewController() {
+            if self.isMovingToParentViewController() && dwindleSocket.status() != .Connected {
 //                self.view.userInteractionEnabled = false
                 ProgressHUD.show("Connecting to network...")
             }
