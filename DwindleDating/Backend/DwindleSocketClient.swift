@@ -80,6 +80,12 @@ class DwindleSocketClient {
                 
                 NSNotificationCenter.defaultCenter().postNotificationName(PushNotification, object: nil)
             }
+            if $0.event == "Disconnect" {
+                
+                if UserSettings.loadUserSettings() != nil {
+                    self.socket.connect()
+                }
+            }
         }
     }
     
@@ -90,9 +96,6 @@ class DwindleSocketClient {
         }
         else {
             print("failed to send client event: \(eventName)")
-        }
-        if (delegate != nil) {
-            // We will decide later what to do here.
         }
     }
     
@@ -120,6 +123,13 @@ class DwindleSocketClient {
     }
     
     func disconnect() {
-        self.socket.didConnect()
+        self.socket.disconnect()
+    }
+    
+    func reconnect() {
+        
+        if self.socket.status == .NotConnected || self.socket.status == .Closed {
+            self.socket.reconnect()   
+        }
     }
 }

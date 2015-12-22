@@ -22,6 +22,8 @@ MFMessageComposeViewControllerDelegate {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true , animated: true)
         
+        connectWithNetwork(true)
+        
         if self.dwindleSocket.status() == .Connected {
             let settings = UserSettings.loadUserSettings()
             self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
@@ -138,7 +140,7 @@ MFMessageComposeViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        connectWithNetwork(true)
+        dwindleSocket.reconnect()
     }
     
     override func didReceiveMemoryWarning() {
@@ -154,7 +156,7 @@ MFMessageComposeViewControllerDelegate {
         }
         else {
             self.view.userInteractionEnabled = true
-            let delay = 0.5 * Double(NSEC_PER_SEC)
+            let delay = 0.35 * Double(NSEC_PER_SEC)
             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
             dispatch_after(time, dispatch_get_main_queue()) {
                 ProgressHUD.dismiss()
