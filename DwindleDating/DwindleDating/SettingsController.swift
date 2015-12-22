@@ -47,6 +47,7 @@ class SettingsController: BaseController,UITableViewDelegate,UITableViewDataSour
         FBSession.activeSession().closeAndClearTokenInformation()
         let settings = UserSettings.loadUserSettings()
         settings.removeUserSettings()
+        let dwindle = DwindleSocketClient.sharedInstance
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
     

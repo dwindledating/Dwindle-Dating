@@ -25,6 +25,10 @@
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self setNeedsStatusBarAppearanceUpdate];
+    
     return UIStatusBarStyleLightContent;
 }
 /*
