@@ -138,8 +138,6 @@ MFMessageComposeViewControllerDelegate {
         }
     }
     
-    
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -148,6 +146,17 @@ MFMessageComposeViewControllerDelegate {
             
             // Suppose we have play event
             let otherUserFbid = apsUserInfo["anotherObjectId"] as! String
+            
+            var userId = ""
+            
+            if let aps = apsUserInfo["aps"] as? [String:AnyObject],
+               let alert = aps["alert"] as? String {
+                let array = alert.componentsSeparatedByString(":")
+                userId = array[0]
+            }
+            
+            print(userId)
+            
             let settings = UserSettings.loadUserSettings()
             let manager = ServiceManager()
             manager.getUserLocation({ (location: CLLocation!) -> Void in

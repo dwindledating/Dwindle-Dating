@@ -10,7 +10,7 @@ import UIKit
 
 import Parse
 
-class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSource  {
+class SettingsController: BaseController,UITableViewDelegate,UITableViewDataSource  {
     
     @IBOutlet var tableview: UITableView!
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DistanceSelectionController: UIViewController ,UIPickerViewDataSource,UIPickerViewDelegate {
+class DistanceSelectionController: BaseController ,UIPickerViewDataSource,UIPickerViewDelegate {
     
     @IBOutlet var pickerViewDistance :  UIPickerView!
     @IBOutlet var btnNext       :   UIButton!

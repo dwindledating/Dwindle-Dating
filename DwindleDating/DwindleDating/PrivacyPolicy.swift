@@ -9,9 +9,9 @@
 import UIKit
 
 
-class PrivacyPolicy: UIViewController  {
+class PrivacyPolicy: BaseController  {
 
-    @IBOutlet var webView :    UIWebView!
+    @IBOutlet var webView : UIWebView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +20,6 @@ class PrivacyPolicy: UIViewController  {
         let url = NSURL(fileURLWithPath: path!)
         let request = NSURLRequest(URL: url)
         webView.loadRequest(request)
-
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -32,13 +31,13 @@ class PrivacyPolicy: UIViewController  {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     @IBAction func goBackPressed(sender: UIBarButtonItem) {
-        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

@@ -9,7 +9,7 @@
 import UIKit
 
 
-class GenderSelectionController: UIViewController  {
+class GenderSelectionController: BaseController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
