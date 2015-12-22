@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignupController: BaseController  {
+class SignupController: BaseViewController  {
     
     @IBOutlet var imgViewProfile : RoundImageView!
     @IBOutlet var lblWelcometxt : UILabel!

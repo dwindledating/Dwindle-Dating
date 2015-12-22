@@ -137,6 +137,7 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
             
         }) { (error: NSError!) -> Void in
               print("error: \(error)")
+            self.fbLoginView.hidden = false
             ProgressHUD.showError("\(error.localizedDescription)")
         }
     }
@@ -383,9 +384,9 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
         print(accessToken)
         
         if TARGET_OS_SIMULATOR == 1 { // it is female
-            userSettings.userGender    = "M"
-            userSettings.fbId    = "10153221085360955"
-            userSettings.fbName  = "Muhammad Yunus"
+            userSettings.userGender    = "F"
+            userSettings.fbId    = "1427619287531895"
+            userSettings.fbName  = "Aneesa Bhatti"
         }
         else {
             userSettings.fbId    = user.objectID

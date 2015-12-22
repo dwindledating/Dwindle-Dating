@@ -10,7 +10,7 @@ import UIKit
 import MessageUI
 
 
-class MenuController: BaseController ,
+class MenuController: BaseViewController ,
 UIActionSheetDelegate,
 MFMailComposeViewControllerDelegate,
 MFMessageComposeViewControllerDelegate {
@@ -23,11 +23,6 @@ MFMessageComposeViewControllerDelegate {
         self.navigationController?.setNavigationBarHidden(true , animated: true)
         
         connectWithNetwork(true)
-        
-        if self.dwindleSocket.status() == .Connected {
-            let settings = UserSettings.loadUserSettings()
-            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
-        }
         
         if dwindleSocket.isMenuControllerHandlerAdded == true {
             print("isMenuControllerHandlerAdded:We do not need to add handler again. This may be creating socket again. Without closing ealier one.")
@@ -125,6 +120,38 @@ MFMessageComposeViewControllerDelegate {
                             playController.gameStartedWithParams(dataStr)
                         }
                     })
+                })
+                
+                socketClient.on("message_push_notification_send", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                    ProgressHUD.dismiss()
+                    
+                    print("message_push_notification_send: \(data)")
+                    
+                    let playController = AppDelegate.sharedAppDelegat().playController
+                    playController.gameInProgress = true
+                    
+                    let pageCount = data[4] as! Int
+                    playController.pagination_user_count = pageCount
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
+                        if self.navigationController?.topViewController?.nameOfClass != GamePlayController.nameOfClass {
+                            
+                            self.pushControllerInStack(playController, animated: true)
+                            
+                            let delay = 0.5 * Double(NSEC_PER_SEC)
+                            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                            dispatch_after(time, dispatch_get_main_queue()) {
+                                playController.show90SecTimer()
+                            }
+                        }
+                        else {
+                            playController.show90SecTimer()
+                        }
+                    })
+                    
+                    
                 })
                 
                 socketClient.onAny({ (SocketAnyEvent) -> Void in

@@ -11,7 +11,7 @@ import MobileCoreServices
 
 
 
-class EditPicturesController: BaseController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class EditPicturesController: BaseViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     @IBOutlet var btnPicture1       :   RoundButtonView!
     @IBOutlet var btnPicture2       :   RoundButtonView!

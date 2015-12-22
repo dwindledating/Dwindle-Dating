@@ -379,6 +379,8 @@
 		5CE594011C25D6090096B62A /* DDHTimerControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE593FF1C25D6090096B62A /* DDHTimerControl.m */; };
 		5CF2852C1C09DC0900F41178 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E80F01B01507000781CB8 /* Bolts.framework */; };
 		5CF2852F1C09DD9C00F41178 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E80F01B01507000781CB8 /* Bolts.framework */; };
+		5CFA064B1C2A130E005B902D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA064A1C2A130E005B902D /* BaseViewController.swift */; };
+		5CFA064C1C2A130E005B902D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA064A1C2A130E005B902D /* BaseViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -700,6 +702,7 @@
 		5CDF1A651BF8A58500BB7033 /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
 		5CE593FE1C25D6090096B62A /* DDHTimerControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHTimerControl.h; sourceTree = "<group>"; };
 		5CE593FF1C25D6090096B62A /* DDHTimerControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHTimerControl.m; sourceTree = "<group>"; };
+		5CFA064A1C2A130E005B902D /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1137,6 +1140,7 @@
 				45EDA6081A8A2DA000CDB4EF /* MatchCell.swift */,
 				458D3C941A68442100A0BD6B /* AppDelegate.swift */,
 				45174A331A77EE6700F17584 /* MatchListController.swift */,
+				5CFA064A1C2A130E005B902D /* BaseViewController.swift */,
 				45174A351A77EE7C00F17584 /* MatchChatController.swift */,
 				45174A371A77EEAC00F17584 /* GamePlayController.swift */,
 				458D3C961A68442100A0BD6B /* ViewController.swift */,
@@ -1785,6 +1789,7 @@
 				451BC6161AE6E65D003E1C2D /* PictureSelectionController.swift in Sources */,
 				5CDF1A6B1BF8A58500BB7033 /* SocketAnyEvent.swift in Sources */,
 				451BC6171AE6E65D003E1C2D /* JSQMessagesCollectionViewCellOutgoing.m in Sources */,
+				5CFA064C1C2A130E005B902D /* BaseViewController.swift in Sources */,
 				451BC6181AE6E65D003E1C2D /* RoundImageView.swift in Sources */,
 				451BC6191AE6E65D003E1C2D /* JSQVideoMediaItem.m in Sources */,
 				451BC61B1AE6E65D003E1C2D /* SignupController.swift in Sources */,
@@ -1938,6 +1943,7 @@
 				4560D4041A73726600564860 /* PictureSelectionController.swift in Sources */,
 				5CDF1A6A1BF8A58500BB7033 /* SocketAnyEvent.swift in Sources */,
 				455DB3521A99D3AA00CEAEA2 /* JSQMessagesCollectionViewCellOutgoing.m in Sources */,
+				5CFA064B1C2A130E005B902D /* BaseViewController.swift in Sources */,
 				452DCD121A8F476700F624B4 /* RoundImageView.swift in Sources */,
 				455DB34C1A99D3AA00CEAEA2 /* JSQVideoMediaItem.m in Sources */,
 				4560D3FC1A73722300564860 /* SignupController.swift in Sources */,

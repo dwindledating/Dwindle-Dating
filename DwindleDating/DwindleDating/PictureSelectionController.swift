@@ -9,9 +9,7 @@
 import UIKit
 import MobileCoreServices
 
-
-
-class PictureSelectionController: BaseController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class PictureSelectionController: BaseViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     @IBOutlet var btnPicture1       :   RoundButtonView!
     @IBOutlet var btnPicture2       :   RoundButtonView!
