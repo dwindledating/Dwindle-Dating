@@ -527,10 +527,9 @@ SocketIODelegate {
         
         print("self.viewIsLoaded: \(self.viewIsLoaded)")
         
-        endDate = NSDate()
-        
         self.gameInProgress = true
         self.isPlayerFound = true
+        endDate = NSDate()
         
         let dataStr = data
         let roomUserInfoDict =  self.JSONParseDictionary(dataStr)
@@ -765,7 +764,7 @@ SocketIODelegate {
         
         timerControl = DDHTimerControl(type: DDHTimerType.EqualElements)
         timerControl!.translatesAutoresizingMaskIntoConstraints = false
-        timerControl!.color = UIColor(red: 0/255.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
+        timerControl!.color = UIColor(red: 0.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
         timerControl!.highlightColor = UIColor.redColor()
         timerControl!.minutesOrSeconds = time
         timerControl!.maxValue = time
@@ -820,24 +819,24 @@ SocketIODelegate {
             self.timerControl = nil
             self.waitingLabel = nil
             
-            let message = "Preferences exist but all users are offline. Push notification has been sent to offline users. Do you want to play with other users?"
-            
-            let alert = UIAlertController(title: "", message: message, preferredStyle: .Alert)
-            
-            let yesAction = UIAlertAction(title: "YES", style: .Default, handler: { (action) -> Void in
+            if self.gameInProgress == false {
                 
-                self.sendgamePlayEvent("force play")
-            })
-            
-            alert.addAction(yesAction)
-            
-            let noAction = UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
-                self.handleNoMatchFound()
-            })
-            
-            alert.addAction(noAction)
-            
-            self.presentViewController(alert)
+                let message = "Preferences exist but all users are offline. Push notification has been sent to offline users. Do you want to play with other users?"
+                
+                let alert = UIAlertController(title: "", message: message, preferredStyle: .Alert)
+                
+                let yesAction = UIAlertAction(title: "YES", style: .Default, handler: { (action) -> Void in
+                    self.sendgamePlayEvent("force play")
+                })
+                alert.addAction(yesAction)
+                
+                let noAction = UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
+                    self.handleNoMatchFound()
+                })
+                alert.addAction(noAction)
+                
+                self.presentViewController(alert)
+            }
         }
         
         self.timerControl?.minutesOrSeconds = (timeInterval)

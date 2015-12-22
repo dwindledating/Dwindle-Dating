@@ -393,8 +393,8 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
             userSettings.fbName  = user.name
         }
         
-        userSettings.fbId    = user.objectID
-        userSettings.fbName  = user.name
+//        userSettings.fbId    = user.objectID
+//        userSettings.fbName  = user.name
         userSettings.saveUserSettings()
         
         self.signIn(userSettings.fbId)

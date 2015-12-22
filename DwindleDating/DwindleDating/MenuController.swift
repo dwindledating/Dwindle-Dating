@@ -18,10 +18,11 @@ MFMessageComposeViewControllerDelegate {
     let dwindleSocket = DwindleSocketClient.sharedInstance
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true , animated: true)
         
-        if dwindleSocket.status() == .Connected {
+        if self.dwindleSocket.status() == .Connected {
             let settings = UserSettings.loadUserSettings()
             self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
         }
@@ -37,6 +38,7 @@ MFMessageComposeViewControllerDelegate {
                 
                 let settings = UserSettings.loadUserSettings()
                 self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
+                self.view.userInteractionEnabled = true
                 
                 // User got event from one of his match.
                 socketClient.on("message_from_matches_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -87,8 +89,6 @@ MFMessageComposeViewControllerDelegate {
                 // User has made a play request but switched screen.
                 socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-                    print ("startgame: \(data)");
-                    
                     let playController = AppDelegate.sharedAppDelegat().playController
                     playController.gameInProgress = true
                     
@@ -124,10 +124,6 @@ MFMessageComposeViewControllerDelegate {
                     })
                 })
                 
-                socketClient.on("APNS Response", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    print ("APNS Response: \(data)");
-                })
-                
                 socketClient.onAny({ (SocketAnyEvent) -> Void in
                     
                     if SocketAnyEvent.event == "error" {
@@ -139,48 +135,8 @@ MFMessageComposeViewControllerDelegate {
     }
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        
-        if let apsUserInfo = AppDelegate.sharedAppDelegat().apsUserInfo {
-            
-            // Suppose we have play event
-            let otherUserFbid = apsUserInfo["anotherObjectId"] as! String
-            
-            var userId = ""
-            
-            if let aps = apsUserInfo["aps"] as? [String:AnyObject],
-               let alert = aps["alert"] as? String {
-                let array = alert.componentsSeparatedByString(":")
-                userId = array[0]
-            }
-            
-            print(userId)
-            
-            let settings = UserSettings.loadUserSettings()
-            let manager = ServiceManager()
-            manager.getUserLocation({ (location: CLLocation!) -> Void in
-                
-                print("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
-                
-                let data:[AnyObject] = [settings.fbId, otherUserFbid, location.coordinate.latitude,location.coordinate.longitude]
-                
-                self.dwindleSocket.sendEvent("apnsResponse", data: data)
-                
-                AppDelegate.sharedAppDelegat().apsUserInfo = nil
-                
-                }, failure: { (error:NSError!) -> Void in
-                    
-                    print("Error Message =>\(error.localizedDescription)")
-                    ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
-                    let delay = 3.5 * Double(NSEC_PER_SEC)
-                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                    dispatch_after(time, dispatch_get_main_queue()) {
-                        self.navigationController?.popViewControllerAnimated(true)
-                    }
-            })
-            AppDelegate.sharedAppDelegat().apsUserInfo = nil
-        }
+        self.view.userInteractionEnabled = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -196,8 +152,6 @@ MFMessageComposeViewControllerDelegate {
     
     @IBAction func playButtonPressed(sender: AnyObject) {
 
-//      performSegueWithIdentifier("showGamePlayController", sender: nil)
-        
         let playController = AppDelegate.sharedAppDelegat().playController
         playController.isComingFromOtherScreen = false
         self.pushControllerInStack(playController, animated: true)
