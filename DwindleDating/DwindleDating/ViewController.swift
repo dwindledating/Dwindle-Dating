@@ -137,7 +137,6 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
             
         }) { (error: NSError!) -> Void in
               print("error: \(error)")
-            
             ProgressHUD.showError("\(error.localizedDescription)")
         }
     }

@@ -190,7 +190,7 @@ SocketIODelegate {
 
         let dialog = FinalDwindleDownDialog.loadWithNib() as? FinalDwindleDownDialog
 //        let dp = UIImage(named: "demo_avatar_woz")
-        dialog?.showWithImage(dp, successBlock: { (index: Int32) -> Void in
+        dialog?.showWithImage(dp, successBlock: { (index: Int) -> Void in
             //Open Matches Listing
             dialog?.dismissView(true)
             print("Selected Option: \(index)")

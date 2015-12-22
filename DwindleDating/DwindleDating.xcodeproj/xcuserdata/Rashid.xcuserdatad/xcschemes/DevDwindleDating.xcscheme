@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "451BC5E91AE6E65D003E1C2D"
-               BuildableName = "DwindleDating copy.app"
+               BuildableName = "DwindleDating.app"
                BlueprintName = "DevDwindleDating"
                ReferencedContainer = "container:DwindleDating.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "451BC5E91AE6E65D003E1C2D"
-            BuildableName = "DwindleDating copy.app"
+            BuildableName = "DwindleDating.app"
             BlueprintName = "DevDwindleDating"
             ReferencedContainer = "container:DwindleDating.xcodeproj">
          </BuildableReference>
@@ -56,7 +56,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "451BC5E91AE6E65D003E1C2D"
-            BuildableName = "DwindleDating copy.app"
+            BuildableName = "DwindleDating.app"
             BlueprintName = "DevDwindleDating"
             ReferencedContainer = "container:DwindleDating.xcodeproj">
          </BuildableReference>
@@ -84,7 +84,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "451BC5E91AE6E65D003E1C2D"
-            BuildableName = "DwindleDating copy.app"
+            BuildableName = "DwindleDating.app"
             BlueprintName = "DevDwindleDating"
             ReferencedContainer = "container:DwindleDating.xcodeproj">
          </BuildableReference>

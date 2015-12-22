@@ -63,7 +63,6 @@ class DwindleSocketClient {
     weak private var delegate: DwindleSocketDelegate?
     
     init() {
-        
         self.socket.connect()
         addHandlers()
     }
@@ -118,5 +117,9 @@ class DwindleSocketClient {
     
     func status()->SocketIOClientStatus {
         return socket.status
+    }
+    
+    func disconnect() {
+        self.socket.didConnect()
     }
 }
