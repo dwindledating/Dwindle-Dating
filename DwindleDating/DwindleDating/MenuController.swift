@@ -38,7 +38,8 @@ MFMessageComposeViewControllerDelegate {
                 
                 let settings = UserSettings.loadUserSettings()
                 self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
-                self.view.userInteractionEnabled = true
+                
+                self.connectWithNetwork(false)
                 
                 // User got event from one of his match.
                 socketClient.on("message_from_matches_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -136,12 +137,23 @@ MFMessageComposeViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.userInteractionEnabled = false
+        
+        connectWithNetwork(true)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func connectWithNetwork(connect:Bool) {
+        
+        if connect {
+            ProgressHUD.show("Connecting to network...", interaction: false)
+        }
+        else {
+            ProgressHUD.dismiss()
+        }
     }
     
     // MARK : - IBActions
