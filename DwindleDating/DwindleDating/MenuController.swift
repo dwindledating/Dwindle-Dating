@@ -100,7 +100,7 @@ MFMessageComposeViewControllerDelegate {
                     let roomUserInfoDict: AnyObject =  playController.JSONParseDictionary(dataStr)
                     let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
                     
-                    print("\n RoomName ==>  \(roomName)")
+                    print("\n RoomName ==> \(roomName)")
                     
                     let secondUserDict = roomUserInfoDict["SecondUser"] as! NSDictionary
                     let secondUserFbId = secondUserDict["fb_id"] as! String
@@ -151,11 +151,14 @@ MFMessageComposeViewControllerDelegate {
     private func connectWithNetwork(connect:Bool) {
         
         if connect {
-            self.view.userInteractionEnabled = false
-            ProgressHUD.show("Connecting to network...")
+            
+            if self.isMovingToParentViewController() {
+//                self.view.userInteractionEnabled = false
+                ProgressHUD.show("Connecting to network...")
+            }
         }
         else {
-            self.view.userInteractionEnabled = true
+//            self.view.userInteractionEnabled = true
             let delay = 0.35 * Double(NSEC_PER_SEC)
             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
             dispatch_after(time, dispatch_get_main_queue()) {
