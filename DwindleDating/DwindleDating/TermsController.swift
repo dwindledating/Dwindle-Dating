@@ -9,7 +9,7 @@
 import UIKit
 
 
-class TermsController: BaseController  {
+class TermsController: BaseViewController  {
 
     @IBOutlet var webView : UIWebView!
     

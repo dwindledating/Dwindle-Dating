@@ -10,7 +10,7 @@ import Foundation
 
 
 
-class EditAgeController: BaseController ,UIPickerViewDataSource,UIPickerViewDelegate {
+class EditAgeController: BaseViewController ,UIPickerViewDataSource,UIPickerViewDelegate {
     
     @IBOutlet var pickerViewFrom :  UIPickerView!
     @IBOutlet var pickerViewTo :    UIPickerView!

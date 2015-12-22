@@ -10,7 +10,7 @@ import UIKit
 
 import Parse
 
-class SettingsController: BaseController,UITableViewDelegate,UITableViewDataSource  {
+class SettingsController: BaseViewController,UITableViewDelegate,UITableViewDataSource  {
     
     @IBOutlet var tableview: UITableView!
     
@@ -48,6 +48,7 @@ class SettingsController: BaseController,UITableViewDelegate,UITableViewDataSour
         let settings = UserSettings.loadUserSettings()
         settings.removeUserSettings()
         let dwindle = DwindleSocketClient.sharedInstance
+        dwindle.disconnect()
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
     

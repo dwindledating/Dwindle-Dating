@@ -9,7 +9,7 @@
 import UIKit
 
 
-class AgeSelectionController: BaseController ,UIPickerViewDataSource,UIPickerViewDelegate {
+class AgeSelectionController: BaseViewController ,UIPickerViewDataSource,UIPickerViewDelegate {
     
     @IBOutlet var pickerViewFrom :  UIPickerView!
     @IBOutlet var pickerViewTo :    UIPickerView!

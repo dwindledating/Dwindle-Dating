@@ -9,7 +9,7 @@
 import UIKit
 
 
-class PrivacyPolicy: BaseController  {
+class PrivacyPolicy: BaseViewController  {
 
     @IBOutlet var webView : UIWebView!
     

@@ -198,8 +198,30 @@ SocketIODelegate {
                 self.performSegueWithIdentifier("pushMatchListing", sender: nil)
             }
             else{
-                self.dwindleSocket.sendEvent("restartGamePlay", data: [])
+                
                 self.resetGameViews()
+                
+                let settings = UserSettings.loadUserSettings()
+                let manager = ServiceManager()
+                
+                manager.getUserLocation({ (location: CLLocation!) -> Void in
+                    
+                    let data:[AnyObject] = [settings.fbId,location.coordinate.longitude,location.coordinate.latitude]
+                    
+                    self.dwindleSocket.sendEvent("restartGamePlay", data: data)
+                    
+                    self.isPlayerFound = false
+                    
+                    }, failure: { (error:NSError!) -> Void in
+                        
+                        print("Error Message =>\(error.localizedDescription)")
+                        ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
+                        let delay = 3.5 * Double(NSEC_PER_SEC)
+                        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                        dispatch_after(time, dispatch_get_main_queue()) {
+                            self.navigationController?.popViewControllerAnimated(true)
+                        }
+                })
             }
         })
     }
@@ -576,7 +598,7 @@ SocketIODelegate {
         }
         
         if dwindleSocket.isGamePlayerControllerHandlerAdded == true {
-            print("isGamePlayerControllerHandlerAdded:We do not need to add handler again. This may be creating socket again. Without closing ealier one.")
+            print("isGamePlayerControllerHandlerAdded")
             return
         }
         
@@ -699,16 +721,16 @@ SocketIODelegate {
                     self.handleNoMatchFound()
                 })
                 
-                socketClient.on("message_push_notification_send", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
-                    ProgressHUD.dismiss()
-                    
-                    print("message_push_notification_send: \(data)")
-                    
-                    let pageCount = data[4] as! Int
-                    self.pagination_user_count = pageCount
-                    self.show90SecTimer()
-                })
+//                socketClient.on("message_push_notification_send", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+//                    
+//                    ProgressHUD.dismiss()
+//                    
+//                    print("message_push_notification_send: \(data)")
+//                    
+//                    let pageCount = data[4] as! Int
+//                    self.pagination_user_count = pageCount
+//                    self.show90SecTimer()
+//                })
                 
                 socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     

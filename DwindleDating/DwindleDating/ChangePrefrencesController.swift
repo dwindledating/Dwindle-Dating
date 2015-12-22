@@ -9,7 +9,7 @@
 import Foundation
 
 
-class ChangePrefrencesController: BaseController,UITableViewDelegate,UITableViewDataSource  {
+class ChangePrefrencesController: BaseViewController,UITableViewDelegate,UITableViewDataSource  {
     
     @IBOutlet var tableview: UITableView!
     

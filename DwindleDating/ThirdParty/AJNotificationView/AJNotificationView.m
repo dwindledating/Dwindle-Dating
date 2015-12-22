@@ -369,9 +369,10 @@ static NSMutableArray *notificationQueue = nil;       // Global notification que
             break;
         }
         case AJNotificationTypeOrange: { //Orange
-            firstColor = RGBA(246, 141, 0, 1.0);
-            secondColor = RGBA(232, 90, 6, 1.0);
-            toplineColor = RGBA(266, 161, 20, 1.0);
+        
+            firstColor = RGBA(14, 110, 180, 1.0); //RGBA(246, 141, 0, 1.0);
+            secondColor = RGBA(0, 129, 173, 1.0); //RGBA(232, 90, 6, 1.0);
+            toplineColor = RGBA(246, 141, 190, 1.0); //RGBA(266, 161, 20, 1.0);
             self.titleLabel.textColor = [UIColor whiteColor];
             break;
         }
