@@ -91,6 +91,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handlePushNotification:", name: PushNotification, object: nil)
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         playController = storyboard.instantiateViewControllerWithIdentifier(GamePlayController.nameOfClass) as! GamePlayController
         matchChatController = storyboard.instantiateViewControllerWithIdentifier(MatchChatController.nameOfClass) as! MatchChatController
@@ -103,12 +105,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.updateAppearance(application)
         
         if let launchOption = launchOptions,
-            let userInfo = launchOption[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String:AnyObject],
-            let aps = userInfo["aps"] as? [String:AnyObject] {
+            let userInfo = launchOption[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String:AnyObject] {
                 // Application is launched because of Push notification.
-                print("aps: \(userInfo):\n\n\(aps)")
-                
-                apsUserInfo = userInfo
+            apsUserInfo = userInfo
         }
         
         return true
@@ -158,8 +157,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
     }
     
-    private func handlePushNotification(payload: [NSObject : AnyObject]) {
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func handlePushNotification(notif:NSNotification) {
+        // Check for push notification
         
+        print("handlePushNotification")
+        
+        if let apsUserInfo = self.apsUserInfo {
+            
+            print(apsUserInfo)
+            
+            // Suppose we have play event
+            let otherUserFbid = apsUserInfo["fromUserFbId"] as! String
+            
+            let settings = UserSettings.loadUserSettings()
+            let manager = ServiceManager()
+            manager.getUserLocation({ (location: CLLocation!) -> Void in
+                
+                print("Sending 'apnsResponse' =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
+                
+                let data:[AnyObject] = [settings.fbId, otherUserFbid, location.coordinate.latitude,location.coordinate.longitude]
+                
+                let dwindleSocket = DwindleSocketClient.sharedInstance
+                
+                dwindleSocket.sendEvent("apnsResponse", data: data)
+                
+                self.apsUserInfo = nil
+                
+                }, failure: { (error:NSError!) -> Void in
+                    
+                    print("Error Message =>\(error.localizedDescription)")
+                    ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
+            })
+            self.apsUserInfo = nil
+        }
     }
 }
 

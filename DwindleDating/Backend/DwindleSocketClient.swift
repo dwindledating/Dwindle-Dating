@@ -34,6 +34,8 @@ enum HandlerType:Int {
     case MatchChat
 }
 
+let PushNotification = "PushNotification"
+
 class DwindleSocketClient {
    
     static let sharedInstance = DwindleSocketClient()
@@ -76,6 +78,8 @@ class DwindleSocketClient {
                 
                 let settings = UserSettings.loadUserSettings()
                 self.socket.emit("connect with socket", withItems: [settings.fbId])
+                
+                NSNotificationCenter.defaultCenter().postNotificationName(PushNotification, object: nil)
             }
         }
     }
@@ -85,7 +89,9 @@ class DwindleSocketClient {
         if self.socket.status == .Connected {
             self.socket.emit(eventName, withItems: data)
         }
-        
+        else {
+            print("failed to send client event: \(eventName)")
+        }
         if (delegate != nil) {
             // We will decide later what to do here.
         }
@@ -107,7 +113,6 @@ class DwindleSocketClient {
     }
     
     func EventHandlerForMatches(socket:(SocketIOClient)->Void) {
-        
         socket(self.socket)
     }
     
