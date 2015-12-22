@@ -8,7 +8,7 @@
 
 import Foundation
 
-class EditDistanceController: UIViewController ,UIPickerViewDataSource,UIPickerViewDelegate {
+class EditDistanceController: BaseController ,UIPickerViewDataSource,UIPickerViewDelegate {
     
     @IBOutlet var pickerViewDistance :  UIPickerView!
     @IBOutlet var btnNext            :  UIButton!

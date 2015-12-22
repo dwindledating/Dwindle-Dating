@@ -8,7 +8,7 @@
 
 import Foundation
 
-class EditGenderController: UIViewController  {
+class EditGenderController: BaseController  {
     
 //    @IBOutlet var pickerViewFrom :  UIPickerView!
     @IBOutlet var btnGenderM : UIButton!

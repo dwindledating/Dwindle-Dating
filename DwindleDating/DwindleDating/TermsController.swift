@@ -9,9 +9,9 @@
 import UIKit
 
 
-class TermsController: UIViewController  {
+class TermsController: BaseController  {
 
-    @IBOutlet var webView :    UIWebView!
+    @IBOutlet var webView : UIWebView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
