@@ -90,6 +90,7 @@ SocketIODelegate {
             }
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.dismissViewControllerAnimated(false, completion: nil)
                 self.resetGameViews()
                 self.navigationController?.popViewControllerAnimated(true)
             })
@@ -98,6 +99,7 @@ SocketIODelegate {
         let noAction = UIAlertAction(title: "No", style: .Cancel) { (action) -> Void in
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.dismissViewControllerAnimated(false, completion: nil)
                 self.navigationController?.popViewControllerAnimated(true)
             })
         }
@@ -119,7 +121,7 @@ SocketIODelegate {
             self.showAlertWithDelay(skip)
         }
     }
-
+    
     override func navigationShouldPopOnBackButton() -> Bool {
         //ASK AGAIN IF USER WANTS TO QUIT THE GAME
         // IF YES THEN pop it
@@ -554,7 +556,8 @@ SocketIODelegate {
     func gameStartedWithParams(data:String) {
         
         print("self.viewIsLoaded: \(self.viewIsLoaded)")
-        
+        print("\(data)")
+
         self.gameInProgress = true
         self.isPlayerFound = true
         endDate = NSDate()
@@ -793,6 +796,10 @@ SocketIODelegate {
     private var waitingLabel: UILabel?
     
     func show90SecTimer() {
+        
+        if let timerCrl = timerControl where timerCrl.isDescendantOfView(self.view) {
+            return
+        }
         
         timerControl = DDHTimerControl(type: DDHTimerType.EqualElements)
         timerControl!.translatesAutoresizingMaskIntoConstraints = false

@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DwindleDating/AppDelegate.swift"
-            timestampString = "473429864.2814"
+            filePath = "DwindleDating/MenuController.swift"
+            timestampString = "473454867.863649"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
-            landmarkName = "handlePushNotification(_:)"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "viewWillAppear(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,29 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DwindleDating/AppDelegate.swift"
-            timestampString = "473429957.410126"
+            filePath = "DwindleDating/GamePlayController.swift"
+            timestampString = "473463022.592189"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
-            landmarkName = "handlePushNotification(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DwindleDating/AppDelegate.swift"
-            timestampString = "473430140.070355"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "handlePushNotification(_:)"
+            startingLineNumber = "563"
+            endingLineNumber = "563"
+            landmarkName = "gameStartedWithParams(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
