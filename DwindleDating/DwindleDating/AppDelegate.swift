@@ -75,7 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             print("application:didFailToRegisterForRemoteNotificationsWithError: %@", error)
         }
-        
     }
  
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {

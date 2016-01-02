@@ -2148,7 +2148,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_MODULE_NAME = DwindleDating;
-				PROVISIONING_PROFILE = "1c888eb5-e0b1-4c0b-afe3-3f00a8467b90";
+				PROVISIONING_PROFILE = "42957bf6-d0d8-4c01-b6bc-a020c5f7721e";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ThirdParty/FacebookBridge/DwindleDatingSwiftBridge.swift";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2190,7 +2190,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_MODULE_NAME = DwindleDating;
-				PROVISIONING_PROFILE = "1c888eb5-e0b1-4c0b-afe3-3f00a8467b90";
+				PROVISIONING_PROFILE = "42957bf6-d0d8-4c01-b6bc-a020c5f7721e";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ThirdParty/FacebookBridge/DwindleDatingSwiftBridge.swift";
 				VALIDATE_PRODUCT = YES;
