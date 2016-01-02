@@ -858,11 +858,13 @@ SocketIODelegate {
                 let alert = UIAlertController(title: "", message: message, preferredStyle: .Alert)
                 
                 let yesAction = UIAlertAction(title: "YES", style: .Default, handler: { (action) -> Void in
+                    self.dismissViewControllerAnimated(true, completion: nil)
                     self.sendgamePlayEvent("force play")
                 })
                 alert.addAction(yesAction)
                 
                 let noAction = UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
+                    self.dismissViewControllerAnimated(true, completion: nil)
                     self.handleNoMatchFound()
                 })
                 alert.addAction(noAction)

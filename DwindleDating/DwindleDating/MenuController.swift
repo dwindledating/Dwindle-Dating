@@ -129,7 +129,7 @@ MFMessageComposeViewControllerDelegate {
                     print("message_push_notification_send: \(data)")
                     
                     let playController = AppDelegate.sharedAppDelegat().playController
-                    playController.gameInProgress = true
+                    playController.gameInProgress = false
                     
                     let pageCount = data[4] as! Int
                     playController.pagination_user_count = pageCount
@@ -150,8 +150,6 @@ MFMessageComposeViewControllerDelegate {
                             playController.show90SecTimer()
                         }
                     })
-                    
-                    
                 })
                 
                 socketClient.onAny({ (SocketAnyEvent) -> Void in
