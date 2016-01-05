@@ -337,6 +337,7 @@ class MatchChatController: JSQMessagesViewController ,
 //    viewForSupplementaryElementOfKind:kind
 //    atIndexPath:indexPath];
 //    }
+
     
     override func collectionView(collectionView: JSQMessagesCollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView{
     
@@ -510,6 +511,7 @@ class MatchChatController: JSQMessagesViewController ,
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         if let textView = cell.textView {
             let message = self.demoData.messages[indexPath.item] as! JSQMessage

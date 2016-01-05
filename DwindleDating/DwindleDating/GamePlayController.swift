@@ -21,8 +21,8 @@ import UIKit
 class GamePlayController: JSQMessagesViewController,
 UIActionSheetDelegate,
 KDCycleBannerViewDataource,
-KDCycleBannerViewDelegate,
-SocketIODelegate {
+KDCycleBannerViewDelegate
+{
 
     @IBOutlet var scroller : KDCycleBannerView!
     
@@ -428,7 +428,6 @@ SocketIODelegate {
         else{
             return false
         }
-
         return true
     }
     
