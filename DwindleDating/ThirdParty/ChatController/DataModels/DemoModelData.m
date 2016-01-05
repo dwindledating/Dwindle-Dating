@@ -45,7 +45,6 @@
         if (msg){
              [self.messages addObject:[self messageFromDict:chatDict]];
         }
-
     }
 }
 

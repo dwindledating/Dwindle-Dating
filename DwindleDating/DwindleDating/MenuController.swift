@@ -220,13 +220,17 @@ MFMessageComposeViewControllerDelegate {
     // MARK :- SMS STUFF
     
     func performSMSAction(){
-        let messageVC = MFMessageComposeViewController()
         
-        messageVC.body = "Enter a message";
-        messageVC.recipients = [""]
-        messageVC.messageComposeDelegate = self;
-        
-        self.presentViewController(messageVC, animated: false, completion: nil)
+        if MFMessageComposeViewController.canSendText() {
+            
+            let messageVC = MFMessageComposeViewController()
+            
+            messageVC.body = "Enter a message";
+            messageVC.recipients = [""]
+            messageVC.messageComposeDelegate = self;
+            
+            self.presentViewController(messageVC, animated: false, completion: nil)
+        }
     }
     
     func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
