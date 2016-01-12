@@ -36,8 +36,6 @@ MFMessageComposeViewControllerDelegate {
                 let settings = UserSettings.loadUserSettings()
                 self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
                 
-                self.connectWithNetwork(false)
-                
                 // User got event from one of his match.
                 socketClient.on("message_from_matches_screen", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     print ("message_from_matches_screen: \(data)");
@@ -45,8 +43,9 @@ MFMessageComposeViewControllerDelegate {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         
                         let message = data[0] as! String
+                        let nameOfSender = data[3] as! String
                         
-                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: message, linedBackground: AJLinedBackgroundTypeAnimated, hideAfter: 2.0, response: { () -> Void in
+                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: nameOfSender+": "+message, linedBackground: AJLinedBackgroundTypeStatic, hideAfter: 2.0, response: { () -> Void in
                             
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 
@@ -71,8 +70,9 @@ MFMessageComposeViewControllerDelegate {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         
                         let message = data[0] as! String
+                        let nameOfSender = data[3] as! String
                         
-                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: message, linedBackground: AJLinedBackgroundTypeAnimated, hideAfter: 2.0, response: { () -> Void in
+                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: nameOfSender+": "+message, linedBackground: AJLinedBackgroundTypeStatic, hideAfter: 2.0, response: { () -> Void in
                 
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 
@@ -86,6 +86,9 @@ MFMessageComposeViewControllerDelegate {
                 
                 // User has made a play request but switched screen.
                 socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                    self.connectWithNetwork(false)
+                    self.dismissViewControllerAnimated(false, completion: nil)
                     
                     let playController = AppDelegate.sharedAppDelegat().playController
                     playController.gameInProgress = true
@@ -164,7 +167,6 @@ MFMessageComposeViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         dwindleSocket.reconnect()
     }
     
@@ -173,17 +175,64 @@ MFMessageComposeViewControllerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    func handleAPNS(notif:NSNotification) {
+        // Check for push notification
+        
+        print("handlePushNotification")
+        
+        let appDelegate = AppDelegate.sharedAppDelegat()
+        
+        if let apsUserInfo = appDelegate.apsUserInfo {
+            
+            print(apsUserInfo)
+            
+            // Suppose we have play event
+            let otherUserFbid = apsUserInfo["fromUserFbId"] as! String
+            
+            let settings = UserSettings.loadUserSettings()
+            let manager = ServiceManager()
+            manager.getUserLocation({ (location: CLLocation!) -> Void in
+                
+                print("Sending 'apnsResponse' =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
+                
+                let data:[AnyObject] = [settings.fbId, otherUserFbid, location.coordinate.latitude,location.coordinate.longitude]
+                
+                let dwindleSocket = DwindleSocketClient.sharedInstance
+                
+                dwindleSocket.sendEvent("apnsResponse", data: data)
+                
+                AppDelegate.sharedAppDelegat().apsUserInfo = nil
+                
+                let playController = appDelegate.playController
+                playController.gameInProgress = false
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.pushControllerInStack(playController, animated: false)
+                    playController.show90SecTimer()
+                })
+                
+                }, failure: { (error:NSError!) -> Void in
+                    
+                    print("Error Message =>\(error.localizedDescription)")
+                    ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
+            })
+            AppDelegate.sharedAppDelegat().apsUserInfo = nil
+        }
+    }
+    
+    
     private func connectWithNetwork(connect:Bool) {
         
         if connect {
             
-            if self.isMovingToParentViewController() && dwindleSocket.status() != .Connected {
-//                self.view.userInteractionEnabled = false
-                ProgressHUD.show("Connecting to network...")
+            let apsUserInfo = AppDelegate.sharedAppDelegat().apsUserInfo
+            
+            if self.isMovingToParentViewController() && apsUserInfo != nil {
+                ProgressHUD.show("Connecting to network...", interaction: false)
             }
         }
         else {
-//            self.view.userInteractionEnabled = true
             let delay = 0.35 * Double(NSEC_PER_SEC)
             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
             dispatch_after(time, dispatch_get_main_queue()) {
@@ -213,8 +262,6 @@ MFMessageComposeViewControllerDelegate {
    
         let sheet = UIActionSheet(title: "Share via", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Message", "Email");
         sheet.showFromRect(sender.frame, inView: self.view, animated: true)
-        
-//        sheet.showFromToolbar(self.inputToolbar);
     }
     
     // MARK :- SMS STUFF
@@ -252,7 +299,7 @@ MFMessageComposeViewControllerDelegate {
     
     // MARK :- EMAIL STUFF
     
-    func performEmailAction(){
+    func performEmailAction() {
         let emailTitle = "Dwindle Dating"//NSLocalizedString("aboutus_email_subject", comment: "Contact Us")
         let messageBody = "Hi, I would like to..."//NSLocalizedString("aboutus_email_message", comment: "Hi, I would like to...")
 //        let toRecipents = [""]
@@ -287,7 +334,6 @@ MFMessageComposeViewControllerDelegate {
             self.dismissViewControllerAnimated(true, completion: nil)
     }
 
-    
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == actionSheet.cancelButtonIndex) {
             return;

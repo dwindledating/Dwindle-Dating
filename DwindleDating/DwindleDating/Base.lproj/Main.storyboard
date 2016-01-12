@@ -56,7 +56,7 @@
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="39" y="47.5" width="297" height="64"/>
+                                    <rect key="frame" x="39" y="47" width="297" height="64"/>
                                     <mask key="constraints">
                                         <include reference="Xh3-Lm-Ydk"/>
                                     </mask>
@@ -65,14 +65,14 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="signup_phonebg" translatesAutoresizingMaskIntoConstraints="NO" id="wSf-Vb-nsb">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="27" y="134.5" width="321" height="384.5"/>
+                                    <rect key="frame" x="27" y="134" width="321" height="384.5"/>
                                 </variation>
                             </imageView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gcF-3w-ao8" userLabel="CycleBannerView" customClass="KDCycleBannerView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="49.5" y="218.5" width="276.5" height="300.5"/>
+                                    <rect key="frame" x="49" y="218" width="276.5" height="300.5"/>
                                 </variation>
                                 <connections>
                                     <outlet property="datasource" destination="9PC-Jy-jIe" id="lcQ-cN-f55"/>
@@ -580,7 +580,8 @@
                                                             <exclude reference="otz-k1-ajL"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="65" y="8" width="127" height="27"/>
                                                         <mask key="constraints">
                                                             <include reference="otz-k1-ajL"/>
                                                         </mask>
@@ -600,7 +601,8 @@
                                                             <exclude reference="ghI-jA-0AM"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="65" y="35" width="247" height="38"/>
                                                         <mask key="constraints">
                                                             <include reference="ghI-jA-0AM"/>
                                                         </mask>
@@ -622,7 +624,8 @@
                                                             <exclude reference="UhU-7c-jIR"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="200" y="8" width="112" height="27"/>
                                                         <mask key="constraints">
                                                             <include reference="UhU-7c-jIR"/>
                                                         </mask>
