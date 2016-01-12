@@ -72,7 +72,7 @@ MFMessageComposeViewControllerDelegate {
                         let message = data[0] as! String
                         let nameOfSender = data[3] as! String
                         
-                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: nameOfSender+": "+message, linedBackground: AJLinedBackgroundTypeStatic, hideAfter: 2.0, response: { () -> Void in
+                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeOrange, title: nameOfSender+": "+message, linedBackground: AJLinedBackgroundTypeDisabled, hideAfter: 2.0, response: { () -> Void in
                 
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 
