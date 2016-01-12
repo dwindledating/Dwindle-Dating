@@ -110,7 +110,6 @@ class DwindleSocketClient {
         else if type == HandlerType.MatchChat {
             isMatchChatControllerHandlerAdded = true
         }
-    
         socket(self.socket)
     }
     

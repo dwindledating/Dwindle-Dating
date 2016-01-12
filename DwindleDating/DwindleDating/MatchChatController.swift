@@ -59,8 +59,13 @@ class MatchChatController: JSQMessagesViewController ,
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        dwindleSocket = DwindleSocketClient.sharedInstance
+        if let userName = self.toUserName {
+            self.title = userName
+        } else {
+            self.title = self.toUserId
+        }
         
+        dwindleSocket = DwindleSocketClient.sharedInstance
         let settings = UserSettings.loadUserSettings()
         self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
     }
@@ -84,14 +89,6 @@ class MatchChatController: JSQMessagesViewController ,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        if let userName = self.toUserName {
-            self.title = userName
-        } else {
-            self.title = self.toUserId
-        }
-        
         /*
         *  You MUST set your senderId and display name
         */
@@ -108,11 +105,6 @@ class MatchChatController: JSQMessagesViewController ,
         if (!NSUserDefaults.outgoingAvatarSetting()) {
             self.collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
         }
-        
-//        self.collectionView.collectionViewLayout.springinessEnabled = false;
-        
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "demo_avatar_jobs"), style: UIBarButtonItemStyle.Bordered, target: self, action: "receiveMessagePressed:")
-        
         
         self.jsq_configureMessagesViewController();
         self.jsq_registerForNotifications(true);
@@ -148,9 +140,21 @@ class MatchChatController: JSQMessagesViewController ,
     
     func initSocketConnection(){
     
-        if dwindleSocket.isMatchChatControllerHandlerAdded == true {
+        if self.isComingFromPlayScreen == false {
             
+            self.demoData.clearChat()
+            self.collectionView!.reloadData()
+            
+            let settings = UserSettings.loadUserSettings()
+            self.dwindleSocket.sendEvent("chat", data: [settings.fbId,self.toUserId,self.status])
+            ProgressHUD.show("Getting Chat History")
+            
+        }
+        
+        if dwindleSocket.isMatchChatControllerHandlerAdded == true {
+            ProgressHUD.dismiss()
             print("isMatchChatControllerHandlerAdded:We do not need to add handler again. This may be creating socket again. Without closing ealier one.")
+            
             return
         }
         
@@ -163,7 +167,6 @@ class MatchChatController: JSQMessagesViewController ,
                 print("My FBID: \(settings.fbId) Wants to connect with :\(self.toUserId) with status: \(self.status)")
                 
                 self.dwindleSocket.sendEvent("chat", data: [settings.fbId,self.toUserId,self.status])
-
                 ProgressHUD.show("Getting Chat History")
                 
                 socketClient.on("getChatLog", callback: { (args:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -337,6 +340,7 @@ class MatchChatController: JSQMessagesViewController ,
 //    viewForSupplementaryElementOfKind:kind
 //    atIndexPath:indexPath];
 //    }
+
     
     override func collectionView(collectionView: JSQMessagesCollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView{
     
@@ -510,6 +514,7 @@ class MatchChatController: JSQMessagesViewController ,
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         if let textView = cell.textView {
             let message = self.demoData.messages[indexPath.item] as! JSQMessage

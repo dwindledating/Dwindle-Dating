@@ -21,8 +21,8 @@ import UIKit
 class GamePlayController: JSQMessagesViewController,
 UIActionSheetDelegate,
 KDCycleBannerViewDataource,
-KDCycleBannerViewDelegate,
-SocketIODelegate {
+KDCycleBannerViewDelegate
+{
 
     @IBOutlet var scroller : KDCycleBannerView!
     
@@ -100,7 +100,9 @@ SocketIODelegate {
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.dismissViewControllerAnimated(false, completion: nil)
-                self.navigationController?.popViewControllerAnimated(true)
+                if self.gameInProgress == true {
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
             })
         }
         
@@ -428,7 +430,6 @@ SocketIODelegate {
         else{
             return false
         }
-
         return true
     }
     
@@ -528,7 +529,7 @@ SocketIODelegate {
     func sendgamePlayEvent(event:String) {
         
         let settings = UserSettings.loadUserSettings()
-        ProgressHUD.show("Finding match")
+        self.handleHUDProgressView("Finding match", delay: 0)
         let manager = ServiceManager()
         
         manager.getUserLocation({ (location: CLLocation!) -> Void in
@@ -594,9 +595,13 @@ SocketIODelegate {
     
     func initSocketConnection() {
         
+        if let timerCrl = timerControl where timerCrl.isDescendantOfView(self.view) {
+            return
+        }
+        
         // create socket.io client instance
         if isComingFromOtherScreen == false && self.gameInProgress == false {
-            ProgressHUD.show("Starting Game...")
+            self.handleHUDProgressView("Starting Game...", delay: 0)
             self.sendgamePlayEvent("Play")
         }
         
@@ -608,8 +613,6 @@ SocketIODelegate {
         dwindleSocket.EventHandler(HandlerType.Play) { (socketClient: SocketIOClient) -> Void in
             
             if socketClient.status == .Connected { // We are save to proceed
-               
-                print("GamePlay: Socket is connected. We will catch events here")
                 
                 socketClient.on("updatechat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
@@ -724,17 +727,6 @@ SocketIODelegate {
                     self.handleNoMatchFound()
                 })
                 
-//                socketClient.on("message_push_notification_send", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-//                    
-//                    ProgressHUD.dismiss()
-//                    
-//                    print("message_push_notification_send: \(data)")
-//                    
-//                    let pageCount = data[4] as! Int
-//                    self.pagination_user_count = pageCount
-//                    self.show90SecTimer()
-//                })
-                
                 socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
                     print("disconnect \(data)")
@@ -757,6 +749,10 @@ SocketIODelegate {
                 
                 socketClient.onAny({ (SocketAnyEvent) -> Void in
                     
+                    if SocketAnyEvent.event == "startgame" {
+                        self.handleHUDProgressView(nil, delay: 0)
+                    }
+                    
                     if SocketAnyEvent.event == "error" {
                         
 //                        self.handleNoMatchFound()
@@ -777,18 +773,6 @@ SocketIODelegate {
     
     //MARK: Timer func
     
-    func showHUDForTime(time:Double, message: String, completion: ()->Void) {
-        
-        ProgressHUD.show(message, withSpin: false)
-        
-        let delay = time * Double(NSEC_PER_SEC)
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-        dispatch_after(time, dispatch_get_main_queue()) {
-            ProgressHUD.dismiss()
-            completion()
-        }
-    }
-    
     private var endDate = NSDate()
     private var timer:NSTimer!
     private let time:Int = 90
@@ -798,6 +782,7 @@ SocketIODelegate {
     func show90SecTimer() {
         
         if let timerCrl = timerControl where timerCrl.isDescendantOfView(self.view) {
+            self.endDate = NSDate(timeIntervalSinceNow: Double(time))
             return
         }
         
@@ -914,11 +899,7 @@ SocketIODelegate {
     
     override func viewDidDisappear(animated: Bool) {
         
-        let delay = 1.5 * Double(NSEC_PER_SEC)
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-        dispatch_after(time, dispatch_get_main_queue()) {
-            ProgressHUD.dismiss()
-        }
+        self.handleHUDProgressView(nil, delay: 1.5)
         super.viewDidDisappear(animated)
     }
     
@@ -937,8 +918,7 @@ SocketIODelegate {
     
     override func viewWillDisappear(animated: Bool) {
         
-        ProgressHUD.dismiss()
-        
+        self.handleHUDProgressView(nil, delay: 0.0)
         isComingFromOtherScreen = false
         super.viewWillDisappear(animated)
     }
@@ -964,6 +944,23 @@ SocketIODelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func handleHUDProgressView(text:String?, delay:Double) {
+        
+        guard let txt = text else {
+            
+            let delay = delay * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                ProgressHUD.dismiss()
+                self.view.userInteractionEnabled = true
+            }
+            return
+        }
+        
+        self.view.userInteractionEnabled = false
+        ProgressHUD.show(txt)
     }
     
     
