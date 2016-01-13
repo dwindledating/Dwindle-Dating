@@ -382,6 +382,14 @@ static NSMutableArray *notificationQueue = nil;       // Global notification que
             toplineColor = RGBA(250, 250, 250, 1.0);
             break;
         }
+        case AJNotificationTypeWhatsApp: { //Orange
+            
+            firstColor = RGBA(236, 30, 92, 1.00); //RGBA(14, 110, 180, 1.0); //RGBA(246, 141, 0, 1.0);
+            secondColor = RGBA(234, 31, 95, 1.00); //RGBA(232, 90, 6, 1.0);
+            toplineColor = RGBA(236, 30, 92, 1.00); //RGBA(246, 141, 190, 1.0); //RGBA(266, 161, 20, 1.0);
+            self.titleLabel.textColor = [UIColor whiteColor];
+            break;
+        }
         default: { //Gray
             firstColor = RGBA(210, 210, 210, 1.0);
             secondColor = RGBA(180, 180, 180, 1.0);
