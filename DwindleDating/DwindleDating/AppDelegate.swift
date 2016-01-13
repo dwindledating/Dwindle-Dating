@@ -187,6 +187,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 let playController = self.playController
                 playController.gameInProgress = false
+                playController.isComingFromOtherScreen = true
                 
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     let nav = self.window?.rootViewController as! UINavigationController
