@@ -595,9 +595,9 @@ KDCycleBannerViewDelegate
     
     func initSocketConnection() {
         
-        if let timerCrl = timerControl where timerCrl.isDescendantOfView(self.view) {
-            return
-        }
+//        if let timerCrl = timerControl where timerCrl.isDescendantOfView(self.view) {
+//            return
+//        }
         
         // create socket.io client instance
         if isComingFromOtherScreen == false && self.gameInProgress == false {
