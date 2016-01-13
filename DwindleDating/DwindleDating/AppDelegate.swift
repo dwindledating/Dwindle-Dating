@@ -139,6 +139,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        let dwindleSocket = DwindleSocketClient.sharedInstance
+        dwindleSocket.disconnect()
     }
 
     //MARK: UIAppearance
@@ -181,8 +183,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let data:[AnyObject] = [settings.fbId, otherUserFbid, location.coordinate.latitude,location.coordinate.longitude]
                 
                 let dwindleSocket = DwindleSocketClient.sharedInstance
-                
                 dwindleSocket.sendEvent("apnsResponse", data: data)
+                
+                let playController = self.playController
+                playController.gameInProgress = false
+                playController.isComingFromOtherScreen = true
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    let nav = self.window?.rootViewController as! UINavigationController
+                    nav.viewControllers.append(playController)
+                    playController.show90SecTimer()
+                })
                 
                 self.apsUserInfo = nil
                 

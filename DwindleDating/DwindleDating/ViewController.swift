@@ -154,6 +154,8 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
         return true
     }
     
+    //MARK: View life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -184,7 +186,7 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
     
     func initContentView(){
         // Scroll Initialization
-            scroller.autoPlayTimeInterval = 2;
+            scroller.autoPlayTimeInterval = 4;
             scroller.continuous = true;
         
         //Add gesture
@@ -389,7 +391,7 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
         }
         else {
             userSettings.fbName  = user.name
-            userSettings.fbId    = "10153221085360955"
+            userSettings.fbId    = "10153221085360955" //"1427619287531895"
         }
         
         userSettings.fbId    = user.objectID
