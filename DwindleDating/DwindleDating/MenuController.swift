@@ -175,62 +175,25 @@ MFMessageComposeViewControllerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    func handleAPNS(notif:NSNotification) {
-        // Check for push notification
-        
-        print("handlePushNotification")
-        
-        let appDelegate = AppDelegate.sharedAppDelegat()
-        
-        if let apsUserInfo = appDelegate.apsUserInfo {
-            
-            print(apsUserInfo)
-            
-            // Suppose we have play event
-            let otherUserFbid = apsUserInfo["fromUserFbId"] as! String
-            
-            let settings = UserSettings.loadUserSettings()
-            let manager = ServiceManager()
-            manager.getUserLocation({ (location: CLLocation!) -> Void in
-                
-                print("Sending 'apnsResponse' =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
-                
-                let data:[AnyObject] = [settings.fbId, otherUserFbid, location.coordinate.latitude,location.coordinate.longitude]
-                
-                let dwindleSocket = DwindleSocketClient.sharedInstance
-                
-                dwindleSocket.sendEvent("apnsResponse", data: data)
-                
-                AppDelegate.sharedAppDelegat().apsUserInfo = nil
-                
-                let playController = appDelegate.playController
-                playController.gameInProgress = false
-                
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.pushControllerInStack(playController, animated: false)
-                    playController.show90SecTimer()
-                })
-                
-                }, failure: { (error:NSError!) -> Void in
-                    
-                    print("Error Message =>\(error.localizedDescription)")
-                    ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
-            })
-            AppDelegate.sharedAppDelegat().apsUserInfo = nil
-        }
-    }
-    
-    
     private func connectWithNetwork(connect:Bool) {
         
         if connect {
             
-            let apsUserInfo = AppDelegate.sharedAppDelegat().apsUserInfo
-            
-            if self.isMovingToParentViewController() && apsUserInfo != nil {
-                ProgressHUD.show("Connecting to network...", interaction: false)
+            if self.isMovingToParentViewController() {
+                
+                var delay = 0.35 * Double(NSEC_PER_SEC)
+                var time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                dispatch_after(time, dispatch_get_main_queue()) {
+                    ProgressHUD.show("Connecting to network...", interaction: false)
+                    
+                    delay = 0.65 * Double(NSEC_PER_SEC)
+                    time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                    dispatch_after(time, dispatch_get_main_queue()) {
+                        ProgressHUD.dismiss()
+                    }
+                }
             }
+            
         }
         else {
             let delay = 0.35 * Double(NSEC_PER_SEC)
