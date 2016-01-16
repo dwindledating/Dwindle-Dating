@@ -9,18 +9,17 @@
 import UIKit
 
 
-class PrivacyPolicy: UIViewController  {
+class PrivacyPolicy: BaseViewController  {
 
-    @IBOutlet var webView :    UIWebView!
+    @IBOutlet var webView : UIWebView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        var path = NSBundle.mainBundle().pathForResource("PrivacyPolicy", ofType: "html")
-        var url = NSURL(fileURLWithPath: path!)
-        var request = NSURLRequest(URL: url)
+        let path = NSBundle.mainBundle().pathForResource("PrivacyPolicy", ofType: "html")
+        let url = NSURL(fileURLWithPath: path!)
+        let request = NSURLRequest(URL: url)
         webView.loadRequest(request)
-
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -32,13 +31,13 @@ class PrivacyPolicy: UIViewController  {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     @IBAction func goBackPressed(sender: UIBarButtonItem) {
-        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

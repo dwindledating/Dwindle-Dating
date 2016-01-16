@@ -16,9 +16,8 @@ class MatchChatController: JSQMessagesViewController ,
     
     @IBOutlet var imagesViewContainer : UIView!
     
-    
-    
-    var socketIO     :SIOSocket?
+    var isComingFromPlayScreen = false
+    var dwindleSocket:DwindleSocketClient!
     var demoData: DemoModelData!
     var galleryImages: Array<NSURL>!
 
@@ -33,22 +32,16 @@ class MatchChatController: JSQMessagesViewController ,
     
     @IBOutlet var scroller : KDCycleBannerView!
 
-    
     @IBOutlet weak var galleryHeightConstraint : NSLayoutConstraint?
 
-    
     func receiveMessagePressed(sender: UIBarButtonItem){
-        
         
     }
     
-    func addNavigationProfileButton(imgUrl:NSURL){
-    
+    func addNavigationProfileButton(imgUrl:NSURL) {
         
         var img = UIImage(named:"demo_avatar_jobs")!
         img = img.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-
-        
         
         let btnProfileImg: RoundButtonView = RoundButtonView(type: UIButtonType.Custom)
         btnProfileImg.sd_setBackgroundImageWithURL(imgUrl, forState: UIControlState.Normal)
@@ -61,20 +54,30 @@ class MatchChatController: JSQMessagesViewController ,
         
         let barButton = UIBarButtonItem(customView: btnProfileImg)
         self.navigationItem.rightBarButtonItem = barButton
-        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-//        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        if let userName = self.toUserName {
+            self.title = userName
+        } else {
+            self.title = self.toUserId
+        }
+        
+        dwindleSocket = DwindleSocketClient.sharedInstance
+        let settings = UserSettings.loadUserSettings()
+        self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "chat"])
     }
     
     override func viewWillDisappear(animated: Bool) {
         ProgressHUD.dismiss()
-        self.socketIO?.emit("loggedout")
+        
+        if dwindleSocket.status() == .Connected {
+            let settings = UserSettings.loadUserSettings()
+            self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
+        }
         super.viewWillDisappear(animated)
-        
-        
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -82,31 +85,16 @@ class MatchChatController: JSQMessagesViewController ,
 
         self.collectionView!.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();
         self.startChat()
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        if let userName = self.toUserName{
-            self.title = self.toUserName
-        }else
-        {
-            self.title = self.toUserId
-        }
-        
-        
-
-        
-        
-        /**
+        /*
         *  You MUST set your senderId and display name
         */
-        var settings = UserSettings.loadUserSettings()
+        let settings = UserSettings.loadUserSettings()
         self.senderId = settings.fbId//kJSQDemoAvatarIdSquires;
         self.senderDisplayName = " "//settings.fbName// kJSQDemoAvatarDisplayNameSquires;
-        
         
         self.demoData = DemoModelData()
         
@@ -118,21 +106,9 @@ class MatchChatController: JSQMessagesViewController ,
             self.collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
         }
         
-
-//        self.collectionView.collectionViewLayout.springinessEnabled = false;
-        
-
-        
-        
-        
-        
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "demo_avatar_jobs"), style: UIBarButtonItemStyle.Bordered, target: self, action: "receiveMessagePressed:")
-        
-        
         self.jsq_configureMessagesViewController();
         self.jsq_registerForNotifications(true);
         self.inputToolbar!.contentView!.leftBarButtonItem = nil;
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -147,11 +123,11 @@ class MatchChatController: JSQMessagesViewController ,
         
         var imagesList:AnyObject = []
 
-        if let gallery = self.galleryImages{
-            imagesList = (self.galleryImages as NSArray as? [NSURL])!
+        if let gallery = self.galleryImages {
+            imagesList = (gallery as NSArray as? [NSURL])!
         }
         else{
-            let imagesList   = [UIImage(named:"signup_01")!]
+            imagesList   = [UIImage(named:"signup_01")!]
         }
         return imagesList as! [AnyObject]
     }
@@ -160,145 +136,149 @@ class MatchChatController: JSQMessagesViewController ,
         return UIViewContentMode.ScaleAspectFit;
     }
 
-    
     // MARK:- SOCKETS
     
     func initSocketConnection(){
     
+        if self.isComingFromPlayScreen == false {
+            
+            self.demoData.clearChat()
+            self.collectionView!.reloadData()
+            
+            let settings = UserSettings.loadUserSettings()
+            self.dwindleSocket.sendEvent("chat", data: [settings.fbId,self.toUserId,self.status])
+            ProgressHUD.show("Getting Chat History")
+            
+        }
         
-        SIOSocket.socketWithHost("http://52.11.98.82:3000/Chat", response: { (socket: SIOSocket!) -> Void in
-            //code
-            self.socketIO = socket 
-            socket.on("connect", callback: { (args:[AnyObject]!) -> Void in
-                //code
-  
-                print ("Connected");
+        if dwindleSocket.isMatchChatControllerHandlerAdded == true {
+            ProgressHUD.dismiss()
+            print("isMatchChatControllerHandlerAdded:We do not need to add handler again. This may be creating socket again. Without closing ealier one.")
+            
+            return
+        }
+        
+        dwindleSocket.EventHandler(HandlerType.MatchChat) { (socketClient: SocketIOClient) -> Void in
+            
+            if socketClient.status == .Connected { // We are save to proceed
+                
                 let settings = UserSettings.loadUserSettings()
+                
                 print("My FBID: \(settings.fbId) Wants to connect with :\(self.toUserId) with status: \(self.status)")
                 
-                socket.emit("chat", args: [settings.fbId,self.toUserId,self.status])
+                self.dwindleSocket.sendEvent("chat", data: [settings.fbId,self.toUserId,self.status])
                 ProgressHUD.show("Getting Chat History")
                 
-            })
-
-            
-            socket.on("getChatLog", callback: { (args:[AnyObject]!) -> Void in
-                //code
-                
-                
-                let response = args[0] as! String
-                let data = response.dataUsingEncoding(NSUTF8StringEncoding)
-
-                let responseDict: NSDictionary!
-                do{
-                    responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
-
-                    //SET TOTAL PAGES COUNT
-                    self.paginationCountTotal = responseDict["TotalPages"] as! Int
-                    if (self.paginationCountTotal > 1){
-                        self.showLoadEarlierMessagesHeader = true
+                socketClient.on("getChatLog", callback: { (args:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                    let response = args[0] as! String
+                    let data = response.dataUsingEncoding(NSUTF8StringEncoding)
+                    
+                    let responseDict: NSDictionary!
+                    
+                    do {
+                        responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                        
+                        //SET TOTAL PAGES COUNT
+                        self.paginationCountTotal = responseDict["TotalPages"] as! Int
+                        if (self.paginationCountTotal > 1){
+                            self.showLoadEarlierMessagesHeader = true
+                        }
+                        //SET CHAT
+                        var messages = responseDict["Chat"] as! [AnyObject]
+                        messages = messages.reverse()
+                        self.demoData.addMessages(messages)
+                        self.collectionView!.reloadData()
+                        ProgressHUD.showSuccess("")
+                        self.scrollToBottomAnimated(true)
+                        //SET PICTURES
+                        
+                        let pictures = responseDict["Pictures"] as! NSDictionary
+                        self.galleryImages = []
+                        self.galleryImages.append(NSURL(string: (pictures["Picture1"] as? String)!)!)
+                        self.galleryImages.append(NSURL(string: (pictures["Picture2"] as? String)!)!)
+                        self.galleryImages.append(NSURL(string: (pictures["Picture3"] as? String)!)!)
+                        self.galleryImages.append(NSURL(string: (pictures["Picture4"] as? String)!)!)
+                        self.galleryImages.append(NSURL(string: (pictures["Picture5"] as? String)!)!)
+                        
+                        self.addNavigationProfileButton(self.galleryImages[0])
+                        
+                    }catch let err as NSError {
+                        print("JSON Error \(err.localizedDescription)")
                     }
-                    //SET CHAT
-                    var messages = responseDict["Chat"] as! [AnyObject]
-                    messages = messages.reverse()
-                    self.demoData.addMessages(messages)
-                    self.collectionView!.reloadData()
-                    ProgressHUD.showSuccess("")
-                    self.scrollToBottomAnimated(true)
-                    //SET PICTURES
-                    
-                    let pictures = responseDict["Pictures"] as! NSDictionary
-                    self.galleryImages = []
-                    self.galleryImages.append(NSURL(string: (pictures["Picture1"] as? String)!)!)
-                    self.galleryImages.append(NSURL(string: (pictures["Picture2"] as? String)!)!)
-                    self.galleryImages.append(NSURL(string: (pictures["Picture3"] as? String)!)!)
-                    self.galleryImages.append(NSURL(string: (pictures["Picture4"] as? String)!)!)
-                    self.galleryImages.append(NSURL(string: (pictures["Picture5"] as? String)!)!)
-                    
-                    self.addNavigationProfileButton(self.galleryImages[0])
-
+                })
                 
-                }catch let err as NSError {
-
-                    print("JSON Error \(err.localizedDescription)")
-                }
-
-            })
-            
-            socket.on("getChatLogForPageResult", callback: { (args:[AnyObject]!) -> Void in
-              
-                let response = args[0] as! String
-                let data = response.dataUsingEncoding(NSUTF8StringEncoding)
-                
-                let responseDict: NSDictionary!
-                do{
-                    responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
-                
-                    print("getChatLogForPageResult\(responseDict)")
-                    let messages = responseDict["Chat"] as! [AnyObject]
-                    self.demoData.appendMessagesAtTop(messages)
-                    self.collectionView!.reloadData()
-                    ProgressHUD.showSuccess("")
+                socketClient.on("getChatLogForPageResult", callback: { (args:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
-                    //SET CurrentPage COUNT
-                    self.paginationCountCurrent = responseDict["PageCount"] as! Int
-                    if (self.paginationCountCurrent >= self.paginationCountTotal){
-                        self.showLoadEarlierMessagesHeader = false
+                    let response = args[0] as! String
+                    let data = response.dataUsingEncoding(NSUTF8StringEncoding)
+                    
+                    let responseDict: NSDictionary!
+                    do{
+                        responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                        
+                        print("getChatLogForPageResult: \(responseDict)")
+                        let messages = responseDict["Chat"] as! [AnyObject]
+                        self.demoData.appendMessagesAtTop(messages)
+                        self.collectionView!.reloadData()
+                        ProgressHUD.showSuccess("")
+                        
+                        //SET CurrentPage COUNT
+                        self.paginationCountCurrent = responseDict["PageCount"] as! Int
+                        if (self.paginationCountCurrent >= self.paginationCountTotal){
+                            self.showLoadEarlierMessagesHeader = false
+                        }
+                        
+                    }catch let err as NSError {
+                        print("JSON Error: \(err.localizedDescription)")
                     }
-
-                }catch let err as NSError {
-                    print("JSON Error \(err.localizedDescription)")
-                }
-
-
+                })
                 
-                
-            })
-            
-            socket.on("updatechat", callback: { (args:[AnyObject]!) -> Void in
-                //code
-                print ("updatechat\(args)");
-                
-                var response = args as! Array<String>
-
-                var _senderId:String = ""
-                if let tmpSenderId:String = response[0] {
-                    _senderId = tmpSenderId
-                }
-                
-                var _message:String = ""
-                if let tmpMessage:String = response[1] {
-                     _message = tmpMessage
-                }
-
-                
-
-                if let tmpPlayerId = self.toUserId{
-                    if (_senderId == self.toUserId){
+                socketClient.on("updatechat_chatlog", callback: { (args:[AnyObject], ack:SocketAckEmitter) -> Void in
+                   
+                    print ("updatechat_chatlog: \(args)");
+                    
+                    var response = args as! Array<String>
+                    
+                    var _senderId:String = ""
+                    if let tmpSenderId:String = response[0] {
+                        _senderId = tmpSenderId
+                    }
+                    
+                    var _message:String = ""
+                    if let tmpMessage:String = response[1] {
+                        _message = tmpMessage
+                    }
+                    if let tmpPlayerId = self.toUserId where tmpPlayerId == _senderId {
                         self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
                     }
-                }
-            })
-            
-            socket.on("disconnect", callback: { (args:[AnyObject]!) -> Void in
-                //code
-                print ("disconnect\(args)");
+                })
+                
+                socketClient.on("updaterooms_chatlog", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    print ("updaterooms_chatlog: \(data)");
+                })
 
-            
-            })
-        })
-        
+                socketClient.on("disconnect", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    print ("disconnect: \(data)");
+                })
+                socketClient.onAny({ (SocketAnyEvent) -> Void in
+
+                    if SocketAnyEvent.event == "error" {
+                        print("Error: \(SocketAnyEvent.items)")
+                    }
+                })
+            }
+        }
     }
     
     func startChat(){
-        
+    
         ProgressHUD.show("Opening Chat...")
         self.initSocketConnection();
-        
     }
     
     func sendChat(message:String){
-        self.socketIO?.emit("sendchat", args:[message])
+        self.dwindleSocket.sendEvent("sendchat_chatlog", data: [message])
     }
     
     // MARK: - HANDLE UI - OpenGallery
@@ -309,19 +289,13 @@ class MatchChatController: JSQMessagesViewController ,
         }
     }
     
-    func openProfile(){
-        
-        print("openProfile")
-        
-    }
-    
     @IBAction func openImageGallery(sender: AnyObject) {
         
         print("openImageGallery")
         
         self.hideKeyboard()
         
-        var galleryOpenerButton = sender as? UIButton
+        let galleryOpenerButton = sender as? UIButton
         
         if (galleryOpenerButton!.tag == 0){
             galleryOpenerButton!.tag = 1
@@ -349,9 +323,6 @@ class MatchChatController: JSQMessagesViewController ,
     //============================================================================================\\
     // MARK: -   JSQMessagesViewController method overrides
     
-    
-    
-    
 //    - (UICollectionReusableView *)collectionView:(JSQMessagesCollectionView *)collectionView
 //    viewForSupplementaryElementOfKind:(NSString *)kind
 //    atIndexPath:(NSIndexPath *)indexPath
@@ -369,6 +340,7 @@ class MatchChatController: JSQMessagesViewController ,
 //    viewForSupplementaryElementOfKind:kind
 //    atIndexPath:indexPath];
 //    }
+
     
     override func collectionView(collectionView: JSQMessagesCollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView{
     
@@ -381,7 +353,6 @@ class MatchChatController: JSQMessagesViewController ,
         
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind as String, atIndexPath: indexPath)
     }
-   
     
     func receivedMessagePressed(_senderId:String, _displayName:String, _message:String) {
         // Simulate reciving message
@@ -396,7 +367,6 @@ class MatchChatController: JSQMessagesViewController ,
         self.finishReceivingMessageAnimated(true)
         
     }
-    
   
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
         
@@ -409,14 +379,13 @@ class MatchChatController: JSQMessagesViewController ,
         */
         JSQSystemSoundPlayer.jsq_playMessageSentSound();
         
-        var message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
+        let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
         
         self.demoData.messages.addObject(message);
         
         self.finishSendingMessageAnimated(true);
         
         self.sendChat(text)
-        
         
     }
     
@@ -431,7 +400,6 @@ class MatchChatController: JSQMessagesViewController ,
         return self.demoData.messages[indexPath.item]as! JSQMessageData
     }
     
-    
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
         /**
         *  You may return nil here if you do not want bubbles.
@@ -440,7 +408,7 @@ class MatchChatController: JSQMessagesViewController ,
         *  Otherwise, return your previously created bubble image data objects.
         */
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
+        let message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         if (message.senderId == self.senderId) {
             return self.demoData.outgoingBubbleImageData;
         }
@@ -471,7 +439,7 @@ class MatchChatController: JSQMessagesViewController ,
         *  Override the defaults in `viewDidLoad`
         */
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
+        let message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         
         if (message.senderId == self.senderId) {
             if (!NSUserDefaults.outgoingAvatarSetting()) {
@@ -507,7 +475,7 @@ class MatchChatController: JSQMessagesViewController ,
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
         
-        var message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
+        let message : JSQMessage = self.demoData.messages [indexPath.item] as! JSQMessage
         
         /**
         *  iOS7-style sender name labels
@@ -545,9 +513,8 @@ class MatchChatController: JSQMessagesViewController ,
         return self.demoData.messages.count;
     }
     
-    
-    
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         if let textView = cell.textView {
             let message = self.demoData.messages[indexPath.item] as! JSQMessage
@@ -573,7 +540,6 @@ class MatchChatController: JSQMessagesViewController ,
     // MARK: - JSQMessages collection view flow layout delegate
     // MARK: - Adjusting cell label heights
     
-    
     override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
         /**
         *  Each label in a cell has a `height` delegate method that corresponds to its text dataSource method
@@ -598,7 +564,7 @@ class MatchChatController: JSQMessagesViewController ,
         *  iOS7-style sender name labels
         */
         
-        var currentMessage :JSQMessage = self.demoData.messages[indexPath.item] as! JSQMessage;
+        let currentMessage :JSQMessage = self.demoData.messages[indexPath.item] as! JSQMessage;
         
         if (currentMessage.senderId == self.senderId) {
             return 0.0;
@@ -620,8 +586,6 @@ class MatchChatController: JSQMessagesViewController ,
         return 0.0;
     }
     
-    
-    
     //============================================================================================\\
     //============================================================================================\\
     //============================================================================================\\
@@ -634,8 +598,7 @@ class MatchChatController: JSQMessagesViewController ,
         
         ProgressHUD.show("Loading earlier messages")
         let settings = UserSettings.loadUserSettings()
-        self.socketIO?.emit("getChatLogForPage", args: [settings.fbId,self.toUserId,self.paginationCountCurrent+1])
-        
+        self.dwindleSocket.sendEvent("getChatLogForPage", data: [settings.fbId,self.toUserId,self.paginationCountCurrent+1])
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, didTapAvatarImageView avatarImageView: UIImageView!, atIndexPath indexPath: NSIndexPath!) {
@@ -649,7 +612,4 @@ class MatchChatController: JSQMessagesViewController ,
     override func collectionView(collectionView: JSQMessagesCollectionView!, didTapCellAtIndexPath indexPath: NSIndexPath!, touchLocation: CGPoint) {
         print("Tapped cell at %@!", NSStringFromCGPoint(touchLocation));
     }
-    
-    
-    
 }

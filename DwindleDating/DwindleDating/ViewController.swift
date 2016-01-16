@@ -9,23 +9,22 @@
 import UIKit
 import Parse
 
-class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewDataource, KDCycleBannerViewDelegate {
+class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDataource, KDCycleBannerViewDelegate {
 
+    @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lbldescription: UILabel!
     @IBOutlet var scroller : KDCycleBannerView!
     @IBOutlet var fbLoginView : FBLoginView!
     @IBOutlet var txtViewPrivacy : UITextView!
     
     var cachedUserId : String!
-
     
     func shouldSetupUser() -> Bool{
         var status:  Bool = false
         
-        var currentUser = PFUser.currentUser()
-        if currentUser != nil {
+        if let currentUser = PFUser.currentUser() {
             // Do stuff with the user
-            print("PFUserId => \(currentUser?.username)")
-            
+            print("PFUserId => \(currentUser.username)")
         } else {
             // Show the signup or login screen
             status = true
@@ -38,7 +37,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
         if (self.shouldSetupUser()){
 
-            var settings = UserSettings.loadUserSettings()
+            let settings = UserSettings.loadUserSettings()
             
             PFUser.logInWithUsernameInBackground(settings.fbId, password:settings.fbId) {
                 (user: PFUser?, error: NSError?) -> Void in
@@ -60,7 +59,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
                     
                 } else {
                     // The login failed. Check error to see why.
-                    var userMain = PFUser()
+                    let userMain = PFUser()
                     userMain.username = settings.fbId
                     userMain.password = settings.fbId
                     
@@ -96,20 +95,17 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
         if(segue.identifier == "showSignup") {
             
-            var signupVC = (segue.destinationViewController as! SignupController)
+            let signupVC = segue.destinationViewController as! SignupController
             
             //Set Profile Image
-            let urlPath: String = "http://graph.facebook.com/"  + UserSettings.loadUserSettings().fbId + "/picture?type=large"
-            var url: NSURL = NSURL(string: urlPath)!
+            let urlPath: String = "http://graph.facebook.com/" + UserSettings.loadUserSettings().fbId + "/picture?type=large"
+            let url: NSURL = NSURL(string: urlPath)!
             signupVC.userImgUrl = url
             
             //Set Welcome Message
             signupVC.userName = UserSettings.loadUserSettings().fbName
-            
-            
         }
     }
-    
     
     func signIn(fbId: String){
 
@@ -123,7 +119,7 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
 
         ProgressHUD.show("Signing in...")
 
-        var manager = ServiceManager()
+        let manager = ServiceManager()
 
         manager.loginWithFacebookId(fbId, sucessBlock:{ (isRegistered:Bool) -> Void in
             print("isRegistered: \(isRegistered)")
@@ -141,12 +137,9 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             
         }) { (error: NSError!) -> Void in
               print("error: \(error)")
-            
+            self.fbLoginView.hidden = false
             ProgressHUD.showError("\(error.localizedDescription)")
         }
-
-        
-        
     }
     
     func pushSignUpController(){
@@ -157,6 +150,23 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         performSegueWithIdentifier("showMenu", sender: nil)
     }
     
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
+    //MARK: View life Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        self.initContentView()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
     
     override func viewDidAppear(animated: Bool) {
     
@@ -166,40 +176,22 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
 //        self.fbLoginView.readPermissions = ["basic_info","public_profile", "email", "user_friends", "user_birthday"]
         
         self.fbLoginView.readPermissions = ["email","public_profile","user_birthday"]
-
-        
         
         txtViewPrivacy.editable = true
-        txtViewPrivacy.textColor = UIColor(red: 38/255.0, green: 182/255.0, blue: 218/255.0, alpha: 1.0)
-        txtViewPrivacy.font = UIFont(name: "HelveticaNeue-CondensedBold", size: 11.0)
+        txtViewPrivacy.textColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
+        txtViewPrivacy.font = UIFont(name: "Gadugi", size: 12.0)
         txtViewPrivacy.editable = false
         txtViewPrivacy.backgroundColor = UIColor.clearColor()
-        
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        self.initContentView()
-    }
-    
-    
-
     
     func initContentView(){
         // Scroll Initialization
-            scroller.autoPlayTimeInterval = 2;
-            scroller.continuous = false;
+            scroller.autoPlayTimeInterval = 4;
+            scroller.continuous = true;
         
         //Add gesture
         
-        var tapGesture = UITapGestureRecognizer(target: self, action: "textTapped:")
+        let tapGesture = UITapGestureRecognizer(target: self, action: "textTapped:")
         txtViewPrivacy.addGestureRecognizer(tapGesture)
     
         let paragraph = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
@@ -208,26 +200,24 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         let textviewAttrString = NSMutableAttributedString()
         textviewAttrString.appendAttributedString(txtViewPrivacy.attributedText)
         textviewAttrString.addAttribute(NSFontAttributeName, value:myfont!, range: NSRange(location: 0, length: textviewAttrString.length))
-        var termsDict: Dictionary<String, AnyObject> = [
+        let termsDict: Dictionary<String, AnyObject> = [
             "termsTag": true,
             "NSUnderline": 1
         ]
         let termsString     = NSAttributedString(string: "Terms and Conditions", attributes: termsDict)
 
-        var privacyDict: Dictionary<String, AnyObject> = [
+        let privacyDict: Dictionary<String, AnyObject> = [
             "privacyTag": true,
             "NSUnderline": 1
         ]
         let privacyString   = NSAttributedString(string:"Privacy Policy",attributes: privacyDict)
         
-
-        
-        var range0: NSRange = (textviewAttrString.string as NSString).rangeOfString("{0}")
+        let range0: NSRange = (textviewAttrString.string as NSString).rangeOfString("{0}")
         if(range0.location != NSNotFound){
             textviewAttrString.replaceCharactersInRange(range0, withAttributedString: termsString)
         }
 
-        var range1: NSRange = (textviewAttrString.string as NSString).rangeOfString("{1}")
+        let range1: NSRange = (textviewAttrString.string as NSString).rangeOfString("{1}")
         if(range1.location != NSNotFound){
             textviewAttrString.replaceCharactersInRange(range1, withAttributedString: privacyString)
         }
@@ -236,7 +226,6 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         txtViewPrivacy!.selectable = false
     }
 
-    
     // MARK: - Privacy & TOC Handler
     
     func textTapped(recognizer: UITapGestureRecognizer) {
@@ -261,16 +250,14 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             influenceAttributes  = textView!.attributedText?.attributesAtIndex(charIndex, effectiveRange: &range)
             if let privacyTag: AnyObject = influenceAttributes?["privacyTag"] {
                 self.performSegueWithIdentifier("showPrivacyPolicyController", sender: self)                
-                print("Privacy tag it is")
+                print("Privacy tag it is \(privacyTag)")
                 
             }
             else if let termsTag: AnyObject = influenceAttributes?["termsTag"] {
-                print("Terms tag it is")
+                print("Terms tag it is \(termsTag)")
                 self.performSegueWithIdentifier("showTermsController", sender: self)
             }
-            
         }
-        
     }
     
     // MARK: - Scroller Stuff - KDCycleBannerView DELEGATE
@@ -285,7 +272,6 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         return img
     }
     
-    
     // MARK : KDCycleBannerView DataSource
     func numberOfKDCycleBannerView(bannerView: KDCycleBannerView!) -> [AnyObject]! {
         let imagesList   = [UIImage(named:"signup_01")!,
@@ -296,14 +282,53 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         return imagesList
     }
     
-    
     func contentModeForImageIndex(index: UInt) -> UIViewContentMode {
-        return UIViewContentMode.ScaleAspectFit;
+        return UIViewContentMode.ScaleToFill;
     }
     
+    // MARK : KDCycleBannerView Delegate
     
+    func cycleBannerView(bannerView: KDCycleBannerView!, didScrollToIndex index: UInt) {
+        updateTitleOnBannerChange(index)
+    }
     
-    
+    var currentIndex:UInt = 4
+    func updateTitleOnBannerChange(index:UInt) {
+        
+        if currentIndex != index {
+            currentIndex = index
+        }
+        else {
+            print("didScrollToIndex: \(index)")
+            return
+        }
+        
+        var title = ""
+        var description = ""
+        
+        switch currentIndex {
+        case 0:
+            title = "Personality Comes First"
+            description = "Start a Dwindle Date based on your preferences. Your match is unknown, but one of five photos shown."
+            break
+        case 1:
+            title = "Make Them Fall For You"
+            description = "Have a real conversation and photos will Dwindle Down as your chat progresses, bringing you a step closer to your match."
+            break
+        case 2:
+            title = "Keep It Up & See More"
+            description = "Additional photos are unlocked for those that remain after each Dwindle Down."
+            break
+        case 3:
+            title = "Meet Your Match!"
+            description = "Make it to the end and your true identities will be revealed. Keep chatting anytime through the Dwindle Dating app."
+            break
+        default: break
+            
+        }
+        lblTitle.text = title
+        lbldescription.text = description
+    }
     
     // MARK: - your text goes here
     
@@ -321,18 +346,14 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
     func loginViewFetchedUserInfo(loginView : FBLoginView!, user: FBGraphUser) {
         //fbLoginView.alpha = 0
         
-        if var cachedId = cachedUserId{
-            if (cachedUserId == user.objectID){
+        if let cachedId = cachedUserId where cachedId == user.objectID {
                 return;
-            }
         }
         else{
             // cacheId is nil
         }
         
-        
-        
-//        FBRequestConnection.startWithGraphPath("me", completionHandler: { (connection: FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
+        //        FBRequestConnection.startWithGraphPath("me", completionHandler: { (connection: FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
 //            
 //            print("result  => \(result)")
 //            //code
@@ -340,17 +361,18 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
         
         
         cachedUserId = user.objectID
-        var userSettings = UserSettings.loadUserSettings() as UserSettings
         
+        let userSettings = UserSettings.loadUserSettings() as UserSettings
         
         userSettings.userGender    = "F"
 
-        var gender = user.objectForKey("gender") as! String
+        let gender = user.objectForKey("gender") as! String
         if (gender == "male"){
             userSettings.userGender    = "M"
         }
         
-        if var birthday = user.objectForKey("birthday")as? String{
+        if let birthday = user.objectForKey("birthday")as? String{
+            
             var dob = birthday.componentsSeparatedByString("/")
             
             userSettings.userBirthday = "\(dob[2])\(dob[1])\(dob[0])"
@@ -359,18 +381,24 @@ class ViewController: UIViewController , FBLoginViewDelegate, KDCycleBannerViewD
             userSettings.userBirthday    = "19900101"
         }
 
+        let accessToken = FBSession.activeSession().accessTokenData.accessToken
         
-
+        print(accessToken)
         
+        if TARGET_OS_SIMULATOR == 1 { // it is female
+            userSettings.fbId    = "696284960499030"
+            userSettings.fbName  = "Aneesa Bhatti"
+        }
+        else {
+            userSettings.fbName  = user.name
+            userSettings.fbId    = "10153221085360955" //"1427619287531895"
+        }
         
-        var accessToken = FBSession.activeSession().accessTokenData.accessToken
-
         userSettings.fbId    = user.objectID
         userSettings.fbName  = user.name
         userSettings.saveUserSettings()
         
         self.signIn(userSettings.fbId)
-        
     }
     
     func loginViewShowingLoggedOutUser(loginView : FBLoginView!) {

@@ -9,20 +9,19 @@
 import UIKit
 
 
-class TermsController: UIViewController  {
+class TermsController: BaseViewController  {
 
-    @IBOutlet var webView :    UIWebView!
+    @IBOutlet var webView : UIWebView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        var path = NSBundle.mainBundle().pathForResource("TermsandConditions", ofType: "html")
-        var url = NSURL(fileURLWithPath: path!)
-        var request = NSURLRequest(URL: url)
+        let path = NSBundle.mainBundle().pathForResource("TermsandConditions", ofType: "html")
+        let url = NSURL(fileURLWithPath: path!)
+        let request = NSURLRequest(URL: url)
         webView.loadRequest(request)
     }
-    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -34,7 +33,6 @@ class TermsController: UIViewController  {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -44,6 +42,4 @@ class TermsController: UIViewController  {
         
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-
-    
 }

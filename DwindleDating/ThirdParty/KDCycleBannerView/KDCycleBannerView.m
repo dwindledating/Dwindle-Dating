@@ -101,6 +101,7 @@ static void *kContentImageViewObservationContext = &kContentImageViewObservation
     _pageControl.userInteractionEnabled = NO;
     _pageControl.pageIndicatorTintColor = [UIColor colorWithRed:0 green:152/255.0 blue:219/255.0 alpha:1.0];
     _pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:1.0 green:0 blue:77/255.0 alpha:1.0];
+    _pageControl.hidden = YES;
     [self addSubview:_pageControl];
 }
 

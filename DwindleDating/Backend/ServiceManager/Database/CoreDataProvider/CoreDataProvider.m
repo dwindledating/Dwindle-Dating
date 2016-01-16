@@ -129,7 +129,6 @@ static CoreDataProvider *instance = nil;
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }    
-    
     return __persistentStoreCoordinator;
 }
 
@@ -147,7 +146,15 @@ static CoreDataProvider *instance = nil;
 
 -(void) flushDatabase{
     [__managedObjectContext lock];
-    //    [[[CoreDataProvider instance]managedObjectContext] reset];//to drop pending changes
+//        [[[CoreDataProvider instance]managedObjectContext] reset];//to drop pending changes
+    
+//    [__managedObjectContext performBlockAndWait:^{
+//        NSArray *stores = [__persistentStoreCoordinator persistentStores];
+//        for(NSPersistentStore *store in stores) {
+//            [__persistentStoreCoordinator removePersistentStore:store error:nil];
+//            [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
+//        }
+//    }];
     
     NSArray *stores = [__persistentStoreCoordinator persistentStores];
     for(NSPersistentStore *store in stores) {

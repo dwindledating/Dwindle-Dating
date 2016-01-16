@@ -10,7 +10,7 @@ import UIKit
 
 import Parse
 
-class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSource  {
+class SettingsController: BaseViewController,UITableViewDelegate,UITableViewDataSource  {
     
     @IBOutlet var tableview: UITableView!
     
@@ -38,40 +38,33 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     //MARK: - Alert Stuff
     
+    @IBAction func logout(sender: UIButton) {
+        self.alert("Logout", message: "Are you sure you want to logout")
+    }
+    
     func removeUser(){
         print("removeUser")
         FBSession.activeSession().closeAndClearTokenInformation()
-        var settings = UserSettings.loadUserSettings()
+        let settings = UserSettings.loadUserSettings()
         settings.removeUserSettings()
+        let dwindle = DwindleSocketClient.sharedInstance
+        dwindle.disconnect()
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
     func alert(title: String, message: String) {
-        if let getModernAlert: AnyClass = NSClassFromString("UIAlertController") { // iOS 8
-            
-            let actionHandler = { (action:UIAlertAction!) -> Void in
-                self.removeUser()
-                PFUser.logOut()
-
-            }
-            
-            let myAlert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-            myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: actionHandler))
-            myAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
-            self.presentViewController(myAlert, animated: true, completion: nil)
-        } else { // iOS 7
-            let alert: UIAlertView = UIAlertView()
-            alert.delegate = self
-            
-            alert.title = title
-            alert.message = message
-            alert.addButtonWithTitle("OK")
-            alert.addButtonWithTitle("Cancel")
-            alert.show()
+        
+        let actionHandler = { (action:UIAlertAction!) -> Void in
+            self.removeUser()
+            PFUser.logOut()
         }
+        
+        let myAlert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: actionHandler))
+        myAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+        self.presentViewController(myAlert)
     }
 
-    
     func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
         switch buttonIndex{
         case 0:
@@ -83,7 +76,6 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
         default:
             print("error")
         }
-        
     }
     
     
@@ -93,11 +85,9 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
         return 1;
     }
     
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4;
     }
-    
     
     //MARK: - TableView Delegate
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -115,7 +105,6 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
         }
         
-        
         var text: String!
         
         if (indexPath.row == 0){
@@ -130,24 +119,13 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
         else if(indexPath.row == 3){
                 text = "Privacy Policy"
         }
-
-
         
         cell_!.textLabel!.text = text
         
         return cell_!
         
     }
-    
-    
-    
-    @IBAction func logout(sender: UIButton) {
-        
-        self.alert("Logout", message: "Are you sure you want to logout")
-    
-    }
 
-    
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 80;
     }
@@ -167,10 +145,7 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
         else if (indexPath.row == 3){
             self.performSegueWithIdentifier("pushPrivacyController", sender: nil)
         }
-        
-        
     }
-    
     
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
             let view = UIView()
@@ -191,7 +166,4 @@ class SettingsController: UIViewController,UITableViewDelegate,UITableViewDataSo
             view.addSubview(button)
         return view
     }
-    
-    
-    
 }

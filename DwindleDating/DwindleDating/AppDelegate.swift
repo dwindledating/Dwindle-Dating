@@ -12,25 +12,28 @@ import UIKit
 import Parse
 
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    private(set) var playController: GamePlayController!
+    private(set) var matchChatController: MatchChatController!
+    var apsUserInfo: [String:AnyObject]? = nil
+    
     var window: UIWindow?
-
+    
+    class func sharedAppDelegat() -> AppDelegate {
+        let appdelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        return appdelegate
+    }
+    
     func setupUser() -> Void{
         
     }
-
-
     func registerForPushNotifications(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject:AnyObject]?){
         
         //Setup
         Parse.setApplicationId("HEQ0TQq0Qvqdy7BAGii05miGcVp5AcvGbnvdhxQd",
             clientKey: "nXBmYwFcFaWLnykLWFL2NQpY5XSLyC5MbnRrCUKc")
-
-
         
         // Register for Push Notitications
         if application.applicationState != UIApplicationState.Background {
@@ -55,37 +58,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
             
-//            if settings.types.contains(.Alert) {
-//                // stuff
-//            }
-//            let userNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound
-//            let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
-            //UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
         }
-//        else {
-//            let types = UIUserNotificationType.Alert.union([UIUserNotificationType.Badge, UIUserNotificationType.Alert , UIUserNotificationType.Sound])
-//            
-//
-//            application.registerUserNotificationSettings(types)
-////            application.registerForRemoteNotifications()
-//
-//        }
     }
     
-   
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
-//        installation["user"] = PFUser.currentUser()
-        installation.saveInBackgroundWithBlock { (status: Bool, error:NSError?) -> Void in
-            //code
-            
-    
-            
-        }
-
+        installation.saveInBackgroundWithBlock(nil)
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -94,58 +75,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             print("application:didFailToRegisterForRemoteNotificationsWithError: %@", error)
         }
-        
     }
  
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        
         PFPush.handlePush(userInfo)
+        
         if application.applicationState == UIApplicationState.Inactive {
-//            PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
+
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayloadInBackground(userInfo, block: { (status:Bool, error:NSError?) -> Void in
-                //code
             })
         }
     }
-
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        // Override point for customization after application launch.
-//            var family = "Helvetica Neue"
-//            print("\(family)")
-//            
-//            for name in UIFont.fontNamesForFamilyName(family as String)
-//            {
-//                print("   \(name)")
-//            }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handlePushNotification:", name: PushNotification, object: nil)
         
-        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        playController = storyboard.instantiateViewControllerWithIdentifier(GamePlayController.nameOfClass) as! GamePlayController
+        matchChatController = storyboard.instantiateViewControllerWithIdentifier(MatchChatController.nameOfClass) as! MatchChatController
 
         self.registerForPushNotifications(application, didFinishLaunchingWithOptions: launchOptions)
         
         FBLoginView.self
         FBProfilePictureView.self
         
+        self.updateAppearance(application)
         
-        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        if let launchOption = launchOptions,
+            let userInfo = launchOption[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String:AnyObject] {
+                // Application is launched because of Push notification.
+            apsUserInfo = userInfo
+        }
         
-        let screenWidth = screenSize.width;
-        let screenHeight = screenSize.height;
-
-        application.setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
-        
-        print(screenWidth,screenHeight)
-        
-        let navigationBarAppearace = UINavigationBar.appearance()
-        
-        navigationBarAppearace.barTintColor = UIColor(red: 0/255.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
-        navigationBarAppearace.barStyle = UIBarStyle.Default
-
-        navigationBarAppearace.tintColor = UIColor.whiteColor()
-        navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]  // Title's text color
-
-        
-
         return true
     }
 
@@ -176,8 +139,71 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        let dwindleSocket = DwindleSocketClient.sharedInstance
+        dwindleSocket.disconnect()
     }
 
-
+    //MARK: UIAppearance
+    
+    private func updateAppearance(application:UIApplication) {
+        
+        application.setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
+        
+        let navigationBarAppearace = UINavigationBar.appearance()
+        
+        navigationBarAppearace.barTintColor = UIColor(red: 0/255.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
+        navigationBarAppearace.barStyle = UIBarStyle.Default
+        
+        navigationBarAppearace.tintColor = UIColor.whiteColor()
+        navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func handlePushNotification(notif:NSNotification) {
+        // Check for push notification
+        
+        print("handlePushNotification")
+        
+        if let apsUserInfo = self.apsUserInfo {
+            
+            print(apsUserInfo)
+            
+            // Suppose we have play event
+            let otherUserFbid = apsUserInfo["fromUserFbId"] as! String
+            
+            let settings = UserSettings.loadUserSettings()
+            let manager = ServiceManager()
+            manager.getUserLocation({ (location: CLLocation!) -> Void in
+                
+                print("Sending 'apnsResponse' =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
+                
+                let data:[AnyObject] = [settings.fbId, otherUserFbid, location.coordinate.latitude,location.coordinate.longitude]
+                
+                let dwindleSocket = DwindleSocketClient.sharedInstance
+                dwindleSocket.sendEvent("apnsResponse", data: data)
+                
+                let playController = self.playController
+                playController.gameInProgress = false
+                playController.isComingFromOtherScreen = true
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    let nav = self.window?.rootViewController as! UINavigationController
+                    nav.viewControllers.append(playController)
+                    playController.show90SecTimer()
+                })
+                
+                self.apsUserInfo = nil
+                
+                }, failure: { (error:NSError!) -> Void in
+                    
+                    print("Error Message =>\(error.localizedDescription)")
+                    ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
+            })
+            self.apsUserInfo = nil
+        }
+    }
 }
 

@@ -9,17 +9,13 @@
 import UIKit
 
 
-class GenderSelectionController: UIViewController  {
-    
-    
-    
+class GenderSelectionController: BaseViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         self.navigationItem.title = "Gender"
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -36,12 +32,11 @@ class GenderSelectionController: UIViewController  {
             gender = "F"
         }
         
-        var settings = UserSettings.loadUserSettings()
+        let settings = UserSettings.loadUserSettings()
         settings.requiredGender = gender as String
         settings.saveUserSettings()
         
         performSegueWithIdentifier("showAgeSelector", sender: nil)
         
     }
-    
 }

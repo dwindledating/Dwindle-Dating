@@ -9,7 +9,7 @@
 import UIKit
 
 
-class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataSource  {
+class MatchListController: BaseViewController,UITableViewDelegate,UITableViewDataSource  {
     
     @IBOutlet var tableview: UITableView!
     
@@ -17,14 +17,14 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     // MARK:- WEB SERVICE
     
-    func backViewController() -> UIViewController?{
+    func backViewController() -> UIViewController? {
         let navC = self.navigationController!
         let noOfViewControllers = navC.viewControllers.count
         if (noOfViewControllers < 2){
             return nil
         }
         else{
-            return navC.viewControllers[noOfViewControllers - 2] as? UIViewController
+            return navC.viewControllers[noOfViewControllers - 2]
         }
     }
     
@@ -39,7 +39,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
             return false
         }
         
-        
         return true
     }
     
@@ -47,15 +46,15 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
         
         
         ProgressHUD.show("Loading Matches")
-        var settings = UserSettings.loadUserSettings()
-        var manager = ServiceManager()
+        let settings = UserSettings.loadUserSettings()
+        let manager = ServiceManager()
         
         manager.getMathchesForUser(settings.fbId, sucessBlock: { (_matchesArr:[AnyObject]!) -> Void in
             //code
             
             
             if let matches = self.matchesArr{
-                self.matchesArr.removeAllObjects()
+                matches.removeAllObjects()
             }
             self.matchesArr = NSMutableArray(array: _matchesArr)
             self.tableview.reloadData()
@@ -69,7 +68,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
                 }else{
                     ProgressHUD.showError("\(error.localizedDescription)")
                 }
-
         }
     }
     
@@ -86,7 +84,6 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-//
         ProgressHUD.dismiss()
     }
 
@@ -120,31 +117,31 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     //MARK: - TableView Delegate
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell_ : MatchCell? = tableView.dequeueReusableCellWithIdentifier("matchIdentifier") as? MatchCell
-        var match = matchesArr[indexPath.row] as! Match
+        var cell_ =  tableView.dequeueReusableCellWithIdentifier("matchIdentifier", forIndexPath: indexPath) as? MatchCell
         
-        if(cell_ != nil)
-        {
-            cell_?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-            cell_?.imgViewProfile.borderWidth = 0;
-            cell_?.lblName.text     = match.name
-            cell_?.lblDetail.text   = match.text//matchDict["message"] as? String
-            cell_?.lblTime.text     = match.date//["time"] as? String
-            cell_?.imgViewProfile.sd_setImageWithURL(match.imgPath)
-            if (!match.statusMessage){
-                var font = cell_?.lblDetail.font
-                font = UIFont.boldSystemFontOfSize(font!.pointSize)
-                cell_?.lblDetail.font = font
-                cell_?.backgroundColor = UIColor(red: 228/255.0, green: 240.0/255.0, blue: 250/255.0, alpha: 1.0)
-            }
-            else{
-                var font = cell_?.lblDetail.font
-                font = UIFont.systemFontOfSize(font!.pointSize)
-                cell_?.lblDetail.font = font
-                cell_?.backgroundColor = UIColor.clearColor()
-                
-            }
-
+        let match = matchesArr[indexPath.row] as! Match
+        
+        if(cell_ == nil) {
+            cell_ = MatchCell(style: UITableViewCellStyle.Default, reuseIdentifier: "matchIdentifier")
+        }
+        
+        cell_?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        cell_?.imgViewProfile.borderWidth = 0;
+        cell_?.lblName.text     = match.name
+        cell_?.lblDetail.text   = match.text//matchDict["message"] as? String
+        cell_?.lblTime.text     = match.date//["time"] as? String
+        cell_?.imgViewProfile.sd_setImageWithURL(match.imgPath)
+        if (!match.statusMessage){
+            var font = cell_?.lblDetail.font
+            font = UIFont.boldSystemFontOfSize(font!.pointSize)
+            cell_?.lblDetail.font = font
+            cell_?.backgroundColor = UIColor(red: 228/255.0, green: 240.0/255.0, blue: 250/255.0, alpha: 1.0)
+        }
+        else{
+            var font = cell_?.lblDetail.font
+            font = UIFont.systemFontOfSize(font!.pointSize)
+            cell_?.lblDetail.font = font
+            cell_?.backgroundColor = UIColor.clearColor()
         }
         
         return cell_!
@@ -154,22 +151,28 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView .deselectRowAtIndexPath(indexPath, animated: true)
         
-            self.performSegueWithIdentifier("showMatchChatController", sender: indexPath)
-
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        let match = matchesArr[indexPath.row] as! Match
+        
+        let matchControler = AppDelegate.sharedAppDelegat().matchChatController
+        matchControler.isComingFromPlayScreen = false
+        matchControler.toUserId = match.fbId
+        matchControler.toUserName = match.name
+        matchControler.status = match.status
+        self.navigationController?.pushViewController(matchControler, animated: true)
     }
-    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if(segue.identifier == "showMatchChatController") {
             self.navigationController?.setNavigationBarHidden(false, animated: false)
 
-            var indexPath: NSIndexPath = sender as! NSIndexPath;
+            let indexPath: NSIndexPath = sender as! NSIndexPath;
             
-            var match = matchesArr[indexPath.row] as! Match
+            let match = matchesArr[indexPath.row] as! Match
 
-            var matchControl = (segue.destinationViewController as! MatchChatController)
-            
+            let matchControl = (segue.destinationViewController as! MatchChatController)
             
             matchControl.toUserId = match.fbId
             matchControl.toUserName = match.name
@@ -179,6 +182,4 @@ class MatchListController: UIViewController,UITableViewDelegate,UITableViewDataS
             self.navigationController?.setNavigationBarHidden(true, animated: true)
         }
     }
-    
-
 }
