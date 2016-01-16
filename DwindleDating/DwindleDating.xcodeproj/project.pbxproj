@@ -1984,6 +1984,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.infinione.dwindledating;
 				PRODUCT_NAME = DwindleDating;
+				PROVISIONING_PROFILE = "04076d11-f4de-4434-8ded-15bd2b272dfa";
 				SWIFT_OBJC_BRIDGING_HEADER = ThirdParty/FacebookBridge/FacebookBridge.h;
 			};
 			name = Debug;
@@ -2003,6 +2004,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.infinione.dwindledating;
 				PRODUCT_NAME = DwindleDating;
+				PROVISIONING_PROFILE = "04076d11-f4de-4434-8ded-15bd2b272dfa";
 				SWIFT_OBJC_BRIDGING_HEADER = ThirdParty/FacebookBridge/FacebookBridge.h;
 			};
 			name = Release;
