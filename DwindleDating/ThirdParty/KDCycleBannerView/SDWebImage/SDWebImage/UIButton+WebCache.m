@@ -68,8 +68,10 @@ static char imageURLStorageKey;
     
     self.imageURLStorage[@(state)] = url;
     
+    UIActivityIndicatorView* activityIndication = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     
-    UIActivityIndicatorView* activityIndication = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityIndication.color = [UIColor blackColor];
+    activityIndication.tintColor = [UIColor blackColor];
     
     [activityIndication setFrame:CGRectMake((self.frame.size.width - activityIndication.frame.size.width) / 2 , (self.frame.size.height - activityIndication.frame.size.height) / 2 , activityIndication.frame.size.width , activityIndication.frame.size.width)];
     [self addSubview:activityIndication];

@@ -62,14 +62,9 @@
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
-         <AdditionalOption
-            key = "NSZombieEnabled"
-            value = "YES"
-            isEnabled = "YES">
-         </AdditionalOption>
       </AdditionalOptions>
       <LocationScenarioReference
-         identifier = "../../LocationByHassan.gpx"
+         identifier = "../LocationByHassan.gpx"
          referenceType = "0">
       </LocationScenarioReference>
    </LaunchAction>

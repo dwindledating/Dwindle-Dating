@@ -46,7 +46,7 @@ class MatchChatController: JSQMessagesViewController ,
         let btnProfileImg: RoundButtonView = RoundButtonView(type: UIButtonType.Custom)
         btnProfileImg.sd_setBackgroundImageWithURL(imgUrl, forState: UIControlState.Normal)
 //        btnProfileImg.setImage(img, forState: UIControlState.Normal)
-        btnProfileImg.addTarget(self, action: Selector("openImageGallery:"), forControlEvents: UIControlEvents.TouchUpInside)
+        btnProfileImg.addTarget(self, action: #selector(MatchChatController.openImageGallery(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         var frame = btnProfileImg.frame
         frame.size = CGSizeMake(44, 44)
@@ -76,6 +76,7 @@ class MatchChatController: JSQMessagesViewController ,
         if dwindleSocket.status() == .Connected {
             let settings = UserSettings.loadUserSettings()
             self.dwindleSocket.sendEvent("event_change_user_status", data: [settings.fbId, "loggedin"])
+            self.dwindleSocket.sendEvent("leaveChatRoom", data: [])
         }
         super.viewWillDisappear(animated)
     }
@@ -144,17 +145,16 @@ class MatchChatController: JSQMessagesViewController ,
             
             self.demoData.clearChat()
             self.collectionView!.reloadData()
-            
-            let settings = UserSettings.loadUserSettings()
-            self.dwindleSocket.sendEvent("chat", data: [settings.fbId,self.toUserId,self.status])
             ProgressHUD.show("Getting Chat History")
-            
         }
+        
+        let settings = UserSettings.loadUserSettings()
+        print("My FBID: \(settings.fbId) Wants to connect with :\(self.toUserId) with status: \(self.status)")
+        self.dwindleSocket.sendEvent("chat", data: [settings.fbId,self.toUserId])
         
         if dwindleSocket.isMatchChatControllerHandlerAdded == true {
             ProgressHUD.dismiss()
             print("isMatchChatControllerHandlerAdded:We do not need to add handler again. This may be creating socket again. Without closing ealier one.")
-            
             return
         }
         
@@ -162,12 +162,7 @@ class MatchChatController: JSQMessagesViewController ,
             
             if socketClient.status == .Connected { // We are save to proceed
                 
-                let settings = UserSettings.loadUserSettings()
-                
-                print("My FBID: \(settings.fbId) Wants to connect with :\(self.toUserId) with status: \(self.status)")
-                
-                self.dwindleSocket.sendEvent("chat", data: [settings.fbId,self.toUserId,self.status])
-                ProgressHUD.show("Getting Chat History")
+                print("MatchChat-> Socket handler added")
                 
                 socketClient.on("getChatLog", callback: { (args:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
@@ -187,6 +182,7 @@ class MatchChatController: JSQMessagesViewController ,
                         //SET CHAT
                         var messages = responseDict["Chat"] as! [AnyObject]
                         messages = messages.reverse()
+                        print(messages)
                         self.demoData.addMessages(messages)
                         self.collectionView!.reloadData()
                         ProgressHUD.showSuccess("")
@@ -203,7 +199,7 @@ class MatchChatController: JSQMessagesViewController ,
                         
                         self.addNavigationProfileButton(self.galleryImages[0])
                         
-                    }catch let err as NSError {
+                    } catch let err as NSError {
                         print("JSON Error \(err.localizedDescription)")
                     }
                 })
@@ -214,7 +210,7 @@ class MatchChatController: JSQMessagesViewController ,
                     let data = response.dataUsingEncoding(NSUTF8StringEncoding)
                     
                     let responseDict: NSDictionary!
-                    do{
+                    do {
                         responseDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
                         
                         print("getChatLogForPageResult: \(responseDict)")
@@ -262,7 +258,9 @@ class MatchChatController: JSQMessagesViewController ,
                     print ("disconnect: \(data)");
                 })
                 socketClient.onAny({ (SocketAnyEvent) -> Void in
-
+                    
+                    print("MatchChat-> \(SocketAnyEvent.description)")
+                    
                     if SocketAnyEvent.event == "error" {
                         print("Error: \(SocketAnyEvent.items)")
                     }

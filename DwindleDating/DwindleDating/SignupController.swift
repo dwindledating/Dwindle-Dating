@@ -23,7 +23,6 @@ class SignupController: BaseViewController  {
     
     }
     
-    
     func initContentView(){
     
         

@@ -145,23 +145,25 @@ static CoreDataProvider *instance = nil;
 
 
 -(void) flushDatabase{
-    [__managedObjectContext lock];
+    
+    
+    [__managedObjectContext performBlockAndWait:^{
+        NSArray *stores = [__persistentStoreCoordinator persistentStores];
+        for(NSPersistentStore *store in stores) {
+            [__persistentStoreCoordinator removePersistentStore:store error:nil];
+            [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
+        }
+    }];
+    
+//    [__managedObjectContext lock];
 //        [[[CoreDataProvider instance]managedObjectContext] reset];//to drop pending changes
+//    NSArray *stores = [__persistentStoreCoordinator persistentStores];
+//    for(NSPersistentStore *store in stores) {
+//        [__persistentStoreCoordinator removePersistentStore:store error:nil];
+//        [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
+//    }
+//    [__managedObjectContext unlock];
     
-//    [__managedObjectContext performBlockAndWait:^{
-//        NSArray *stores = [__persistentStoreCoordinator persistentStores];
-//        for(NSPersistentStore *store in stores) {
-//            [__persistentStoreCoordinator removePersistentStore:store error:nil];
-//            [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
-//        }
-//    }];
-    
-    NSArray *stores = [__persistentStoreCoordinator persistentStores];
-    for(NSPersistentStore *store in stores) {
-        [__persistentStoreCoordinator removePersistentStore:store error:nil];
-        [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
-    }
-    [__managedObjectContext unlock];
     __managedObjectModel    = nil;
     __managedObjectContext  = nil;
     __persistentStoreCoordinator = nil;

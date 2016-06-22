@@ -61,9 +61,15 @@ class PictureSelectionController: BaseViewController, UINavigationControllerDele
     func signup (){
         
         if(!self.validateAllImages()){
-            let myAlert = UIAlertController(title: title, message: "Please provide all 5 images to proceed", preferredStyle: .Alert)
-            myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            self.presentViewController(myAlert)
+            
+            let popup = Popup.init(title: title, subTitle: "Please provide all 5 images to proceed", cancelTitle: "OK", successTitle: "")
+            popup.incomingTransition = PopupIncomingTransitionType.BounceFromCenter
+            popup.outgoingTransition = PopupOutgoingTransitionType.BounceFromCenter
+            popup.showPopup()
+            
+//            let myAlert = UIAlertController(title: title, message: "Please provide all 5 images to proceed", preferredStyle: .Alert)
+//            myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+//            self.presentViewController(myAlert)
             return
         }
         

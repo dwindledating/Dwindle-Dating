@@ -53,16 +53,31 @@ class SettingsController: BaseViewController,UITableViewDelegate,UITableViewData
     }
     
     func alert(title: String, message: String) {
+
+        let popup = Popup.init(title: title,
+            subTitle: message,
+            cancelTitle: "Cancel",
+            successTitle: "Ok",
+            cancelBlock: { () -> Void in
+                
+            }, successBlock: { () -> Void in // Send play event again
+                
+                self.removeUser()
+                PFUser.logOut()
+        })
         
-        let actionHandler = { (action:UIAlertAction!) -> Void in
-            self.removeUser()
-            PFUser.logOut()
-        }
+        popup.incomingTransition = PopupIncomingTransitionType.BounceFromCenter
+        popup.outgoingTransition = PopupOutgoingTransitionType.BounceFromCenter
+        popup.showPopup()
         
-        let myAlert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: actionHandler))
-        myAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
-        self.presentViewController(myAlert)
+//        let actionHandler = { (action:UIAlertAction!) -> Void in
+//            self.removeUser()
+//            PFUser.logOut()
+//        }
+//        let myAlert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+//        myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: actionHandler))
+//        myAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+//        self.presentViewController(myAlert)
     }
 
     func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
@@ -162,7 +177,7 @@ class SettingsController: BaseViewController,UITableViewDelegate,UITableViewData
             button.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             button.layer.cornerRadius = 5;
             button.enabled = true
-            button.addTarget(self, action: Selector("logout:"), forControlEvents: UIControlEvents.TouchUpInside)
+            button.addTarget(self, action: #selector(SettingsController.logout(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             view.addSubview(button)
         return view
     }

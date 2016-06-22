@@ -55,66 +55,158 @@ KDCycleBannerViewDelegate
     
     @IBOutlet var imagesViewContainer : UIView!
     
-    var galleryOpenerButton : RoundButtonView!
+    var galleryOpenerButton : RoundButtonView?
     var demoData: DemoModelData!
     
-    func handleNoMatchFound (){
+    func handleLeaveGame() {
+        
+        if self.viewLoaded == true {
+            
+            let popup = Popup.init(title: "",
+                subTitle: "The other user has left the game. Do you want to connect with other users?",
+                cancelTitle: "Main Menu",
+                successTitle: "New Game",
+                cancelBlock: { () -> Void in // go back to main menu
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.popController()
+                    })
+                    
+                }, successBlock: { () -> Void in // Send play event again
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.resetGameViews()
+                        self.initSocketConnection()
+                        
+                    })
+            })
+            
+            self.view.endEditing(true)
+            popup.incomingTransition = PopupIncomingTransitionType.BounceFromCenter
+            popup.outgoingTransition = PopupOutgoingTransitionType.BounceFromCenter
+            popup.showPopup()
+        }
+    }
+    
+    func handleNoMatchFound() {
 
-        let delay = 0.0 * Double(NSEC_PER_SEC)
+        self.onlineUserTimer?.invalidate()
+        self.onlineUserTimer = nil
+        
+        let delay = 0.5 * Double(NSEC_PER_SEC)
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
         dispatch_after(time, dispatch_get_main_queue()) {
             
-            if (self.isPlayerFound == false){
-                // not found popout
-                ProgressHUD.showError("No match found around your area. Please try again later.")
-                let delay = 3.5 * Double(NSEC_PER_SEC)
-                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                dispatch_after(time, dispatch_get_main_queue()) {
-                    self.resetGameViews()
-                    self.navigationController?.popViewControllerAnimated(true)
+            if (self.isPlayerFound == false) {
+                
+                if self.viewLoaded {
+                    
+                    let popup = Popup.init(title: "",
+                        subTitle: "Hmmm, we couldn’t find any matches right now. You can adjust your preferences or try again.",
+                        cancelTitle: "Main Menu",
+                        successTitle: "Try Again",
+                        cancelBlock: { () -> Void in // go back to main menu
+                            
+                            self.popController()
+                            
+                        }, successBlock: { () -> Void in // Send play event again
+                            
+                            self.resetGameViews()
+                            self.initSocketConnection()
+                    })
+                    
+                    self.view.endEditing(true)
+                    popup.incomingTransition = PopupIncomingTransitionType.BounceFromCenter
+                    popup.outgoingTransition = PopupOutgoingTransitionType.BounceFromCenter
+                    popup.showPopup()
                 }
             }
         }
     }
     
-    func showAlertWithDelay(skip: Bool){
+    func showAlertWithDelay(skip: Bool) {
         
-        let yesAction = UIAlertAction(title: "Yes", style: .Default) { (action) -> Void in
+        if self.viewLoaded == true {
             
+            var message = "This will end your current game, are you sure?"
+            var titleYes = "Yes"
+            var titleNo = "No"
             if skip {
-                self.dwindleSocket.sendEvent("skip", data: [])
+                message = "Are you sure you want to bail on this date?"
+            }
+            else if self.gameInProgress {
+                message = "Press Main Menu to keep this date in Play. Press quit to end chat."
+                titleNo = "Main Menu"
+                titleYes = "Quit"
             }
             else {
-                let settings = UserSettings.loadUserSettings()
-                self.dwindleSocket.sendEvent("leaveGame", data: [settings.fbId])
+                titleYes = "Quit"
             }
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.dismissViewControllerAnimated(false, completion: nil)
-                self.resetGameViews()
-                self.navigationController?.popViewControllerAnimated(true)
+            let popup = Popup.init(title: "",
+                subTitle: message,
+                cancelTitle: titleNo,
+                successTitle: titleYes,
+                cancelBlock: { () -> Void in
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        if self.gameInProgress == true {
+                            self.navigationController?.popViewControllerAnimated(true)
+                        }
+                    })
+                    
+                }, successBlock: { () -> Void in
+                    
+                    if skip {
+                        self.dwindleSocket.sendEvent("skip", data: [])
+                    }
+                    else {
+                        let settings = UserSettings.loadUserSettings()
+                        self.dwindleSocket.sendEvent("leaveGame", data: [settings.fbId])
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.popController()
+                    })
             })
-        }
-        
-        let noAction = UIAlertAction(title: "No", style: .Cancel) { (action) -> Void in
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.dismissViewControllerAnimated(false, completion: nil)
-                if self.gameInProgress == true {
-                    self.navigationController?.popViewControllerAnimated(true)
-                }
-            })
+            self.view.endEditing(true)
+            popup.incomingTransition = PopupIncomingTransitionType.BounceFromCenter
+            popup.outgoingTransition = PopupOutgoingTransitionType.BounceFromCenter
+            popup.showPopup()
         }
         
-        let alert = UIAlertController(title: "Quit Game", message: "This will end your current game, are you sure?", preferredStyle: .Alert)
-        
-        alert.addAction(yesAction)
-        alert.addAction(noAction)
-        
-        self.presentViewController(alert)
+//        let yesAction = UIAlertAction(title: titleYes, style: .Default) { (action) -> Void in
+//
+//            if skip {
+//                self.dwindleSocket.sendEvent("skip", data: [])
+//            }
+//            else {
+//                let settings = UserSettings.loadUserSettings()
+//                self.dwindleSocket.sendEvent("leaveGame", data: [settings.fbId])
+//            }
+//            
+//            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                self.dismissViewControllerAnimated(false, completion: nil)
+//                self.popController()
+//            })
+//        }
+//        let noAction = UIAlertAction(title: titleNo, style: .Cancel) { (action) -> Void in
+//            
+//            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                self.dismissViewControllerAnimated(false, completion: nil)
+//                if self.gameInProgress == true {
+//                    self.navigationController?.popViewControllerAnimated(true)
+//                }
+//            })
+//        }
+//        let alert = UIAlertController(title: "", message: message, preferredStyle: .Alert)
+//        alert.addAction(yesAction)
+//        alert.addAction(noAction)
+//        self.presentViewController(alert)
     }
     
-    func showBackAlertFromSkip(skip: Bool){
+    func showBackAlertFromSkip(skip: Bool) {
         
         self.hideKeyboard()
         let delay = 0.5 * Double(NSEC_PER_SEC)
@@ -131,7 +223,7 @@ KDCycleBannerViewDelegate
         return false
     }
     
-    func skipPressed(sender: UIBarButtonItem){
+    func skipPressed(sender: UIBarButtonItem) {
         self.showBackAlertFromSkip(true)
     }
     
@@ -141,18 +233,22 @@ KDCycleBannerViewDelegate
         var imagesList:AnyObject = []
         var selectedPlayer: Player?
         
-        if let tmpOpener = galleryOpenerButton{
+        if let tmpOpener = galleryOpenerButton {
             selectedPlayer = self.getPlayerAgainstId(tmpOpener.playerId)
         }
         
-        if let tmpSelectedPlayer = selectedPlayer{
+        if let tmpSelectedPlayer = selectedPlayer {
             imagesList = (tmpSelectedPlayer.galleryImages as NSArray as? [NSURL])!
         }
         else{
             // is nil
-            imagesList   = [UIImage(named:"signup_01")!]
+            imagesList   = [UIImage(named:"NoImageFound.jpg")!]
         }
         return imagesList as! [AnyObject]
+    }
+    
+    func placeHolderImageOfZeroBannerView() -> UIImage! {
+        return UIImage(named:"NoImageFound.jpg")!
     }
     
     func contentModeForImageIndex(index: UInt) -> UIViewContentMode {
@@ -160,8 +256,7 @@ KDCycleBannerViewDelegate
     }
 
     // MARK: - PlayersManagement - PLAYERS
-    
-    func handleDeleteUser(response:[String:AnyObject]){
+    func handleDeleteUser(response:[String:AnyObject]) {
 
         let deleteUserDict:AnyObject = (response["DeletedUser"] as? Dictionary<String,AnyObject>)!
         let deleteUserFbId:String = (deleteUserDict["fb_id"] as? String)!
@@ -173,7 +268,7 @@ KDCycleBannerViewDelegate
         btn.setImage(nil, forState: UIControlState.Normal)
     }
 
-    func handleAddUser(response:[String:AnyObject], key:String){
+    func handleAddUser(response:[String:AnyObject], key:String) {
         
         let userDict:AnyObject = (response[key] as? Dictionary<String,AnyObject>)!
         let userFbId:String = (userDict["fb_id"] as? String)!
@@ -183,7 +278,7 @@ KDCycleBannerViewDelegate
         player?.addImageUrlToGallery(userImgPath)
     }
 
-    func handleFinalDwindleDown (){
+    func handleFinalDwindleDown () {
 
         //Close Keyboard
         self.hideKeyboard()
@@ -198,12 +293,14 @@ KDCycleBannerViewDelegate
             //Open Matches Listing
             dialog?.dismissView(true)
             print("Selected Option: \(index)")
+            
+            self.resetGameViews()
+            
             if (index == 0){
+                
                 self.performSegueWithIdentifier("pushMatchListing", sender: nil)
             }
             else{
-                
-                self.resetGameViews()
                 
                 let settings = UserSettings.loadUserSettings()
                 let manager = ServiceManager()
@@ -223,14 +320,14 @@ KDCycleBannerViewDelegate
                         let delay = 3.5 * Double(NSEC_PER_SEC)
                         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                         dispatch_after(time, dispatch_get_main_queue()) {
-                            self.navigationController?.popViewControllerAnimated(true)
+                            self.popController()
                         }
                 })
             }
         })
     }
     
-    func handleDwindleDown(respDict:[String:AnyObject]){
+    func handleDwindleDown(respDict:[String:AnyObject]) {
         
         let ddDict:[String:AnyObject] = (respDict["DwindleDown"] as? Dictionary<String,AnyObject>)!
 
@@ -246,13 +343,10 @@ KDCycleBannerViewDelegate
                 print("DwindleCount => \(dCount)")
                 
                 if (dCount == 4){
-                    //ProgressHUD.showSuccess("Congratulations you have found your dwindle match")
-                    
                     self.handleFinalDwindleDown()
                 }
                 else{
-                    
-                    ProgressHUD.showSuccess("Round \(dCount) Complete! Additional photo unlocked, tap above to view")
+                    ProgressHUD.showSuccess("New Pic Unlocked! \nTap above to view\n")
                 }
             }
             else{
@@ -299,7 +393,9 @@ KDCycleBannerViewDelegate
     
     // MARK: - HANDLE UI - DwindleDown
     
-    func resetGameViews(){
+    func resetGameViews() {
+        
+        print("resetGameViews")
         
         self.hideKeyboard()
         self.title = "Finding Match"
@@ -349,15 +445,23 @@ KDCycleBannerViewDelegate
         self.demoData.clearChat()
         self.collectionView!.reloadData()
         
-        self.endDate = NSDate()
+        if let galleryOpenerButton = galleryOpenerButton {
+            self.openImageGallery(galleryOpenerButton)
+            self.galleryOpenerButton = nil
+        }
         
+        galleryHeightConstraint!.constant = 0
+        
+        self.onlineUserTimer?.invalidate()
+        self.onlineUserTimer = nil
+        self.offlineUsersEndDate = NSDate()
     }
     
     func randomInt(min: Int, max:Int) -> Int {
         return min + Int(arc4random_uniform(UInt32(max - min + 1)))
     }
     
-    func getPlayerIdRandomly() -> String{
+    func getPlayerIdRandomly() -> String {
         
 //        let random = Int(arc4random_uniform(UInt32(randomPlayers.count - i))) + i
         let rIndex = self.randomInt(0, max: randomPlayers.count-1)
@@ -409,7 +513,7 @@ KDCycleBannerViewDelegate
     }
     
     // MARK: - HANDLE UI - OpenGallery
-    func hideKeyboard(){
+    func hideKeyboard() {
 
 //        if(self.inputToolbar.contentView.textView.isFirstResponder()){
             self.inputToolbar!.contentView!.textView!.resignFirstResponder()
@@ -451,8 +555,8 @@ KDCycleBannerViewDelegate
                 print("Same Button")
             }
             else{
-                galleryOpenerButton.tag = 0
                 galleryOpenerButton = button as? RoundButtonView
+                galleryOpenerButton?.tag = 0
                 print("Different Button")
             }
         }
@@ -514,7 +618,7 @@ KDCycleBannerViewDelegate
         return [String: AnyObject]()
     }
     
-    // MARK: - SOCKETS & SOCKET SocketIODelegate
+    // MARK: - SOCKETS
 
     func startGame() {
         
@@ -522,25 +626,31 @@ KDCycleBannerViewDelegate
     }
     
     func sendChat(message:String){
-        
+
         self.dwindleSocket.sendEvent("sendchat", data: [message])
     }
     
     func sendgamePlayEvent(event:String) {
         
-        let settings = UserSettings.loadUserSettings()
-        self.handleHUDProgressView("Finding match", delay: 0)
-        let manager = ServiceManager()
+        self.handleHUDProgressView("Starting Game...", delay: 0)
         
+        let settings = UserSettings.loadUserSettings()
+        let manager = ServiceManager()
         manager.getUserLocation({ (location: CLLocation!) -> Void in
 
-            print("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
+            print("FBID =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) event => \(event)")
             
             let data:[AnyObject] = [settings.fbId,location.coordinate.longitude,location.coordinate.latitude, self.pagination_user_count]
             
             self.dwindleSocket.sendEvent(event, data: data)
             
             self.isPlayerFound = false
+            
+            self.show90SecTimer()
+            
+            if event == "Play" {
+                self.perform10SecTimer()
+            }
             
             }, failure: { (error:NSError!) -> Void in
 
@@ -549,7 +659,7 @@ KDCycleBannerViewDelegate
                 let delay = 3.5 * Double(NSEC_PER_SEC)
                 let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                 dispatch_after(time, dispatch_get_main_queue()) {
-                    self.navigationController?.popViewControllerAnimated(true)
+                    self.popController()
                 }
         })
     }
@@ -561,7 +671,7 @@ KDCycleBannerViewDelegate
 
         self.gameInProgress = true
         self.isPlayerFound = true
-        endDate = NSDate()
+        self.offlineUsersEndDate = NSDate()
         
         let dataStr = data
         let roomUserInfoDict =  self.JSONParseDictionary(dataStr)
@@ -573,11 +683,12 @@ KDCycleBannerViewDelegate
         let name = secondUserDict["user_name"]
         self.title = name
         
-        let otherData:AnyObject = roomUserInfoDict["OtherUsers"] as! NSArray
-        self.playerOther1 = Player(dict: otherData[0]! as? Dictionary)
-        self.playerOther2 = Player(dict: otherData[1]! as? Dictionary)
-        self.playerOther3 = Player(dict: otherData[2]! as? Dictionary)
-        self.playerOther4 = Player(dict: otherData[3]! as? Dictionary)
+        let otherData = roomUserInfoDict["OtherUsers"] as! NSArray
+                
+        self.playerOther1 = Player(dict: otherData[0] as? Dictionary)
+        self.playerOther2 = Player(dict: otherData[1] as? Dictionary)
+        self.playerOther3 = Player(dict: otherData[2] as? Dictionary)
+        self.playerOther4 = Player(dict: otherData[3] as? Dictionary)
         
         self.randomPlayers.append(self.playerOpponent.fbId)
         self.randomPlayers.append(self.playerOther1.fbId)
@@ -595,13 +706,8 @@ KDCycleBannerViewDelegate
     
     func initSocketConnection() {
         
-//        if let timerCrl = timerControl where timerCrl.isDescendantOfView(self.view) {
-//            return
-//        }
-        
         // create socket.io client instance
         if isComingFromOtherScreen == false && self.gameInProgress == false {
-            self.handleHUDProgressView("Starting Game...", delay: 0)
             self.sendgamePlayEvent("Play")
         }
         
@@ -628,12 +734,13 @@ KDCycleBannerViewDelegate
                     
                     if let tmpPlayer = self.playerOpponent,
                        let tmpPlayerId = tmpPlayer.fbId where tmpPlayerId == _senderId {
-                        
                         self.receivedMessagePressed(_senderId, _displayName: "", _message: _message)
                     }
                 })
                 
                 socketClient.on("dwindledown", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                    print("dwindledown: \(data)")
                     
                     let responseArr: [AnyObject] =  data
                     let dataStr: String = responseArr[0] as! String
@@ -643,29 +750,13 @@ KDCycleBannerViewDelegate
                 })
                 
                 socketClient.on("useradded", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    print("UserAdded: \(data)")
+//                    print("UserAdded: \(data)")
                 })
                 
                 socketClient.on("disconnectResponse", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
                     
                     print("disconnectResponse: \(data)")
-                    
-                    let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: .Alert)
-                    
-                    let okAction = UIAlertAction(title: "Yes", style: .Default, handler: { (action) -> Void in
-                        self.resetGameViews()
-                        self.initSocketConnection()
-                    })
-                    
-                    let noAction = UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
-                        self.resetGameViews()
-                        self.navigationController?.popViewControllerAnimated(true)
-                    })
-                    
-                    alert.addAction(okAction)
-                    alert.addAction(noAction)
-                    
-                    self.presentViewController(alert)
+                    self.handleLeaveGame()
                 })
                 
                 socketClient.on("skip", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -673,48 +764,13 @@ KDCycleBannerViewDelegate
                 })
                 
                 socketClient.on("skipchat", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
-                    let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: .Alert)
-                    
-                    let okAction = UIAlertAction(title: "Yes", style: .Default, handler: { (action) -> Void in
-                        self.resetGameViews()
-                        self.initSocketConnection()
-                    })
-                    
-                    let noAction = UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
-                        self.resetGameViews()
-                        self.navigationController?.popViewControllerAnimated(true)
-                    })
-                    
-                    alert.addAction(okAction)
-                    alert.addAction(noAction)
-                    
-                    self.presentViewController(alert)
+                    print("skipchat: \(data)")
+                    self.handleLeaveGame()
                 })
                 
                 socketClient.on("leaveGameResponse", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
-                    if self.view.window != nil {
-                        
-                    }
-                    
-                    let alert = UIAlertController(title: "", message: "The other user has left the game. Do you want to connect with other users?", preferredStyle: .Alert)
-                    
-                    let okAction = UIAlertAction(title: "Yes", style: .Default, handler: { (action) -> Void in
-                        self.resetGameViews()
-                        self.initSocketConnection()
-                    })
-                    
-                    let noAction = UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
-                        self.resetGameViews()
-                        self.navigationController?.popViewControllerAnimated(true)
-                    })
-                    
-                    alert.addAction(okAction)
-                    alert.addAction(noAction)
-                    
-                    self.presentViewController(alert)
-                    
+                    print("leaveGameResponse: \(data)")
+                    self.handleLeaveGame()
                 })
                 
                 socketClient.on("message_no_online_user", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
@@ -742,20 +798,32 @@ KDCycleBannerViewDelegate
                         let delay = 3.5 * Double(NSEC_PER_SEC)
                         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                         dispatch_after(time, dispatch_get_main_queue()) {
-                            self.navigationController?.popViewControllerAnimated(true)
+                            self.popController()
                         }
 //                    }
                 })
                 
+                socketClient.on("event_no_against_game_request", callback: { (data:[AnyObject], ack) -> Void in
+                    print("event_no_against_game_request=> \(data)")
+                    self.perform10SecTimer()
+                })
+                
+                socketClient.on("message_push_notification_send", callback: { (data:[AnyObject], ack) -> Void in
+                    self.onlineUserTimer?.invalidate()
+                    self.onlineUserTimer = nil
+                })
+                
                 socketClient.onAny({ (SocketAnyEvent) -> Void in
-                    
+                
                     if SocketAnyEvent.event == "startgame" {
                         self.handleHUDProgressView(nil, delay: 0)
                     }
                     
+                    if SocketAnyEvent.event == "event_Error" {
+                        self.resetGameViews()
+                    }
+                    
                     if SocketAnyEvent.event == "error" {
-                        
-//                        self.handleNoMatchFound()
                         
                         print("GAMEPLAY CHAT => socket onError with error \(SocketAnyEvent.description)");
 //                        let errorCode = error.code as Int
@@ -770,19 +838,90 @@ KDCycleBannerViewDelegate
         }
     }
     
+    //MARK: Ignore events
+    
+    private var onlineUserEndDate = NSDate()
+    private var onlineUserTimer:NSTimer?
+    private let onlineUsersTime:Int = 10
+    
+    func perform10SecTimer() {
+        
+        print("perform10SecTimer")
+        
+        onlineUserTimer? .invalidate()
+        onlineUserTimer = nil
+        onlineUserTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(GamePlayController.sendIgnoredEvent(_:)), userInfo: nil, repeats: true)
+        self.onlineUserEndDate = NSDate(timeIntervalSinceNow: Double(onlineUsersTime))
+    }
+    
+    func sendIgnoredEvent(timer:NSTimer) {
+        
+        let timeInterval = Int(self.onlineUserEndDate.timeIntervalSinceNow)
+        
+        if timeInterval == 0 {
+            
+            onlineUserTimer?.invalidate()
+            onlineUserTimer = nil
+            
+            if self.view.window == nil { //13/02/2016
+                return
+            }
+            
+            print("sendIgnoredEvent")
+            
+            if self.gameInProgress == false {
+                
+                let manager = ServiceManager()
+                manager.getUserLocation({ (location: CLLocation!) -> Void in
+                    
+                    let settings = UserSettings.loadUserSettings()
+                    let data:[AnyObject] = [settings.fbId,location.coordinate.longitude,location.coordinate.latitude]
+                    
+                    self.dwindleSocket.sendEvent("game_request_ignored", data: data)
+                    self.perform10SecTimer()
+                    
+                    },
+                    failure: { (error:NSError!) -> Void in
+                        
+                        print("Error Message =>\(error.localizedDescription)")
+                        ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
+                        let delay = 3.5 * Double(NSEC_PER_SEC)
+                        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                        dispatch_after(time, dispatch_get_main_queue()) {
+                            self.popController()
+                        }
+                })
+            }
+        }
+    }
     
     //MARK: Timer func
     
-    private var endDate = NSDate()
-    private var timer:NSTimer!
-    private let time:Int = 90
+    private var offlineUsersEndDate = NSDate()
+    private var offlineUsersTimer:NSTimer!
+    private let offlineUsersTime:Int = 90
     private var timerControl:DDHTimerControl?
     private var waitingLabel: UILabel?
     
+    private var shown90SecTimer = false {
+        
+        didSet {
+            
+            if shown90SecTimer {
+                self.view.userInteractionEnabled = false
+            }
+            else {
+                self.view.userInteractionEnabled = true
+            }
+        }
+    }
+    
     func show90SecTimer() {
         
+        ProgressHUD.dismiss()
+        
         if let timerCrl = timerControl where timerCrl.isDescendantOfView(self.view) {
-            self.endDate = NSDate(timeIntervalSinceNow: Double(time))
+//            self.offlineUsersEndDate = NSDate(timeIntervalSinceNow: Double(offlineUsersTime))
             return
         }
         
@@ -790,15 +929,14 @@ KDCycleBannerViewDelegate
         timerControl!.translatesAutoresizingMaskIntoConstraints = false
         timerControl!.color = UIColor(red: 0.0, green: 129/255.0, blue: 173/255.0 , alpha: 1.0)
         timerControl!.highlightColor = UIColor.redColor()
-        timerControl!.minutesOrSeconds = time
-        timerControl!.maxValue = time
+        timerControl!.minutesOrSeconds = offlineUsersTime
+        timerControl!.maxValue = offlineUsersTime
         timerControl!.titleLabel.text = "Sec"
         timerControl!.userInteractionEnabled = false
         
         self.view.addSubview(timerControl!)
         
         let width = NSLayoutConstraint(item: timerControl!, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Width, multiplier: 0.5, constant: 0)
-        
         let height = NSLayoutConstraint(item: timerControl!, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: timerControl!, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0)
         
         let centerX = NSLayoutConstraint(item: timerControl!, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
@@ -826,47 +964,54 @@ KDCycleBannerViewDelegate
         
         self.view.addConstraints([centerLX, centerLY, heightL, widthL])
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "changeTimer:", userInfo: nil, repeats: true)
+        offlineUsersTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(GamePlayController.changeTimer(_:)), userInfo: nil, repeats: true)
         
-        self.endDate = NSDate(timeIntervalSinceNow: Double(time))
+        self.offlineUsersEndDate = NSDate(timeIntervalSinceNow: Double(offlineUsersTime))
+        self.shown90SecTimer = true
     }
     
     func changeTimer(timer:NSTimer) {
         
-        let timeInterval = Int(self.endDate.timeIntervalSinceNow)
+        let timeInterval = Int(self.offlineUsersEndDate.timeIntervalSinceNow)
         
         if (timeInterval) == 0 {
             
             timer.invalidate()
+            offlineUsersTimer = nil
             self.timerControl?.removeFromSuperview()
             self.waitingLabel?.removeFromSuperview()
             self.timerControl = nil
             self.waitingLabel = nil
+            self.shown90SecTimer = false
             
             if self.gameInProgress == false {
                 
-                let message = "Preferences exist but all users are offline. Push notification has been sent to offline users. Do you want to play with other users?"
-                
-                let alert = UIAlertController(title: "", message: message, preferredStyle: .Alert)
-                
-                let yesAction = UIAlertAction(title: "YES", style: .Default, handler: { (action) -> Void in
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                    self.sendgamePlayEvent("force play")
-                })
-                alert.addAction(yesAction)
-                
-                let noAction = UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                    self.handleNoMatchFound()
-                })
-                alert.addAction(noAction)
-                
-                self.presentViewController(alert)
+                if self.viewLoaded {
+                    
+                    let message = "Hmmm, we couldn’t find any matches right now. You can adjust your preferences or try again."
+                    
+                    let popup = Popup.init(title: "",
+                        subTitle: message,
+                        cancelTitle: "Main Menu",
+                        successTitle: "Try Again",
+                        cancelBlock: { () -> Void in
+                            
+                            self.popController()
+                            
+                        }, successBlock: { () -> Void in
+                            
+                            self.sendgamePlayEvent("force play")
+                    })
+                    
+                    self.view.endEditing(true)
+                    popup.incomingTransition = PopupIncomingTransitionType.BounceFromCenter
+                    popup.outgoingTransition = PopupOutgoingTransitionType.BounceFromCenter
+                    popup.showPopup()
+                }
             }
         }
         self.timerControl?.minutesOrSeconds = (timeInterval)
     }
-    
     
     // MARK: -   VIEW LIFE CYCLE
     
@@ -875,8 +1020,6 @@ KDCycleBannerViewDelegate
         // Scroll Initialization
         scroller.autoPlayTimeInterval = 0;
         scroller.continuous = true;
-        
-        // Message Controller Stuff
         
         let settings = UserSettings.loadUserSettings()
         self.senderId = settings.fbId
@@ -918,6 +1061,7 @@ KDCycleBannerViewDelegate
     
     override func viewWillDisappear(animated: Bool) {
         
+        self.dismissViewControllerAnimated(false, completion: nil)
         self.handleHUDProgressView(nil, delay: 0.0)
         isComingFromOtherScreen = false
         super.viewWillDisappear(animated)
@@ -928,7 +1072,10 @@ KDCycleBannerViewDelegate
         super.viewDidAppear(animated)
         self.pagination_user_count = 0
         self.collectionView!.collectionViewLayout.springinessEnabled = NSUserDefaults.springinessSetting();
-        self.startGame()
+        
+        if self.isMovingToParentViewController() {
+            self.startGame()
+        }
     }
     
     override func viewDidLoad() {
@@ -938,7 +1085,12 @@ KDCycleBannerViewDelegate
         self.title = "Finding Match"
         self.initContentView()
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style:UIBarButtonItemStyle.Plain , target: self, action: "skipPressed:")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style:UIBarButtonItemStyle.Plain , target: self, action: #selector(GamePlayController.skipPressed(_:)))
+    }
+    
+    func popController() {
+        self.resetGameViews()
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -954,7 +1106,10 @@ KDCycleBannerViewDelegate
             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
             dispatch_after(time, dispatch_get_main_queue()) {
                 ProgressHUD.dismiss()
-                self.view.userInteractionEnabled = true
+                
+                if self.shown90SecTimer == false {
+                    self.view.userInteractionEnabled = true
+                }
             }
             return
         }
@@ -962,7 +1117,6 @@ KDCycleBannerViewDelegate
         self.view.userInteractionEnabled = false
         ProgressHUD.show(txt)
     }
-    
     
     //============================================================================================\\
     //============================================================================================\\

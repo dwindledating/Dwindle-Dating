@@ -29,7 +29,7 @@ typedef enum {
     AJNotificationTypeGreen,
     AJNotificationTypeOrange,
     AJNotificationTypeWhite,
-    AJNotificationTypeWhatsApp
+    AJNotificationTypeDwindleApp
 } AJNotificationType;
 
 typedef enum {

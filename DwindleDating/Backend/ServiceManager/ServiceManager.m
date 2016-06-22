@@ -21,6 +21,20 @@
 
 @implementation ServiceManager
 
+- (void)userInsideRadiusSucessBlock:(void (^)(bool isInRadius))successBlock
+                   failure:(void (^)(NSError *error))failureBlock {
+    
+    GamePlayUsersService *networkService = [GamePlayUsersService new];
+    [networkService UserInsideRadiusSucessBlock:^(bool isInRadius) {
+
+        successBlock(isInRadius);
+        
+    } failure:^(NSError *error) {
+        
+        failureBlock(error);
+        
+    }];
+}
 
 -(void) loginWithFacebookId:(NSString*)fbId
                 sucessBlock:(void (^)(BOOL isRegistered))successBlock
@@ -36,7 +50,6 @@
                             } failure:^(NSError *error) {
                                 
                                     failureBlock(error);
-                                    
                                 }];
     
 }

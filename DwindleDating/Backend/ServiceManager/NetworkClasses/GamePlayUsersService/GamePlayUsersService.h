@@ -11,6 +11,9 @@
 
 @interface GamePlayUsersService : NetworkBaseService
 
+- (void)UserInsideRadiusSucessBlock:(void (^)(bool isInRadius))successBlock
+                   failure:(void (^)(NSError *error))failureBlock;
+
 -(void) getGamePlayUsersAgainstFacebookId:(NSString*)fbId
                               sucessBlock:(void (^)(NSDictionary* allPlayers))successBlock
                                   failure:(void (^)(NSError *error))failureBlock;

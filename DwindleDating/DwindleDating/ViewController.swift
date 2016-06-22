@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDataource, KDCycleBannerViewDelegate {
+class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDataource, KDCycleBannerViewDelegate,PopupDelegate {
 
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lbldescription: UILabel!
@@ -29,7 +29,6 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
             // Show the signup or login screen
             status = true
         }
-        
         return status
     }
     
@@ -122,12 +121,12 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
         let manager = ServiceManager()
 
         manager.loginWithFacebookId(fbId, sucessBlock:{ (isRegistered:Bool) -> Void in
+           
             print("isRegistered: \(isRegistered)")
 
             self.cachedUserId = nil
             if (isRegistered){
                 self.pushMenuController()
-//                 self.pushSignUpController()
                 ProgressHUD.dismiss()
             }
             else{
@@ -146,7 +145,7 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
          performSegueWithIdentifier("showSignup", sender: nil)
     }
     
-    func pushMenuController(){
+    func pushMenuController() {
         performSegueWithIdentifier("showMenu", sender: nil)
     }
     
@@ -171,10 +170,8 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
     override func viewDidAppear(animated: Bool) {
     
         super.viewDidAppear(animated)
-
-        self.fbLoginView.delegate = self
-//        self.fbLoginView.readPermissions = ["basic_info","public_profile", "email", "user_friends", "user_birthday"]
         
+        self.fbLoginView.delegate = self
         self.fbLoginView.readPermissions = ["email","public_profile","user_birthday"]
         
         txtViewPrivacy.editable = true
@@ -185,16 +182,16 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
     }
     
     func initContentView(){
+        
         // Scroll Initialization
-            scroller.autoPlayTimeInterval = 4;
-            scroller.continuous = true;
+        scroller.autoPlayTimeInterval = 4;
+        scroller.continuous = true;
         
         //Add gesture
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: "textTapped:")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.textTapped(_:)))
         txtViewPrivacy.addGestureRecognizer(tapGesture)
     
-        let paragraph = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
         let myfont: UIFont? = txtViewPrivacy.font
         
         let textviewAttrString = NSMutableAttributedString()
@@ -336,7 +333,6 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
     func fbDialogLogin(tokenstr: String! ,  expirationDate: NSDate){
          print("User: \(tokenstr)")
     }
-
     
     func loginViewShowingLoggedInUser(loginView : FBLoginView!) {
         print("User Logged In")
@@ -344,21 +340,19 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
     }
     
     func loginViewFetchedUserInfo(loginView : FBLoginView!, user: FBGraphUser) {
-        //fbLoginView.alpha = 0
         
         if let cachedId = cachedUserId where cachedId == user.objectID {
-                return;
+            return;
         }
         else{
             // cacheId is nil
         }
         
-        //        FBRequestConnection.startWithGraphPath("me", completionHandler: { (connection: FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
+//                FBRequestConnection.startWithGraphPath("me", completionHandler: { (connection: FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
 //            
 //            print("result  => \(result)")
 //            //code
 //        })
-        
         
         cachedUserId = user.objectID
         
@@ -377,7 +371,7 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
             
             userSettings.userBirthday = "\(dob[2])\(dob[1])\(dob[0])"
         }
-        else{
+        else {
             userSettings.userBirthday    = "19900101"
         }
 
@@ -385,20 +379,55 @@ class ViewController: BaseController , FBLoginViewDelegate, KDCycleBannerViewDat
         
         print(accessToken)
         
-        if TARGET_OS_SIMULATOR == 1 { // it is female
-            userSettings.fbId    = "696284960499030"
-            userSettings.fbName  = "Aneesa Bhatti"
-        }
-        else {
-            userSettings.fbName  = user.name
-            userSettings.fbId    = "10153221085360955" //"1427619287531895"
-        }
+//        #if DEBUG
+//            
+//            if TARGET_OS_SIMULATOR == 1 {
+//                userSettings.fbId    = "696284960499030"
+//                userSettings.fbName  = "Ada"
+//            }
+//            else {
+//                userSettings.fbName  = user.name
+//                userSettings.fbId    = "10153221085360955" //"1427619287531895"
+//            }
+//            #else 
+//        #endif
+        
         
         userSettings.fbId    = user.objectID
         userSettings.fbName  = user.name
         userSettings.saveUserSettings()
         
-        self.signIn(userSettings.fbId)
+//        self.signIn(userSettings.fbId)
+//        return
+         ProgressHUD.show("Loading...")
+        
+        let manager = ServiceManager()
+        manager.userInsideRadiusSucessBlock({ (inRadius) -> Void in
+            
+            ProgressHUD.dismiss()
+            
+            if inRadius {
+                self.signIn(userSettings.fbId)
+            }
+            else {
+                
+                let twitterUrl = NSURL.init(string: "https://mobile.twitter.com/dwindledating")
+                let pTitle = "Out of Range"
+                let pMessage = "Dwindle Dating is not yet available in your current location. Follow us on Twitter for updates as we expand to your city!"
+                let popup = Popup.init(title: pTitle, subTitle: pMessage, cancelTitle: "Follow", successTitle: "OK", cancelBlock: { () -> Void in
+                    //code
+                    UIApplication.sharedApplication().openURL(twitterUrl!)
+                    }) { () -> Void in
+                        //code
+                }
+                
+                popup.delegate = self
+                popup.showPopup()
+            }
+            }) { (error) -> Void in
+                ProgressHUD.dismiss()
+                print(error)
+        }
     }
     
     func loginViewShowingLoggedOutUser(loginView : FBLoginView!) {

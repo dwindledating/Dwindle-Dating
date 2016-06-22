@@ -12,6 +12,31 @@
 
 @implementation GamePlayUsersService
 
+- (void)UserInsideRadiusSucessBlock:(void (^)(bool))successBlock failure:(void (^)(NSError *))failureBlock {
+
+    [self getUserLocation:^(CLLocation *currentLocation) {
+        
+        NSDictionary *params = @{@"latitude":@(currentLocation.coordinate.latitude),
+                                 @"longitude":@(currentLocation.coordinate.longitude)};
+        
+        [super makeRequestWithUrl:@"CheckWithinRadius"
+                    andParameters:params
+                  withRequestType:RequestType_GET
+                 withResponseType:ResponseType_JSON
+                 withHeaderValues:nil
+                     withResponse:^(id response) {
+                         
+                         successBlock([response[@"status"] boolValue]);
+                         
+                     } failure:^(NSError *error) {
+                         failureBlock(error);
+                     }];
+        
+    } failure:^(NSError *error) {
+        failureBlock(error);
+    }];
+}
+
 -(void) getGamePlayUsersAgainstFacebookId:(NSString*)fbId
                               sucessBlock:(void (^)(NSDictionary* allPlayers))successBlock
                                   failure:(void (^)(NSError *error))failureBlock{
@@ -28,8 +53,8 @@
         
         if (status == INTULocationStatusSuccess) {
             // A new updated location is available in currentLocation, and achievedAccuracy indicates how accurate this particular location is
-            NSString* text = [NSString stringWithFormat:@"Subscription block called with Current Location:\n%@", currentLocation];
-            NSLog(@"%@",text);
+//            NSString* text = [NSString stringWithFormat:@"Subscription block called with Current Location:\n%@", currentLocation];
+//            NSLog(@"%@",text);
             
             NSDictionary *params = @{@"fb_id":fbId,
                                      @"user_lat":@(currentLocation.coordinate.latitude),
@@ -102,8 +127,8 @@
                              
                              if ((status == INTULocationStatusSuccess) || (status == INTULocationStatusTimedOut)) {
                                  // A new updated location is available in currentLocation, and achievedAccuracy indicates how accurate this particular location is
-                                 NSString* text = [NSString stringWithFormat:@"Subscription block called with Current Location:\n%@", currentLocation];
-                                 NSLog(@"%@",text);
+//                                 NSString* text = [NSString stringWithFormat:@"Subscription block called with Current Location:\n%@", currentLocation];
+//                                 NSLog(@"%@",text);
                                  
                                  successBlock(currentLocation);
                                  

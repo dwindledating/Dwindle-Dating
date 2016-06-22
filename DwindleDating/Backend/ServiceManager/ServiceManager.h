@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "GamePlayUsersService.h"
 
-
 @interface ServiceManager : NSObject
 
+
+- (void)userInsideRadiusSucessBlock:(void (^)(bool isInRadius))successBlock
+                   failure:(void (^)(NSError *error))failureBlock;
 
 //-(void) getProductsWithNameOrder:(BOOL)nameOrder
 //                      priceOrder:(BOOL)priceOrder

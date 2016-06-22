@@ -28,8 +28,15 @@
 #import "AJNotificationView.h"
 #import "DDHTimerControl.h"
 #import "BaseController.h"
+#import "Popup.h"
+#import <CleverTapSDK/CleverTap.h>
+#import <CleverTapSDK/CleverTapBuildInfo.h>
+#import <CleverTapSDK/CleverTapEventDetail.h>
+#import <CleverTapSDK/CleverTapSyncDelegate.h>
+#import <CleverTapSDK/CleverTapUTMDetail.h>
 
-//NSString *const BFTaskMultipleExceptionsException = @"BFMultipleExceptionsException";
+
+NSString *const BFTaskMultipleExceptionsException = @"BFMultipleExceptionsException";
 
 
 #endif
