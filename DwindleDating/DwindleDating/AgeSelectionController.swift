@@ -48,10 +48,20 @@ class AgeSelectionController: BaseViewController ,UIPickerViewDataSource,UIPicke
         
         if (ageFrom > ageTo){
             
-            let okButton = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel, handler: nil)
-            let alert = UIAlertController(title: "Invalid Range", message: "Please Select Valid Range", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(okButton)
-            self.presentViewController(alert)
+            
+            let popup = Popup.init(title: "Invalid Range",
+                subTitle: "Please Select Valid Range",
+                cancelTitle: "Ok",
+                successTitle: "")
+            
+            popup.incomingTransition = PopupIncomingTransitionType.BounceFromCenter
+            popup.outgoingTransition = PopupOutgoingTransitionType.BounceFromCenter
+            popup.showPopup()
+            
+//            let okButton = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel, handler: nil)
+//            let alert = UIAlertController(title: "Invalid Range", message: "Please Select Valid Range", preferredStyle: .Alert)
+//            alert.addAction(okButton)
+//            self.presentViewController(alert)
 
             return
         }

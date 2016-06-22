@@ -1,0 +1,13 @@
+PODS:
+  - CleverTap-iOS-SDK (2.0.10)
+  - Toast-Swift (1.1.0)
+
+DEPENDENCIES:
+  - CleverTap-iOS-SDK
+  - Toast-Swift (~> 1.1.0)
+
+SPEC CHECKSUMS:
+  CleverTap-iOS-SDK: cdaa1ce24079907fe6977c59dda6078dbcc372f0
+  Toast-Swift: d11df96d64d449dc63cb330ea871f30b1eca18c1
+
+COCOAPODS: 0.39.0

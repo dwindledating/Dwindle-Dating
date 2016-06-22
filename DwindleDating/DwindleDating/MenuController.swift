@@ -9,13 +9,24 @@
 import UIKit
 import MessageUI
 
+let kStr_MessageBody:String = "You gotta try this new dating app Dwindle! http://apple.co/1UXDO4e"
 
 class MenuController: BaseViewController ,
 UIActionSheetDelegate,
 MFMailComposeViewControllerDelegate,
 MFMessageComposeViewControllerDelegate {
     
+    private var popup: Popup? = nil
+    private var playRequestTimer: NSTimer? = nil
     let dwindleSocket = DwindleSocketClient.sharedInstance
+    
+    func hidePlayRequestAlert(timer:NSTimer?) {
+        
+//        self.dismissViewControllerAnimated(true, completion: nil)
+        popup?.removeFromSuperview()
+        self.playRequestTimer?.invalidate()
+        self.playRequestTimer = nil
+    }
     
     override func viewWillAppear(animated: Bool) {
         
@@ -45,7 +56,9 @@ MFMessageComposeViewControllerDelegate {
                         let message = data[0] as! String
                         let nameOfSender = data[3] as! String
                         
-                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeWhatsApp, title: nameOfSender+": "+message, linedBackground: AJLinedBackgroundTypeDisabled, hideAfter: 2.0, response: { () -> Void in
+                        AJNotificationView.hideCurrentNotificationViewAndClearQueue()
+                        
+                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeDwindleApp, title: nameOfSender+": "+message, linedBackground: AJLinedBackgroundTypeDisabled, hideAfter: 2.0, response: { () -> Void in
                             
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 
@@ -72,7 +85,9 @@ MFMessageComposeViewControllerDelegate {
                         let message = data[0] as! String
                         let nameOfSender = data[3] as! String
                         
-                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeWhatsApp, title: nameOfSender+": "+message, linedBackground: AJLinedBackgroundTypeDisabled, hideAfter: 2.0, response: { () -> Void in
+                        AJNotificationView.hideCurrentNotificationViewAndClearQueue()
+                        
+                        AJNotificationView.showNoticeInView(AppDelegate.sharedAppDelegat().window!, type: AJNotificationTypeDwindleApp, title: nameOfSender+": "+message, linedBackground: AJLinedBackgroundTypeDisabled, hideAfter: 2.0, response: { () -> Void in
                 
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 
@@ -84,8 +99,59 @@ MFMessageComposeViewControllerDelegate {
                     })
                 })
                 
+                socketClient.on("game_request", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                    print ("game_request: \(data)");
+                    
+                    let message = data[0] as! String
+                    
+                    self.popup = Popup.init(title: "",
+                        subTitle: message,
+                        cancelTitle: "No",
+                        successTitle: "YES",
+                        cancelBlock: { () -> Void in
+                            
+                            self.hidePlayRequestAlert(self.playRequestTimer)
+                            
+                            self.dwindleSocket.sendEvent("game_request_response_no", data: [data[1],data[3], data[5], data[4]])
+                            
+                        }, successBlock: { () -> Void in
+                           
+                            self.hidePlayRequestAlert(self.playRequestTimer)
+                            
+                            self.dwindleSocket.sendEvent("game_request_response_yes", data: [data[1],data[2], data[3]])
+                            
+                    })
+                    
+                    self.popup!.incomingTransition = PopupIncomingTransitionType.BounceFromCenter
+                    self.popup!.outgoingTransition = PopupOutgoingTransitionType.BounceFromCenter
+                    self.popup!.showPopup()
+                    
+                    self.playRequestTimer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: #selector(MenuController.hidePlayRequestAlert(_:)), userInfo: data, repeats: false)
+                    
+//                    let alert = UIAlertController(title: "", message: message, preferredStyle: .Alert)
+//                    let yesAction = UIAlertAction(title: "YES", style: .Default, handler: { (action) -> Void in
+//                        
+//                        self.hidePlayRequestAlert(self.playRequestTimer)
+//                      
+//                        self.dwindleSocket.sendEvent("game_request_response_yes", data: [data[1],data[2], data[3]])
+//                    })
+//                    alert.addAction(yesAction)
+//                    let noAction = UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
+//                       
+//                        self.hidePlayRequestAlert(self.playRequestTimer)
+//                       
+//                        self.dwindleSocket.sendEvent("game_request_response_no", data: [data[1],data[3], data[5], data[4]])
+//                    })
+//                    alert.addAction(noAction)
+//                    self.presentViewController(alert)
+                    
+                })
+                
                 // User has made a play request but switched screen.
                 socketClient.on("startgame", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
+                    
+                    print ("MenuController=>startgame: \(data)");
                     
                     self.connectWithNetwork(false)
                     self.dismissViewControllerAnimated(false, completion: nil)
@@ -97,8 +163,6 @@ MFMessageComposeViewControllerDelegate {
                     
                     let roomUserInfoDict: AnyObject =  playController.JSONParseDictionary(dataStr)
                     let roomName:String = (roomUserInfoDict["RoomName"] as? String)!
-                    
-                    print("\n RoomName ==> \(roomName)")
                     
                     let secondUserDict = roomUserInfoDict["SecondUser"] as! NSDictionary
                     let secondUserFbId = secondUserDict["fb_id"] as! String
@@ -126,8 +190,6 @@ MFMessageComposeViewControllerDelegate {
                 })
                 
                 socketClient.on("message_push_notification_send", callback: { (data:[AnyObject], ack:SocketAckEmitter) -> Void in
-                    
-                    ProgressHUD.dismiss()
                     
                     print("message_push_notification_send: \(data)")
                     
@@ -186,14 +248,16 @@ MFMessageComposeViewControllerDelegate {
                 dispatch_after(time, dispatch_get_main_queue()) {
                     ProgressHUD.show("Connecting to network...", interaction: false)
                     
-                    delay = 0.65 * Double(NSEC_PER_SEC)
-                    time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                    dispatch_after(time, dispatch_get_main_queue()) {
-                        ProgressHUD.dismiss()
+                    if AppDelegate.sharedAppDelegat().apsUserInfo == nil {
+                       
+                        delay = 0.65 * Double(NSEC_PER_SEC)
+                        time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                        dispatch_after(time, dispatch_get_main_queue()) {
+                            ProgressHUD.dismiss()
+                        }
                     }
                 }
             }
-            
         }
         else {
             let delay = 0.35 * Double(NSEC_PER_SEC)
@@ -223,8 +287,26 @@ MFMessageComposeViewControllerDelegate {
     
     @IBAction func shareButtonPressed(sender: AnyObject) {
    
-        let sheet = UIActionSheet(title: "Share via", delegate:self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Message", "Email");
-        sheet.showFromRect(sender.frame, inView: self.view, animated: true)
+        let sheetController = UIAlertController(title: "Share via", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) { (action) in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        sheetController.addAction(cancelAction)
+        
+        let messageAction = UIAlertAction(title: "Message", style: UIAlertActionStyle.Default) { (action) in
+            self.dismissViewControllerAnimated(true, completion: nil)
+            self.performSMSAction()
+        }
+        sheetController.addAction(messageAction)
+        
+        let emailAction = UIAlertAction(title: "Email", style: UIAlertActionStyle.Default) { (action) in
+            self.dismissViewControllerAnimated(true, completion: nil)
+            self.performEmailAction()
+        }
+        sheetController.addAction(emailAction)
+        
+        self.presentViewController(sheetController)
     }
     
     // MARK :- SMS STUFF
@@ -235,7 +317,7 @@ MFMessageComposeViewControllerDelegate {
             
             let messageVC = MFMessageComposeViewController()
             
-            messageVC.body = "Enter a message";
+            messageVC.body = kStr_MessageBody
             messageVC.recipients = [""]
             messageVC.messageComposeDelegate = self;
             
@@ -264,7 +346,8 @@ MFMessageComposeViewControllerDelegate {
     
     func performEmailAction() {
         let emailTitle = "Dwindle Dating"//NSLocalizedString("aboutus_email_subject", comment: "Contact Us")
-        let messageBody = "Hi, I would like to..."//NSLocalizedString("aboutus_email_message", comment: "Hi, I would like to...")
+        let messageBody = kStr_MessageBody
+        
 //        let toRecipents = [""]
         let mc: MFMailComposeViewController = MFMailComposeViewController()
         
@@ -296,38 +379,4 @@ MFMessageComposeViewControllerDelegate {
             }
             self.dismissViewControllerAnimated(true, completion: nil)
     }
-
-    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == actionSheet.cancelButtonIndex) {
-            return;
-        }
-        
-        switch (buttonIndex) {
-        case 0:
-            //cancel
-            print("0")
-            
-            break;
-            
-        case 1:
-            //email
-                print("1")
-                self.performSMSAction()
-            break;
-            
-        case 2:
-            //Email
-            self.performEmailAction()
-            
-            break;
-            
-        default:
-            
-            break;
-        }
-        
-//        JSQSystemSoundPlayer.jsq_playMessageSentSound();
-//        self.finishSendingMessageAnimated(true);
-    }
-    
 }

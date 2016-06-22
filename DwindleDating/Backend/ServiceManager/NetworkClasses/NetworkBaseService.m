@@ -71,8 +71,8 @@ NSString *const kApp_BaseUrl = @"http://159.203.245.103:3000/";
              constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     
                 int imgNo = 1;
-                for(UIImage *img in imagesArr)
-                {
+                for(UIImage *img in imagesArr) {
+                    
                     NSData *imgData = UIImageJPEGRepresentation(img, 1.0);
                     NSString *imgName = [NSString stringWithFormat:@"image%d.jpg",imgNo];
                     [formData appendPartWithFileData: imgData
@@ -81,16 +81,12 @@ NSString *const kApp_BaseUrl = @"http://159.203.245.103:3000/";
                                             mimeType:@"image/jpg"];
                 }
                  
-                
-                
-                 for (NSString *key in params.allKeys) {
+                for (NSString *key in params.allKeys) {
+                    
                      NSMutableData *data = [[NSMutableData alloc] init];
                      [data appendData:[params[key] dataUsingEncoding:NSUTF8StringEncoding]];
                      [formData appendPartWithFormData:data name:key];
                  }
-                 
-
-                 
              } error:nil];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -168,8 +164,6 @@ NSString *const kApp_BaseUrl = @"http://159.203.245.103:3000/";
              }];
     }
 }
-
-
 -(void) makeRequestWithMethod:(NSString*)method
                 andParameters:(NSDictionary*)params
                  withResponse:(void (^)(id response))success

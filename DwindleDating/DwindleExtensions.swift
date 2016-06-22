@@ -69,8 +69,13 @@ public extension UIViewController {
         return isLoaded //(self.isViewLoaded() == true && self.view.window != nil)
     }
     
+    var viewLoaded: Bool {
+        
+        return (self.isViewLoaded() == true && self.view.window != nil) && self.viewIsLoaded
+    }
+    
     func presentViewController(controler:UIViewController) {
-       
+               
         if self.viewIsLoaded {
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
                 self.presentViewController(controler, animated: true, completion: nil)

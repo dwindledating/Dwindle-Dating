@@ -22,13 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     class func sharedAppDelegat() -> AppDelegate {
+        
         let appdelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return appdelegate
     }
     
-    func setupUser() -> Void{
-        
-    }
     func registerForPushNotifications(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject:AnyObject]?){
         
         //Setup
@@ -41,8 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // "content_available" was used to trigger a background push (introduced in iOS 7).
             // In that case, we skip tracking here to avoid double counting the app-open.
             
-            let preBackgroundPush = !application.respondsToSelector("backgroundRefreshStatus")
-            let oldPushHandlerOnly = !self.respondsToSelector("application:didReceiveRemoteNotification:fetchCompletionHandler:")
+            let preBackgroundPush = !application.respondsToSelector(Selector("backgroundRefreshStatus"))
+            let oldPushHandlerOnly = !self.respondsToSelector(#selector(UIApplicationDelegate.application(_:didReceiveRemoteNotification:fetchCompletionHandler:)))
             var pushPayload = false
             if let options = launchOptions {
                 pushPayload = options[UIApplicationLaunchOptionsRemoteNotificationKey] != nil
@@ -54,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 })
             }
         }
-        if application.respondsToSelector("registerUserNotificationSettings:") {
+        if application.respondsToSelector(#selector(UIApplication.registerUserNotificationSettings(_:))) {
             
             let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
             
@@ -79,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         
-        PFPush.handlePush(userInfo)
+//        PFPush.handlePush(userInfo)
         
         if application.applicationState == UIApplicationState.Inactive {
 
@@ -89,8 +87,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    
+        CleverTap.sharedInstance().notifyApplicationLaunchedWithOptions(launchOptions)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handlePushNotification:", name: PushNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.handlePushNotification(_:)), name: PushNotification, object: nil)
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         playController = storyboard.instantiateViewControllerWithIdentifier(GamePlayController.nameOfClass) as! GamePlayController
@@ -109,6 +109,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             apsUserInfo = userInfo
         }
         
+        self.askToEnableLocationServices()
+        
         return true
     }
 
@@ -122,11 +124,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        
+        let nav = self.window?.rootViewController as! UINavigationController
+        
+        if nav.isViewControllerinNavigationStack(self.playController) {
+//            self.playController.resetGameViews()
+//            nav.popViewControllerAnimated(false)
+        }
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -135,6 +143,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        application.applicationIconBadgeNumber = 0;
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -171,38 +180,71 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             print(apsUserInfo)
             
-            // Suppose we have play event
-            let otherUserFbid = apsUserInfo["fromUserFbId"] as! String
-            
             let settings = UserSettings.loadUserSettings()
-            let manager = ServiceManager()
-            manager.getUserLocation({ (location: CLLocation!) -> Void in
+            let otherUserFbid = apsUserInfo["fromUserFbId"] as! String
+            let nav = self.window?.rootViewController as! UINavigationController
+            
+            if let playEvent = apsUserInfo["playEvent"] as? NSNumber where playEvent == 1 {
                 
-                print("Sending 'apnsResponse' =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
+                // Suppose we have play event
                 
-                let data:[AnyObject] = [settings.fbId, otherUserFbid, location.coordinate.latitude,location.coordinate.longitude]
-                
-                let dwindleSocket = DwindleSocketClient.sharedInstance
-                dwindleSocket.sendEvent("apnsResponse", data: data)
-                
-                let playController = self.playController
-                playController.gameInProgress = false
-                playController.isComingFromOtherScreen = true
-                
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    let nav = self.window?.rootViewController as! UINavigationController
-                    nav.viewControllers.append(playController)
-                    playController.show90SecTimer()
-                })
-                
-                self.apsUserInfo = nil
-                
-                }, failure: { (error:NSError!) -> Void in
+                let manager = ServiceManager()
+                manager.getUserLocation({ (location: CLLocation!) -> Void in
                     
-                    print("Error Message =>\(error.localizedDescription)")
-                    ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
-            })
-            self.apsUserInfo = nil
+                    print("Sending 'apnsResponse' =>\(settings.fbId) and lon => \(location.coordinate.longitude) and lat => \(location.coordinate.latitude) ")
+                    
+                    let data:[AnyObject] = [settings.fbId, otherUserFbid, location.coordinate.latitude,location.coordinate.longitude]
+                    
+                    let dwindleSocket = DwindleSocketClient.sharedInstance
+                    dwindleSocket.sendEvent("apnsResponse", data: data)
+                    
+                    let playController = self.playController
+                    playController.gameInProgress = false
+                    playController.isComingFromOtherScreen = true
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        nav.viewControllers.append(playController)
+                        playController.show90SecTimer()
+                        self.apsUserInfo = nil
+                    })
+                    
+                    }, failure: { (error:NSError!) -> Void in
+                        
+                        print("Error Message =>\(error.localizedDescription)")
+                        ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
+                })
+            }
+            else {
+                
+                ProgressHUD.dismiss()
+                nav.setNavigationBarHidden(false, animated: false)
+                
+                let matchControler = self.matchChatController
+                matchControler.isComingFromPlayScreen = true
+                matchControler.toUserId = otherUserFbid
+                matchControler.toUserName = apsUserInfo["fromUserName"] as! String
+                matchControler.status = ""
+                nav.viewControllers.append(matchControler)
+                self.apsUserInfo = nil
+            }
+        }
+    }
+    
+    func askToEnableLocationServices() {
+        
+        let manager = ServiceManager()
+        manager.getUserLocation({ (location) -> Void in
+            
+            print("user current location => \(location)");
+            
+            }) { (error) -> Void in
+                
+                ProgressHUD.showError("Please turn on your location from Privacy Settings in order to play the game.")
+                let delay = 3.5 * Double(NSEC_PER_SEC)
+                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                dispatch_after(time, dispatch_get_main_queue()) {
+                    ProgressHUD.dismiss()
+                }
         }
     }
 }
